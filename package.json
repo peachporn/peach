@@ -1,0 +1,10 @@
+{
+  "name": "peach",
+  "version": "3.0.0-alpha",
+  "description": "porn organizer",
+  "main": "index.js",
+  "repository": "https://github.com/peachporn/peach.git",
+  "author": "GalateaPolymorph <galateapolymorph@gmail.com>",
+  "license": "GPL",
+  "private": false
+}

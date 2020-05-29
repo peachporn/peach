@@ -4,14 +4,13 @@
 const eslintOptions = {
   root: true,
   extends: [
-    'airbnb-typescript',
+    'airbnb-typescript/base',
     // Next lines are configuring prettier to remove eslint vs prettier collisions
     // and enable fixing prettier with eslint command
-    'prettier/react',
     'prettier/@typescript-eslint',
-    'plugin:prettier/recommended'
+    'plugin:prettier/recommended',
   ],
-  plugins: ['prefer-arrow'],
+  plugins: ['prefer-arrow', '@typescript-eslint'],
   rules: {
     'arrow-body-style': ['error', 'as-needed'],
     'arrow-parens': 'off',
@@ -26,11 +25,12 @@ const eslintOptions = {
     'operator-linebreak': 'off',
 
     // Typecsript rules
+    '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     '@typescript-eslint/no-unused-vars': [
       'error',
-      { argsIgnorePattern: '^_', ignoreRestSiblings: true }
+      { argsIgnorePattern: '^_', ignoreRestSiblings: true },
     ],
 
     // Remove rules requiring type information to improve eslint execution speed
@@ -42,17 +42,17 @@ const eslintOptions = {
     'import/order': 'error',
     'import/no-extraneous-dependencies': [
       'error',
-      { devDependencies: true, optionalDependencies: false, peerDependencies: false }
+      { devDependencies: true, optionalDependencies: false, peerDependencies: false },
     ],
     'prefer-arrow/prefer-arrow-functions': [
       'error',
       {
         disallowPrototype: true,
         singleReturnOnly: false,
-        classPropertiesAllowed: false
-      }
-    ]
-  }
+        classPropertiesAllowed: false,
+      },
+    ],
+  },
 };
 
 module.exports = eslintOptions;

@@ -1,0 +1,18 @@
+{
+  "name": "@peach/backend",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "license": "GPL-3.0",
+  "scripts": {
+    "clean": "rm tsconfig.tsbuildinfo && rm -rf dist",
+    "build": "tsc --build",
+    "watch": "tsc --build --watch",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@peach/database": "*",
+    "@prisma/client": "^2.0.0-beta.6",
+    "apollo-server-express": "^2.14.0",
+    "express": "^4.17.1"
+  }
+}

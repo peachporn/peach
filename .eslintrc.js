@@ -4,9 +4,10 @@
 const eslintOptions = {
   root: true,
   extends: [
-    'airbnb-typescript/base',
+    'airbnb-typescript',
     // Next lines are configuring prettier to remove eslint vs prettier collisions
     // and enable fixing prettier with eslint command
+    'prettier/react',
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],

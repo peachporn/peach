@@ -53,5 +53,8 @@ typings/
 # tsc build output
 dist
 
+# pkg build output
+bin
+
 # generated sources
 generated/

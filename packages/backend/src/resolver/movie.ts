@@ -1,19 +1,37 @@
 import { Resolvers } from '../generated/resolver-types';
-import { Format, Quality } from '../generated/types';
+import { transformMovie } from '../transformer/movie';
 
 export const resolver: Resolvers = {
   Query: {
-    movie: () => ({
-      id: '',
-      title: '',
-      metaData: {
-        quality: Quality.Uhd,
-        format: Format.Mp4,
-        fps: 60,
-        minutes: 60,
-        seconds: 0,
-        size: 5000,
-      },
-    }),
+    movies: (_parent, _args, { prisma }) =>
+      prisma.movie
+        .findMany({
+          include: {
+            metadata: true,
+          },
+        })
+        .then(movies => movies.map(transformMovie)),
+  },
+  Mutation: {
+    createMovieFromFile: async (_parent, { input: { title, location, actors } }, { prisma }) => {
+      const movie = await prisma.movie.create({
+        include: {
+          metadata: true,
+        },
+        data: {
+          title,
+          actors: actors || 0,
+          cover: 2,
+          path: location.filePath,
+          volume: {
+            connect: {
+              name: location.volumeName,
+            },
+          },
+        },
+      });
+
+      return transformMovie(movie);
+    },
   },
 };

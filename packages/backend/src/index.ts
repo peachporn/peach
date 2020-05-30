@@ -1,14 +1,12 @@
 import { ApolloServer } from 'apollo-server';
-import { makeExecutableSchema } from '@graphql-tools/schema';
 import { resolvers } from './resolver';
 import { typeDefs } from './schema';
+import { createContext } from './context';
 
 export const server = new ApolloServer({
-  schema: makeExecutableSchema({
-    typeDefs,
-    resolvers,
-    inheritResolversFromInterfaces: false,
-  }),
+  typeDefs,
+  resolvers,
+  context: createContext(),
   introspection: true,
 });
 

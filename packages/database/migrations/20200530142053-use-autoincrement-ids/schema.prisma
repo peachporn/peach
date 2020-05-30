@@ -1,6 +1,6 @@
 datasource db {
   provider = "sqlite"
-  url      = "file:./database.db"
+  url = "***"
 }
 
 generator client {
@@ -10,8 +10,8 @@ generator client {
 
 model Volume {
   id    Int   @id @default(autoincrement())
-  name  String @unique
-  path  String @unique
+  name  String
+  path  String
 }
 
 model MovieMetadata {

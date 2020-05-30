@@ -11,6 +11,7 @@
     "generate-types": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@graphql-tools/merge": "^6.0.5",
     "@graphql-tools/schema": "^6.0.5",
     "@peach/database": "*",
     "@prisma/client": "^2.0.0-beta.6",

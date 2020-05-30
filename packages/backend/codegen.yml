@@ -17,6 +17,7 @@ generates:
         maybeValue: T | undefined
       typescript-resolvers:
         maybeValue: T | undefined
+        contextType: ../context#Context
     config:
       noSchemaStitching: true
       useIndexSignature: true

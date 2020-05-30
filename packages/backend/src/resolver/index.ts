@@ -6,5 +6,6 @@
  */
 
 import { resolver as movie } from './movie';
+import { resolver as volume } from './volume';
 
-export const resolvers = [movie];
+export const resolvers = [movie, volume];

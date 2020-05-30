@@ -2,25 +2,25 @@ import { gql } from 'apollo-server';
 
 export const typeDef = gql`
   type Movie {
-    id: String
-    # createdAt:
-    title: String
+    id: Int!
+    createdAt: String!
+    title: String!
     # actresses   Actress[]
     # genres      Genre[]
     # highlights  Highlight[]
     # website     Website
     metaData: MovieMetadata
-    actors: Int
-    coverImage: String
+    actors: Int!
+    coverImage: String!
   }
 
   type MovieMetadata {
-    quality: Quality
-    format: Format
-    fps: Int
-    minutes: Int
-    seconds: Int
-    size: Int
+    quality: Quality!
+    format: Format!
+    fps: Int!
+    minutes: Int!
+    seconds: Int!
+    size: Int!
   }
 
   enum Quality {
@@ -36,6 +36,6 @@ export const typeDef = gql`
   }
 
   type Query {
-    movie: Movie
+    movies: [Movie!]!
   }
 `;

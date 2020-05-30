@@ -1,3 +1,6 @@
 # Prisma Migrate lockfile v1
 
 20200529214022-setup-movie
+20200530141612-extract-metadata
+20200530142053-use-autoincrement-ids
+20200530143210-make-volume-unique

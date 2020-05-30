@@ -9,7 +9,7 @@
     "build": "tsc --build",
     "watch": "tsc --build --watch",
     "start": "node dist/server.js",
-    "generate-types": "graphql-codegen --config codegen.yml"
+    "generate:types": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@graphql-tools/merge": "^6.0.5",

@@ -11,10 +11,11 @@
     "packages/*"
   ],
   "scripts": {
-    "clean": "lerna run clean --stream",
+    "clean": "lerna run clean --stream && rm -rf bin",
     "build": "lerna run build --stream",
     "watch": "lerna run watch --stream",
     "lint": "eslint packages/**/src",
+    "generate": "yarn generate:prisma && yarn generate:types",
     "generate:types": "lerna run generate:types --stream",
     "generate:prisma": "prisma generate --schema packages/database/schema.prisma",
     "package": "pkg packages/app/dist/index.js -t node13-linux-x64,node13-macos-x64,node13-win-x64 -o bin/peach"

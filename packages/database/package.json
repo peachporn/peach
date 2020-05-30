@@ -5,6 +5,7 @@
   "types": "./generated/index.d.ts",
   "license": "GPL-3.0",
   "scripts": {
+    "clean": "rm -rf generated",
     "generate": "prisma generate",
     "migration:run": "prisma migrate up --experimental",
     "migration:save": "prisma migrate save --experimental",

@@ -7,12 +7,20 @@
     "clean": "rm tsconfig.tsbuildinfo && rm -rf dist",
     "build": "tsc --build",
     "watch": "tsc --build --watch",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "generate-types": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@graphql-tools/schema": "^6.0.5",
     "@peach/database": "*",
     "@prisma/client": "^2.0.0-beta.6",
-    "apollo-server-express": "^2.14.0",
-    "express": "^4.17.1"
+    "apollo-server": "^2.14.1",
+    "camelcase": "^6.0.0",
+    "graphql": "^15.0.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^1.15.0",
+    "@graphql-codegen/typescript": "^1.15.0",
+    "@graphql-codegen/typescript-resolvers": "^1.15.0"
   }
 }

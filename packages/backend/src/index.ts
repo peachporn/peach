@@ -1,14 +1,17 @@
-import { PrismaClient } from '@peach/database';
+import { ApolloServer } from 'apollo-server';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { resolvers } from './resolver';
+import { typeDefs } from './schema';
 
-export const prisma = new PrismaClient();
+export const server = new ApolloServer({
+  schema: makeExecutableSchema({
+    typeDefs,
+    resolvers,
+    inheritResolversFromInterfaces: false,
+  }),
+  introspection: true,
+});
 
-const main = () => prisma.movie.findMany();
-
-main()
-  .then(console.log)
-  .catch((e: Error) => {
-    throw e;
-  })
-  .finally(async () => {
-    await prisma.disconnect();
-  });
+server.listen().then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
+});

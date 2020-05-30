@@ -2,7 +2,7 @@
   "name": "@peach/app",
   "version": "0.0.0",
   "main": "index.js",
-  "license": "GPLv3.0",
+  "license": "GPL-3.0",
   "scripts": {
     "build": "tsc --build",
     "watch": "tsc --build --watch",

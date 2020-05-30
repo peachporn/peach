@@ -2,7 +2,7 @@
   "name": "peach",
   "version": "3.0.0-alpha",
   "description": "porn organizer",
-  "main": "index.js",
+  "bin": "packages/app/dist/index.js",
   "repository": "https://github.com/peachporn/peach.git",
   "author": "GalateaPolymorph <galateapolymorph@gmail.com>",
   "license": "GPL-3.0",
@@ -10,6 +10,12 @@
   "workspaces": [
     "packages/*"
   ],
+  "pkg": {
+    "assets": [
+      "packages/frontend/dist/**/*",
+      "packages/database/database.db"
+    ]
+  },
   "scripts": {
     "clean": "lerna run clean --stream && rm -rf bin",
     "build": "lerna run build --stream",
@@ -18,7 +24,7 @@
     "generate": "yarn generate:prisma && yarn generate:types",
     "generate:types": "lerna run generate:types --stream",
     "generate:prisma": "prisma generate --schema packages/database/schema.prisma",
-    "package": "pkg packages/app/dist/index.js -t node13-linux-x64,node13-macos-x64,node13-win-x64 -o bin/peach"
+    "package": "pkg . -t node13-linux-x64,node13-macos-x64,node13-win-x64 -o bin/peach"
   },
   "devDependencies": {
     "@prisma/cli": "^2.0.0-beta.6",

@@ -7,11 +7,10 @@ const eslintOptions = {
     'airbnb-typescript',
     // Next lines are configuring prettier to remove eslint vs prettier collisions
     // and enable fixing prettier with eslint command
-    'prettier/react',
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
-  plugins: ['prefer-arrow', '@typescript-eslint'],
+  plugins: ['prefer-arrow'],
   rules: {
     'arrow-body-style': ['error', 'as-needed'],
     'arrow-parens': 'off',
@@ -31,7 +30,7 @@ const eslintOptions = {
     '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
     '@typescript-eslint/no-unused-vars': [
       'error',
-      { argsIgnorePattern: '^_', ignoreRestSiblings: true },
+      { argsIgnorePattern: '^_', varsIgnorePattern: 'h', ignoreRestSiblings: true },
     ],
 
     // Remove rules requiring type information to improve eslint execution speed
@@ -53,7 +52,9 @@ const eslintOptions = {
         classPropertiesAllowed: false,
       },
     ],
-  },
+
+    'react/react-in-jsx-scope': 0,
+  }
 };
 
 module.exports = eslintOptions;

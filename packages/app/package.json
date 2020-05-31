@@ -11,10 +11,9 @@
   },
   "dependencies": {
     "@peach/backend": "*",
-    "apollo-server-fastify": "^2.14.1",
+    "apollo-server-express": "^2.14.1",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "fastify": "^2.14.1",
     "fastify-static": "^2.7.0",
     "meow": "^7.0.1",
     "pino-pretty": "^4.0.0"

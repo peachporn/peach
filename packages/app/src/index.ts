@@ -29,12 +29,17 @@ const server = new ApolloServer(serverConfig);
 
 server.applyMiddleware({ app });
 
-const frontendDistPath = path.join(`${__dirname}/../../frontend/dist`)
+const frontendDistPath = path.join(`${__dirname}/../../frontend/dist`);
+
+app.get('*', (req, res, next) => {
+  if (req.url.startsWith('/assets')) {
+    return next();
+  }
+  res.sendFile(path.join(frontendDistPath, 'index.html'));
+
+  return null;
+});
 
 app.use('/assets', express.static(frontendDistPath));
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(frontendDistPath, 'index.html'));
-});
 
 app.listen(port(), () => console.log(`🚀 Server ready at http://localhost:${port()}`));

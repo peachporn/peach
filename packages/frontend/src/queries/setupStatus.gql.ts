@@ -1,6 +1,6 @@
 import { gql } from 'apollo-boost';
 
-export default gql`
+export const setupStatusQuery = gql`
   query SetupStatus {
     setupStatus
   }

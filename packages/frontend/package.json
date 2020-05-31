@@ -10,13 +10,21 @@
     "watch": "parcel watch src/index.html",
     "dev": "parcel src/index.html"
   },
+  "alias": {
+    "react": "preact/compat",
+    "react-dom": "preact/compat"
+  },
   "dependencies": {
+    "@peach/components": "*",
     "preact": "^10.4.4",
     "preact-render-to-string": "^5.1.4",
-    "preact-router": "^3.2.1"
+    "preact-router": "^3.2.1",
+    "react-router-dom": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.1",
-    "parcel-bundler": "^1.12.4"
+    "@types/react-router-dom": "^5.1.5",
+    "parcel-bundler": "^1.12.4",
+    "stylus": "^0.54.7"
   }
 }

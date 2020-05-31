@@ -24,7 +24,8 @@
     "generate": "yarn generate:prisma && yarn generate:types",
     "generate:types": "lerna run generate:types --stream",
     "generate:prisma": "prisma generate --schema packages/database/schema.prisma",
-    "package": "pkg . -t node13-linux-x64,node13-macos-x64,node13-win-x64 -o bin/peach"
+    "package": "pkg . -t node13-linux-x64,node13-macos-x64,node13-win-x64 -o bin/peach",
+    "dev": "lerna run dev --scope @peach/app --stream"
   },
   "devDependencies": {
     "@prisma/cli": "^2.0.0-beta.6",

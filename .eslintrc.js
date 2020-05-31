@@ -37,6 +37,9 @@ const eslintOptions = {
     '@typescript-eslint/no-implied-eval': 0,
     '@typescript-eslint/no-throw-literal': 0,
 
+    // Remove React-specific rules
+    'react/prop-types': 0,
+
     // Configure plugins
     'prettier/prettier': 'warn',
     'import/order': 'error',
@@ -54,7 +57,7 @@ const eslintOptions = {
     ],
 
     'react/react-in-jsx-scope': 0,
-  }
+  },
 };
 
 module.exports = eslintOptions;

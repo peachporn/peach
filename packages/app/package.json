@@ -7,7 +7,7 @@
     "clean": "rm tsconfig.tsbuildinfo && rm -rf dist",
     "build": "tsc --build",
     "watch": "tsc --build --watch",
-    "start": "node dist/index.js"
+    "dev": "node dist/index.js"
   },
   "dependencies": {
     "@peach/backend": "*",

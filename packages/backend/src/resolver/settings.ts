@@ -3,8 +3,8 @@ import { transformSettings } from '../transformer/settings';
 
 export const resolver: Resolvers = {
   Query: {
-    settings: async (_parent, _args, { prisma }) =>
-      prisma.settings
+    settings: async (_parent, _args, { prisma }) => {
+      const settings = await prisma.settings
         .findMany()
         .then(s =>
           s.length
@@ -15,6 +15,14 @@ export const resolver: Resolvers = {
                 },
               }),
         )
-        .then(transformSettings),
+        .then(transformSettings);
+
+      const volumes = await prisma.volume.findMany();
+
+      return {
+        ...settings,
+        volumes,
+      };
+    },
   },
 };

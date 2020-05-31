@@ -5,12 +5,17 @@ import { settingsQuery } from '../queries/settings.gql';
 
 const defaultSettings: Settings = {
   language: Language.En,
+  volumes: [],
 };
 
 export const SettingsContext = createContext(defaultSettings);
 
 export const SettingsProvider: FunctionalComponent = ({ children }) => {
-  const { data } = useQuery<SettingsQuery>(settingsQuery);
+  const { data, loading } = useQuery<SettingsQuery>(settingsQuery);
+  if (loading) {
+    return null;
+  }
+
   return (
     <SettingsContext.Provider value={data?.settings || defaultSettings}>
       {children}

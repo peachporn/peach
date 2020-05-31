@@ -6,6 +6,7 @@ export const typeDef = gql`
   }
   type Settings {
     language: Language
+    volumes: [Volume!]!
   }
 
   extend type Query {

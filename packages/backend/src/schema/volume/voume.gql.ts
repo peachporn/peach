@@ -1,12 +1,25 @@
 import { gql } from 'apollo-server';
 
 export const typeDef = gql`
-  input CreateVolumeInput {
+  input VolumeInput {
+    name: String!
+    path: String!
+  }
+
+  input SaveVolumesInput {
+    volumes: [VolumeInput!]!
+  }
+
+  type Volume {
     name: String!
     path: String!
   }
 
   extend type Mutation {
-    createVolume(input: CreateVolumeInput!): Boolean
+    saveVolumes(input: SaveVolumesInput!): [Volume!]!
+  }
+
+  extend type Query {
+    volumes: [Volume!]!
   }
 `;

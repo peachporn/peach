@@ -1,19 +1,26 @@
 import { FunctionComponent, h } from 'preact';
+import { JSXInternal } from 'preact/src/jsx';
 
-type ButtonType = 'main' | 'inverted';
+import MouseEventHandler = JSXInternal.MouseEventHandler;
+
+type ButtonAppearance = 'main' | 'inverted';
 type ButtonSize = 'default' | 'small' | 'wide';
 
 export type ButtonProps = {
-  type?: ButtonType;
+  appearance?: ButtonAppearance;
   size?: ButtonSize;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  type?: 'button' | 'submit';
 };
 
 export const Button: FunctionComponent<ButtonProps> = ({
-  type = 'main',
+  appearance = 'main',
   size = 'default',
+  onClick,
+  type = 'button',
   children,
 }) => (
-  <button type="button" className={`btn btn--${type} btn--${size}`}>
+  <button type={type} className={`btn btn--${appearance} btn--${size}`} onClick={onClick}>
     {children}
   </button>
 );

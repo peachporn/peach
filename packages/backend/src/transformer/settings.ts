@@ -7,4 +7,5 @@ const languageMap: { [key: string]: Language } = {
 
 export const transformSettings = (settings: DBSettings): Settings => ({
   language: languageMap[settings.language] || Language.En,
+  volumes: [],
 });

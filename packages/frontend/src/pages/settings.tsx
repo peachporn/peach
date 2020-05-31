@@ -12,6 +12,7 @@ import {
 import { SettingsContext } from '../context/settings';
 import { i } from '../i18n/i18n';
 import { Language } from '../generated/types';
+import { VolumeForm } from '../components/volumeForm';
 
 export const SettingsPage: FunctionalComponent = () => {
   const settings = useContext(SettingsContext);
@@ -19,7 +20,7 @@ export const SettingsPage: FunctionalComponent = () => {
   return (
     <Container background="white" width="narrow">
       <Headline1>Settings</Headline1>
-      <Headline2>Basic</Headline2>
+      <Headline2>General</Headline2>
       <Table>
         <TableRow>
           <TableCell>{i('SETTINGS_LANGUAGE')}</TableCell>
@@ -32,6 +33,8 @@ export const SettingsPage: FunctionalComponent = () => {
           </TableCell>
         </TableRow>
       </Table>
+      <Headline2>Volumes</Headline2>
+      <VolumeForm volumes={settings.volumes} />
     </Container>
   );
 };

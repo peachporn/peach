@@ -6,7 +6,7 @@ import { Home } from './pages/home';
 import { client } from './apollo/client';
 
 import '@peach/components/src/index.styl';
-import { SetupProvider } from './context/setup';
+import { SetupProvider } from './context/settings';
 import { SetupChecker } from './components/setupChecker';
 
 const App = (

@@ -7,7 +7,8 @@
 
 import { typeDef as createMovie } from './movie/createMovie.gql';
 import { typeDef as movie } from './movie/movie.gql';
+import { typeDef as settings } from './settings/settings.gql';
 import { typeDef as setup } from './settings/setup.gql';
 import { typeDef as voume } from './volume/voume.gql';
 
-export const typeDefs = [createMovie, movie, setup, voume];
+export const typeDefs = [createMovie, movie, settings, setup, voume];

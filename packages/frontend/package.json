@@ -8,7 +8,8 @@
     "clean": "rm -rf dist .cache",
     "build": "parcel build src/index.html",
     "watch": "parcel watch src/index.html",
-    "dev": "parcel src/index.html"
+    "dev": "parcel src/index.html",
+    "generate:types": "graphql-codegen --config codegen.yml"
   },
   "alias": {
     "react": "preact/compat",
@@ -26,6 +27,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.1",
+    "@graphql-codegen/cli": "^1.15.0",
+    "@graphql-codegen/fragment-matcher": "^1.15.0",
+    "@graphql-codegen/typescript": "^1.15.0",
+    "@graphql-codegen/typescript-operations": "^1.15.0",
     "@types/react-router-dom": "^5.1.5",
     "parcel-bundler": "^1.12.4",
     "stylus": "^0.54.7"

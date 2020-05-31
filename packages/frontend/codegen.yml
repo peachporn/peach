@@ -1,0 +1,21 @@
+overwrite: true
+schema: '../backend/src/schema/**/*.gql.ts'
+documents:
+  - 'src/queries/**/*.gql.ts'
+  - 'src/fragments/**/*.gql.ts'
+hooks:
+  afterAllFileWrite:
+    - "eslint --fix --no-ignore --rule 'max-len: off' --rule
+      '@typescript-eslint/camelcase: off' --rule '@typescript-eslint/no-explicit-any: off'"
+generates:
+  src/generated/types.ts:
+    plugins:
+      - typescript:
+          maybeValue: 'T | undefined'
+      - typescript-operations:
+          exportFragmentSpreadSubTypes: true
+          preResolveTypes: true
+          nonOptionalTypename: true
+  src/generated/fragment-types.ts:
+    plugins:
+      - fragment-matcher

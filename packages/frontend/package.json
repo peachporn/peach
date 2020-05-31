@@ -6,9 +6,9 @@
   "license": "GPL-3.0",
   "scripts": {
     "clean": "rm -rf dist .cache",
-    "build": "parcel build src/index.html",
-    "watch": "parcel watch src/index.html",
-    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html --public-url /assets",
+    "watch": "parcel watch src/index.html --public-url /assets",
+    "dev": "parcel src/index.html --public-url /assets",
     "generate:types": "graphql-codegen --config codegen.yml"
   },
   "alias": {

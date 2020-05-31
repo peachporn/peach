@@ -7,5 +7,6 @@
   "dependencies": {
     "preact": "^10.4.4",
     "react-toastify": "^6.0.5"
-  }
+  },
+  "devDependencies": {}
 }

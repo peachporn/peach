@@ -19,7 +19,7 @@
   "scripts": {
     "clean": "lerna run clean --stream && rm -rf bin",
     "build": "lerna run build --stream",
-    "watch": "lerna run watch --stream",
+    "watch": "lerna run watch --parallel --stream",
     "lint": "eslint packages/**/src",
     "generate": "yarn generate:prisma && yarn generate:types",
     "generate:types": "lerna run generate:types --stream",

@@ -2,8 +2,11 @@ overwrite: true
 schema: './src/schema/**/*.gql.ts'
 hooks:
   afterAllFileWrite:
-    - "eslint --fix --no-ignore --rule 'max-len: off' --rule '@typescript-eslint/camelcase: off'
-      --rule '@typescript-eslint/no-explicit-any: off'"
+    - "eslint --fix --no-ignore
+      --rule 'max-len: off'
+      --rule '@typescript-eslint/camelcase: off'
+      --rule '@typescript-eslint/no-explicit-any: off'
+      --rule 'no-shadow: off'"
 generates:
   src/generated/types.ts:
     plugins:

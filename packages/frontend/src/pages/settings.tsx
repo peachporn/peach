@@ -1,40 +1,15 @@
 import { FunctionalComponent, h } from 'preact';
-import { useContext } from 'preact/hooks';
-import {
-  Container,
-  Headline1,
-  Headline2,
-  Select,
-  Table,
-  TableCell,
-  TableRow,
-} from '@peach/components';
-import { SettingsContext } from '../context/settings';
+import { Container, Headline1 } from '@peach/components';
 import { i } from '../i18n/i18n';
-import { Language } from '../generated/types';
-import { VolumeForm } from '../components/volumeForm';
+import { VolumeForm } from '../components/settings/volumeForm';
+import { GeneralSettingsForm } from '../components/settings/generalSettingsForm';
+import { LibraryForm } from '../components/settings/libraryForm';
 
-export const SettingsPage: FunctionalComponent = () => {
-  const settings = useContext(SettingsContext);
-
-  return (
-    <Container background="white" width="narrow">
-      <Headline1>Settings</Headline1>
-      <Headline2>General</Headline2>
-      <Table>
-        <TableRow>
-          <TableCell>{i('SETTINGS_LANGUAGE')}</TableCell>
-          <TableCell>
-            <Select>
-              <option selected={settings.language === Language.En} value={Language.En}>
-                {i('SETTINGS_LANGUAGE_EN')}
-              </option>
-            </Select>
-          </TableCell>
-        </TableRow>
-      </Table>
-      <Headline2>Volumes</Headline2>
-      <VolumeForm volumes={settings.volumes} />
-    </Container>
-  );
-};
+export const SettingsPage: FunctionalComponent = () => (
+  <Container background="white" width="narrow">
+    <Headline1>{i('SETTINGS')}</Headline1>
+    <GeneralSettingsForm />
+    <LibraryForm />
+    <VolumeForm />
+  </Container>
+);

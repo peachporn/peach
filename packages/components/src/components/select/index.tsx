@@ -1,16 +1,14 @@
-import { FunctionalComponent, h } from 'preact';
+import { h, RenderableProps } from 'preact';
+import { forwardRef } from 'preact/compat';
 
 type SelectProps = {
-  onChange?: (value: string | null) => void;
+  name: string;
 };
 
-export const Select: FunctionalComponent<SelectProps> = ({ children }) => (
-  <select
-    onChange={event => {
-      console.log(event);
-    }}
-    className="select"
-  >
-    {children}
-  </select>
+export const Select = forwardRef<HTMLSelectElement, RenderableProps<SelectProps>>(
+  ({ name, children }, ref) => (
+    <select ref={ref} name={name} className="select">
+      {children}
+    </select>
+  ),
 );

@@ -1,5 +1,20 @@
+import { scanLibrary } from '@peach/tasks';
+import { defaultSettings } from '@peach/domain';
 import { Resolvers } from '../generated/resolver-types';
 import { transformSettings } from '../transformer/settings';
+import { PrismaClient } from '../../../database/generated';
+
+const updateSettings = (prisma: PrismaClient, key: string, value: unknown) =>
+  prisma.settings
+    .update({
+      where: {
+        id: 1,
+      },
+      data: {
+        [key]: value,
+      },
+    })
+    .then(transformSettings);
 
 export const resolver: Resolvers = {
   Query: {
@@ -10,9 +25,7 @@ export const resolver: Resolvers = {
           s.length
             ? s[0]
             : prisma.settings.create({
-                data: {
-                  language: 'EN',
-                },
+                data: defaultSettings,
               }),
         )
         .then(transformSettings);
@@ -24,5 +37,12 @@ export const resolver: Resolvers = {
         volumes,
       };
     },
+  },
+  Mutation: {
+    scanLibrary: () => scanLibrary().then(() => true),
+    updateLanguage: (_parent, { language }, { prisma }) =>
+      updateSettings(prisma, 'language', language),
+    updateInferMovieTitle: (_parent, { inferMovieTitle }, { prisma }) =>
+      updateSettings(prisma, 'inferMovieTitle', inferMovieTitle),
   },
 };

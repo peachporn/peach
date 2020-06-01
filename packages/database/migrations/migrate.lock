@@ -5,3 +5,5 @@
 20200530142053-use-autoincrement-ids
 20200530143210-make-volume-unique
 20200531151003-add-settings
+20200601163840-setup-database
+20200601163928-add-tasks

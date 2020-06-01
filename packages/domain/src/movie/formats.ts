@@ -1,3 +1,1 @@
-export const movieFormats = [
-  'mp4', 'avi', 'wmv'
-];
+export const movieFormats = ['mp4', 'avi', 'wmv'];

@@ -4,12 +4,12 @@ export const typeDef = gql`
   enum Language {
     EN
   }
-  
+
   enum InferMovieTitle {
     FOLDER
     FILENAME
   }
-  
+
   type Settings {
     language: Language!
     volumes: [Volume!]!
@@ -19,12 +19,12 @@ export const typeDef = gql`
   extend type Query {
     settings: Settings!
   }
-  
+
   enum SettingsKey {
     language
     inferMovieTitle
   }
-  
+
   extend type Mutation {
     updateLanguage(language: Language): Settings!
     updateInferMovieTitle(inferMovieTitle: InferMovieTitle): Settings!

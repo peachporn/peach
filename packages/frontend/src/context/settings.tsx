@@ -16,8 +16,6 @@ export const SettingsProvider: FunctionalComponent = ({ children }) => {
   if (loading) {
     return null;
   }
-  console.log(data)
-
   return (
     <SettingsContext.Provider value={data?.settings || defaultSettings}>
       {children}

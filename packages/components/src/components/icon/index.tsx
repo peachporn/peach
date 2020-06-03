@@ -3,7 +3,14 @@ import { JSXInternal } from 'preact/src/jsx';
 
 import TouchEventHandler = JSXInternal.TouchEventHandler;
 
-export type Icon = 'close' | 'more_vert' | 'movie' | 'person_pin' | 'cloud' | 'local_offer' | 'settings';
+export type Icon =
+  | 'close'
+  | 'more_vert'
+  | 'movie'
+  | 'person_pin'
+  | 'cloud'
+  | 'local_offer'
+  | 'settings';
 
 export type IconProps = {
   icon: Icon;

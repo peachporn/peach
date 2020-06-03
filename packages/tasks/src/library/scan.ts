@@ -5,7 +5,6 @@ import { logScope } from '@peach/utils';
 import * as path from 'path';
 import { prisma } from '../prisma';
 import { inferMovieTitle } from '../settings';
-import { scrapeMetadata } from '../metadata';
 
 const log = logScope('scan-library');
 

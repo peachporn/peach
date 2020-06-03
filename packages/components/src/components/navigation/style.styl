@@ -1,0 +1,61 @@
+.navigation
+  position fixed
+  display grid
+  grid-auto-rows 10em 4em 4em 4em
+  grid-template-columns 1fr 1fr
+  right 0
+  height 100%
+  width 30%
+  min-width 300px
+  max-width 400px
+  background white
+  z-index 10000
+  transition clip-path .3s ease
+  clip-path circle(3em at calc(100% - .5em) 0%)
+  -webkit-clip-path circle(3em at calc(100% - .5em) 0%)
+  max-height 100vh
+  overflow-y auto
+
+  &.navigation--expanded
+    clip-path circle(133% at calc(100% - .5em) 0%)
+    -webkit-clip-path circle(133% at calc(100% - .5em) 0%)
+
+  +medium()
+    clip-path circle(2em at calc(100% - .5em) 0%)
+    -webkit-clip-path circle(2em at calc(100% - .5em) 0%)
+    grid-auto-rows 6em 4em 4em 4em
+
+.navigation__dots
+  position absolute
+  top .2em
+  right .4em
+  cursor default
+
+.navigation__add
+  cursor pointer
+  grid-column span 2
+
+.navigation__logo-container
+  grid-column span 2
+  align-self center
+  justify-self flex-start
+  padding 0 1em
+
+.navigation__logo
+  height 5em
+
+  +medium()
+    height 3em
+    align-self flex-end
+
+.navigation__link
+  order 2
+  display flex
+  padding .5em
+  justify-content flex-start
+  align-items center
+
+  hover()
+
+  i
+    padding .4em

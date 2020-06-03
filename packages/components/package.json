@@ -6,6 +6,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "preact": "^10.4.4",
+    "react-router-dom": "^5.2.0",
     "react-toastify": "^6.0.5"
   },
   "devDependencies": {}

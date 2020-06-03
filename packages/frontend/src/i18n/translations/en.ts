@@ -1,4 +1,9 @@
 export default {
+  NAVIGATION_MOVIES: 'Movies',
+  NAVIGATION_ACTRESSES: 'Actresses',
+  NAVIGATION_WEBSITES: 'Websites',
+  NAVIGATION_GENRES: 'Genres',
+  NAVIGATION_SETTINGS: 'Settings',
   SETUP_NO_VOLUMES_FOUND:
     'There are no volumes configured yet! Click here to go to the settings page to get started.',
   SETTINGS: 'Settings',

@@ -1,7 +1,8 @@
 import { FunctionalComponent, h } from 'preact';
+import { BasePage } from './basePage';
 
 export const Home: FunctionalComponent = () => (
-  <div>
+  <BasePage>
     <h1>Peach</h1>
-  </div>
+  </BasePage>
 );

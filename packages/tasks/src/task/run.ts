@@ -1,19 +1,17 @@
 import { logScope } from '@peach/utils';
+import { Task as DBTask } from '@peach/database';
 import { prisma } from '../prisma';
-import { Task, TaskCategory, TaskRunner, TaskStatus } from './type';
-import { runScanLibraryTask } from '../library';
+import { Task, TaskStatus, toDBTask, toTask } from './type';
+import { taskRunners } from './runners';
 
 const log = logScope('run-tasks');
 
-const tasksToRun = (): Promise<Task[]> =>
+const tasksToRun = (): Promise<DBTask[]> =>
   prisma.task.findMany({
     where: {
       status: 'PENDING',
     },
-  }) as Promise<Task[]>;
-
-const taskRunners: Map<TaskCategory, TaskRunner> = new Map();
-taskRunners.set('SCAN_LIBRARY', runScanLibraryTask);
+  });
 
 const markTask = (status: TaskStatus, task: Task) =>
   prisma.task.update({
@@ -21,7 +19,7 @@ const markTask = (status: TaskStatus, task: Task) =>
       id: task.id,
     },
     data: {
-      ...task,
+      ...toDBTask(task),
       status,
     },
   });
@@ -51,5 +49,5 @@ const runTask = async (task: Task): Promise<void> => {
 export const runTasks = () => {
   log.debug('Checking for tasks to run...');
 
-  return tasksToRun().then(tasks => tasks.map(runTask));
+  return tasksToRun().then(tasks => tasks.map(toTask).map(runTask));
 };

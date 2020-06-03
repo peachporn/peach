@@ -39,7 +39,7 @@ export const resolver: Resolvers = {
     },
   },
   Mutation: {
-    scanLibrary: () => scanLibrary().then(() => true),
+    scanLibrary: () => scanLibrary({}).then(() => true),
     updateLanguage: (_parent, { language }, { prisma }) =>
       updateSettings(prisma, 'language', language),
     updateInferMovieTitle: (_parent, { inferMovieTitle }, { prisma }) =>

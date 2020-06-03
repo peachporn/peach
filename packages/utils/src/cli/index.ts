@@ -7,9 +7,13 @@ export const cli = meow(
  
     Options
       --port, -p  Specify port to listen on, default: 3000
+      --debug     Enable debug logging
 `,
   {
     flags: {
+      debug: {
+        type: 'boolean',
+      },
       port: {
         type: 'number',
         alias: 'p',

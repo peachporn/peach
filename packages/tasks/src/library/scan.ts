@@ -5,6 +5,7 @@ import { logScope } from '@peach/utils';
 import * as path from 'path';
 import { prisma } from '../prisma';
 import { inferMovieTitle } from '../settings';
+import { scrapeMetadata } from '../metadata';
 
 const log = logScope('scan-library');
 
@@ -79,14 +80,19 @@ const createMovie = async (volume: Volume, moviePath: string) => {
 const trimVolumePath = (volumePath: string) => (filePath: string) =>
   filePath.replace(new RegExp(`^${volumePath}`), '');
 
-export const scanVolume = (volume: Volume) =>
-  globP(`${volume.path}/${extensionsGlob}`).then(async movieFiles => {
-    log.debug(`Searching for movies: ${volume.path}/${extensionsGlob}`);
+export const scanVolume = (volume: Volume): Promise<Movie[]> => {
+  const moviesGlob = `${volume.path}/**/${extensionsGlob}`;
+  log.debug(`Searching for movies in: ${moviesGlob}`);
+
+  return globP(moviesGlob).then(async movieFiles => {
+    log.debug(movieFiles);
     const existingMovies = await existingMoviesByFilenames(volume.path, movieFiles);
 
     const moviesToCreate = movieFiles
       .map(trimVolumePath(volume.path))
       .filter(file => !existingMovies.map(m => m.path).includes(file));
+    log.debug(`Found ${moviesToCreate.length} new movies!`);
 
-    return Promise.all(moviesToCreate.map(movie => createMovie(volume, movie)));
+    return Promise.all(moviesToCreate.map(moviePath => createMovie(volume, moviePath)));
   });
+};

@@ -1,8 +1,8 @@
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import { serverConfig } from '@peach/backend';
+import { cli } from '@peach/utils';
 import path from 'path';
-import { cli } from './cli';
 
 export const startServer = () => {
   const port = () => (process.env.PORT ? parseInt(process.env.PORT, 10) : cli.flags.port || 3000);

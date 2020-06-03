@@ -1,22 +1,37 @@
-import { Task, TaskRunner } from '../task/type';
-import { createUniqueTask } from '../task/create';
+import { logScope } from '@peach/utils';
 import { prisma } from '../prisma';
+import { defineTask } from '../task/template';
 import { scanVolume } from './scan';
+import { scrapeMetadata } from '../metadata';
 
-const scanLibraryCategory = 'SCAN_LIBRARY';
-const isScanLibraryTask = (task: Task) => task.category === scanLibraryCategory;
+const log = logScope('scan-library');
 
-export const scanLibrary = () =>
-  createUniqueTask({
-    category: scanLibraryCategory,
-  });
+const scanVolumes = () =>
+  prisma.volume.findMany().then(volumes => Promise.all(volumes.map(scanVolume)));
 
-export const runScanLibraryTask: TaskRunner = async task => {
-  if (!isScanLibraryTask(task)) {
-    return null;
-  }
+const scrapeMetadataForMissingMovies = () =>
+  prisma.movie
+    .findMany({
+      where: {
+        metadata: null,
+      },
+    })
+    .then(movies => {
+      log.debug(`Found ${movies.length} movies with missing metadata!`);
+      return movies.map(movie => scrapeMetadata({ movie }));
+    })
+    .then(ps => Promise.all(ps));
 
-  const volumes = await prisma.volume.findMany();
+const { createTask, runTask } = defineTask(
+  'SCAN_LIBRARY',
+  async () => {
+    await scanVolumes();
+    await scrapeMetadataForMissingMovies();
+  },
+  {
+    unique: true,
+  },
+);
 
-  return Promise.all(volumes.map(scanVolume));
-};
+export const scanLibrary = createTask;
+export const runScanLibraryTask = runTask;

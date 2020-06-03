@@ -7,7 +7,8 @@
     "clean": "rm tsconfig.tsbuildinfo && rm -rf dist",
     "build": "tsc --build",
     "watch": "tsc --build --watch",
-    "dev": "node dist/index.js"
+    "dev": "nodemon -w '../*/src' dist/index.js",
+    "dev:debug": "nodemon -w '../*/src' dist/index.js --debug"
   },
   "dependencies": {
     "@peach/backend": "*",
@@ -18,11 +19,11 @@
     "cron": "^1.8.2",
     "express": "^4.17.1",
     "fastify-static": "^2.7.0",
-    "meow": "^7.0.1",
     "pino-pretty": "^4.0.0"
   },
   "devDependencies": {
     "@types/cron": "^1.7.2",
-    "@types/pino-http": "^5.0.1"
+    "@types/pino-http": "^5.0.1",
+    "nodemon": "^2.0.4"
   }
 }

@@ -2,15 +2,20 @@ import { Task as DBTask } from '@peach/database';
 import { prisma } from '../prisma';
 import { TaskDefinition } from './type';
 
-export const createTask = (task: TaskDefinition): Promise<DBTask> =>
+export const createTask = <TaskParameters = {}>(
+  task: TaskDefinition<TaskParameters>,
+): Promise<DBTask> =>
   prisma.task.create({
     data: {
       ...task,
       status: 'PENDING',
+      parameters: JSON.stringify(task.parameters),
     },
   });
 
-export const createUniqueTask = (task: TaskDefinition): Promise<DBTask> =>
+export const createUniqueTask = <TaskParameters = {}>(
+  task: TaskDefinition<TaskParameters>,
+): Promise<DBTask> =>
   prisma.task
     .findMany({
       where: {

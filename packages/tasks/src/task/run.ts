@@ -42,7 +42,10 @@ const runTask = async (task: Task): Promise<void> => {
   log.info(`Running task ${JSON.stringify(task)}`);
 
   await markTask('RUNNING', task);
-  await run(task).catch(() => markTask('ERROR', task));
+  await run(task).catch(error => {
+    log.error(error);
+    markTask('ERROR', task);
+  });
   await removeTask(task);
 };
 

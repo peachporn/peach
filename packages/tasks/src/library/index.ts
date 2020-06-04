@@ -15,6 +15,9 @@ const scrapeMetadataForMissingMovies = () =>
       where: {
         metadata: null,
       },
+      include: {
+        volume: true,
+      },
     })
     .then(movies => {
       log.debug(`Found ${movies.length} movies with missing metadata!`);
@@ -26,6 +29,7 @@ const { createTask, runTask } = defineTask(
   'SCAN_LIBRARY',
   async () => {
     await scanVolumes();
+    log.debug('Done scanning volumes');
     await scrapeMetadataForMissingMovies();
   },
   {

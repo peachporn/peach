@@ -1,1 +1,1 @@
-export * from './formats';
+export * from './fixtures';

@@ -1,19 +1,14 @@
 import { defineTask } from '../task/template';
-import { MovieGetPayload } from '../../../database/generated';
+import { scrapeMovieMetadata } from './scrape';
+import { ScrapeableMovie } from './types';
 
 type ScrapeMetadataParameters = {
-  movie: MovieGetPayload<{
-    select: {
-      path: true;
-    };
-  }>;
+  movie: ScrapeableMovie;
 };
 
 const { createTask, runTask } = defineTask<ScrapeMetadataParameters>(
   'SCRAPE_METADATA',
-  async ({ parameters: { movie } }) => {
-    console.log(movie);
-  },
+  async ({ parameters: { movie } }) => scrapeMovieMetadata(movie),
 );
 
 export const scrapeMetadata = createTask;

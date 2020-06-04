@@ -28,7 +28,7 @@ const existingMoviesByFilenames = (volumePath: string, filenames: string[]): Pro
     where: {
       AND: {
         path: {
-          in: filenames,
+          in: filenames.map(name => name.replace(volumePath, '')),
         },
         volume: {
           path: volumePath,

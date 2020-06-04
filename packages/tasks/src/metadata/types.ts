@@ -12,17 +12,21 @@ export type ScrapeableMovie = MovieGetPayload<{
   };
 }>;
 
+export const streamEntries: (keyof FFProbeStream)[] = ['codec_type', 'height', 'r_frame_rate'];
 export type FFProbeStream = {
   codec_type: string;
   height: string;
-  avg_frame_rate: string;
+  r_frame_rate: string;
+};
+
+export const formatEntries: (keyof FFProbeFormat)[] = ['size', 'duration', 'filename'];
+export type FFProbeFormat = {
+  size: number;
+  duration: string;
+  filename: string;
 };
 
 export type FFProbeMetadata = {
-  format: {
-    size: number;
-    duration: number;
-    filename: string;
-  };
+  format: FFProbeFormat;
   streams: FFProbeStream[];
 };

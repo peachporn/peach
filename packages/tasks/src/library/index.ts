@@ -9,7 +9,7 @@ const log = logScope('scan-library');
 const scanVolumes = () =>
   prisma.volume.findMany().then(volumes => Promise.all(volumes.map(scanVolume)));
 
-const scrapeMetadataForMissingMovies = () =>
+const spawnScrapeMetadataTaskForMissingMovies = () =>
   prisma.movie
     .findMany({
       where: {
@@ -20,7 +20,7 @@ const scrapeMetadataForMissingMovies = () =>
       },
     })
     .then(movies => {
-      log.debug(`Found ${movies.length} movies with missing metadata!`);
+      log.debug(`Found ${movies.length} movies with missing metadata! Spawning tasks...`);
       return movies.map(movie => scrapeMetadata({ movie }));
     })
     .then(ps => Promise.all(ps));
@@ -28,9 +28,12 @@ const scrapeMetadataForMissingMovies = () =>
 const { createTask, runTask } = defineTask(
   'SCAN_LIBRARY',
   async () => {
-    await scanVolumes();
-    log.debug('Done scanning volumes');
-    await scrapeMetadataForMissingMovies();
+    try {
+      await scanVolumes();
+      await spawnScrapeMetadataTaskForMissingMovies();
+    } catch (e) {
+      log.error(e);
+    }
   },
   {
     unique: true,

@@ -18,9 +18,11 @@ export const typeDef = gql`
     quality: Quality!
     format: Format!
     fps: Int!
+    durationSeconds: Int!
     minutes: Int!
     seconds: Int!
-    size: Int!
+    sizeInKB: Int!
+    sizeInMB: Int!
   }
 
   enum Quality {

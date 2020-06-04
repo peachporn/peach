@@ -6,10 +6,6 @@ import { FFProbeMetadata, FFProbeStream, log } from './types';
 const findVideoStream = (metadata: FFProbeMetadata) =>
   metadata.streams.find(s => s.codec_type === 'video');
 
-const minutesAndSeconds = (duration: number): [number, number] => [
-  Math.floor(duration / 60),
-  Math.floor(duration % 60),
-];
 const quality = (stream: FFProbeStream): MovieQuality => {
   const height = parseInt(stream.height, 10);
   return height < 700 ? 'SD' : height < 1000 ? 'HD' : height < 1800 ? 'FullHD' : 'UHD';
@@ -31,6 +27,9 @@ const format = (metadata: FFProbeMetadata): MovieFormat => {
   return extension;
 };
 
+const fps = (stream: FFProbeStream): number =>
+  Math.round(parseInt(stream.r_frame_rate.split('/')[0] || '0', 10) / 1000);
+
 export const transformMovieMetadata = (
   metadata: FFProbeMetadata,
 ): Omit<MovieMetadataCreateInput, 'movie'> => {
@@ -41,19 +40,11 @@ export const transformMovieMetadata = (
     throw new Error('Missing video stream');
   }
 
-  const [minutes, seconds] = minutesAndSeconds(metadata.format.duration);
-
   return {
     quality: quality(videoStream),
     format: format(metadata),
-    fps: Math.round(
-      videoStream.avg_frame_rate
-        .split('/')
-        .map(i => parseInt(i, 10))
-        .reduce((pre, cur) => pre / cur),
-    ),
-    minutes,
-    seconds,
-    size: Math.floor(metadata.format.size / 1000 / 1000),
+    fps: fps(videoStream),
+    durationSeconds: Math.floor(parseFloat(metadata.format.duration)),
+    sizeInKB: Math.floor(metadata.format.size / 1000),
   };
 };

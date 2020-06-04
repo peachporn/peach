@@ -21,9 +21,11 @@ const transformMetadata = (metadata: MovieMetadata): Movie['metaData'] => ({
   quality: qualityMap[metadata.quality || 'SD'],
   format: formatMap[metadata.format || 'MP4'],
   fps: metadata.fps,
-  minutes: metadata.minutes,
-  seconds: metadata.seconds,
-  size: metadata.size,
+  durationSeconds: metadata.durationSeconds,
+  minutes: metadata.durationSeconds / 60,
+  seconds: metadata.durationSeconds % 60,
+  sizeInKB: metadata.sizeInKB,
+  sizeInMB: Math.floor(metadata.sizeInKB / 1000),
 });
 
 export const transformMovie = (movie: MovieWithMetadata): Movie => ({

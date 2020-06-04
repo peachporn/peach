@@ -1,36 +1,39 @@
 import child_process from 'child_process';
+import * as path from 'path';
+import { promisify } from 'util';
 import { MovieGetPayload } from '../../../database/generated';
-import { FFProbeMetadata, log } from './types';
+import {
+  FFProbeFormat,
+  FFProbeMetadata,
+  FFProbeStream,
+  formatEntries,
+  streamEntries,
+} from './types';
+
+const exec = promisify(child_process.exec);
+
+const toCLIOptions = (entries: (keyof FFProbeFormat | keyof FFProbeStream)[]): string =>
+  entries.join(',');
 
 export const extractMovieMetadata = (
   movie: MovieGetPayload<{ include: { volume: true } }>,
 ): Promise<FFProbeMetadata> =>
   new Promise((resolve, reject) => {
-    const moviePath = `${movie.volume.path}/${movie.path}`;
-    const command = 'ffprobe';
-    const args = [
-      '-print_format',
-      'json',
-      '-show_format',
-      '-show_streams',
-      '-v',
-      'quiet',
-      movie.path,
-    ];
-    let metadata = '';
+    const moviePath = path.join(movie.volume.path, movie.path);
+    const command = [
+      'ffprobe',
+      '-of json',
+      '-v error',
+      '-select_streams v:0',
+      `-show_entries format=${toCLIOptions(formatEntries)}`,
+      `-show_entries stream=${toCLIOptions(streamEntries)}`,
+      `"${moviePath}"`,
+    ].join(' ');
 
-    const child = child_process.spawn(command, args);
-
-    child.stdout.on('data', data => {
-      metadata += data;
-    });
-
-    child.stdout.on('close', () => {
-      resolve(JSON.parse(metadata));
-    });
-
-    child.stderr.on('data', error => {
-      log.error(`Error parsing metadata for movie ${moviePath}`);
-      reject(error);
+    exec(command).then(({ stdout, stderr }) => {
+      if (stderr) {
+        return reject(stderr);
+      }
+      return resolve(JSON.parse(stdout));
     });
   });

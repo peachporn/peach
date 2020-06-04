@@ -1,25 +1,26 @@
 import child_process from 'child_process';
-import { Movie } from '../../../database/generated';
+import { MovieMetadata } from '../../../database/generated';
 import { prisma } from '../prisma';
 import { extractMovieMetadata } from './extract';
 import { transformMovieMetadata } from './transform';
-import { ScrapeableMovie } from './types';
+import { log, ScrapeableMovie } from './types';
 
-export const scrapeMovieMetadata = (movie: ScrapeableMovie): Promise<Movie> =>
-  extractMovieMetadata(movie)
+export const scrapeMovieMetadata = (movie: ScrapeableMovie): Promise<MovieMetadata> => {
+  log.debug(`Scraping metadata for movie ${movie.title}...`);
+
+  return extractMovieMetadata(movie)
     .then(transformMovieMetadata)
     .then(metadata => {
-      const { volume, ...movieWithoutVolume } = movie;
-
-      return prisma.movie.update({
-        where: { id: movie.id },
+      log.debug(`Creating metadata object`);
+      return prisma.movieMetadata.create({
         data: {
-          ...movieWithoutVolume,
-          metadata: {
-            create: {
-              ...metadata,
+          ...metadata,
+          movie: {
+            connect: {
+              id: movie.id,
             },
           },
         },
       });
     });
+};

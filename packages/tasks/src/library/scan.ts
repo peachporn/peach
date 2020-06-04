@@ -84,7 +84,6 @@ export const scanVolume = (volume: Volume): Promise<Movie[]> => {
   log.debug(`Searching for movies in: ${moviesGlob}`);
 
   return globP(moviesGlob).then(async movieFiles => {
-    log.debug(movieFiles);
     const existingMovies = await existingMoviesByFilenames(volume.path, movieFiles);
 
     const moviesToCreate = movieFiles

@@ -1,0 +1,83 @@
+.movie-list
+  display grid
+  grid-template-columns repeat(auto-fit, minmax(400px, 1fr));
+  grid-auto-rows minmax(35vh, auto)
+  width 100vw
+
+  +medium()
+    grid-template-columns repeat(auto-fit, minmax(320px, 1fr));
+
+.movie-item
+  position relative
+  overflow hidden
+  transition opacity .4s ease
+  animation fadeIn .5s ease
+
+.movie-item__screencaps
+  width 100%
+  height 100%
+
+.movie-item__screencaps-pic
+  position absolute
+  top 0
+  left 0
+  z-index 960
+  display block
+  width 100%
+  height 100%
+  object-fit cover
+  opacity 0
+
+.movie-item__screencaps-pic--default
+  z-index 950
+  opacity 1
+
+.movie-item__screencaps-hover-area
+  position absolute
+  z-index 1000
+  width 20%
+  height 100%
+
+for num in (1..5)
+  i = num - 1
+  .movie-item__screencaps-hover-area:nth-of-type({num})
+    left i*20%
+
+  .movie-item__screencaps-hover-area:nth-of-type({num}):hover
+    border-bottom 3px solid tertiaryColor
+
+    & ~ .movie-item__screencaps-pic:nth-of-type({num})
+      z-index 970
+      opacity 1
+
+.movie-item:hover
+  .movie-item__title
+    transform translateY(0)
+
+.movie-item__title
+  padding .2em 1em
+  position absolute
+  bottom 0
+  width 100%
+  z-index 1200
+  color white !important
+  white-space nowrap
+  transform translateY(150%)
+  transition transform .2s ease
+  text-shadow 1px 1px 1px rgba(0,0,0,.5)
+
+  fontMedium()
+
+  +medium()
+    transform translateY(0)
+
+.movie-item__title-text
+  width 80%
+  overflow hidden
+  float left
+
+.movie-item__title-link
+  float right
+  i
+    color white
+

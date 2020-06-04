@@ -10,7 +10,8 @@ export type Icon =
   | 'person_pin'
   | 'cloud'
   | 'local_offer'
-  | 'settings';
+  | 'settings'
+  | 'edit';
 
 export type IconProps = {
   icon: Icon;

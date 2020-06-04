@@ -3,12 +3,12 @@ import { transformMovie } from '../transformer/movie';
 
 export const resolver: Resolvers = {
   Query: {
-    movies: (_parent, _args, { prisma }) =>
+    movieCount: (_parent, _args, { prisma }) => prisma.movie.count(),
+    movieList: (_parent, { skip, limit }, { prisma }) =>
       prisma.movie
         .findMany({
-          include: {
-            metadata: true,
-          },
+          skip,
+          first: limit
         })
         .then(movies => movies.map(transformMovie)),
   },

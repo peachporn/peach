@@ -10,5 +10,7 @@ export * from './components/input';
 export * from './components/select';
 export * from './components/table';
 export * from './components/flex';
+export * from './components/loading';
+export * from './components/movieList';
 
 export { ToastContainer, toast } from 'react-toastify';

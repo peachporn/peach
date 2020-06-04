@@ -6,6 +6,7 @@ import { Home } from './pages/home';
 import { client } from './apollo-client';
 import { SetupChecker } from './components/setupChecker';
 import { SettingsPage } from './pages/settings';
+import { MoviesPage } from './pages/movies';
 
 import '@peach/components/src/index.styl';
 import { SettingsProvider } from './context/settings';
@@ -15,6 +16,11 @@ const App = (
     <SettingsProvider>
       <Router>
         <Switch>
+          <Route path="/movies">
+            <MoviesPage />
+          </Route>
+          <Route path="/movies/:movieId">Movie Detail</Route>
+          <Route path="/movies/:movieId/edit">Movie Edit</Route>
           <Route path="/settings">
             <SettingsPage />
           </Route>

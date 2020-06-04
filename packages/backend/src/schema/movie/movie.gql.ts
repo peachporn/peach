@@ -11,7 +11,9 @@ export const typeDef = gql`
     # website     Website
     metaData: MovieMetadata
     actors: Int!
-    coverImage: String!
+    fresh: Boolean!
+    screencaps: [String!]!
+    coverIndex: Int!
   }
 
   type MovieMetadata {
@@ -38,6 +40,7 @@ export const typeDef = gql`
   }
 
   type Query {
-    movies: [Movie!]!
+    movieList(limit: Int!, skip: Int!): [Movie!]!
+    movieCount: Int!
   }
 `;

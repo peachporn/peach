@@ -13,9 +13,13 @@ const formatMap: { [key: string]: Format } = {
   WMV: Format.Wmv,
 };
 
-type MovieWithMetadata = MovieGetPayload<{
-  include: { metadata: true };
-}>;
+type MovieWithOptionalMetadata = Omit<
+  MovieGetPayload<{
+    include: { metadata: true };
+  }>,
+  'metadata'
+> &
+  Partial<Pick<MovieGetPayload<{ include: { metadata: true } }>, 'metadata'>>;
 
 const transformMetadata = (metadata: MovieMetadata): Movie['metaData'] => ({
   quality: qualityMap[metadata.quality || 'SD'],
@@ -28,11 +32,13 @@ const transformMetadata = (metadata: MovieMetadata): Movie['metaData'] => ({
   sizeInMB: Math.floor(metadata.sizeInKB / 1000),
 });
 
-export const transformMovie = (movie: MovieWithMetadata): Movie => ({
+export const transformMovie = (movie: MovieWithOptionalMetadata): Movie => ({
   id: movie.id,
   createdAt: movie.createdAt.toString(),
   title: movie.title,
   metaData: movie.metadata ? transformMetadata(movie.metadata) : undefined,
   actors: movie.actors,
-  coverImage: '',
+  screencaps: [],
+  coverIndex: movie.cover,
+  fresh: true,
 });

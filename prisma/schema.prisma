@@ -1,0 +1,60 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./database.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Volume {
+  id    Int   @id @default(autoincrement())
+  name  String @unique
+  path  String @unique
+}
+
+model MovieMetadata {
+  id                Int @id @default(autoincrement())
+
+  movie             Movie @relation(fields: [movieId], references: [id])
+  movieId           Int
+
+  quality           String
+  format            String
+  fps               Int
+
+  durationSeconds   Int
+  sizeInKB          Int
+}
+
+model Movie {
+  id          Int @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+
+  title       String @unique
+  // actresses   Actress[]
+  // genres      Genre[]
+  // highlights  Highlight[]
+  actors      Int @default(0)
+  // website     Website
+  cover       Int @default(2)
+
+  path        String
+  volume      Volume @relation(fields: [volumeId], references: [id])
+  volumeId    Int
+
+  metadata    MovieMetadata?
+}
+
+model Settings {
+  id              Int @id @default(autoincrement())
+  language        String
+  inferMovieTitle String @default("FILENAME")
+}
+
+model Task {
+  id          Int @id @default(autoincrement())
+  category    String
+  status      String
+  parameters  String?
+}

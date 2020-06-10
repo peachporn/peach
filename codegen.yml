@@ -1,0 +1,46 @@
+overwrite: true
+schema: 'src/backend/schema/**/*.gql.ts'
+documents:
+  - 'src/frontend/queries/**/*.gql.ts'
+  - 'src/frontend/fragments/**/*.gql.ts'
+hooks:
+  afterAllFileWrite:
+    - "eslint --fix --no-ignore
+      --rule 'max-len: off'
+      --rule '@typescript-eslint/camelcase: off'
+      --rule '@typescript-eslint/no-explicit-any: off'
+      --rule '@typescript-eslint/no-unused-vars: off'
+      --rule 'no-shadow: off'"
+generates:
+  types/generated.d.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+    config:
+      # general
+      maybeValue: T | undefined
+
+      # typescript
+      noExport: true
+      enumsAsTypes: true
+
+      # typescript-operations
+      preResolveTypes: true
+      exportFragmentSpreadSubTypes: true
+  src/backend/generated/resolver-types.ts:
+    plugins:
+      - typescript
+      - typescript-resolvers
+    config:
+      # general
+      maybeValue: T | undefined
+
+      # typescript
+      noExport: true
+      enumsAsTypes: true
+      immutableTypes: true
+
+      #typescript-resolvers
+      contextType: ../context#Context
+      noSchemaStitching: true
+      useIndexSignature: true

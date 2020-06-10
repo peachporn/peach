@@ -7,32 +7,76 @@
   "author": "GalateaPolymorph <galateapolymorph@gmail.com>",
   "license": "GPL-3.0",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ],
+  "scripts": {
+    "dev": "cd dist && nodemon app.js",
+    "watch": "run-p watch:*",
+    "watch:app": "webpack --watch --mode=development",
+    "watch:frontend": "parcel watch src/frontend/index.html --public-url /assets --out-dir dist/frontend",
+    "build": "run-p build:*",
+    "build:app": "webpack --mode=production",
+    "build:frontend": "parcel build src/frontend/index.html --public-url /assets --out-dir dist/frontend",
+    "lint": "eslint src",
+    "generate": "yarn generate:prisma && yarn generate:types",
+    "generate:types": "graphql-codegen --config codegen.yml",
+    "generate:prisma": "prisma generate",
+    "migration:run": "prisma migrate up --experimental",
+    "migration:save": "prisma migrate save --experimental",
+    "studio": "prisma studio --experimental"
+  },
+  "alias": {
+    "react": "preact/compat",
+    "react-dom": "preact/compat"
+  },
   "pkg": {
     "assets": [
-      "packages/frontend/dist/**/*",
-      "packages/database/database.db"
+      "dist/frontend/**/*",
+      "dist/schema.prisma",
+      "dist/query-engine-darwin",
+      "dist/database.db"
     ]
   },
-  "scripts": {
-    "clean": "lerna run clean --stream && rm -rf bin",
-    "build": "lerna run build --stream",
-    "watch": "lerna run watch --parallel --stream",
-    "lint": "eslint packages/**/src",
-    "generate": "yarn generate:prisma && yarn generate:types",
-    "generate:types": "lerna run generate:types --stream",
-    "generate:prisma": "prisma generate --schema packages/database/schema.prisma",
-    "package": "pkg . -t node13-linux-x64,node13-macos-x64,node13-win-x64 -o bin/peach",
-    "dev": "lerna run dev --scope @peach/app --stream",
-    "dev:debug": "lerna run dev:debug --scope @peach/app --stream"
+  "dependencies": {
+    "@apollo/react-hooks": "^3.1.5",
+    "@graphql-tools/merge": "^6.0.5",
+    "@graphql-tools/schema": "^6.0.5",
+    "@prisma/cli": "^2.0.0",
+    "@prisma/client": "^2.0.0",
+    "apollo-boost": "^0.4.9",
+    "apollo-server": "^2.14.1",
+    "apollo-server-core": "^2.14.3",
+    "apollo-server-express": "^2.14.1",
+    "body-parser": "^1.19.0",
+    "camelcase": "^6.0.0",
+    "cron": "^1.8.2",
+    "express": "^4.17.1",
+    "glob": "^7.1.6",
+    "graphql": "^14.5.3",
+    "pino": "^6.3.1",
+    "pino-pretty": "^4.0.0",
+    "preact": "^10.4.4",
+    "preact-render-to-string": "^5.1.4",
+    "react-hook-form": "^5.7.2",
+    "react-router-dom": "^5.2.0",
+    "react-toastify": "^6.0.5",
+    "which": "^2.0.2"
   },
   "devDependencies": {
-    "@prisma/cli": "^2.0.0-beta.6",
+    "@babel/core": "^7.10.1",
+    "@graphql-codegen/cli": "^1.15.0",
+    "@graphql-codegen/fragment-matcher": "^1.15.0",
+    "@graphql-codegen/typescript": "^1.15.0",
+    "@graphql-codegen/typescript-operations": "^1.15.0",
+    "@graphql-codegen/typescript-resolvers": "^1.15.0",
+    "@types/cron": "^1.7.2",
     "@types/eslint": "^6.8.1",
+    "@types/glob": "^7.1.2",
+    "@types/pino": "^6.0.1",
+    "@types/pino-http": "^5.0.1",
+    "@types/react-router-dom": "^5.1.5",
+    "@types/which": "^1.3.2",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^3.0.2",
+    "copy-webpack-plugin": "^6.0.2",
     "eslint": "^7.1.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-airbnb-typescript": "^7.2.1",
@@ -42,12 +86,17 @@
     "eslint-plugin-prefer-arrow": "^1.2.1",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.20.0",
-    "lerna": "^3.22.0",
+    "nexe": "^3.3.2",
+    "nodemon": "^2.0.4",
+    "npm-run-all": "^4.1.5",
+    "parcel-bundler": "^1.12.4",
     "pkg": "^4.4.8",
     "prettier": "^2.0.5",
-    "typescript": "^3.9.3"
-  },
-  "dependencies": {
-    "glob": "^7.1.6"
+    "stylus": "^0.54.7",
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.9.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-node-externals": "^1.7.2"
   }
 }

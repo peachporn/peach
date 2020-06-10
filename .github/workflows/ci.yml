@@ -43,7 +43,7 @@ jobs:
         run: yarn generate:types
 
       - name: Compile
-        run: yarn build
+        run: yarn tsc
 
       - name: Lint
         run: yarn lint

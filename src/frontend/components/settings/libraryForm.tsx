@@ -63,7 +63,14 @@ export const LibraryForm: FunctionalComponent = () => {
       </Table>
       <Flex justify="end">
         {isTouched(touched) && <Button type="submit">{i('FORM_SAVE')}</Button>}
-        <Button onClick={() => scanLibrary()}>{i('SETTINGS_SCAN_LIBRARY')}</Button>
+        <Button
+          onClick={() =>
+            scanLibrary().then(() => {
+              toast.success(i('LIBRARY_SCAN_STARTED'));
+            })}
+        >
+          {i('SETTINGS_SCAN_LIBRARY')}
+        </Button>
       </Flex>
     </form>
   );

@@ -16,6 +16,7 @@ export default {
   SETTINGS_INFERMOVIETITLE_FOLDER: 'Containing folder',
   SETTINGS_INFERMOVIETITLE_FILENAME: 'Filename',
   SETTINGS_SCAN_LIBRARY: 'Scan Now',
+  LIBRARY_SCAN_STARTED: 'Library scan started!',
   SETTINGS_FORM_SUCCESS: 'Settings updated successfully!',
   SETTINGS_FORM_ERROR: 'Error saving settings!',
   FORM_SAVE: 'Save',

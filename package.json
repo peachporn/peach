@@ -27,14 +27,6 @@
     "react": "preact/compat",
     "react-dom": "preact/compat"
   },
-  "pkg": {
-    "assets": [
-      "dist/frontend/**/*",
-      "dist/schema.prisma",
-      "dist/query-engine-darwin",
-      "dist/database.db"
-    ]
-  },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
     "@graphql-tools/merge": "^6.0.5",

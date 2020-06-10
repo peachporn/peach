@@ -28,6 +28,7 @@
     "react-dom": "preact/compat"
   },
   "dependencies": {
+    "@apollo/client": "^3.0.0-rc.2",
     "@apollo/react-hooks": "^3.1.5",
     "@graphql-tools/merge": "^6.0.5",
     "@graphql-tools/schema": "^6.0.5",
@@ -62,6 +63,7 @@
     "@types/cron": "^1.7.2",
     "@types/eslint": "^6.8.1",
     "@types/glob": "^7.1.2",
+    "@types/node": "^14.0.13",
     "@types/pino": "^6.0.1",
     "@types/pino-http": "^5.0.1",
     "@types/react-router-dom": "^5.1.5",

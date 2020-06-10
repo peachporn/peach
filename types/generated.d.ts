@@ -56,6 +56,7 @@ type Mutation = {
   scanLibrary?: Maybe<Scalars['Boolean']>;
   updateInferMovieTitle: Settings;
   updateLanguage: Settings;
+  updateScreencapPath: Settings;
 };
 
 type MutationCreateMovieFromFileArgs = {
@@ -74,12 +75,17 @@ type MutationUpdateLanguageArgs = {
   language?: Maybe<Language>;
 };
 
+type MutationUpdateScreencapPathArgs = {
+  screencapPath: Scalars['String'];
+};
+
 type Quality = 'SD' | 'HD' | 'FullHD' | 'UHD';
 
 type Query = {
   __typename?: 'Query';
   movieCount: Scalars['Int'];
   movieList: Array<Movie>;
+  pathExists?: Maybe<Scalars['Boolean']>;
   settings: Settings;
   setupStatus: SetupStatus;
   volumes: Array<Volume>;
@@ -88,6 +94,10 @@ type Query = {
 type QueryMovieListArgs = {
   limit: Scalars['Int'];
   skip: Scalars['Int'];
+};
+
+type QueryPathExistsArgs = {
+  path: Scalars['String'];
 };
 
 type SaveVolumesInput = {
@@ -99,9 +109,8 @@ type Settings = {
   language: Language;
   volumes: Array<Volume>;
   inferMovieTitle: InferMovieTitle;
+  screencapPath: Scalars['String'];
 };
-
-type SettingsKey = 'language' | 'inferMovieTitle';
 
 type SetupStatus = 'Complete' | 'NoVolumes';
 
@@ -145,9 +154,16 @@ type SettingsQuery = {
     __typename?: 'Settings';
     language: Language;
     inferMovieTitle: InferMovieTitle;
+    screencapPath: string;
     volumes: Array<{ __typename?: 'Volume'; name: string; path: string }>;
   };
 };
+
+type PathExistsQueryVariables = {
+  path: Scalars['String'];
+};
+
+type PathExistsQuery = { __typename?: 'Query'; pathExists?: Maybe<boolean> };
 
 type SetupStatusQueryVariables = {};
 

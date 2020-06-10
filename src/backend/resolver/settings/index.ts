@@ -3,6 +3,7 @@ import { scanLibrary } from '../../../tasks';
 import { defaultSettings } from '../../../domain';
 import { transformSettings } from '../../transformers/settings';
 import { Resolvers } from '../../generated/resolver-types';
+import { exists } from '../../../utils/fs';
 
 const updateSettings = (prisma: PrismaClient, key: string, value: unknown) =>
   prisma.settings
@@ -37,9 +38,12 @@ export const settingsResolvers: Resolvers = {
         volumes,
       };
     },
+    pathExists: (_parent, { path }, _context) => exists(path),
   },
   Mutation: {
     scanLibrary: () => scanLibrary({}).then(() => true),
+    updateScreencapPath: (_parent, { screencapPath }, { prisma }) =>
+      updateSettings(prisma, 'screencapPath', screencapPath),
     updateLanguage: (_parent, { language }, { prisma }) =>
       updateSettings(prisma, 'language', language),
     updateInferMovieTitle: (_parent, { inferMovieTitle }, { prisma }) =>

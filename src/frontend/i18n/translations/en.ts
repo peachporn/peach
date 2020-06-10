@@ -15,6 +15,7 @@ export default {
   SETTINGS_INFERMOVIETITLE: 'Infer movie titles from',
   SETTINGS_INFERMOVIETITLE_FOLDER: 'Containing folder',
   SETTINGS_INFERMOVIETITLE_FILENAME: 'Filename',
+  SETTINGS_SCREENCAPPATH: 'Path for saving screencaps',
   SETTINGS_SCAN_LIBRARY: 'Scan Now',
   LIBRARY_SCAN_STARTED: 'Library scan started!',
   SETTINGS_FORM_SUCCESS: 'Settings updated successfully!',

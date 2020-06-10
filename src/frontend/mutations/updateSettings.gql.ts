@@ -15,3 +15,11 @@ export const updateInferMovieTitleMutation = gql`
     }
   }
 `;
+
+export const updateScreencapPathMutation = gql`
+  mutation UpdateScreencapPath($screencapPath: String!) {
+    updateScreencapPath(screencapPath: $screencapPath) {
+      screencapPath
+    }
+  }
+`;

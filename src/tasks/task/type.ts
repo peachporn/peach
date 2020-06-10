@@ -14,7 +14,7 @@ export const toTask = (task: DBTask): Task => ({
   parameters: task.parameters ? JSON.parse(task.parameters) : {},
 });
 
-export type TaskCategory = 'SCAN_LIBRARY' | 'SCRAPE_METADATA';
+export type TaskCategory = 'SCAN_LIBRARY' | 'SCRAPE_METADATA' | 'TAKE_SCREENCAPS';
 export type TaskStatus = 'PENDING' | 'RUNNING' | 'ERROR';
 
 export type TaskDefinition<Parameters = {}> = Omit<

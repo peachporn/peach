@@ -1,7 +1,7 @@
 import { Settings as DBSettings } from '@prisma/client';
 
 const languageMap: { [key: string]: Language } = {
-  EN: 'EN'
+  EN: 'EN',
 };
 
 const inferMovieTitleMap: { [key: string]: InferMovieTitle } = {

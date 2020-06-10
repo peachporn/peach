@@ -1,7 +1,4 @@
 import { FunctionalComponent, h } from 'preact';
-import { JSXInternal } from 'preact/src/jsx';
-
-import TouchEventHandler = JSXInternal.TouchEventHandler;
 
 export type Icon =
   | 'close'
@@ -16,7 +13,7 @@ export type Icon =
 export type IconProps = {
   icon: Icon;
   className?: string;
-  onTouchStart?: TouchEventHandler<HTMLElement>;
+  onTouchStart?: (e: Event) => void;
 };
 
 export const Icon: FunctionalComponent<IconProps> = ({ className, icon, onTouchStart }) => (

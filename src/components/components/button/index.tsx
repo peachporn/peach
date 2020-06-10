@@ -1,7 +1,4 @@
 import { FunctionComponent, h } from 'preact';
-import { JSXInternal } from 'preact/src/jsx';
-
-import MouseEventHandler = JSXInternal.MouseEventHandler;
 
 type ButtonAppearance = 'main' | 'inverted';
 type ButtonSize = 'default' | 'small' | 'wide';
@@ -9,7 +6,7 @@ type ButtonSize = 'default' | 'small' | 'wide';
 export type ButtonProps = {
   appearance?: ButtonAppearance;
   size?: ButtonSize;
-  onClick?: MouseEventHandler<HTMLButtonElement>;
+  onClick?: (event: Event) => void;
   type?: 'button' | 'submit';
 };
 

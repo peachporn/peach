@@ -42,7 +42,9 @@ export const MoviesPage: FunctionalComponent = () => {
   return (
     <BasePage>
       {loading ? (
-        <Flex justify="center"><Loading color="white" /></Flex>
+        <Flex justify="center">
+          <Loading color="white" />
+        </Flex>
       ) : (
         <MovieList movies={data?.movieList.map(transformMovie) || []} />
       )}

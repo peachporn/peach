@@ -1,5 +1,5 @@
 import { transformMovie } from '../../transformers/movie';
-import { Resolvers} from '../../generated/resolver-types';
+import { Resolvers } from '../../generated/resolver-types';
 
 export const movieResolvers: Resolvers = {
   Query: {

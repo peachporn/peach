@@ -16,7 +16,7 @@
     "build:app": "webpack --mode=production",
     "build:frontend": "parcel build src/frontend/index.html --public-url /assets --out-dir dist/frontend",
     "lint": "eslint src",
-    "generate": "yarn generate:prisma && yarn generate:types",
+    "generate": "run-p generate:*",
     "generate:types": "graphql-codegen --config codegen.yml",
     "generate:prisma": "prisma generate",
     "migration:run": "prisma migrate up --experimental",

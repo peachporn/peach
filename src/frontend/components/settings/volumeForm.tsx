@@ -3,6 +3,7 @@ import { FunctionalComponent, h } from 'preact';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/react-hooks';
 import { useContext } from 'preact/hooks';
+import { toast } from 'react-toastify';
 import { Button, Headline2, Flex, Input, Table, TableCell, TableRow } from '../../../components';
 import { i } from '../../i18n/i18n';
 import { saveVolumesMutation } from '../../mutations/saveVolumes.gql';
@@ -25,7 +26,10 @@ export const VolumeForm: FunctionalComponent = () => {
     control,
     name: 'volumes',
   });
-  const onSubmit = (data: VolumeFormData) => saveVolumes({ variables: { input: data } });
+  const onSubmit = (data: VolumeFormData) =>
+    saveVolumes({ variables: { input: data } }).then(() => {
+      toast.success(i('SETTINGS_FORM_SUCCESS'));
+    });
 
   return (
     <form

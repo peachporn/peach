@@ -6,7 +6,7 @@ import { logScope } from '../../utils';
 
 const log = logScope('run-tasks');
 
-const tasksToRun = (): Promise<DBTask[]> =>
+const pendingTasks = (): Promise<DBTask[]> =>
   prisma.task.findMany({
     where: {
       status: 'PENDING',
@@ -52,5 +52,5 @@ const runTask = async (task: Task): Promise<void> => {
 export const runTasks = () => {
   log.debug('Checking for tasks to run...');
 
-  return tasksToRun().then(tasks => tasks.map(toTask).map(runTask));
+  return pendingTasks().then(tasks => tasks.map(toTask).map(runTask));
 };

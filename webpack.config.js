@@ -38,6 +38,10 @@ module.exports = {
       patterns: [
         {
           flatten: true,
+          from: './.env',
+        },
+        {
+          flatten: true,
           from: 'node_modules/.prisma/client/*-engine-*',
         },
         {

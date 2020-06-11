@@ -2,9 +2,10 @@ import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import path from 'path';
 import { serverConfig } from '../backend';
+import { fromEnv } from '../utils/env';
 
 export const startServer = () => {
-  const port = () => (process.env.PORT ? parseInt(process.env.PORT, 10) : 3000);
+  const port = () => (fromEnv('PORT') ? parseInt(fromEnv('PORT'), 10) : 3000);
 
   const server = new ApolloServer(serverConfig);
   const app = express();

@@ -59,4 +59,5 @@ bin
 # generated sources
 generated/
 
-.docz
+# development database
+dev.db

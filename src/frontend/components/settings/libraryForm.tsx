@@ -106,7 +106,8 @@ export const LibraryForm: FunctionalComponent = () => {
           onClick={() =>
             scanLibrary().then(() => {
               toast.success(i('LIBRARY_SCAN_STARTED'));
-            })}
+            })
+          }
         >
           {i('SETTINGS_SCAN_LIBRARY')}
         </Button>

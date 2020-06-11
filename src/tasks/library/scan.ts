@@ -5,6 +5,7 @@ import { movieFormats } from '../../domain';
 import { logScope } from '../../utils';
 import { prisma } from '../../prisma';
 import { inferMovieTitle } from '../settings';
+import { sequence } from '../../utils/promise';
 
 const log = logScope('scan-library');
 
@@ -91,6 +92,6 @@ export const scanVolume = (volume: Volume): Promise<Movie[]> => {
       .filter(file => !existingMovies.map(m => m.path).includes(file));
     log.debug(`Found ${moviesToCreate.length} new movies!`);
 
-    return Promise.all(moviesToCreate.map(moviePath => createMovie(volume, moviePath)));
+    return sequence(moviesToCreate.map(moviePath => () => createMovie(volume, moviePath)));
   });
 };

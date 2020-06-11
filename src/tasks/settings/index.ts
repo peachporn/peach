@@ -1,4 +1,3 @@
-import { InferMovieTitle } from '../../domain';
 import { prisma } from '../../prisma';
 
 const settings = () => prisma.settings.findOne({ where: { id: 1 } });

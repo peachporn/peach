@@ -15,7 +15,7 @@ const { createTask, runTask } = defineTask<TakeScreencapParams>(
     try {
       const movie = await prisma.movie.findOne({
         where: { id: movieId },
-        include: { volume: true },
+        include: { volume: true, metadata: true },
       });
 
       if (!movie) {
@@ -25,6 +25,9 @@ const { createTask, runTask } = defineTask<TakeScreencapParams>(
     } catch (e) {
       log.error(e);
     }
+  },
+  {
+    workers: 1,
   },
 );
 

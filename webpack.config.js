@@ -38,7 +38,8 @@ module.exports = {
       patterns: [
         {
           flatten: true,
-          from: './.env',
+          from: './.env.example',
+          to: '.env',
         },
         {
           flatten: true,

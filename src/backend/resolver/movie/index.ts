@@ -1,7 +1,15 @@
 import { transformMovie } from '../../transformers/movie';
 import { Resolvers } from '../../generated/resolver-types';
+import { getScreencapPath } from '../../../domain/settings';
+import { movieScreencaps } from '../../../domain/screencaps';
 
 export const movieResolvers: Resolvers = {
+  Movie: {
+    screencaps: parent =>
+      movieScreencaps(parent.id).then(files =>
+        files.map(file => `/screencaps/${parent.id}/${file}`),
+      ),
+  },
   Query: {
     movieCount: (_parent, _args, { prisma }) => prisma.movie.count(),
     movieList: (_parent, { skip }, { prisma }) =>

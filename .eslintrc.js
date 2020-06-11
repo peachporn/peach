@@ -41,6 +41,7 @@ const eslintOptions = {
     'react/prop-types': 0,
     'react/button-has-type': 0,
     'react/jsx-curly-newline': 0,
+    'jsx-a11y/anchor-has-content': 0,
 
     // Configure plugins
     'prettier/prettier': 'warn',

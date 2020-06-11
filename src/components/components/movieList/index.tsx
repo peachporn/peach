@@ -1,4 +1,4 @@
-import { h, FunctionalComponent } from 'preact';
+import { h, FunctionalComponent, Fragment } from 'preact';
 import { Icon } from '../icon';
 
 export type MovieListMovie = {
@@ -37,7 +37,12 @@ const MovieListItem: FunctionalComponent<{ movie: MovieListMovie }> = ({
     </h3>
     <div className="movie-item__screencaps">
       {screencaps.map((screencap, i) => (
-        <a href={detail} className="movie-item__screencaps-hover-area">
+        <Fragment>
+          <a
+            aria-label={`Screencap #${i + 1}`}
+            href={detail}
+            className="movie-item__screencaps-hover-area"
+          />
           <img
             alt={title}
             src={screencap}
@@ -45,7 +50,7 @@ const MovieListItem: FunctionalComponent<{ movie: MovieListMovie }> = ({
               cover === i ? 'movie-item__screencaps-pic--default' : ''
             }`}
           />
-        </a>
+        </Fragment>
       ))}
     </div>
   </li>

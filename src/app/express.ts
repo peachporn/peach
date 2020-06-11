@@ -3,6 +3,8 @@ import express from 'express';
 import path from 'path';
 import { serverConfig } from '../backend';
 import { fromEnv } from '../utils/env';
+import { getScreencapPath } from '../domain/settings';
+import { serveScreencaps } from './serve/screencaps';
 
 export const startServer = () => {
   const port = () => (fromEnv('PORT') ? parseInt(fromEnv('PORT'), 10) : 3000);
@@ -15,14 +17,16 @@ export const startServer = () => {
   const frontendDistPath = path.resolve('./frontend');
 
   app.get('*', (req, res, next) => {
-    if (req.url.startsWith('/assets')) {
+    if (req.url.startsWith('/assets') || req.url.startsWith('/screencaps')) {
       return next();
     }
+
     res.sendFile(path.join(frontendDistPath, 'index.html'));
 
     return null;
   });
 
+  app.get('/screencaps/:movieId*', serveScreencaps);
   app.use('/assets', express.static(frontendDistPath));
 
   app.listen(port(), () => console.info(`🚀 Server ready at http://localhost:${port()}`));

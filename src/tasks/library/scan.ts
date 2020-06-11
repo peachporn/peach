@@ -1,10 +1,9 @@
 import glob from 'glob';
 import { Movie, Volume } from '@prisma/client';
 import * as path from 'path';
-import { movieFormats } from '../../domain';
+import { getInferMovieTitle, movieFormats } from '../../domain';
 import { logScope } from '../../utils';
 import { prisma } from '../../prisma';
-import { inferMovieTitle } from '../settings';
 import { sequence } from '../../utils/promise';
 
 const log = logScope('scan-library');
@@ -47,7 +46,7 @@ const titleFromFolder = (moviePath: string) => lastSegment(path.dirname(moviePat
 const titleFromFilename = (moviePath: string) => lastSegment(moviePath);
 
 const createMovie = async (volume: Volume, moviePath: string) => {
-  const inferMovieTitleType = await inferMovieTitle();
+  const inferMovieTitleType = await getInferMovieTitle();
   const title =
     inferMovieTitleType === 'FILENAME'
       ? titleFromFilename(moviePath)

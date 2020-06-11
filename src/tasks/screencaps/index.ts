@@ -2,25 +2,19 @@ import { logScope } from '../../utils';
 import { defineTask } from '../task/template';
 import { prisma } from '../../prisma';
 import { takeScreencapsForMovie } from './screencap';
+import { hasMissingScreencaps } from './util';
+import { ScreencapMovie } from './type';
 
 const log = logScope('screencaps');
 
 type TakeScreencapParams = {
-  movieId: number;
+  movie: ScreencapMovie;
 };
 
 const { createTask, runTask } = defineTask<TakeScreencapParams>(
   'TAKE_SCREENCAPS',
-  async ({ parameters: { movieId } }) => {
+  async ({ parameters: { movie } }) => {
     try {
-      const movie = await prisma.movie.findOne({
-        where: { id: movieId },
-        include: { volume: true, metadata: true },
-      });
-
-      if (!movie) {
-        throw new Error(`No movie found for id ${movieId}`);
-      }
       await takeScreencapsForMovie(movie);
 
       return 'SUCCESS';
@@ -36,3 +30,19 @@ const { createTask, runTask } = defineTask<TakeScreencapParams>(
 
 export const takeScreencaps = createTask;
 export const runTakeScreencapTask = runTask;
+
+export const takeScreencapsForAllMovies = async () => {
+  prisma.movie
+    .findMany({
+      include: {
+        metadata: true,
+        volume: true,
+      },
+    })
+    .then(movies =>
+      movies.map(async movie => {
+        const missing = await hasMissingScreencaps(movie);
+        return missing ? takeScreencaps({ movie }) : Promise.resolve();
+      }),
+    );
+};

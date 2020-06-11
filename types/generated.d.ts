@@ -54,6 +54,7 @@ type Mutation = {
   createMovieFromFile: Movie;
   saveVolumes: Array<Volume>;
   scanLibrary?: Maybe<Scalars['Boolean']>;
+  takeAllScreencaps?: Maybe<Scalars['Boolean']>;
   updateInferMovieTitle: Settings;
   updateLanguage: Settings;
   updateScreencapPath: Settings;

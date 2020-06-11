@@ -4,6 +4,7 @@ import { defaultSettings } from '../../../domain';
 import { transformSettings } from '../../transformers/settings';
 import { Resolvers } from '../../generated/resolver-types';
 import { exists } from '../../../utils/fs';
+import { takeScreencapsForAllMovies } from '../../../tasks/screencaps';
 
 const updateSettings = (prisma: PrismaClient, key: string, value: unknown) =>
   prisma.settings
@@ -41,6 +42,7 @@ export const settingsResolvers: Resolvers = {
     pathExists: (_parent, { path }, _context) => exists(path),
   },
   Mutation: {
+    takeAllScreencaps: () => takeScreencapsForAllMovies().then(() => true),
     scanLibrary: () => scanLibrary({}).then(() => true),
     updateScreencapPath: (_parent, { screencapPath }, { prisma }) =>
       updateSettings(prisma, 'screencapPath', screencapPath),

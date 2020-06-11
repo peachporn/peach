@@ -8,6 +8,7 @@ import { Button, Headline2, Flex, Input, Table, TableCell, TableRow } from '../.
 import { i } from '../../i18n/i18n';
 import { saveVolumesMutation } from '../../mutations/saveVolumes.gql';
 import { SettingsContext } from '../../context/settings';
+import { isTouched } from '../../utils/form';
 
 type VolumeFormData = {
   volumes: Volume[];
@@ -17,7 +18,12 @@ export const VolumeForm: FunctionalComponent = () => {
   const { volumes } = useContext(SettingsContext);
 
   const [saveVolumes] = useMutation<MutationSaveVolumesArgs>(saveVolumesMutation);
-  const { control, register, handleSubmit } = useForm<VolumeFormData>({
+  const {
+    formState: { touched },
+    control,
+    register,
+    handleSubmit,
+  } = useForm<VolumeFormData>({
     defaultValues: {
       volumes,
     },
@@ -68,7 +74,7 @@ export const VolumeForm: FunctionalComponent = () => {
         >
           +
         </Button>
-        <Button type="submit">{i('FORM_SAVE')}</Button>
+        {isTouched(touched) && <Button type="submit">{i('FORM_SAVE')}</Button>}
       </Flex>
     </form>
   );

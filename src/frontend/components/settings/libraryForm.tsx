@@ -24,6 +24,7 @@ import { scanLibraryMutation } from '../../mutations/scanLibrary.gql';
 import { isTouched } from '../../utils/form';
 import { SettingsContext } from '../../context/settings';
 import { pathExistsQuery } from '../../queries/settings.gql';
+import { takeAllScreencapsMutation } from '../../mutations/takeScreencaps.gql';
 
 type LibraryFormData = {
   inferMovieTitle: InferMovieTitle;
@@ -44,6 +45,7 @@ export const LibraryForm: FunctionalComponent = () => {
   const client = useApolloClient();
   const { inferMovieTitle, screencapPath } = useContext(SettingsContext);
 
+  const [takeAllScreencaps] = useMutation(takeAllScreencapsMutation);
   const [scanLibrary] = useMutation(scanLibraryMutation);
   const [updateInferMovieTitle] = useMutation<MutationUpdateInferMovieTitleArgs>(
     updateInferMovieTitleMutation,
@@ -53,6 +55,7 @@ export const LibraryForm: FunctionalComponent = () => {
   );
   const {
     formState: { touched },
+    reset,
     errors,
     register,
     handleSubmit,
@@ -68,6 +71,7 @@ export const LibraryForm: FunctionalComponent = () => {
       updateScreencapPath({ variables: data }),
     ]).then(() => {
       toast.success(i('SETTINGS_FORM_SUCCESS'));
+      reset(data);
     });
 
   return (
@@ -103,6 +107,7 @@ export const LibraryForm: FunctionalComponent = () => {
       <Flex justify="end">
         {isTouched(touched) && <Button type="submit">{i('FORM_SAVE')}</Button>}
         <Button
+          appearance="inverted"
           onClick={() =>
             scanLibrary().then(() => {
               toast.success(i('LIBRARY_SCAN_STARTED'));
@@ -110,6 +115,16 @@ export const LibraryForm: FunctionalComponent = () => {
           }
         >
           {i('SETTINGS_SCAN_LIBRARY')}
+        </Button>
+        <Button
+          appearance="inverted"
+          onClick={() =>
+            takeAllScreencaps().then(() => {
+              toast.success(i('SCREENCAPPING_STARTED'));
+            })
+          }
+        >
+          {i('SETTINGS_TAKE_SCREENCAPS')}
         </Button>
       </Flex>
     </form>

@@ -31,6 +31,7 @@ const { createTask, runTask } = defineTask(
     try {
       await scanVolumes();
       await spawnScrapeMetadataTaskForMissingMovies();
+
       return 'SUCCESS';
     } catch (e) {
       log.error(e);

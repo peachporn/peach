@@ -27,5 +27,6 @@ export const typeDef = gql`
     updateLanguage(language: Language): Settings!
     updateInferMovieTitle(inferMovieTitle: InferMovieTitle): Settings!
     scanLibrary: Boolean
+    takeAllScreencaps: Boolean
   }
 `;

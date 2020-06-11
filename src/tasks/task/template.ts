@@ -44,7 +44,7 @@ export const defineTask = <TaskParameters = {}>(
       const runningOfCategory = await runningTasksOfCategory(category);
       if (runningOfCategory > (options.workers || defaultOptions.workers)) {
         log.debug(
-          `Skipping ${category} task run, as there are ${runningOfCategory} already running...`,
+          `Skipping ${category} task run, as there are ${runningOfCategory - 1} already running...`,
         );
         return 'RETRY';
       }

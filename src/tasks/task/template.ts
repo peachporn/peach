@@ -1,6 +1,9 @@
-import { Task, TaskCategory, TaskRunner } from './type';
+import { Task, TaskCategory, TaskResult, TaskRunner } from './type';
 import { createTask, createUniqueTask } from './create';
 import { prisma } from '../../prisma';
+import { logScope } from '../../utils/logging';
+
+const log = logScope('run-tasks');
 
 type TaskDefinitionOptions = {
   unique?: boolean;
@@ -33,15 +36,20 @@ export const defineTask = <TaskParameters = {}>(
 
   return {
     createTask: (parameters: TaskParameters) => create<TaskParameters>({ category, parameters }),
-    runTask: async (task: Task<TaskParameters>) => {
+    runTask: async (task: Task<TaskParameters>): Promise<TaskResult> => {
       if (!isRunnerResponsible(task)) {
-        return null;
+        return 'SKIPPED';
       }
 
       const runningOfCategory = await runningTasksOfCategory(category);
-      if (runningOfCategory >= (options.workers || defaultOptions.workers)) {
-        return null;
+      if (runningOfCategory > (options.workers || defaultOptions.workers)) {
+        log.debug(
+          `Skipping ${category} task run, as there are ${runningOfCategory} already running...`,
+        );
+        return 'RETRY';
       }
+
+      log.info(`Running task ${JSON.stringify(task)}`);
 
       return runner(task);
     },

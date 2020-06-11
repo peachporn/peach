@@ -20,7 +20,7 @@ const spawnScrapeMetadataTaskForMissingMovies = () =>
       },
     })
     .then(movies => {
-      log.debug(`Found ${movies.length} movies with missing metadata! Spawning tasks...`);
+      log.debug(`Found ${movies.length} movies with missing metadata!`);
       return movies.map(movie => scrapeMetadata({ movie }));
     })
     .then(ps => Promise.all(ps));
@@ -31,8 +31,10 @@ const { createTask, runTask } = defineTask(
     try {
       await scanVolumes();
       await spawnScrapeMetadataTaskForMissingMovies();
+      return 'SUCCESS';
     } catch (e) {
       log.error(e);
+      return 'ERROR';
     }
   },
   {

@@ -8,7 +8,7 @@ type ScrapeMetadataParameters = {
 
 const { createTask, runTask } = defineTask<ScrapeMetadataParameters>(
   'SCRAPE_METADATA',
-  async ({ parameters: { movie } }) => scrapeMovieMetadata(movie),
+  async ({ parameters: { movie } }) => scrapeMovieMetadata(movie).then(() => 'SUCCESS'),
   {
     workers: 1,
   },

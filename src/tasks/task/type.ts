@@ -31,4 +31,6 @@ export type Task<Parameters = {}> = Omit<DBTask, 'category' | 'status' | 'parame
   parameters: Parameters;
 };
 
-export type TaskRunner<TaskParameters = {}> = (task: Task<TaskParameters>) => Promise<unknown>;
+export type TaskResult = 'SKIPPED' | 'RETRY' | 'SUCCESS' | 'ERROR';
+
+export type TaskRunner<TaskParameters = {}> = (task: Task<TaskParameters>) => Promise<TaskResult>;

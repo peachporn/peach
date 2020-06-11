@@ -22,8 +22,11 @@ const { createTask, runTask } = defineTask<TakeScreencapParams>(
         throw new Error(`No movie found for id ${movieId}`);
       }
       await takeScreencapsForMovie(movie);
+
+      return 'SUCCESS';
     } catch (e) {
       log.error(e);
+      return 'ERROR';
     }
   },
   {

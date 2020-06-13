@@ -1,6 +1,6 @@
 import child_process from 'child_process';
 import { MovieMetadataCreateInput } from '@prisma/client';
-import { isFormatSupported, MovieFormat, MovieQuality } from '../../domain';
+import { isFormatSupported, MovieFormat, MovieQuality } from '../../domain/movie';
 import { FFProbeMetadata, FFProbeStream, log } from './types';
 
 const findVideoStream = (metadata: FFProbeMetadata) =>

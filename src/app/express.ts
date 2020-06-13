@@ -5,6 +5,7 @@ import { serverConfig } from '../backend';
 import { fromEnv } from '../utils/env';
 import { getScreencapPath } from '../domain/settings';
 import { serveScreencaps } from './serve/screencaps';
+import { serveMovies } from './serve/movies';
 
 export const startServer = () => {
   const port = () => (fromEnv('PORT') ? parseInt(fromEnv('PORT'), 10) : 3000);
@@ -26,7 +27,8 @@ export const startServer = () => {
     return null;
   });
 
-  app.get('/screencaps/:movieId*', serveScreencaps);
+  app.get('/assets/screencaps/:movieId*', serveScreencaps);
+  app.get('/assets/movie/:movieId', serveMovies);
   app.use('/assets', express.static(frontendDistPath));
 
   app.listen(port(), () => console.info(`🚀 Server ready at http://localhost:${port()}`));

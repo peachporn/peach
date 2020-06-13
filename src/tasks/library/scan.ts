@@ -1,7 +1,8 @@
 import glob from 'glob';
 import { Movie, Volume } from '@prisma/client';
 import * as path from 'path';
-import { getInferMovieTitle, movieFormats } from '../../domain';
+import { movieFormats } from '../../domain/movie';
+import { getInferMovieTitle } from '../../domain/settings';
 import { logScope } from '../../utils';
 import { prisma } from '../../prisma';
 import { sequence } from '../../utils/promise';

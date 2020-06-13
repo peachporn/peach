@@ -7,7 +7,7 @@ export const movieResolvers: Resolvers = {
   Movie: {
     screencaps: parent =>
       movieScreencaps(parent.id).then(files =>
-        files.map(file => `/screencaps/${parent.id}/${file}`),
+        files.map(file => `/assets/screencaps/${parent.id}/${file}`),
       ),
   },
   Query: {

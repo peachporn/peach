@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { scanLibrary } from '../../../tasks';
-import { defaultSettings } from '../../../domain';
+import { defaultSettings } from '../../../domain/settings';
 import { transformSettings } from '../../transformers/settings';
 import { Resolvers } from '../../generated/resolver-types';
 import { exists } from '../../../utils/fs';

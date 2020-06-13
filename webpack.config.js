@@ -1,7 +1,7 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
-module.exports = {
+module.exports = (_env, argv) => ({
   entry: path.resolve(__dirname, './src/app/index.ts'),
   output: {
     filename: 'app.js',
@@ -37,9 +37,9 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         {
-          flatten: true,
-          from: './.env.example',
-          to: '.env',
+          from: argv.mode === 'development' ? './.env' : './.env.example',
+          to: './.env',
+          toType: 'file',
         },
         {
           flatten: true,
@@ -56,4 +56,4 @@ module.exports = {
       ],
     }),
   ],
-};
+});

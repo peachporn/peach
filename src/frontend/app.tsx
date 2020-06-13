@@ -10,16 +10,19 @@ import { MoviesPage } from './pages/movies';
 
 import '../components/index.styl';
 import { SettingsProvider } from './context/settings';
+import { MovieDetailPage } from './pages/movieDetail';
 
 const App = (
   <ApolloProvider client={client}>
     <SettingsProvider>
       <Router>
         <Switch>
-          <Route path="/movies">
+          <Route exact path="/movies">
             <MoviesPage />
           </Route>
-          <Route path="/movies/:movieId">Movie Detail</Route>
+          <Route exact path="/movies/:movieId">
+            <MovieDetailPage />
+          </Route>
           <Route path="/movies/:movieId/edit">Movie Edit</Route>
           <Route path="/settings">
             <SettingsPage />

@@ -11,6 +11,9 @@ export * from './components/select';
 export * from './components/table';
 export * from './components/flex';
 export * from './components/loading';
-export * from './components/movieList';
+export * from './components/video';
+
+export * from './compositions/movieList';
+export * from './compositions/movieDetailVideo';
 
 export { ToastContainer, toast } from 'react-toastify';

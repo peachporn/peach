@@ -1,5 +1,5 @@
 import { h, FunctionalComponent, Fragment } from 'preact';
-import { Icon } from '../icon';
+import { Icon } from '../../components/icon';
 
 export type MovieListMovie = {
   title: string;

@@ -33,6 +33,7 @@ const transformMetadata = (metadata: MovieMetadata): Movie['metaData'] => ({
 
 export const transformMovie = (movie: MovieWithOptionalMetadata): Movie => ({
   id: movie.id,
+  url: '',
   createdAt: movie.createdAt.toString(),
   title: movie.title,
   metaData: movie.metadata ? transformMetadata(movie.metadata) : undefined,

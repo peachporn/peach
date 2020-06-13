@@ -5,6 +5,7 @@ export const typeDef = gql`
     id: Int!
     createdAt: String!
     title: String!
+    url: String!
     # actresses   Actress[]
     # genres      Genre[]
     # highlights  Highlight[]
@@ -42,5 +43,6 @@ export const typeDef = gql`
   type Query {
     movieList(limit: Int!, skip: Int!): [Movie!]!
     movieCount: Int!
+    movie(id: Int!): Movie
   }
 `;

@@ -19,6 +19,7 @@ type Movie = {
   id: Scalars['Int'];
   createdAt: Scalars['String'];
   title: Scalars['String'];
+  url: Scalars['String'];
   metaData?: Maybe<MovieMetadata>;
   actors: Scalars['Int'];
   fresh: Scalars['Boolean'];
@@ -84,12 +85,17 @@ type Quality = 'SD' | 'HD' | 'FullHD' | 'UHD';
 
 type Query = {
   __typename?: 'Query';
+  movie?: Maybe<Movie>;
   movieCount: Scalars['Int'];
   movieList: Array<Movie>;
   pathExists?: Maybe<Scalars['Boolean']>;
   settings: Settings;
   setupStatus: SetupStatus;
   volumes: Array<Volume>;
+};
+
+type QueryMovieArgs = {
+  id: Scalars['Int'];
 };
 
 type QueryMovieListArgs = {
@@ -124,6 +130,15 @@ type Volume = {
 type VolumeInput = {
   name: Scalars['String'];
   path: Scalars['String'];
+};
+
+type MovieQueryVariables = {
+  id: Scalars['Int'];
+};
+
+type MovieQuery = {
+  __typename?: 'Query';
+  movie?: Maybe<{ __typename?: 'Movie'; id: number; title: string; url: string }>;
 };
 
 type MovieListQueryVariables = {

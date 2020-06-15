@@ -23,4 +23,13 @@ export default {
   SETTINGS_FORM_SUCCESS: 'Settings updated successfully!',
   SETTINGS_FORM_ERROR: 'Error saving settings!',
   FORM_SAVE: 'Save',
+  METADATA_MINUTES: 'minutes',
+  METADATA_SECONDS: 'seconds',
+  METADATA_FPS: 'fps',
+  METADATA_MB: 'MB',
+  METADATA_VOLUME: 'Volume',
+  METADATA_FILEPATH: 'File path',
+  METADATA_VIDEO: 'Quality',
+  METADATA_DURATION: 'Duration',
+  METADATA_SIZE: 'Size',
 } as const;

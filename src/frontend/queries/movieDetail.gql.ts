@@ -6,6 +6,19 @@ export const movieDetailQuery = gql`
       id
       title
       url
+      path
+      volume {
+        name
+      }
+      metaData {
+        durationSeconds
+        sizeInMB
+        minutes
+        seconds
+        quality
+        format
+        fps
+      }
     }
   }
 `;

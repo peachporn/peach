@@ -1,9 +1,10 @@
-import { FunctionalComponent, h } from 'preact';
+import { Fragment, FunctionalComponent, h } from 'preact';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
-import { Flex, Loading, MovieDetailVideo } from '../../components';
+import { Container, Flex, Headline1, Loading, MovieDetailVideo } from '../../components';
 import { BasePage } from './basePage';
 import { movieDetailQuery } from '../queries/movieDetail.gql';
+import { MovieMetadataTable } from '../../components/compositions/movieMetadataTable';
 
 export type MovieDetailPageProps = {
   movieId: string;
@@ -30,7 +31,15 @@ export const MovieDetailPage: FunctionalComponent = () => {
           <Loading color="white" />
         </Flex>
       ) : (
-        <MovieDetailVideo movie={movie} />
+        <Fragment>
+          <MovieDetailVideo movie={movie} />
+          <Container background="white">
+            <Headline1>{movie.title}</Headline1>
+            {!movie.metaData || !movie.volume ? null : (
+              <MovieMetadataTable metadata={movie.metaData} volume={movie.volume} path={movie.path} />
+            )}
+          </Container>
+        </Fragment>
       )}
     </BasePage>
   );

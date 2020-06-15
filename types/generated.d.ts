@@ -8,7 +8,7 @@ type Scalars = {
   Float: number;
 };
 
-type Format = 'MP4' | 'WMV';
+type Format = 'mp4' | 'wmv';
 
 type InferMovieTitle = 'FOLDER' | 'FILENAME';
 
@@ -23,8 +23,10 @@ type Movie = {
   metaData?: Maybe<MovieMetadata>;
   actors: Scalars['Int'];
   fresh: Scalars['Boolean'];
+  volume?: Maybe<Volume>;
   screencaps: Array<Scalars['String']>;
   coverIndex: Scalars['Int'];
+  path: Scalars['String'];
 };
 
 type MovieFromFileInput = {
@@ -138,7 +140,24 @@ type MovieQueryVariables = {
 
 type MovieQuery = {
   __typename?: 'Query';
-  movie?: Maybe<{ __typename?: 'Movie'; id: number; title: string; url: string }>;
+  movie?: Maybe<{
+    __typename?: 'Movie';
+    id: number;
+    title: string;
+    url: string;
+    path: string;
+    volume?: Maybe<{ __typename?: 'Volume'; name: string }>;
+    metaData?: Maybe<{
+      __typename?: 'MovieMetadata';
+      durationSeconds: number;
+      sizeInMB: number;
+      minutes: number;
+      seconds: number;
+      quality: Quality;
+      format: Format;
+      fps: number;
+    }>;
+  }>;
 };
 
 type MovieListQueryVariables = {

@@ -13,8 +13,10 @@ export const typeDef = gql`
     metaData: MovieMetadata
     actors: Int!
     fresh: Boolean!
+    volume: Volume
     screencaps: [String!]!
     coverIndex: Int!
+    path: String!
   }
 
   type MovieMetadata {
@@ -36,8 +38,8 @@ export const typeDef = gql`
   }
 
   enum Format {
-    MP4
-    WMV
+    mp4
+    wmv
   }
 
   type Query {

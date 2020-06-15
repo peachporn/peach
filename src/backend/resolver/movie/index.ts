@@ -21,7 +21,10 @@ export const movieResolvers: Resolvers = {
         })
         .then(movies => movies.map(transformMovie)),
     movie: async (_parent, { id }, { prisma }) => {
-      const movie = await prisma.movie.findOne({ where: { id }, include: { metadata: true } });
+      const movie = await prisma.movie.findOne({
+        where: { id },
+        include: { metadata: true, volume: true },
+      });
 
       return movie ? transformMovie(movie) : undefined;
     },

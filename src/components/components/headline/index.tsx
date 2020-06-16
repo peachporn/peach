@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from 'preact';
 
 export type HeadlineProps = {
-  onClick: EventHandler;
+  onClick?: EventHandler;
 };
 
 export const Headline1: FunctionalComponent<HeadlineProps> = ({ onClick, children }) => (

@@ -101,6 +101,7 @@ type Query = {
   movieCount: Scalars['Int'];
   movieList: Array<Movie>;
   pathExists?: Maybe<Scalars['Boolean']>;
+  randomMovie: Movie;
   settings: Settings;
   setupStatus: SetupStatus;
   volumes: Array<Volume>;
@@ -192,6 +193,19 @@ type MovieListQuery = {
 type MovieCountQueryVariables = {};
 
 type MovieCountQuery = { __typename?: 'Query'; movieCount: number };
+
+type RandomMovieQueryVariables = {};
+
+type RandomMovieQuery = {
+  __typename?: 'Query';
+  randomMovie: {
+    __typename?: 'Movie';
+    id: number;
+    title: string;
+    screencaps: Array<string>;
+    coverIndex: number;
+  };
+};
 
 type SettingsQueryVariables = {};
 

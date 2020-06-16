@@ -12,8 +12,11 @@ export * from './components/table';
 export * from './components/flex';
 export * from './components/loading';
 export * from './components/video';
+export * from './components/backdrop';
 
 export * from './compositions/movieList';
 export * from './compositions/movieDetailVideo';
+export * from './compositions/movieMetadataTable';
+export * from './compositions/screencapStrip';
 
 export { ToastContainer, toast } from 'react-toastify';

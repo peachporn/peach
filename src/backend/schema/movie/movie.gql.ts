@@ -50,6 +50,7 @@ export const typeDef = gql`
     movieList(limit: Int!, skip: Int!): [Movie!]!
     movieCount: Int!
     movie(id: Int!): Movie
+    randomMovie: Movie!
   }
 
   extend type Mutation {

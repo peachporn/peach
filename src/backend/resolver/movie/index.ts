@@ -28,6 +28,18 @@ export const movieResolvers: Resolvers = {
 
       return movie ? transformMovie(movie) : undefined;
     },
+    randomMovie: async (_parent, _args, { prisma }) =>
+      prisma.movie
+        .count()
+        .then(count =>
+          prisma.movie.findMany({
+            include: { metadata: true, volume: true },
+            skip: Math.floor(Math.random() * count),
+            take: 1,
+          }),
+        )
+        .then(movies => movies[0])
+        .then(transformMovie),
   },
   Mutation: {
     createMovieFromFile: async (_parent, { input: { title, location, actors } }, { prisma }) => {

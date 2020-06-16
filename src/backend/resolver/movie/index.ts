@@ -50,5 +50,14 @@ export const movieResolvers: Resolvers = {
 
       return transformMovie(movie);
     },
+    updateMovie: async (_parent, { movieId, data }, { prisma }) =>
+      prisma.movie
+        .update({
+          where: {
+            id: movieId,
+          },
+          data,
+        })
+        .then(transformMovie),
   },
 };

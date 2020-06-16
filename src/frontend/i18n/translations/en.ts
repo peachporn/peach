@@ -32,4 +32,5 @@ export default {
   METADATA_VIDEO: 'Quality',
   METADATA_DURATION: 'Duration',
   METADATA_SIZE: 'Size',
+  COVER_FORM_SUCCESS: 'Cover image set!',
 } as const;

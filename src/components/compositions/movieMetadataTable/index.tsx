@@ -13,8 +13,16 @@ export type MovieMetadataTableProps = {
   path: string;
 };
 
+const quality = (q: Quality) =>
+  ({
+    SD: 'SD',
+    HD: '720p',
+    FullHD: '1080p',
+    UHD: '4K',
+  }[q]);
+
 const qualityString = (metadata: DisplayableMovieMetadata): string =>
-  `${metadata.quality} ${metadata.format} ${metadata.fps}${i('METADATA_FPS')}`;
+  `${quality(metadata.quality)} ${metadata.format} ${metadata.fps}${i('METADATA_FPS')}`;
 
 const durationString = (metadata: DisplayableMovieMetadata): string =>
   `${metadata.minutes} ${i('METADATA_MINUTES')} ${metadata.seconds} ${i('METADATA_SECONDS')}`;
@@ -25,7 +33,7 @@ export const MovieMetadataTable: FunctionalComponent<MovieMetadataTableProps> = 
   path,
 }) => (
   <section className="movie-metadata-table">
-    <Table>
+    <Table borders>
       <TableRow>
         <TableCell>{i('METADATA_VIDEO')}</TableCell>
         <TableCell>{qualityString(metadata)}</TableCell>

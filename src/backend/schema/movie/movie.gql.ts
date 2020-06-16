@@ -42,9 +42,17 @@ export const typeDef = gql`
     wmv
   }
 
+  input MovieUpdateInput {
+    cover: Int
+  }
+
   type Query {
     movieList(limit: Int!, skip: Int!): [Movie!]!
     movieCount: Int!
     movie(id: Int!): Movie
+  }
+
+  extend type Mutation {
+    updateMovie(movieId: Int!, data: MovieUpdateInput!): Movie
   }
 `;

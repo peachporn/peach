@@ -5,6 +5,7 @@ import { Container, Flex, Headline1, Loading, MovieDetailVideo } from '../../com
 import { BasePage } from './basePage';
 import { movieDetailQuery } from '../queries/movieDetail.gql';
 import { MovieMetadataTable } from '../../components/compositions/movieMetadataTable';
+import { ScreencapStripForm } from '../components/movieDetail/screencapStripForm';
 
 export type MovieDetailPageProps = {
   movieId: string;
@@ -34,10 +35,17 @@ export const MovieDetailPage: FunctionalComponent = () => {
         <Fragment>
           <MovieDetailVideo movie={movie} />
           <Container background="white">
-            <Headline1>{movie.title}</Headline1>
-            {!movie.metaData || !movie.volume ? null : (
-              <MovieMetadataTable metadata={movie.metaData} volume={movie.volume} path={movie.path} />
-            )}
+            <Flex column>
+              <Headline1>{movie.title}</Headline1>
+              {!movie.metaData || !movie.volume ? null : (
+                <MovieMetadataTable
+                  metadata={movie.metaData}
+                  volume={movie.volume}
+                  path={movie.path}
+                />
+              )}
+              <ScreencapStripForm movie={movie} />
+            </Flex>
           </Container>
         </Fragment>
       )}

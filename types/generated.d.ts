@@ -52,6 +52,10 @@ type MovieMetadata = {
   sizeInMB: Scalars['Int'];
 };
 
+type MovieUpdateInput = {
+  cover?: Maybe<Scalars['Int']>;
+};
+
 type Mutation = {
   __typename?: 'Mutation';
   createMovieFromFile: Movie;
@@ -60,6 +64,7 @@ type Mutation = {
   takeAllScreencaps?: Maybe<Scalars['Boolean']>;
   updateInferMovieTitle: Settings;
   updateLanguage: Settings;
+  updateMovie?: Maybe<Movie>;
   updateScreencapPath: Settings;
 };
 
@@ -77,6 +82,11 @@ type MutationUpdateInferMovieTitleArgs = {
 
 type MutationUpdateLanguageArgs = {
   language?: Maybe<Language>;
+};
+
+type MutationUpdateMovieArgs = {
+  movieId: Scalars['Int'];
+  data: MovieUpdateInput;
 };
 
 type MutationUpdateScreencapPathArgs = {
@@ -146,6 +156,8 @@ type MovieQuery = {
     title: string;
     url: string;
     path: string;
+    screencaps: Array<string>;
+    coverIndex: number;
     volume?: Maybe<{ __typename?: 'Volume'; name: string }>;
     metaData?: Maybe<{
       __typename?: 'MovieMetadata';

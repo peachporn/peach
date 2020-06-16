@@ -1,0 +1,24 @@
+.screencap-strip
+  width calc(100% + 4em)
+  height 10em
+  display grid
+  grid-template-columns repeat(5, 1fr)
+  margin-left -2em
+  margin-right -2em
+
+.screencap-strip__element
+  label
+    display block
+    cursor pointer
+
+  img
+    max-height 100%
+    max-width 100%
+
+  input
+    display none
+
+.screencap-strip__element--active
+  img
+    border-bottom 3px solid mainColor
+

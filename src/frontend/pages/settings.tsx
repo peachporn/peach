@@ -8,7 +8,7 @@ import { BasePage } from './basePage';
 
 export const SettingsPage: FunctionalComponent = () => (
   <BasePage>
-    <Container background="white" width="narrow">
+    <Container tall background="white" width="narrow">
       <Headline1>{i('SETTINGS')}</Headline1>
       <GeneralSettingsForm />
       <LibraryForm />

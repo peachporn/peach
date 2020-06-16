@@ -7,3 +7,11 @@ export const updateCoverMutation = gql`
     }
   }
 `;
+
+export const updateTitleMutation = gql`
+  mutation UpdateTitle($movieId: Int!, $title: String!) {
+    updateMovie(movieId: $movieId, data: { title: $title }) {
+      title
+    }
+  }
+`;

@@ -54,6 +54,7 @@ type MovieMetadata = {
 
 type MovieUpdateInput = {
   cover?: Maybe<Scalars['Int']>;
+  title?: Maybe<Scalars['String']>;
 };
 
 type Mutation = {

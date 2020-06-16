@@ -44,6 +44,7 @@ export const typeDef = gql`
 
   input MovieUpdateInput {
     cover: Int
+    title: String
   }
 
   type Query {

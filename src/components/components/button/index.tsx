@@ -5,8 +5,9 @@ type ButtonSize = 'default' | 'small' | 'wide';
 
 export type ButtonProps = {
   appearance?: ButtonAppearance;
+  tabIndex?: number;
   size?: ButtonSize;
-  onClick?: (event: Event) => void;
+  onClick?: EventHandler;
   type?: 'button' | 'submit';
 };
 
@@ -15,9 +16,15 @@ export const Button: FunctionComponent<ButtonProps> = ({
   size = 'default',
   onClick,
   type = 'button',
+  tabIndex,
   children,
 }) => (
-  <button type={type} className={`btn btn--${appearance} btn--${size}`} onClick={onClick}>
+  <button
+    tabIndex={tabIndex}
+    type={type}
+    className={`btn btn--${appearance} btn--${size}`}
+    onClick={onClick}
+  >
     {children}
   </button>
 );

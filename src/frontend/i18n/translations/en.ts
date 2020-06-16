@@ -23,6 +23,7 @@ export default {
   SETTINGS_FORM_SUCCESS: 'Settings updated successfully!',
   SETTINGS_FORM_ERROR: 'Error saving settings!',
   FORM_SAVE: 'Save',
+  FORM_CANCEL: 'Cancel',
   METADATA_MINUTES: 'minutes',
   METADATA_SECONDS: 'seconds',
   METADATA_FPS: 'fps',
@@ -33,5 +34,6 @@ export default {
   METADATA_DURATION: 'Duration',
   METADATA_SIZE: 'Size',
   COVER_FORM_SUCCESS: 'Cover image set!',
+  TITLE_FORM_SUCCESS: 'Title updated!',
   HOME_COVER: 'Cover from:',
 } as const;

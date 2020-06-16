@@ -26,7 +26,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
   const movie = data?.movie;
 
   return (
-    <BasePage>
+    <BasePage className="movie-detail-page">
       {loading || !movie ? (
         <Flex justify="center">
           <Loading color="white" />
@@ -35,17 +35,15 @@ export const MovieDetailPage: FunctionalComponent = () => {
         <Fragment>
           <MovieDetailVideo movie={movie} />
           <Container background="white">
-            <Flex column>
-              <Headline1>{movie.title}</Headline1>
-              {!movie.metaData || !movie.volume ? null : (
-                <MovieMetadataTable
-                  metadata={movie.metaData}
-                  volume={movie.volume}
-                  path={movie.path}
-                />
-              )}
-              <ScreencapStripForm movie={movie} />
-            </Flex>
+            <Headline1>{movie.title}</Headline1>
+            {!movie.metaData || !movie.volume ? null : (
+              <MovieMetadataTable
+                metadata={movie.metaData}
+                volume={movie.volume}
+                path={movie.path}
+              />
+            )}
+            <ScreencapStripForm movie={movie} />
           </Container>
         </Fragment>
       )}

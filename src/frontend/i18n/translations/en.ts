@@ -33,4 +33,5 @@ export default {
   METADATA_DURATION: 'Duration',
   METADATA_SIZE: 'Size',
   COVER_FORM_SUCCESS: 'Cover image set!',
+  HOME_COVER: 'Cover from:',
 } as const;

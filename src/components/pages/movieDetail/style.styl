@@ -1,0 +1,19 @@
+.movie-detail-page .container
+  display grid
+  grid-template-columns repeat(5, 1fr)
+  grid-template-areas "headline headline headline headline headline" "table table actresses actresses actresses" "screencaps screencaps screencaps screencaps screencaps"
+  grid-gap 2em
+
+  .movie-metadata-table
+    grid-area table
+    .tablecell
+      word-break break-all
+      &:first-child
+        width 30%
+
+
+  .headline
+    grid-area headline
+
+  .screencap-strip
+    grid-area screencaps

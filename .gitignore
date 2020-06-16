@@ -61,3 +61,6 @@ generated/
 
 # development database
 dev.db
+
+sync.sh
+.DS_Store

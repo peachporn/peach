@@ -28,12 +28,48 @@ model MovieMetadata {
   sizeInKB          Int
 }
 
+model Actress {
+  id                  Int @id @default(autoincrement())
+  name                String @unique
+  aliases             String @default("[]")
+
+  haircolor           String?
+  eyecolor            String?
+
+  dateOfBirth         DateTime?
+  dateOfCareerstart   DateTime?
+  dateOfRetirement    DateTime?
+  dateOfDeath         DateTime?
+
+  ethnicity           String?
+  country             String?
+  province            String?
+  city                String?
+  latitude            Float?
+  longitude           Float?
+
+  boobs               String?
+
+  piercings           String @default("[]")
+  tattoos             String @default("[]")
+
+  height              Int?
+  weight              Int?
+  measurements        String @default("[]")
+  cupsize             String?
+
+  socialMediaLinks    String?
+  officialWebsite     String?
+
+  movies              Movie[] @relation(references: [id])
+}
+
 model Movie {
   id          Int @id @default(autoincrement())
   createdAt   DateTime @default(now())
 
   title       String @unique
-  // actresses   Actress[]
+  actresses   Actress[] @relation(references: [id])
   // genres      Genre[]
   // highlights  Highlight[]
   actors      Int @default(0)

@@ -6,13 +6,85 @@ type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
 };
 
+type Actress = {
+  __typename?: 'Actress';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  aliases: Array<Scalars['String']>;
+  haircolor?: Maybe<Haircolor>;
+  eyecolor?: Maybe<Eyecolor>;
+  ethnicity?: Maybe<Ethnicity>;
+  dateOfBirth?: Maybe<Scalars['DateTime']>;
+  dateOfCareerstart?: Maybe<Scalars['DateTime']>;
+  dateOfRetirement?: Maybe<Scalars['DateTime']>;
+  dateOfDeath?: Maybe<Scalars['DateTime']>;
+  inBusiness?: Maybe<Scalars['Boolean']>;
+  country?: Maybe<Scalars['String']>;
+  province?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  location?: Maybe<GeoLocation>;
+  boobs?: Maybe<Boobs>;
+  piercings: Array<Scalars['String']>;
+  tattoos: Array<Scalars['String']>;
+  height?: Maybe<Scalars['Int']>;
+  weight?: Maybe<Scalars['Int']>;
+  measurements?: Maybe<Measurements>;
+  cupsize?: Maybe<Cupsize>;
+  socialMediaLinks?: Maybe<Array<Maybe<Scalars['String']>>>;
+  officialWebsite?: Maybe<Scalars['String']>;
+  movies: Array<Movie>;
+};
+
+type ActressCreateInput = {
+  name: Scalars['String'];
+};
+
+type Boobs = 'Natural' | 'Fake';
+
+type Cupsize =
+  | 'AA'
+  | 'A'
+  | 'B'
+  | 'C'
+  | 'D'
+  | 'DD'
+  | 'DDD'
+  | 'E'
+  | 'F'
+  | 'FF'
+  | 'G'
+  | 'H'
+  | 'I'
+  | 'J'
+  | 'K';
+
+type Ethnicity = 'Caucasian' | 'Asian' | 'Latina' | 'Ebony' | 'Native' | 'American' | 'Indian';
+
+type Eyecolor = 'Green' | 'Blue' | 'Brown' | 'Hazel' | 'Grey' | 'Other';
+
 type Format = 'mp4' | 'wmv';
+
+type GeoLocation = {
+  __typename?: 'GeoLocation';
+  latitute: Scalars['Float'];
+  longitude: Scalars['Float'];
+};
+
+type Haircolor = 'Blonde' | 'Brunette' | 'Black' | 'Red' | 'Auburn' | 'Other';
 
 type InferMovieTitle = 'FOLDER' | 'FILENAME';
 
 type Language = 'EN';
+
+type Measurements = {
+  __typename?: 'Measurements';
+  bust: Scalars['Int'];
+  waist: Scalars['Int'];
+  hips: Scalars['Int'];
+};
 
 type Movie = {
   __typename?: 'Movie';
@@ -59,6 +131,7 @@ type MovieUpdateInput = {
 
 type Mutation = {
   __typename?: 'Mutation';
+  createActress: Actress;
   createMovieFromFile: Movie;
   saveVolumes: Array<Volume>;
   scanLibrary?: Maybe<Scalars['Boolean']>;
@@ -67,6 +140,10 @@ type Mutation = {
   updateLanguage: Settings;
   updateMovie?: Maybe<Movie>;
   updateScreencapPath: Settings;
+};
+
+type MutationCreateActressArgs = {
+  actress: ActressCreateInput;
 };
 
 type MutationCreateMovieFromFileArgs = {

@@ -1,0 +1,129 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateField",
+      "model": "Actress",
+      "field": "aliases",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Actress",
+          "field": "aliases"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Actress",
+          "field": "aliases"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"[]\""
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Actress",
+      "field": "piercings",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Actress",
+          "field": "piercings"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Actress",
+          "field": "piercings"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"[]\""
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Actress",
+      "field": "tattoos",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Actress",
+          "field": "tattoos"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Actress",
+          "field": "tattoos"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"[]\""
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Actress",
+      "field": "measurements",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Actress",
+          "field": "measurements"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Actress",
+          "field": "measurements"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"[]\""
+    }
+  ]
+}

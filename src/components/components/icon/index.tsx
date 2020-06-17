@@ -2,6 +2,7 @@ import { FunctionalComponent, h } from 'preact';
 
 export type Icon =
   | 'close'
+  | 'search'
   | 'more_vert'
   | 'movie'
   | 'person_pin'

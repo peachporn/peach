@@ -36,4 +36,5 @@ export default {
   COVER_FORM_SUCCESS: 'Cover image set!',
   TITLE_FORM_SUCCESS: 'Title updated!',
   HOME_COVER: 'Cover from:',
+  ACTRESS_FORM_HEADLINE: 'Add an actress'
 } as const;

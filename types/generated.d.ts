@@ -174,6 +174,7 @@ type Quality = 'SD' | 'HD' | 'FullHD' | 'UHD';
 
 type Query = {
   __typename?: 'Query';
+  actresses: Array<Actress>;
   movie?: Maybe<Movie>;
   movieCount: Scalars['Int'];
   movieList: Array<Movie>;
@@ -182,6 +183,10 @@ type Query = {
   settings: Settings;
   setupStatus: SetupStatus;
   volumes: Array<Volume>;
+};
+
+type QueryActressesArgs = {
+  name: Scalars['String'];
 };
 
 type QueryMovieArgs = {
@@ -220,6 +225,15 @@ type Volume = {
 type VolumeInput = {
   name: Scalars['String'];
   path: Scalars['String'];
+};
+
+type FindActressQueryVariables = {
+  name: Scalars['String'];
+};
+
+type FindActressQuery = {
+  __typename?: 'Query';
+  actresses: Array<{ __typename?: 'Actress'; name: string }>;
 };
 
 type MovieQueryVariables = {

@@ -98,6 +98,9 @@ export const typeDef = gql`
   input ActressCreateInput {
     name: String!
   }
+  extend type Query {
+    actresses(name: String!): [Actress!]!
+  }
 
   extend type Mutation {
     createActress(actress: ActressCreateInput!): Actress!

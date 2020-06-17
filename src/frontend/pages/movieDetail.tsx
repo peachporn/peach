@@ -7,6 +7,7 @@ import { movieDetailQuery } from '../queries/movieDetail.gql';
 import { MovieMetadataTable } from '../../components/compositions/movieMetadataTable';
 import { ScreencapStripForm } from '../components/movieDetail/screencapStripForm';
 import { TitleForm } from '../components/movieDetail/titleForm';
+import { AddActressForm } from '../components/movieDetail/addActressForm';
 
 export type MovieDetailPageProps = {
   movieId: string;
@@ -37,6 +38,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
           <MovieDetailVideo movie={movie} />
           <Container background="white">
             <TitleForm movie={movie} />
+            <AddActressForm movie={movie} />
             <ScreencapStripForm movie={movie} />
             {!movie.metaData || !movie.volume ? null : (
               <MovieMetadataTable

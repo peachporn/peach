@@ -1,0 +1,30 @@
+.modal
+  position fixed
+  top 50%
+  left 50%
+  transform translate(-50%, -50%)
+  border-radius .5em
+  z-index 10000
+  min-height 50vh
+  min-width 50vw
+  background white
+  padding 1em
+  box-shadow 1em 0 3em rgba(0,0,0,.05)
+  animation modal-fadeUp .5s forwards swing
+
+.modal__close
+  position absolute
+  top 1em
+  right 1em
+  background transparent
+  border none
+  cursor pointer
+  bounce()
+
+@keyframes modal-fadeUp
+  from
+    opacity 0
+    transform translate(-50%, -30%)
+  to
+    opacity 1
+    transform translate(-50%, -50%)

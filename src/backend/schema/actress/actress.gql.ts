@@ -67,10 +67,10 @@ export const typeDef = gql`
     eyecolor: Eyecolor
     ethnicity: Ethnicity
 
-    dateOfBirth: DateTime
-    dateOfCareerstart: DateTime
-    dateOfRetirement: DateTime
-    dateOfDeath: DateTime
+    dateOfBirth: String
+    dateOfCareerstart: String
+    dateOfRetirement: String
+    dateOfDeath: String
 
     inBusiness: Boolean
 

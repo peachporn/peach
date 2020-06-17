@@ -6,7 +6,6 @@ type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  DateTime: any;
 };
 
 type Actress = {
@@ -17,10 +16,10 @@ type Actress = {
   haircolor?: Maybe<Haircolor>;
   eyecolor?: Maybe<Eyecolor>;
   ethnicity?: Maybe<Ethnicity>;
-  dateOfBirth?: Maybe<Scalars['DateTime']>;
-  dateOfCareerstart?: Maybe<Scalars['DateTime']>;
-  dateOfRetirement?: Maybe<Scalars['DateTime']>;
-  dateOfDeath?: Maybe<Scalars['DateTime']>;
+  dateOfBirth?: Maybe<Scalars['String']>;
+  dateOfCareerstart?: Maybe<Scalars['String']>;
+  dateOfRetirement?: Maybe<Scalars['String']>;
+  dateOfDeath?: Maybe<Scalars['String']>;
   inBusiness?: Maybe<Scalars['Boolean']>;
   country?: Maybe<Scalars['String']>;
   province?: Maybe<Scalars['String']>;
@@ -69,8 +68,8 @@ type Format = 'mp4' | 'wmv';
 
 type GeoLocation = {
   __typename?: 'GeoLocation';
-  latitute: Scalars['Float'];
-  longitude: Scalars['Float'];
+  longitude: Scalars['String'];
+  latitude: Scalars['String'];
 };
 
 type Haircolor = 'Blonde' | 'Brunette' | 'Black' | 'Red' | 'Auburn' | 'Other';

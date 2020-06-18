@@ -25,7 +25,7 @@ export const CreateActressForm: FunctionalComponent<CreateActressFormProps> = ({
       },
     }).then(({ data }) => {
       toast.success(i('ACTRESS_CREATE_SUCCESS'));
-      if (data) {
+      if (data?.createActress) {
         onSubmit(data.createActress);
       }
     });

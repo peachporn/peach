@@ -1,6 +1,6 @@
 import { ActressGetPayload, Actress as DBActress } from '@prisma/client';
-import { transformActressBase } from './actress-base';
 import { transformMovie } from './movie';
+import { fromDBActress } from '../../domain/actress/db';
 
 type ActressWithOptionalMovies = DBActress &
   Partial<
@@ -15,6 +15,6 @@ type ActressWithOptionalMovies = DBActress &
   >;
 
 export const transformActress = (actress: ActressWithOptionalMovies): Actress => ({
-  ...transformActressBase(actress),
+  ...fromDBActress(actress),
   movies: (actress.movies || []).map(transformMovie),
 });

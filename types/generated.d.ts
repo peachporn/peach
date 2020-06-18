@@ -26,8 +26,8 @@ type Actress = {
   city?: Maybe<Scalars['String']>;
   location?: Maybe<GeoLocation>;
   boobs?: Maybe<Boobs>;
-  piercings: Array<Scalars['String']>;
-  tattoos: Array<Scalars['String']>;
+  piercings?: Maybe<Scalars['String']>;
+  tattoos?: Maybe<Scalars['String']>;
   height?: Maybe<Scalars['Int']>;
   weight?: Maybe<Scalars['Int']>;
   measurements?: Maybe<Measurements>;
@@ -69,8 +69,8 @@ type Format = 'mp4' | 'wmv';
 
 type GeoLocation = {
   __typename?: 'GeoLocation';
-  longitude: Scalars['String'];
-  latitude: Scalars['String'];
+  longitude: Scalars['Float'];
+  latitude: Scalars['Float'];
 };
 
 type Haircolor = 'Blonde' | 'Brunette' | 'Black' | 'Red' | 'Auburn' | 'Other';
@@ -144,11 +144,12 @@ type MovieUpdateInput = {
 type Mutation = {
   __typename?: 'Mutation';
   addActressToMovie?: Maybe<Movie>;
-  createActress: Actress;
+  createActress?: Maybe<Actress>;
   createMovieFromFile: Movie;
   removeActressFromMovie?: Maybe<Movie>;
   saveVolumes: Array<Volume>;
   scanLibrary?: Maybe<Scalars['Boolean']>;
+  scrapeActress?: Maybe<Scalars['Boolean']>;
   takeAllScreencaps?: Maybe<Scalars['Boolean']>;
   updateInferMovieTitle: Settings;
   updateLanguage: Settings;
@@ -176,6 +177,10 @@ type MutationRemoveActressFromMovieArgs = {
 
 type MutationSaveVolumesArgs = {
   input: SaveVolumesInput;
+};
+
+type MutationScrapeActressArgs = {
+  id: Scalars['Int'];
 };
 
 type MutationUpdateInferMovieTitleArgs = {
@@ -258,7 +263,7 @@ type CreateActressMutationVariables = {
 
 type CreateActressMutation = {
   __typename?: 'Mutation';
-  createActress: { __typename?: 'Actress'; id: number; name: string };
+  createActress?: Maybe<{ __typename?: 'Actress'; id: number; name: string }>;
 };
 
 type UpdateInferMovieTitleMutationVariables = {

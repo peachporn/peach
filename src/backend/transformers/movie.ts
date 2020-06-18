@@ -1,5 +1,5 @@
 import { MovieGetPayload, MovieMetadata } from '@prisma/client';
-import { transformActressBase } from './actress-base';
+import { fromDBActress } from '../../domain/actress/db';
 
 const qualityMap: { [key: string]: Quality } = {
   SD: 'SD',
@@ -56,7 +56,7 @@ export const transformMovie = (movie: MovieWithOptionalMetadataAndVolume): Movie
   createdAt: movie.createdAt.toString(),
   title: movie.title,
   metaData: movie.metadata ? transformMetadata(movie.metadata) : undefined,
-  actresses: (movie.actresses || []).map(transformActressBase),
+  actresses: (movie.actresses || []).map(fromDBActress),
   actors: movie.actors,
   volume: movie.volume,
   screencaps: [],

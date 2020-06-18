@@ -81,8 +81,8 @@ export const typeDef = gql`
 
     boobs: Boobs
 
-    piercings: [String!]!
-    tattoos: [String!]!
+    piercings: String
+    tattoos: String
 
     height: Int
     weight: Int
@@ -104,6 +104,7 @@ export const typeDef = gql`
   }
 
   extend type Mutation {
-    createActress(actress: ActressCreateInput!): Actress!
+    createActress(actress: ActressCreateInput!): Actress
+    scrapeActress(id: Int!): Boolean
   }
 `;

@@ -50,8 +50,8 @@ model Actress {
 
   boobs               String?
 
-  piercings           String @default("[]")
-  tattoos             String @default("[]")
+  piercings           String?
+  tattoos             String?
 
   height              Int?
   weight              Int?

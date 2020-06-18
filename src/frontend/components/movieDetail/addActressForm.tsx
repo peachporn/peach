@@ -19,6 +19,7 @@ import {
 } from '../../mutations/updateMovie.gql';
 import { NoResult } from '../../../components/components/noResult';
 import { Icon } from '../../../components/components/icon';
+import { CreateActressForm } from './createActressForm';
 
 export type AddActressFormProps = {
   movieId: Movie['id'];
@@ -69,22 +70,22 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
 
   const { dirty } = formState;
 
-  const addActressSubmit = (formData: AddActressFormData) => {
-    if (!formData.id) {
-      return Promise.resolve();
-    }
-
-    return addActress({
-      variables: { movieId, actressId: parseInt(`${formData.id}`, 10) },
-    }).then(result => {
-      toast.success(i('ACTRESS_ADD_SUCCESS'));
-      setFormVisible(false);
-      setActrs(result.data?.addActressToMovie?.actresses || []);
-      reset({
-        id: null,
-      });
+  const resetForm = () => {
+    setFormVisible(false);
+    setName('');
+    reset({
+      id: null,
     });
   };
+
+  const addActressSubmit = (actressId: number) =>
+    addActress({
+      variables: { movieId, actressId },
+    }).then(result => {
+      toast.success(i('ACTRESS_ADD_SUCCESS'));
+      resetForm();
+      setActrs(result.data?.addActressToMovie?.actresses || []);
+    });
 
   const removeActressSubmit = (actressId: number) =>
     removeActress({
@@ -137,8 +138,13 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
         />
         {loading ? (
           <Loading color="peach" />
-        ) : !fetchedActressesWithoutExisting.length && name.trim() !== '' ? (
-          <NoResult message={i('ACTRESS_FORM_NORESULT')} />
+        ) : !fetchedActressesWithoutExisting.length && name.trim() ? (
+          <NoResult
+            message={i('ACTRESS_FORM_NORESULT')}
+            interactionSlot={
+              <CreateActressForm name={name} onSubmit={({ id }) => addActressSubmit(id)} />
+            }
+          />
         ) : (
           <Fragment>
             <ActressCardList>
@@ -154,7 +160,16 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
               ))}
             </ActressCardList>
             {!dirty ? null : (
-              <Button onClick={handleSubmit(addActressSubmit)}>{i('FORM_SAVE')}</Button>
+              <Button
+                onClick={handleSubmit((formData: AddActressFormData) => {
+                  if (!formData.id) {
+                    return Promise.resolve();
+                  }
+                  return addActressSubmit(parseInt(`${formData.id}`, 10));
+                })}
+              >
+                {i('FORM_SAVE')}
+              </Button>
             )}
             <input type="hidden" ref={register} name="id" />
           </Fragment>

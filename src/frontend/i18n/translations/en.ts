@@ -40,4 +40,6 @@ export default {
   ACTRESS_ADD_SUCCESS: 'Actress added successfully!',
   ACTRESS_REMOVE_SUCCESS: 'Actress removed successfully!',
   ACTRESS_FORM_NORESULT: 'No actress found!',
+  ACTRESS_CREATE_BUTTON: 'Create her!',
+  ACTRESS_CREATE_SUCCESS: 'Actress created successfully!',
 } as const;

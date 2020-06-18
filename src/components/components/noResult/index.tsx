@@ -1,9 +1,13 @@
-import { FunctionalComponent, h } from 'preact';
+import { FunctionalComponent, h, VNode } from 'preact';
 
 type NoResultProps = {
   message: string;
+  interactionSlot?: VNode;
 };
 
-export const NoResult: FunctionalComponent<NoResultProps> = ({ message }) => (
-  <span className="no-result">{message}</span>
+export const NoResult: FunctionalComponent<NoResultProps> = ({ message, interactionSlot }) => (
+  <div className="no-result">
+    {message}
+    <div className="no-result__interaction">{interactionSlot}</div>
+  </div>
 );

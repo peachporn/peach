@@ -252,6 +252,33 @@ type VolumeInput = {
   path: Scalars['String'];
 };
 
+type CreateActressMutationVariables = {
+  name: Scalars['String'];
+};
+
+type CreateActressMutation = {
+  __typename?: 'Mutation';
+  createActress: { __typename?: 'Actress'; id: number; name: string };
+};
+
+type UpdateInferMovieTitleMutationVariables = {
+  inferMovieTitle?: Maybe<InferMovieTitle>;
+};
+
+type UpdateInferMovieTitleMutation = {
+  __typename?: 'Mutation';
+  updateInferMovieTitle: { __typename?: 'Settings'; inferMovieTitle: InferMovieTitle };
+};
+
+type UpdateScreencapPathMutationVariables = {
+  screencapPath: Scalars['String'];
+};
+
+type UpdateScreencapPathMutation = {
+  __typename?: 'Mutation';
+  updateScreencapPath: { __typename?: 'Settings'; screencapPath: string };
+};
+
 type SaveVolumesMutationVariables = {
   input: SaveVolumesInput;
 };
@@ -322,24 +349,6 @@ type UpdateLanguageMutationVariables = {
 type UpdateLanguageMutation = {
   __typename?: 'Mutation';
   updateLanguage: { __typename?: 'Settings'; language: Language };
-};
-
-type UpdateInferMovieTitleMutationVariables = {
-  inferMovieTitle?: Maybe<InferMovieTitle>;
-};
-
-type UpdateInferMovieTitleMutation = {
-  __typename?: 'Mutation';
-  updateInferMovieTitle: { __typename?: 'Settings'; inferMovieTitle: InferMovieTitle };
-};
-
-type UpdateScreencapPathMutationVariables = {
-  screencapPath: Scalars['String'];
-};
-
-type UpdateScreencapPathMutation = {
-  __typename?: 'Mutation';
-  updateScreencapPath: { __typename?: 'Settings'; screencapPath: string };
 };
 
 type FindActressQueryVariables = {

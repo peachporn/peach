@@ -36,6 +36,7 @@
     "@graphql-tools/schema": "^6.0.5",
     "@prisma/cli": "^2.0.0",
     "@prisma/client": "^2.0.0",
+    "@seznam/compose-react-refs": "^1.0.4",
     "apollo-boost": "^0.4.9",
     "apollo-server": "^2.14.1",
     "apollo-server-core": "^2.14.3",

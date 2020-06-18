@@ -7,7 +7,7 @@ export type ButtonProps = {
   appearance?: ButtonAppearance;
   tabIndex?: number;
   size?: ButtonSize;
-  onClick?: EventHandler;
+  onClick?: OnEvent;
   type?: 'button' | 'submit';
 };
 

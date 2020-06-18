@@ -24,7 +24,9 @@ export const ScreencapStripForm: FunctionalComponent<ScreencapStripFormProps> = 
     },
   );
 
-  const [saveCover] = useMutation<MutationUpdateMovieArgs>(updateCoverMutation);
+  const [saveCover] = useMutation<UpdateCoverMutation, UpdateCoverMutationVariables>(
+    updateCoverMutation,
+  );
 
   const onSubmit = (data: ScreencapFormData) => {
     if (!formState.dirty) {

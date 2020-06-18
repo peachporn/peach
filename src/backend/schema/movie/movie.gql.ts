@@ -1,12 +1,22 @@
 import { gql } from 'apollo-server';
 
 export const typeDef = gql`
+  type MovieListMovie {
+    id: Int!
+    createdAt: String!
+    title: String!
+    url: String!
+    fresh: Boolean!
+    screencaps: [String!]!
+    coverIndex: Int!
+  }
+
   type Movie {
     id: Int!
     createdAt: String!
     title: String!
     url: String!
-    # actresses   Actress[]
+    actresses: [Actress!]!
     # genres      Genre[]
     # highlights  Highlight[]
     # website     Website
@@ -48,7 +58,7 @@ export const typeDef = gql`
   }
 
   type Query {
-    movieList(limit: Int!, skip: Int!): [Movie!]!
+    movieList(limit: Int!, skip: Int!): [MovieListMovie!]!
     movieCount: Int!
     movie(id: Int!): Movie
     randomMovie: Movie!
@@ -56,5 +66,7 @@ export const typeDef = gql`
 
   extend type Mutation {
     updateMovie(movieId: Int!, data: MovieUpdateInput!): Movie
+    addActressToMovie(movieId: Int!, actressId: Int!): Movie
+    removeActressFromMovie(movieId: Int!, actressId: Int!): Movie
   }
 `;

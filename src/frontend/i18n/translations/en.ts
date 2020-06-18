@@ -36,5 +36,8 @@ export default {
   COVER_FORM_SUCCESS: 'Cover image set!',
   TITLE_FORM_SUCCESS: 'Title updated!',
   HOME_COVER: 'Cover from:',
-  ACTRESS_FORM_HEADLINE: 'Add an actress'
+  ACTRESS_FORM_HEADLINE: 'Add an actress',
+  ACTRESS_ADD_SUCCESS: 'Actress added successfully!',
+  ACTRESS_REMOVE_SUCCESS: 'Actress removed successfully!',
+  ACTRESS_FORM_NORESULT: 'No actress found!',
 } as const;

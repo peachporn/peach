@@ -1,6 +1,7 @@
 overwrite: true
 schema: 'src/backend/schema/**/*.gql.ts'
 documents:
+  - 'src/frontend/mutations/**/*.gql.ts'
   - 'src/frontend/queries/**/*.gql.ts'
   - 'src/frontend/fragments/**/*.gql.ts'
 hooks:

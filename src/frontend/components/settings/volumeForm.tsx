@@ -17,7 +17,9 @@ type VolumeFormData = {
 export const VolumeForm: FunctionalComponent = () => {
   const { volumes } = useContext(SettingsContext);
 
-  const [saveVolumes] = useMutation<MutationSaveVolumesArgs>(saveVolumesMutation);
+  const [saveVolumes] = useMutation<SaveVolumesMutation, SaveVolumesMutationVariables>(
+    saveVolumesMutation,
+  );
   const {
     formState: { touched },
     control,

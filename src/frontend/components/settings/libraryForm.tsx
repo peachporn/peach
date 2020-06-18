@@ -47,12 +47,17 @@ export const LibraryForm: FunctionalComponent = () => {
 
   const [takeAllScreencaps] = useMutation(takeAllScreencapsMutation);
   const [scanLibrary] = useMutation(scanLibraryMutation);
-  const [updateInferMovieTitle] = useMutation<MutationUpdateInferMovieTitleArgs>(
-    updateInferMovieTitleMutation,
-  );
-  const [updateScreencapPath] = useMutation<MutationUpdateScreencapPathArgs>(
-    updateScreencapPathMutation,
-  );
+
+  const [updateInferMovieTitle] = useMutation<
+    UpdateInferMovieTitleMutation,
+    UpdateInferMovieTitleMutationVariables
+  >(updateInferMovieTitleMutation);
+
+  const [updateScreencapPath] = useMutation<
+    UpdateScreencapPathMutation,
+    UpdateScreencapPathMutationVariables
+  >(updateScreencapPathMutation);
+
   const {
     formState: { touched },
     reset,

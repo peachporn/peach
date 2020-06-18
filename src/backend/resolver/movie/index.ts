@@ -1,4 +1,4 @@
-import { transformMovie } from '../../transformers/movie';
+import { transformMovie, transformMovieListMovie } from '../../transformers/movie';
 import { Resolvers } from '../../generated/resolver-types';
 import { getScreencapPath } from '../../../domain/settings';
 import { movieScreencaps } from '../../../domain/screencaps';
@@ -19,11 +19,11 @@ export const movieResolvers: Resolvers = {
         .findMany({
           skip,
         })
-        .then(movies => movies.map(transformMovie)),
+        .then(movies => movies.map(transformMovieListMovie)),
     movie: async (_parent, { id }, { prisma }) => {
       const movie = await prisma.movie.findOne({
         where: { id },
-        include: { metadata: true, volume: true },
+        include: { metadata: true, volume: true, actresses: true },
       });
 
       return movie ? transformMovie(movie) : undefined;
@@ -69,6 +69,42 @@ export const movieResolvers: Resolvers = {
             id: movieId,
           },
           data,
+        })
+        .then(transformMovie),
+    addActressToMovie: async (_parent, { movieId, actressId }, { prisma }) =>
+      prisma.movie
+        .update({
+          where: {
+            id: movieId,
+          },
+          include: {
+            actresses: true,
+          },
+          data: {
+            actresses: {
+              connect: {
+                id: actressId,
+              },
+            },
+          },
+        })
+        .then(transformMovie),
+    removeActressFromMovie: async (_parent, { movieId, actressId }, { prisma }) =>
+      prisma.movie
+        .update({
+          where: {
+            id: movieId,
+          },
+          include: {
+            actresses: true,
+          },
+          data: {
+            actresses: {
+              disconnect: {
+                id: actressId,
+              },
+            },
+          },
         })
         .then(transformMovie),
   },

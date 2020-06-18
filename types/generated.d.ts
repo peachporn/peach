@@ -34,7 +34,8 @@ type Actress = {
   cupsize?: Maybe<Cupsize>;
   socialMediaLinks?: Maybe<Array<Maybe<Scalars['String']>>>;
   officialWebsite?: Maybe<Scalars['String']>;
-  movies: Array<Movie>;
+  picture?: Maybe<Scalars['String']>;
+  movies?: Maybe<Array<Movie>>;
 };
 
 type ActressCreateInput = {
@@ -91,6 +92,7 @@ type Movie = {
   createdAt: Scalars['String'];
   title: Scalars['String'];
   url: Scalars['String'];
+  actresses: Array<Actress>;
   metaData?: Maybe<MovieMetadata>;
   actors: Scalars['Int'];
   fresh: Scalars['Boolean'];
@@ -104,6 +106,17 @@ type MovieFromFileInput = {
   title: Scalars['String'];
   location: MovieLocation;
   actors?: Maybe<Scalars['Int']>;
+};
+
+type MovieListMovie = {
+  __typename?: 'MovieListMovie';
+  id: Scalars['Int'];
+  createdAt: Scalars['String'];
+  title: Scalars['String'];
+  url: Scalars['String'];
+  fresh: Scalars['Boolean'];
+  screencaps: Array<Scalars['String']>;
+  coverIndex: Scalars['Int'];
 };
 
 type MovieLocation = {
@@ -130,8 +143,10 @@ type MovieUpdateInput = {
 
 type Mutation = {
   __typename?: 'Mutation';
+  addActressToMovie?: Maybe<Movie>;
   createActress: Actress;
   createMovieFromFile: Movie;
+  removeActressFromMovie?: Maybe<Movie>;
   saveVolumes: Array<Volume>;
   scanLibrary?: Maybe<Scalars['Boolean']>;
   takeAllScreencaps?: Maybe<Scalars['Boolean']>;
@@ -141,12 +156,22 @@ type Mutation = {
   updateScreencapPath: Settings;
 };
 
+type MutationAddActressToMovieArgs = {
+  movieId: Scalars['Int'];
+  actressId: Scalars['Int'];
+};
+
 type MutationCreateActressArgs = {
   actress: ActressCreateInput;
 };
 
 type MutationCreateMovieFromFileArgs = {
   input: MovieFromFileInput;
+};
+
+type MutationRemoveActressFromMovieArgs = {
+  movieId: Scalars['Int'];
+  actressId: Scalars['Int'];
 };
 
 type MutationSaveVolumesArgs = {
@@ -177,7 +202,7 @@ type Query = {
   actresses: Array<Actress>;
   movie?: Maybe<Movie>;
   movieCount: Scalars['Int'];
-  movieList: Array<Movie>;
+  movieList: Array<MovieListMovie>;
   pathExists?: Maybe<Scalars['Boolean']>;
   randomMovie: Movie;
   settings: Settings;
@@ -227,13 +252,103 @@ type VolumeInput = {
   path: Scalars['String'];
 };
 
+type SaveVolumesMutationVariables = {
+  input: SaveVolumesInput;
+};
+
+type SaveVolumesMutation = {
+  __typename?: 'Mutation';
+  saveVolumes: Array<{ __typename?: 'Volume'; name: string; path: string }>;
+};
+
+type ScanLibraryMutationVariables = {};
+
+type ScanLibraryMutation = { __typename?: 'Mutation'; scanLibrary?: Maybe<boolean> };
+
+type TakeAllScreencapsMutationVariables = {};
+
+type TakeAllScreencapsMutation = { __typename?: 'Mutation'; takeAllScreencaps?: Maybe<boolean> };
+
+type UpdateCoverMutationVariables = {
+  movieId: Scalars['Int'];
+  cover: Scalars['Int'];
+};
+
+type UpdateCoverMutation = {
+  __typename?: 'Mutation';
+  updateMovie?: Maybe<{ __typename?: 'Movie'; coverIndex: number }>;
+};
+
+type UpdateTitleMutationVariables = {
+  movieId: Scalars['Int'];
+  title: Scalars['String'];
+};
+
+type UpdateTitleMutation = {
+  __typename?: 'Mutation';
+  updateMovie?: Maybe<{ __typename?: 'Movie'; title: string }>;
+};
+
+type AddActressToMovieMutationVariables = {
+  movieId: Scalars['Int'];
+  actressId: Scalars['Int'];
+};
+
+type AddActressToMovieMutation = {
+  __typename?: 'Mutation';
+  addActressToMovie?: Maybe<{
+    __typename?: 'Movie';
+    actresses: Array<{ __typename?: 'Actress'; id: number; name: string }>;
+  }>;
+};
+
+type RemoveActressFromMovieMutationVariables = {
+  movieId: Scalars['Int'];
+  actressId: Scalars['Int'];
+};
+
+type RemoveActressFromMovieMutation = {
+  __typename?: 'Mutation';
+  removeActressFromMovie?: Maybe<{
+    __typename?: 'Movie';
+    actresses: Array<{ __typename?: 'Actress'; id: number; name: string }>;
+  }>;
+};
+
+type UpdateLanguageMutationVariables = {
+  language?: Maybe<Language>;
+};
+
+type UpdateLanguageMutation = {
+  __typename?: 'Mutation';
+  updateLanguage: { __typename?: 'Settings'; language: Language };
+};
+
+type UpdateInferMovieTitleMutationVariables = {
+  inferMovieTitle?: Maybe<InferMovieTitle>;
+};
+
+type UpdateInferMovieTitleMutation = {
+  __typename?: 'Mutation';
+  updateInferMovieTitle: { __typename?: 'Settings'; inferMovieTitle: InferMovieTitle };
+};
+
+type UpdateScreencapPathMutationVariables = {
+  screencapPath: Scalars['String'];
+};
+
+type UpdateScreencapPathMutation = {
+  __typename?: 'Mutation';
+  updateScreencapPath: { __typename?: 'Settings'; screencapPath: string };
+};
+
 type FindActressQueryVariables = {
   name: Scalars['String'];
 };
 
 type FindActressQuery = {
   __typename?: 'Query';
-  actresses: Array<{ __typename?: 'Actress'; name: string }>;
+  actresses: Array<{ __typename?: 'Actress'; id: number; name: string }>;
 };
 
 type MovieQueryVariables = {
@@ -251,6 +366,7 @@ type MovieQuery = {
     screencaps: Array<string>;
     coverIndex: number;
     volume?: Maybe<{ __typename?: 'Volume'; name: string }>;
+    actresses: Array<{ __typename?: 'Actress'; id: number; name: string }>;
     metaData?: Maybe<{
       __typename?: 'MovieMetadata';
       durationSeconds: number;
@@ -272,7 +388,7 @@ type MovieListQueryVariables = {
 type MovieListQuery = {
   __typename?: 'Query';
   movieList: Array<{
-    __typename?: 'Movie';
+    __typename?: 'MovieListMovie';
     id: number;
     title: string;
     fresh: boolean;

@@ -16,7 +16,9 @@ type GeneralSettingsFormData = {
 export const GeneralSettingsForm: FunctionalComponent = () => {
   const { language } = useContext(SettingsContext);
 
-  const [updateLanguage] = useMutation<MutationUpdateLanguageArgs>(updateLanguageMutation);
+  const [updateLanguage] = useMutation<UpdateLanguageMutation, UpdateLanguageMutationVariables>(
+    updateLanguageMutation,
+  );
   const {
     formState: { touched },
     register,

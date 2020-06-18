@@ -1,4 +1,5 @@
 import { ActressGetPayload, Actress as DBActress } from '@prisma/client';
+import { transformActressBase } from './actress-base';
 import { transformMovie } from './movie';
 
 type ActressWithOptionalMovies = DBActress &
@@ -14,11 +15,6 @@ type ActressWithOptionalMovies = DBActress &
   >;
 
 export const transformActress = (actress: ActressWithOptionalMovies): Actress => ({
-  id: actress.id,
-  name: actress.name,
-  aliases: actress.aliases ? JSON.parse(actress.aliases) : [],
-  piercings: actress.piercings ? JSON.parse(actress.piercings) : [],
-  measurements: JSON.parse(actress.measurements),
-  tattoos: actress.tattoos ? JSON.parse(actress.tattoos) : [],
+  ...transformActressBase(actress),
   movies: (actress.movies || []).map(transformMovie),
 });

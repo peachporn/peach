@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from 'preact';
 
 export type BubbleButtonProps = {
   label: string;
-  onClick: EventHandler;
+  onClick: OnEvent;
 };
 
 export const BubbleButton: FunctionalComponent<BubbleButtonProps> = ({ label, onClick }) => (

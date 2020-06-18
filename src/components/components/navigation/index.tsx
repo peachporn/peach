@@ -36,9 +36,9 @@ export const Navigation: FunctionalComponent<NavigationProps> = ({ links }) => {
       className={`navigation ${expanded ? 'navigation--expanded' : ''}`}
     >
       {expanded ? (
-        <Icon className="navigation__dots" icon="close" onTouchStart={protract} />
+        <Icon className="navigation__dots" icon="close" onClick={protract} />
       ) : (
-        <Icon className="navigation__dots" icon="more_vert" onTouchStart={expand} />
+        <Icon className="navigation__dots" icon="more_vert" onClick={expand} />
       )}
       <Link className="navigation__logo-container" to="/">
         <Logo className="navigation__logo" />

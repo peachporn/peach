@@ -12,6 +12,10 @@ export const movieDetailQuery = gql`
       volume {
         name
       }
+      actresses {
+        id
+        name
+      }
       metaData {
         durationSeconds
         sizeInMB

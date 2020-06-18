@@ -1,4 +1,5 @@
 import { MovieGetPayload, MovieMetadata } from '@prisma/client';
+import { transformActressBase } from './actress-base';
 
 const qualityMap: { [key: string]: Quality } = {
   SD: 'SD',
@@ -16,10 +17,13 @@ type MovieWithOptionalMetadataAndVolume = Omit<
   MovieGetPayload<{
     include: { metadata: true; volume: true };
   }>,
-  'metadata' | 'volume'
+  'metadata' | 'volume' | 'actresses'
 > &
   Partial<
-    Pick<MovieGetPayload<{ include: { metadata: true; volume: true } }>, 'metadata' | 'volume'>
+    Pick<
+      MovieGetPayload<{ include: { metadata: true; volume: true; actresses: true } }>,
+      'metadata' | 'volume' | 'actresses'
+    >
   >;
 
 const transformMetadata = (metadata: MovieMetadata): Movie['metaData'] =>
@@ -36,12 +40,23 @@ const transformMetadata = (metadata: MovieMetadata): Movie['metaData'] =>
         sizeInMB: Math.floor(metadata.sizeInKB / 1000),
       };
 
+export const transformMovieListMovie = (movie: MovieGetPayload<{}>): MovieListMovie => ({
+  id: movie.id,
+  url: '',
+  createdAt: movie.createdAt.toString(),
+  title: movie.title,
+  screencaps: [],
+  coverIndex: movie.cover,
+  fresh: true,
+});
+
 export const transformMovie = (movie: MovieWithOptionalMetadataAndVolume): Movie => ({
   id: movie.id,
   url: '',
   createdAt: movie.createdAt.toString(),
   title: movie.title,
   metaData: movie.metadata ? transformMetadata(movie.metadata) : undefined,
+  actresses: (movie.actresses || []).map(transformActressBase),
   actors: movie.actors,
   volume: movie.volume,
   screencaps: [],

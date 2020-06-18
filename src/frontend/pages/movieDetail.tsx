@@ -38,7 +38,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
           <MovieDetailVideo movie={movie} />
           <Container background="white">
             <TitleForm movie={movie} />
-            <AddActressForm movie={movie} />
+            <AddActressForm movieId={movie.id} actresses={movie.actresses} />
             <ScreencapStripForm movie={movie} />
             {!movie.metaData || !movie.volume ? null : (
               <MovieMetadataTable

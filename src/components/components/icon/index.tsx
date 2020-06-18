@@ -14,11 +14,11 @@ export type Icon =
 export type IconProps = {
   icon: Icon;
   className?: string;
-  onTouchStart?: (e: Event) => void;
+  onClick?: (e: Event) => void;
 };
 
-export const Icon: FunctionalComponent<IconProps> = ({ className, icon, onTouchStart }) => (
-  <i className={`material-icons ${className}`} onTouchStart={onTouchStart}>
+export const Icon: FunctionalComponent<IconProps> = ({ className, icon, onClick }) => (
+  <i tabIndex={0} role="button" className={`material-icons ${className}`} onClick={onClick}>
     {icon}
   </i>
 );

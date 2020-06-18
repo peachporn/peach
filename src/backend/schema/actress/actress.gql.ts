@@ -92,7 +92,8 @@ export const typeDef = gql`
     socialMediaLinks: [String]
     officialWebsite: String
 
-    movies: [Movie!]!
+    picture: String
+    movies: [Movie!]
   }
 
   input ActressCreateInput {

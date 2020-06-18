@@ -15,3 +15,25 @@ export const updateTitleMutation = gql`
     }
   }
 `;
+
+export const addActressToMovieMutation = gql`
+  mutation AddActressToMovie($movieId: Int!, $actressId: Int!) {
+    addActressToMovie(movieId: $movieId, actressId: $actressId) {
+      actresses {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const removeActressFromMovieMutation = gql`
+  mutation RemoveActressFromMovie($movieId: Int!, $actressId: Int!) {
+    removeActressFromMovie(movieId: $movieId, actressId: $actressId) {
+      actresses {
+        id
+        name
+      }
+    }
+  }
+`;

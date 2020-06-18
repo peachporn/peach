@@ -27,7 +27,9 @@ export const TitleForm: FunctionalComponent<TitleFormProps> = ({ movie }) => {
     },
   });
 
-  const [saveTitle] = useMutation<MutationUpdateMovieArgs>(updateTitleMutation);
+  const [saveTitle] = useMutation<UpdateTitleMutation, UpdateTitleMutationVariables>(
+    updateTitleMutation,
+  );
 
   const onSubmit = (data: TitleFormData) => {
     saveTitle({

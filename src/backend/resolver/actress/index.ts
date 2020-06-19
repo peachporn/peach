@@ -2,6 +2,7 @@ import { Resolvers } from '../../generated/resolver-types';
 import { transformActress } from '../../transformers/actress';
 import { scrapeActress } from '../../../tasks/actress-data';
 import { isInBusiness } from '../../../domain/actress/date';
+import { applyFilter } from './filter';
 
 export const actressResolvers: Resolvers = {
   Actress: {
@@ -9,19 +10,15 @@ export const actressResolvers: Resolvers = {
     picture: parent => `/assets/actress/${parent.id}.jpg`,
   },
   Query: {
-    actresses: async (_parent, { name }, { prisma }) =>
-      !name
-        ? []
-        : prisma.actress
-            .findMany({
-              take: 8,
-              where: {
-                name: {
-                  contains: name,
-                },
-              },
-            })
-            .then(actresses => actresses.map(transformActress)),
+    actressesCount: async (_parent, { filter }, { prisma }) =>
+      prisma.actress.count(applyFilter(filter)),
+    actresses: async (_parent, { filter, limit }, { prisma }) =>
+      prisma.actress
+        .findMany({
+          take: limit || 30,
+          ...applyFilter(filter),
+        })
+        .then(actresses => actresses.map(transformActress)),
   },
   Mutation: {
     createActress: async (_parent, { actress: { name } }, { prisma }) => {

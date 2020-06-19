@@ -58,7 +58,7 @@ export const typeDef = gql`
   }
 
   type Query {
-    movieList(limit: Int!, skip: Int!): [MovieListMovie!]!
+    movies(limit: Int, skip: Int): [MovieListMovie!]!
     movieCount: Int!
     movie(id: Int!): Movie
     randomMovie: Movie!

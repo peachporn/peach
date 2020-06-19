@@ -41,7 +41,7 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
 
   const [name, setName] = useState('');
 
-  const { data, loading } = useQuery<FindActressQuery, FindActressQueryVariables>(
+  const { data, loading, error } = useQuery<FindActressQuery, FindActressQueryVariables>(
     findActressQuery,
     {
       skip: name.length < 3,
@@ -50,7 +50,7 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
       },
     },
   );
-  console.log(data);
+
   const [actrs, setActrs] = useState<ActressCardActress[]>(actresses);
 
   const [addActress] = useMutation<AddActressToMovieMutation, AddActressToMovieMutationVariables>(

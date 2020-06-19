@@ -1,23 +1,24 @@
 import { transformMovie, transformMovieListMovie } from '../../transformers/movie';
 import { Resolvers } from '../../generated/resolver-types';
 import { getScreencapPath } from '../../../domain/settings';
-import { movieScreencaps } from '../../../domain/screencaps';
 import { moviePathForId } from '../../../domain/movie';
+import { resolveScreencaps } from './screencaps';
 
 export const movieResolvers: Resolvers = {
+  MovieListMovie: {
+    screencaps: resolveScreencaps,
+  },
   Movie: {
-    screencaps: parent =>
-      movieScreencaps(parent.id).then(files =>
-        files.map(file => `/assets/screencaps/${parent.id}/${file}`),
-      ),
+    screencaps: resolveScreencaps,
     url: parent => `/assets/movie/${parent.id}`,
   },
   Query: {
     movieCount: (_parent, _args, { prisma }) => prisma.movie.count(),
-    movieList: (_parent, { skip }, { prisma }) =>
+    movies: (_parent, { limit, skip }, { prisma }) =>
       prisma.movie
         .findMany({
-          skip,
+          skip: skip || 0,
+          take: limit || 30,
         })
         .then(movies => movies.map(transformMovieListMovie)),
     movie: async (_parent, { id }, { prisma }) => {

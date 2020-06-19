@@ -9,7 +9,7 @@ import { movieDetailRoute } from '../utils/route';
 
 const pageLength = 30;
 
-const transformMovie = (movie: MovieListQuery['movieList'][number]): MovieListMovie => ({
+const transformMovie = (movie: MovieListQuery['movies'][number]): MovieListMovie => ({
   title: movie.title,
   link: movieDetailRoute(movie.id),
   fresh: movie.fresh,
@@ -43,7 +43,7 @@ export const MoviesPage: FunctionalComponent = () => {
           <Loading color="white" />
         </Flex>
       ) : (
-        <MovieList movies={data?.movieList.map(transformMovie) || []} />
+        <MovieList movies={(data?.movies || []).map(transformMovie)} />
       )}
     </BasePage>
   );

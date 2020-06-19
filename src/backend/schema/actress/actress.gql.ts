@@ -99,8 +99,13 @@ export const typeDef = gql`
   input ActressCreateInput {
     name: String!
   }
+
+  input ActressFilter {
+    name: String
+  }
   extend type Query {
-    actresses(name: String!): [Actress!]!
+    actresses(filter: ActressFilter, limit: Int, skip: Int): [Actress!]!
+    actressesCount(filter: ActressFilter): Int!
   }
 
   extend type Mutation {

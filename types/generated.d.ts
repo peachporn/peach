@@ -42,6 +42,10 @@ type ActressCreateInput = {
   name: Scalars['String'];
 };
 
+type ActressFilter = {
+  name?: Maybe<Scalars['String']>;
+};
+
 type Boobs = 'Natural' | 'Fake';
 
 type Cupsize =
@@ -210,9 +214,10 @@ type Quality = 'SD' | 'HD' | 'FullHD' | 'UHD';
 type Query = {
   __typename?: 'Query';
   actresses: Array<Actress>;
+  actressesCount: Scalars['Int'];
   movie?: Maybe<Movie>;
   movieCount: Scalars['Int'];
-  movieList: Array<MovieListMovie>;
+  movies: Array<MovieListMovie>;
   pathExists?: Maybe<Scalars['Boolean']>;
   randomMovie: Movie;
   settings: Settings;
@@ -221,14 +226,20 @@ type Query = {
 };
 
 type QueryActressesArgs = {
-  name: Scalars['String'];
+  filter?: Maybe<ActressFilter>;
+  limit?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+};
+
+type QueryActressesCountArgs = {
+  filter?: Maybe<ActressFilter>;
 };
 
 type QueryMovieArgs = {
   id: Scalars['Int'];
 };
 
-type QueryMovieListArgs = {
+type QueryMoviesArgs = {
   limit: Scalars['Int'];
   skip: Scalars['Int'];
 };
@@ -371,6 +382,20 @@ type UpdateActressImagePathMutation = {
   updateActressImagePath: { __typename?: 'Settings'; actressImagePath?: Maybe<string> };
 };
 
+type ActressesListQueryVariables = {
+  limit: Scalars['Int'];
+  skip: Scalars['Int'];
+};
+
+type ActressesListQuery = {
+  __typename?: 'Query';
+  actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
+};
+
+type ActressesCountQueryVariables = {};
+
+type ActressesCountQuery = { __typename?: 'Query'; actressesCount: number };
+
 type FindActressQueryVariables = {
   name: Scalars['String'];
 };
@@ -416,7 +441,7 @@ type MovieListQueryVariables = {
 
 type MovieListQuery = {
   __typename?: 'Query';
-  movieList: Array<{
+  movies: Array<{
     __typename?: 'MovieListMovie';
     id: number;
     title: string;

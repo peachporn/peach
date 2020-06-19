@@ -2,7 +2,7 @@ import { gql } from 'apollo-boost';
 
 export const movieListQuery = gql`
   query movieList($limit: Int!, $skip: Int!) {
-    movieList(limit: $limit, skip: $skip) {
+    movies(limit: $limit, skip: $skip) {
       id
       title
       fresh

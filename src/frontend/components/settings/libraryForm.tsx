@@ -17,6 +17,7 @@ import {
 } from '../../../components';
 import { i } from '../../i18n/i18n';
 import {
+  updateActressImagePathMutation,
   updateInferMovieTitleMutation,
   updateScreencapPathMutation,
 } from '../../mutations/updateSettings.gql';
@@ -29,6 +30,7 @@ import { takeAllScreencapsMutation } from '../../mutations/takeScreencaps.gql';
 type LibraryFormData = {
   inferMovieTitle: InferMovieTitle;
   screencapPath: string;
+  actressImagePath: string;
 };
 
 const validateExistingPath = (client: ApolloClient<object>) => (value: string) =>
@@ -43,7 +45,7 @@ const validateExistingPath = (client: ApolloClient<object>) => (value: string) =
 
 export const LibraryForm: FunctionalComponent = () => {
   const client = useApolloClient();
-  const { inferMovieTitle, screencapPath } = useContext(SettingsContext);
+  const { inferMovieTitle, actressImagePath, screencapPath } = useContext(SettingsContext);
 
   const [takeAllScreencaps] = useMutation(takeAllScreencapsMutation);
   const [scanLibrary] = useMutation(scanLibraryMutation);
@@ -52,6 +54,11 @@ export const LibraryForm: FunctionalComponent = () => {
     UpdateInferMovieTitleMutation,
     UpdateInferMovieTitleMutationVariables
   >(updateInferMovieTitleMutation);
+
+  const [updateActressImagePath] = useMutation<
+    UpdateActressImagePathMutation,
+    UpdateActressImagePathMutationVariables
+  >(updateActressImagePathMutation);
 
   const [updateScreencapPath] = useMutation<
     UpdateScreencapPathMutation,
@@ -67,6 +74,7 @@ export const LibraryForm: FunctionalComponent = () => {
   } = useForm<LibraryFormData>({
     defaultValues: {
       inferMovieTitle,
+      actressImagePath,
       screencapPath,
     },
   });
@@ -74,6 +82,7 @@ export const LibraryForm: FunctionalComponent = () => {
     Promise.all([
       updateInferMovieTitle({ variables: data }),
       updateScreencapPath({ variables: data }),
+      updateActressImagePath({ variables: data }),
     ]).then(() => {
       toast.success(i('SETTINGS_FORM_SUCCESS'));
       reset(data);
@@ -102,6 +111,19 @@ export const LibraryForm: FunctionalComponent = () => {
               appearance="wide"
               name="screencapPath"
               error={!!errors.screencapPath}
+              ref={register({
+                validate: validateExistingPath(client),
+              })}
+            />
+          </TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>{i('SETTINGS_ACTRESSIMAGEPATH')}</TableCell>
+          <TableCell>
+            <Input
+              appearance="wide"
+              name="actressImagePath"
+              error={!!errors.actressImagePath}
               ref={register({
                 validate: validateExistingPath(client),
               })}

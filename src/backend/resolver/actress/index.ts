@@ -6,6 +6,7 @@ import { isInBusiness } from '../../../domain/actress/date';
 export const actressResolvers: Resolvers = {
   Actress: {
     inBusiness: parent => isInBusiness(parent),
+    picture: parent => `/assets/actress/${parent.id}.jpg`,
   },
   Query: {
     actresses: async (_parent, { name }, { prisma }) =>
@@ -13,7 +14,7 @@ export const actressResolvers: Resolvers = {
         ? []
         : prisma.actress
             .findMany({
-              take: 30,
+              take: 8,
               where: {
                 name: {
                   contains: name,

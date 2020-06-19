@@ -5,16 +5,13 @@ import { BasePage } from './basePage';
 import { movieCountQuery, movieListQuery } from '../queries/movieList.gql';
 import { usePagination } from '../utils/pagination';
 
-import { movieDetailRoute, movieEditRoute } from '../utils/route';
+import { movieDetailRoute } from '../utils/route';
 
 const pageLength = 30;
 
 const transformMovie = (movie: MovieListQuery['movieList'][number]): MovieListMovie => ({
   title: movie.title,
-  links: {
-    detail: movieDetailRoute(movie.id),
-    edit: movieEditRoute(movie.id),
-  },
+  link: movieDetailRoute(movie.id),
   fresh: movie.fresh,
   screencaps: movie.screencaps,
   cover: movie.coverIndex,

@@ -44,8 +44,10 @@ export const settingsResolvers: Resolvers = {
   Mutation: {
     takeAllScreencaps: () => takeScreencapsForAllMovies().then(() => true),
     scanLibrary: () => scanLibrary({}).then(() => true),
-    updateScreencapPath: (_parent, { screencapPath }, { prisma }) =>
-      updateSettings(prisma, 'screencapPath', screencapPath),
+    updateActressImagePath: (_parent, { path }, { prisma }) =>
+      updateSettings(prisma, 'actressImagePath', path),
+    updateScreencapPath: (_parent, { path }, { prisma }) =>
+      updateSettings(prisma, 'screencapPath', path),
     updateLanguage: (_parent, { language }, { prisma }) =>
       updateSettings(prisma, 'language', language),
     updateInferMovieTitle: (_parent, { inferMovieTitle }, { prisma }) =>

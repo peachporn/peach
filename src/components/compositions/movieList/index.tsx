@@ -3,10 +3,7 @@ import { Icon } from '../../components/icon';
 
 export type MovieListMovie = {
   title: string;
-  links: {
-    detail: string;
-    edit: string;
-  };
+  link: string;
   fresh: boolean;
   screencaps: string[];
   cover: number;
@@ -17,13 +14,7 @@ export type MovieListProps = {
 };
 
 const MovieListItem: FunctionalComponent<{ movie: MovieListMovie }> = ({
-  movie: {
-    title,
-    cover,
-    screencaps,
-    fresh,
-    links: { edit, detail },
-  },
+  movie: { title, cover, screencaps, fresh, link },
 }) => (
   <li className="movie-item">
     <h3 className="movie-item__title">
@@ -31,8 +22,8 @@ const MovieListItem: FunctionalComponent<{ movie: MovieListMovie }> = ({
         {fresh ? '* ' : ''}
         {title}
       </span>
-      <a className="movie-item__title-link" href={edit}>
-        <Icon icon="edit" />
+      <a className="movie-item__title-link" href={link}>
+        <Icon icon="arrow_forward" />
       </a>
     </h3>
     <div className="movie-item__screencaps">
@@ -40,7 +31,7 @@ const MovieListItem: FunctionalComponent<{ movie: MovieListMovie }> = ({
         <Fragment>
           <a
             aria-label={`Screencap #${i + 1}`}
-            href={detail}
+            href={link}
             className="movie-item__screencaps-hover-area"
           />
           <img

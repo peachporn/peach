@@ -18,8 +18,16 @@ export const updateInferMovieTitleMutation = gql`
 
 export const updateScreencapPathMutation = gql`
   mutation UpdateScreencapPath($screencapPath: String!) {
-    updateScreencapPath(screencapPath: $screencapPath) {
+    updateScreencapPath(path: $screencapPath) {
       screencapPath
+    }
+  }
+`;
+
+export const updateActressImagePathMutation = gql`
+  mutation UpdateActressImagePath($actressImagePath: String!) {
+    updateActressImagePath(path: $actressImagePath) {
+      actressImagePath
     }
   }
 `;

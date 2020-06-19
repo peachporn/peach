@@ -5,7 +5,7 @@ import { FreeonesScraper } from '../../scrapers/actress/sites/freeones';
 import { scrape } from '../../scrapers/actress/scrape';
 import { prisma } from '../../prisma';
 import { ScrapedActress } from '../../scrapers/actress/type';
-import { geocodeLocation } from '../../utils/location';
+import { postProcessActress } from './post-process';
 
 const log = logScope('scrape-actress');
 
@@ -26,25 +26,12 @@ const toDBActress = (actress: ScrapedActress): Omit<ActressUpdateInput, 'movies'
   };
 };
 
-const postProcessActress = async (actress: ScrapedActress) => {
-  const location = await geocodeLocation(actress.country, actress.province, actress.city);
-  return {
-    ...actress,
-    ...(!location
-      ? {}
-      : {
-          longitude: location.longitude,
-          latitude: location.latitude,
-        }),
-  };
-};
-
 const { createTask, runTask } = defineTask<ScrapeActressParams>(
   'SCRAPE_ACTRESS',
   async ({ parameters: { id, name } }) => {
     try {
       const actress = await scrape(FreeonesScraper)(name);
-      const processedActress = await postProcessActress(actress);
+      const processedActress = await postProcessActress(id, actress);
 
       await prisma.actress.update({
         where: {

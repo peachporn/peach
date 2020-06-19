@@ -11,6 +11,7 @@ const inferMovieTitleMap: { [key: string]: InferMovieTitle } = {
 export const transformSettings = (settings: DBSettings): Settings => ({
   language: languageMap[settings.language] || 'EN',
   inferMovieTitle: inferMovieTitleMap[settings.inferMovieTitle] || 'FILENAME',
-  screencapPath: settings.screencapPath,
+  screencapPath: settings.screencapPath || undefined,
+  actressImagePath: settings.actressImagePath || undefined,
   volumes: [],
 });

@@ -5,6 +5,7 @@ export const findActressQuery = gql`
     actresses(name: $name) {
       id
       name
+      picture
     }
   }
 `;

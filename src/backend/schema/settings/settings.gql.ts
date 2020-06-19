@@ -14,7 +14,8 @@ export const typeDef = gql`
     language: Language!
     volumes: [Volume!]!
     inferMovieTitle: InferMovieTitle!
-    screencapPath: String!
+    actressImagePath: String
+    screencapPath: String
   }
 
   extend type Query {
@@ -23,7 +24,8 @@ export const typeDef = gql`
   }
 
   extend type Mutation {
-    updateScreencapPath(screencapPath: String!): Settings!
+    updateActressImagePath(path: String!): Settings!
+    updateScreencapPath(path: String!): Settings!
     updateLanguage(language: Language): Settings!
     updateInferMovieTitle(inferMovieTitle: InferMovieTitle): Settings!
     scanLibrary: Boolean

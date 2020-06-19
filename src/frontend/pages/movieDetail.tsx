@@ -27,6 +27,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
 
   const movie = data?.movie;
 
+  console.log(movie && movie.actresses);
   return (
     <BasePage className="movie-detail-page">
       {loading || !movie ? (

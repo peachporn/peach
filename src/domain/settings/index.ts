@@ -4,6 +4,7 @@ import { prisma } from '../../prisma';
 export const defaultSettings: SettingsCreateInput = {
   language: 'EN',
   screencapPath: '',
+  actressImagePath: '',
   inferMovieTitle: 'FILENAME',
 };
 
@@ -13,3 +14,5 @@ export const getInferMovieTitle = () =>
   settings().then(s => (s && s.inferMovieTitle) || ('FILENAME' as InferMovieTitle));
 
 export const getScreencapPath = () => settings().then(s => s && s.screencapPath);
+
+export const getActressImagePath = () => settings().then(s => s && s.actressImagePath);

@@ -8,19 +8,3 @@ export const createActressMutation = gql`
     }
   }
 `;
-
-export const updateInferMovieTitleMutation = gql`
-  mutation UpdateInferMovieTitle($inferMovieTitle: InferMovieTitle) {
-    updateInferMovieTitle(inferMovieTitle: $inferMovieTitle) {
-      inferMovieTitle
-    }
-  }
-`;
-
-export const updateScreencapPathMutation = gql`
-  mutation UpdateScreencapPath($screencapPath: String!) {
-    updateScreencapPath(screencapPath: $screencapPath) {
-      screencapPath
-    }
-  }
-`;

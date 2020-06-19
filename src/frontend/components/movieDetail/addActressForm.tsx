@@ -30,7 +30,7 @@ type AddActressFormData = {
   id: number | null;
 };
 
-type ActressCardActress = Pick<Actress, 'id' | 'name'>;
+type ActressCardActress = Pick<Actress, 'id' | 'name' | 'picture'>;
 
 export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
   actresses,
@@ -44,11 +44,13 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
   const { data, loading } = useQuery<FindActressQuery, FindActressQueryVariables>(
     findActressQuery,
     {
+      skip: name.length < 3,
       variables: {
         name,
       },
     },
   );
+  console.log(data);
   const [actrs, setActrs] = useState<ActressCardActress[]>(actresses);
 
   const [addActress] = useMutation<AddActressToMovieMutation, AddActressToMovieMutationVariables>(
@@ -111,7 +113,7 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
         {actrs.map(actress => (
           <ActressCard
             name={actress.name}
-            imageUrl=""
+            imageUrl={actress.picture}
             buttonSlot={
               <Icon
                 onClick={() => {
@@ -152,7 +154,7 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
                 <ActressCard
                   focus={`${getValues().id}` === `${actress.id.toString()}`}
                   name={actress.name}
-                  imageUrl=""
+                  imageUrl={actress.picture}
                   onClick={() => {
                     setValue('id', actress.id);
                   }}

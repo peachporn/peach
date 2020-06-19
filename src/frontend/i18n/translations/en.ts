@@ -16,6 +16,7 @@ export default {
   SETTINGS_INFERMOVIETITLE_FOLDER: 'Containing folder',
   SETTINGS_INFERMOVIETITLE_FILENAME: 'Filename',
   SETTINGS_SCREENCAPPATH: 'Path for saving screencaps',
+  SETTINGS_ACTRESSIMAGEPATH: 'Path for saving actress images',
   SETTINGS_SCAN_LIBRARY: 'Update library',
   LIBRARY_SCAN_STARTED: 'Library scan started!',
   SETTINGS_TAKE_SCREENCAPS: 'Take missing screencaps',

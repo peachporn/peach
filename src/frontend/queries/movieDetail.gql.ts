@@ -15,6 +15,7 @@ export const movieDetailQuery = gql`
       actresses {
         id
         name
+        picture
       }
       metaData {
         durationSeconds

@@ -9,7 +9,8 @@ export type Icon =
   | 'cloud'
   | 'local_offer'
   | 'settings'
-  | 'edit';
+  | 'edit'
+  | 'arrow_forward';
 
 export type IconProps = {
   icon: Icon;

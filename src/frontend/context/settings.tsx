@@ -5,6 +5,7 @@ import { settingsQuery } from '../queries/settings.gql';
 const defaultSettings: Settings = {
   language: 'EN',
   inferMovieTitle: 'FILENAME',
+  actressImagePath: '',
   screencapPath: '',
   volumes: [],
 };

@@ -1,5 +1,6 @@
 import { h, FunctionalComponent, Fragment } from 'preact';
 import { Icon } from '../../components/icon';
+import { Pagination } from '../../components/pagination';
 
 export type MovieListMovie = {
   title: string;
@@ -50,7 +51,7 @@ const MovieListItem: FunctionalComponent<{ movie: MovieListMovie }> = ({
 export const MovieList: FunctionalComponent<MovieListProps> = ({ movies }) => (
   <ul className="movie-list">
     {movies.map(movie => (
-      <MovieListItem movie={movie} />
+      <MovieListItem movie={movie} key={movie.title} />
     ))}
   </ul>
 );

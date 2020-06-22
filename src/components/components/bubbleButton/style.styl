@@ -4,7 +4,7 @@
   width 1.2em
   height 1.2em
   border none
-  color darken(white, 10%)
+  color mainColor
   font-weight bold
   font-size 3em
   cursor pointer
@@ -12,10 +12,13 @@
   justify-self center
   bounce()
 
-  &:focus
+  &:focus, & > *:focus
     outline none
 
   span
     position relative
     bottom 3px
     cursor pointer
+
+  +medium()
+    font-size 2em

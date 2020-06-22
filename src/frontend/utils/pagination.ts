@@ -1,4 +1,5 @@
-import { useState } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
+import { useHistory, useLocation } from 'react-router-dom';
 
 export type PaginationProps = {
   maxItems: number;
@@ -6,15 +7,34 @@ export type PaginationProps = {
 };
 
 export const usePagination = ({ maxItems, pageLength }: PaginationProps) => {
-  const [page, setPage] = useState(1);
+  const history = useHistory();
+  const location = useLocation();
 
   const maxPage = Math.floor(maxItems / pageLength);
+  const search = new URLSearchParams(location.search);
+
+  const pageFromLocation = () => parseInt(search.get('page') || '1', 10);
+
+  const [page, setPageState] = useState(pageFromLocation());
+
+  const setPage = (target: number) => {
+    search.set('page', target.toString());
+
+    setPageState(target);
+    history.push({
+      search: search.toString(),
+    });
+  };
+
+  useEffect(() => {
+    setPageState(pageFromLocation());
+  }, [location.search]);
 
   const nextPage = () => {
     setPage(page + 1 <= maxPage ? page + 1 : 1);
   };
   const previousPage = () => {
-    setPage(page + 1);
+    setPage(page > 1 ? page - 1 : 1);
   };
 
   return {
@@ -23,5 +43,6 @@ export const usePagination = ({ maxItems, pageLength }: PaginationProps) => {
     nextPage,
     previousPage,
     maxPage,
+    page,
   };
 };

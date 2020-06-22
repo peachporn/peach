@@ -10,7 +10,10 @@ export type Icon =
   | 'local_offer'
   | 'settings'
   | 'edit'
-  | 'arrow_forward';
+  | 'arrow_forward'
+  | 'arrow_backward'
+  | 'chevron_right'
+  | 'chevron_left';
 
 export type IconProps = {
   icon: Icon;

@@ -1,10 +1,11 @@
-import { FunctionalComponent, h } from 'preact';
+import { Fragment, FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/react-hooks';
 import { Container, Flex, Loading } from '../../components';
 import { BasePage } from './basePage';
 import { actressesCountQuery, actressesListQuery } from '../queries/actressList.gql';
 import { usePagination } from '../utils/pagination';
 import { ActressCard, ActressCardList } from '../../components/components/actressCard';
+import { Pagination } from '../../components/components/pagination';
 
 const pageLength = 30;
 
@@ -15,7 +16,7 @@ export const ActressesPage: FunctionalComponent = () => {
     return <Loading color="white" />;
   }
 
-  const { limit, skip } = usePagination({
+  const { limit, skip, page, maxPage, nextPage, previousPage } = usePagination({
     pageLength,
     maxItems: count.data.actressesCount,
   });
@@ -37,13 +38,16 @@ export const ActressesPage: FunctionalComponent = () => {
           <Loading color="white" />
         </Flex>
       ) : (
-        <Container>
-          <ActressCardList>
-            {(data?.actresses || []).map(actress => (
-              <ActressCard name={actress.name} imageUrl={actress.picture} />
-            ))}
-          </ActressCardList>
-        </Container>
+        <Fragment>
+          <Pagination page={page} maxPage={maxPage} onNext={nextPage} onPrevious={previousPage} />
+          <Container>
+            <ActressCardList>
+              {(data?.actresses || []).map(actress => (
+                <ActressCard name={actress.name} imageUrl={actress.picture} />
+              ))}
+            </ActressCardList>
+          </Container>
+        </Fragment>
       )}
     </BasePage>
   );

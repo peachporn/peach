@@ -22,6 +22,8 @@ export const serveScreencaps = async (req: Request, res: Response) => {
 
   s.on('open', () => {
     res.set('Content-Type', 'image/jpeg');
+    res.set('Cache-Control', 'public, max-age=604800, immutable');
+
     s.pipe(res);
   });
 

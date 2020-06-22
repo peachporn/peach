@@ -1,6 +1,7 @@
 import { FunctionalComponent, h } from 'preact';
 
 export type Icon =
+  | 'add_circle'
   | 'close'
   | 'search'
   | 'more_vert'

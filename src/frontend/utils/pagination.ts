@@ -10,7 +10,7 @@ export const usePagination = ({ maxItems, pageLength }: PaginationProps) => {
   const history = useHistory();
   const location = useLocation();
 
-  const maxPage = Math.floor(maxItems / pageLength);
+  const maxPage = Math.ceil(maxItems / pageLength);
   const search = new URLSearchParams(location.search);
 
   const pageFromLocation = () => parseInt(search.get('page') || '1', 10);

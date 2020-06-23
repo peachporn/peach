@@ -4,6 +4,7 @@ import { i } from '../i18n/i18n';
 export const settingsRoute = '/settings';
 
 export const movieDetailRoute = (movieId: number) => `/movies/${movieId}`;
+export const actressDetailRoute = (actressId: number) => `/actresses/${actressId}`;
 
 export const routes: RouteDefinition[] = [
   {

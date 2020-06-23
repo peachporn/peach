@@ -1,0 +1,45 @@
+vertical-center()
+  display flex
+  flex-flow row nowrap
+  align-items center
+  column-gap .2em
+
+.task-list
+  display flex
+  flex-flow column nowrap
+  margin-bottom 1em
+
+.task-list__entry
+  display grid
+  grid-template-columns 1fr 1fr 6fr 1fr
+  grid-template-areas "category parameters parameters controls" ". status details controls"
+  padding .5em
+  row-gap .5em
+
+  & + &, &:first-child
+    border-top 1px solid grey
+
+  &:last-child
+    border-bottom 1px solid grey
+
+
+.task-list__category
+  vertical-center()
+  grid-area category
+  font-weight bold
+
+.task-list__parameters
+  vertical-center()
+  grid-area parameters
+
+.task-list__status
+  vertical-center()
+  grid-area status
+
+.task-list__controls
+  vertical-center()
+  grid-area controls
+
+.task-list__details
+  vertical-center()
+  grid-area details

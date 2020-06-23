@@ -3,6 +3,7 @@ import { volumeResolvers } from './volume';
 import { settingsResolvers } from './settings';
 import { movieResolvers } from './movie';
 import { setupResolvers } from './setup';
+import { tasksResolvers } from './tasks';
 
 export const resolvers = [
   volumeResolvers,
@@ -10,4 +11,5 @@ export const resolvers = [
   movieResolvers,
   setupResolvers,
   actressResolvers,
+  tasksResolvers,
 ];

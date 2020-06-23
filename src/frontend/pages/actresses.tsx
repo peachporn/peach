@@ -6,6 +6,7 @@ import { actressesCountQuery, actressesListQuery } from '../queries/actressList.
 import { usePagination } from '../utils/pagination';
 import { ActressCard, ActressCardGrid } from '../../components/components/actressCard';
 import { Pagination } from '../../components/components/pagination';
+import { actressDetailRoute } from '../utils/route';
 
 const pageLength = 24;
 
@@ -43,7 +44,12 @@ export const ActressesPage: FunctionalComponent = () => {
           <Container>
             <ActressCardGrid>
               {(data?.actresses || []).map(actress => (
-                <ActressCard name={actress.name} imageUrl={actress.picture} key={actress.name} />
+                <ActressCard
+                  url={actressDetailRoute(actress.id)}
+                  name={actress.name}
+                  imageUrl={actress.picture}
+                  key={actress.name}
+                />
               ))}
             </ActressCardGrid>
           </Container>

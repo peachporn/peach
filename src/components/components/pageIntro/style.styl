@@ -1,0 +1,26 @@
+.page-intro
+  display flex
+  width 100vw
+  min-height 648px
+  justify-content center
+  position relative
+
+  +large()
+    min-height auto
+
+  video
+    width 1280px
+
+    +large()
+      width 100vw
+
+.page-intro__hero
+  position absolute
+  bottom 0
+  left 12vw
+  transform translateY(40%)
+  z-index 1000
+
+  +medium()
+    left 50%
+    transform translate(-50%, 40%)

@@ -1,6 +1,8 @@
 import { FunctionalComponent, h } from 'preact';
 
 export type Icon =
+  | 'access_alarm'
+  | 'error'
   | 'add_circle'
   | 'close'
   | 'search'

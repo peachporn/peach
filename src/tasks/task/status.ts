@@ -15,7 +15,7 @@ export const pendingTasks = (): Promise<DBTask[]> =>
     },
   });
 
-export const markTask = (status: TaskStatus, task: Task) =>
+export const markTask = (status: TaskStatus, task: Task, message?: string) =>
   prisma.task.update({
     where: {
       id: task.id,
@@ -23,6 +23,11 @@ export const markTask = (status: TaskStatus, task: Task) =>
     data: {
       ...toDBTask(task),
       status,
+      ...(!message
+        ? {}
+        : {
+            statusMessage: message,
+          }),
     },
   });
 

@@ -4,6 +4,7 @@ import { typeDef as movie } from './movie/movie.gql';
 import { typeDef as settings } from './settings/settings.gql';
 import { typeDef as setup } from './settings/setup.gql';
 import { typeDef as volume } from './volume/volume.gql';
+import { typeDef as tasks } from './tasks/tasks.gql';
 import { typeDef as geoLocation } from './scalars/geolocation.gql';
 
-export const typeDefs = [geoLocation, createMovie, movie, settings, setup, volume, actress];
+export const typeDefs = [geoLocation, createMovie, movie, settings, setup, volume, actress, tasks];

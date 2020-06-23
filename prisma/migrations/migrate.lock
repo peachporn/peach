@@ -1,16 +1,3 @@
 # Prisma Migrate lockfile v1
 
-20200529214022-setup-movie
-20200530141612-extract-metadata
-20200530142053-use-autoincrement-ids
-20200530143210-make-volume-unique
-20200531151003-add-settings
-20200601163840-setup-database
-20200601163928-add-tasks
-20200604134231-normalize-metadata
-20200610183957-add-screencap-path
-20200616172316-add-actress
-20200616172719-add-actress-movies
-20200616175140-split-location
-20200616180805-actress-defaults
-20200618223934-add-actress-image-path
+20200623171717-setup-database

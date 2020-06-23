@@ -10,8 +10,14 @@ export const actressResolvers: Resolvers = {
     picture: parent => `/assets/actress/${parent.id}.jpg`,
   },
   Query: {
+    actress: async (_parent, { id }, { prisma }) =>
+      prisma.actress
+        .findOne({ where: { id }, include: { movies: true } })
+        .then(actress => (actress ? transformActress(actress) : undefined)),
+
     actressesCount: async (_parent, { filter }, { prisma }) =>
       prisma.actress.count(applyFilter(filter)),
+
     actresses: async (_parent, { filter, skip, limit }, { prisma }) =>
       prisma.actress
         .findMany({

@@ -5,12 +5,14 @@ import { VolumeForm } from '../components/settings/volumeForm';
 import { GeneralSettingsForm } from '../components/settings/generalSettingsForm';
 import { LibraryForm } from '../components/settings/libraryForm';
 import { BasePage } from './basePage';
+import { TasksList } from '../components/settings/tasksList';
 
 export const SettingsPage: FunctionalComponent = () => (
   <BasePage>
     <Container tall background="white" width="narrow">
       <Headline1>{i('SETTINGS')}</Headline1>
       <GeneralSettingsForm />
+      <TasksList />
       <LibraryForm />
       <VolumeForm />
     </Container>

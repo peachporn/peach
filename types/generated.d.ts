@@ -148,9 +148,11 @@ type MovieUpdateInput = {
 type Mutation = {
   __typename?: 'Mutation';
   addActressToMovie?: Maybe<Movie>;
+  cancelTask?: Maybe<Scalars['Boolean']>;
   createActress?: Maybe<Actress>;
   createMovieFromFile: Movie;
   removeActressFromMovie?: Maybe<Movie>;
+  restartTask?: Maybe<Task>;
   saveVolumes: Array<Volume>;
   scanLibrary?: Maybe<Scalars['Boolean']>;
   scrapeActress?: Maybe<Scalars['Boolean']>;
@@ -167,6 +169,10 @@ type MutationAddActressToMovieArgs = {
   actressId: Scalars['Int'];
 };
 
+type MutationCancelTaskArgs = {
+  taskId: Scalars['Int'];
+};
+
 type MutationCreateActressArgs = {
   actress: ActressCreateInput;
 };
@@ -178,6 +184,10 @@ type MutationCreateMovieFromFileArgs = {
 type MutationRemoveActressFromMovieArgs = {
   movieId: Scalars['Int'];
   actressId: Scalars['Int'];
+};
+
+type MutationRestartTaskArgs = {
+  taskId: Scalars['Int'];
 };
 
 type MutationSaveVolumesArgs = {
@@ -213,6 +223,7 @@ type Quality = 'SD' | 'HD' | 'FullHD' | 'UHD';
 
 type Query = {
   __typename?: 'Query';
+  actress?: Maybe<Actress>;
   actresses: Array<Actress>;
   actressesCount: Scalars['Int'];
   movie?: Maybe<Movie>;
@@ -222,7 +233,12 @@ type Query = {
   randomMovie: Movie;
   settings: Settings;
   setupStatus: SetupStatus;
+  tasks: Array<Task>;
   volumes: Array<Volume>;
+};
+
+type QueryActressArgs = {
+  id: Scalars['Int'];
 };
 
 type QueryActressesArgs = {
@@ -240,8 +256,8 @@ type QueryMovieArgs = {
 };
 
 type QueryMoviesArgs = {
-  limit: Scalars['Int'];
-  skip: Scalars['Int'];
+  limit?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
 };
 
 type QueryPathExistsArgs = {
@@ -262,6 +278,17 @@ type Settings = {
 };
 
 type SetupStatus = 'Complete' | 'NoVolumes';
+
+type Task = {
+  __typename?: 'Task';
+  id: Scalars['Int'];
+  category: Scalars['String'];
+  status: TaskStatus;
+  parameters?: Maybe<Scalars['String']>;
+  statusMessage?: Maybe<Scalars['String']>;
+};
+
+type TaskStatus = 'RUNNING' | 'PENDING' | 'ERROR';
 
 type Volume = {
   __typename?: 'Volume';
@@ -299,6 +326,21 @@ type ScanLibraryMutation = { __typename?: 'Mutation'; scanLibrary?: Maybe<boolea
 type TakeAllScreencapsMutationVariables = {};
 
 type TakeAllScreencapsMutation = { __typename?: 'Mutation'; takeAllScreencaps?: Maybe<boolean> };
+
+type RestartTaskMutationVariables = {
+  taskId: Scalars['Int'];
+};
+
+type RestartTaskMutation = {
+  __typename?: 'Mutation';
+  restartTask?: Maybe<{ __typename?: 'Task'; id: number }>;
+};
+
+type CancelTaskMutationVariables = {
+  taskId: Scalars['Int'];
+};
+
+type CancelTaskMutation = { __typename?: 'Mutation'; cancelTask?: Maybe<boolean> };
 
 type UpdateCoverMutationVariables = {
   movieId: Scalars['Int'];
@@ -380,6 +422,50 @@ type UpdateActressImagePathMutationVariables = {
 type UpdateActressImagePathMutation = {
   __typename?: 'Mutation';
   updateActressImagePath: { __typename?: 'Settings'; actressImagePath?: Maybe<string> };
+};
+
+type ActressQueryVariables = {
+  id: Scalars['Int'];
+};
+
+type ActressQuery = {
+  __typename?: 'Query';
+  actress?: Maybe<{
+    __typename?: 'Actress';
+    id: number;
+    name: string;
+    picture?: Maybe<string>;
+    aliases: Array<string>;
+    haircolor?: Maybe<Haircolor>;
+    eyecolor?: Maybe<Eyecolor>;
+    ethnicity?: Maybe<Ethnicity>;
+    dateOfBirth?: Maybe<string>;
+    dateOfCareerstart?: Maybe<string>;
+    dateOfRetirement?: Maybe<string>;
+    dateOfDeath?: Maybe<string>;
+    inBusiness?: Maybe<boolean>;
+    country?: Maybe<string>;
+    province?: Maybe<string>;
+    city?: Maybe<string>;
+    boobs?: Maybe<Boobs>;
+    piercings?: Maybe<string>;
+    tattoos?: Maybe<string>;
+    height?: Maybe<number>;
+    weight?: Maybe<number>;
+    cupsize?: Maybe<Cupsize>;
+    socialMediaLinks?: Maybe<Array<Maybe<string>>>;
+    officialWebsite?: Maybe<string>;
+    location?: Maybe<{ __typename?: 'GeoLocation'; latitude: number; longitude: number }>;
+    measurements?: Maybe<{
+      __typename?: 'Measurements';
+      bust: number;
+      hips: number;
+      waist: number;
+    }>;
+    movies?: Maybe<
+      Array<{ __typename?: 'Movie'; id: number; title: string; screencaps: Array<string> }>
+    >;
+  }>;
 };
 
 type ActressesListQueryVariables = {
@@ -487,6 +573,20 @@ type PathExistsQueryVariables = {
 };
 
 type PathExistsQuery = { __typename?: 'Query'; pathExists?: Maybe<boolean> };
+
+type TasksQueryVariables = {};
+
+type TasksQuery = {
+  __typename?: 'Query';
+  tasks: Array<{
+    __typename?: 'Task';
+    id: number;
+    status: TaskStatus;
+    statusMessage?: Maybe<string>;
+    category: string;
+    parameters?: Maybe<string>;
+  }>;
+};
 
 type SetupStatusQueryVariables = {};
 

@@ -9,5 +9,5 @@ export const cleanupRunningTasks = () => {
   log.debug('Cleaning up running tasks...');
   return runningTasks()
     .then(tasks => tasks.map(toTask))
-    .then(tasks => sequence(tasks.map(t => () => markTask('ERROR', t))));
+    .then(tasks => sequence(tasks.map(t => () => markTask('ERROR', t, 'SERVER_RESTARTED'))));
 };

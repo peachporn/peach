@@ -20,6 +20,7 @@ import {
 import { NoResult } from '../../../components/components/noResult';
 import { Icon } from '../../../components/components/icon';
 import { CreateActressForm } from './createActressForm';
+import { actressDetailRoute } from '../../utils/route';
 
 export type AddActressFormProps = {
   movieId: Movie['id'];
@@ -114,6 +115,7 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
           <ActressCard
             name={actress.name}
             imageUrl={actress.picture}
+            url={actressDetailRoute(actress.id)}
             buttonSlot={
               <Icon
                 onClick={() => {

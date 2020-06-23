@@ -104,6 +104,7 @@ export const typeDef = gql`
     name: String
   }
   extend type Query {
+    actress(id: Int!): Actress
     actresses(filter: ActressFilter, limit: Int, skip: Int): [Actress!]!
     actressesCount(filter: ActressFilter): Int!
   }

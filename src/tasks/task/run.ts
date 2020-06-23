@@ -15,15 +15,13 @@ const runTask = async (task: Task): Promise<void> => {
 
   await markTask('RUNNING', task);
 
-  const result = await run(task).catch(error => {
+  const result = await run(task).catch(async error => {
     log.error(error);
+    await markTask('ERROR', task, error.toString());
     return 'ERROR' as TaskResult;
   });
 
-  log.debug(result);
-
   if (result === 'ERROR') {
-    await markTask('ERROR', task);
     return;
   }
 

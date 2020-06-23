@@ -20,3 +20,15 @@ export const pathExistsQuery = gql`
     pathExists(path: $path)
   }
 `;
+
+export const tasksQuery = gql`
+  query tasks {
+    tasks {
+      id
+      status
+      statusMessage
+      category
+      parameters
+    }
+  }
+`;

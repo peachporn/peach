@@ -15,7 +15,6 @@ export * from './components/video';
 export * from './components/backdrop';
 
 export * from './compositions/movieList';
-export * from './compositions/movieDetailVideo';
 export * from './compositions/movieMetadataTable';
 export * from './compositions/screencapStrip';
 

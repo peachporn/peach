@@ -13,6 +13,7 @@ export const toTask = (task: DBTask): Task => ({
   category: task.category as TaskCategory,
   parameters: task.parameters ? JSON.parse(task.parameters) : {},
 });
+export type TaskStatusMessage = 'SERVER_RESTARTED';
 
 export type TaskCategory =
   | 'SCAN_LIBRARY'

@@ -1,13 +1,14 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
-import { Container, Flex, Loading, MovieDetailVideo } from '../../components';
+import { Video, Container, Flex, Loading } from '../../components';
 import { BasePage } from './basePage';
 import { movieDetailQuery } from '../queries/movieDetail.gql';
 import { MovieMetadataTable } from '../../components/compositions/movieMetadataTable';
 import { ScreencapStripForm } from '../components/movieDetail/screencapStripForm';
 import { TitleForm } from '../components/movieDetail/titleForm';
 import { AddActressForm } from '../components/movieDetail/addActressForm';
+import { PageIntro } from '../../components/components/pageIntro';
 
 export type MovieDetailPageProps = {
   movieId: string;
@@ -36,7 +37,9 @@ export const MovieDetailPage: FunctionalComponent = () => {
         </Flex>
       ) : (
         <Fragment>
-          <MovieDetailVideo movie={movie} />
+          <PageIntro>
+            <Video src={{ 'video/mp4': movie.url }} />
+          </PageIntro>
           <Container background="white">
             <TitleForm movie={movie} />
             <AddActressForm movieId={movie.id} actresses={movie.actresses} />

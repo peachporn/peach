@@ -1,6 +1,5 @@
 import { h, FunctionalComponent, Fragment } from 'preact';
 import { Icon } from '../../components/icon';
-import { Pagination } from '../../components/pagination';
 
 export type MovieListMovie = {
   title: string;

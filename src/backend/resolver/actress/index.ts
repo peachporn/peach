@@ -12,9 +12,10 @@ export const actressResolvers: Resolvers = {
   Query: {
     actressesCount: async (_parent, { filter }, { prisma }) =>
       prisma.actress.count(applyFilter(filter)),
-    actresses: async (_parent, { filter, limit }, { prisma }) =>
+    actresses: async (_parent, { filter, skip, limit }, { prisma }) =>
       prisma.actress
         .findMany({
+          skip,
           take: limit || 30,
           ...applyFilter(filter),
         })

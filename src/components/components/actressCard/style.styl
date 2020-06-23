@@ -1,3 +1,12 @@
+.actress-card-grid
+  display grid
+  grid-auto-rows 30vh
+  grid-template-columns repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap 1em
+
+  +medium()
+    grid-auto-rows 60vh
+
 .actress-card-list
   display grid
   grid-template-columns repeat(auto-fit, 200px);

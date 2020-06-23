@@ -4,10 +4,10 @@ import { Container, Flex, Loading } from '../../components';
 import { BasePage } from './basePage';
 import { actressesCountQuery, actressesListQuery } from '../queries/actressList.gql';
 import { usePagination } from '../utils/pagination';
-import { ActressCard, ActressCardList } from '../../components/components/actressCard';
+import { ActressCard, ActressCardGrid } from '../../components/components/actressCard';
 import { Pagination } from '../../components/components/pagination';
 
-const pageLength = 30;
+const pageLength = 24;
 
 export const ActressesPage: FunctionalComponent = () => {
   const count = useQuery<ActressesCountQuery>(actressesCountQuery);
@@ -41,11 +41,11 @@ export const ActressesPage: FunctionalComponent = () => {
         <Fragment>
           <Pagination page={page} maxPage={maxPage} onNext={nextPage} onPrevious={previousPage} />
           <Container>
-            <ActressCardList>
+            <ActressCardGrid>
               {(data?.actresses || []).map(actress => (
-                <ActressCard name={actress.name} imageUrl={actress.picture} />
+                <ActressCard name={actress.name} imageUrl={actress.picture} key={actress.name} />
               ))}
-            </ActressCardList>
+            </ActressCardGrid>
           </Container>
         </Fragment>
       )}

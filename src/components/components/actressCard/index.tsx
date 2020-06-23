@@ -32,3 +32,7 @@ export const ActressCard: FunctionalComponent<ActressCardProps> = ({
 export const ActressCardList: FunctionalComponent = ({ children }) => (
   <div className="actress-card-list">{children}</div>
 );
+
+export const ActressCardGrid: FunctionalComponent = ({ children }) => (
+  <div className="actress-card-grid">{children}</div>
+);

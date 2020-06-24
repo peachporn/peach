@@ -4,6 +4,7 @@ import logo from '../../static/logo.png';
 
 export type ActressCardProps = {
   name: string;
+  className?: string;
   imageUrl?: string;
   url?: string;
   onClick?: OnEvent;
@@ -15,6 +16,7 @@ export type ActressCardProps = {
 
 export const ActressCard: FunctionalComponent<ActressCardProps> = ({
   name,
+  className: classNameProp,
   imageUrl,
   focus = false,
   onClick,
@@ -25,7 +27,7 @@ export const ActressCard: FunctionalComponent<ActressCardProps> = ({
 }) => {
   const className = `actress-card ${focus ? 'actress-card--focus' : ''} ${
     shadow ? 'actress-card--shadow' : ''
-  }`;
+  } ${classNameProp || ''}`.trim();
 
   const children = (
     <Fragment>

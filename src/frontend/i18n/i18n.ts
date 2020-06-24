@@ -1,3 +1,4 @@
 import en from './translations/en';
 
-export const i = (key: keyof typeof en) => en[key] || key;
+export type I18nKey = keyof typeof en;
+export const i = (key: I18nKey) => en[key] || key;

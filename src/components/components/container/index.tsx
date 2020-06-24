@@ -2,7 +2,7 @@ import { FunctionalComponent, h } from 'preact';
 
 export type ContainerProps = {
   background?: 'transparent' | 'white';
-  width?: 'wide' | 'narrow';
+  width?: 'wide' | 'narrow' | 'medium';
   tall?: boolean;
 };
 

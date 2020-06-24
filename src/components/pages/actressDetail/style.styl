@@ -1,0 +1,17 @@
+.actress-detail-page .container
+  display grid
+  grid-template-columns 33vw 66vw
+  grid-template-areas "card header" ". data"
+  column-gap 2em
+
+.actress-detail-card
+  grid-area card
+  justify-self end
+  transform translateY(-60%)
+  height 15em
+
+.actress-data-grid
+  grid-area data
+
+.actress-detail-header
+  grid-area header

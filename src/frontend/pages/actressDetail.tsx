@@ -8,6 +8,8 @@ import { actressDetailQuery } from '../queries/actressDetail.gql';
 import { PageIntro } from '../../components/components/pageIntro';
 import { forceLength, shuffle } from '../../utils/list';
 import { ActressDetailHeader } from '../../components/compositions/actressDetailHeader';
+import { ActressDataGrid } from '../../components/compositions/actressDataGrid';
+import { ActressCard } from '../../components/components/actressCard';
 
 export type ActressDetailPageProps = {
   actressId: string;
@@ -54,7 +56,15 @@ export const ActressDetailPage: FunctionalComponent = () => {
             </ScreencapGrid>
           </PageIntro>
           <Container background="white">
+            <ActressCard
+              className="actress-detail-card"
+              name={actress.name}
+              imageUrl={actress.picture}
+              shadow
+              noName
+            />
             <ActressDetailHeader actress={actress} />
+            <ActressDataGrid actress={actress} />
           </Container>
         </Fragment>
       )}

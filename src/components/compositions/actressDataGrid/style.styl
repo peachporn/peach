@@ -1,0 +1,24 @@
+.actress-data-grid
+  display grid
+  width 60%
+  row-gap .3em
+  grid-template-columns repeat(3, 10vw)
+  justify-content space-between
+
+.actress-data-grid__entry
+  display flex
+  justify-content space-between
+  align-items center
+
+  &--wide
+    grid-column 1 / span 3
+    display grid
+    grid-template-columns 9em 1fr
+
+.actress-data-grid__label
+  font-weight bold
+  padding-right 1em
+
+.actress-data-grid__label,
+.actress-data-grid__value
+  fontMedium()

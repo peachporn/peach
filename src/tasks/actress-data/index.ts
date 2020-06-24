@@ -26,7 +26,7 @@ const toDBActress = (actress: ScrapedActress): Omit<ActressUpdateInput, 'movies'
   };
 };
 
-const { createTask, runTask } = defineTask<ScrapeActressParams>(
+const { createTask, runTask, taskDefinitionOptions } = defineTask<ScrapeActressParams>(
   'SCRAPE_ACTRESS',
   async ({ parameters: { id, name } }) => {
     try {
@@ -50,3 +50,4 @@ const { createTask, runTask } = defineTask<ScrapeActressParams>(
 
 export const scrapeActress = createTask;
 export const runScrapeActressTask = runTask;
+export const scrapeActressDefinitionOptions = taskDefinitionOptions;

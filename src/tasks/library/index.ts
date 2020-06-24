@@ -25,7 +25,7 @@ const spawnScrapeMetadataTaskForMissingMovies = () =>
     })
     .then(ps => Promise.all(ps));
 
-const { createTask, runTask } = defineTask(
+const { createTask, runTask, taskDefinitionOptions } = defineTask(
   'SCAN_LIBRARY',
   async () => {
     try {
@@ -45,3 +45,4 @@ const { createTask, runTask } = defineTask(
 
 export const scanLibrary = createTask;
 export const runScanLibraryTask = runTask;
+export const scanLibraryDefinitionOptions = taskDefinitionOptions;

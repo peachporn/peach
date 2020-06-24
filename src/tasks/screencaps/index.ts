@@ -11,7 +11,7 @@ type TakeScreencapParams = {
   movie: ScreencapMovie;
 };
 
-const { createTask, runTask } = defineTask<TakeScreencapParams>(
+const { createTask, runTask, taskDefinitionOptions } = defineTask<TakeScreencapParams>(
   'TAKE_SCREENCAPS',
   async ({ parameters: { movie } }) => {
     try {
@@ -30,6 +30,7 @@ const { createTask, runTask } = defineTask<TakeScreencapParams>(
 
 export const takeScreencaps = createTask;
 export const runTakeScreencapTask = runTask;
+export const takeScreencapsDefinitionOptions = taskDefinitionOptions;
 
 export const takeScreencapsForAllMovies = async () => {
   prisma.movie

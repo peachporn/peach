@@ -1,4 +1,4 @@
-import { DBTask, Task, TaskStatus, toDBTask } from './type';
+import { DBTask, Task, TaskCategory, TaskStatus, toDBTask } from './type';
 import { prisma } from '../../prisma';
 
 export const runningTasks = (): Promise<DBTask[]> =>
@@ -37,3 +37,13 @@ export const removeTask = (task: Task) =>
       id: task.id,
     },
   });
+
+export const runningTasksOfCategory = (category: TaskCategory): Promise<number> =>
+  prisma.task
+    .findMany({
+      where: {
+        status: 'RUNNING',
+        category,
+      },
+    })
+    .then(data => data.length);

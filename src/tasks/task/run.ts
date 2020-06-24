@@ -1,7 +1,7 @@
-import { Task, TaskResult, toTask } from './type';
-import { taskRunners } from './runners';
+import { Task, TaskCategory, TaskResult, toTask } from './type';
+import { taskDefinitionOptions, taskRunners } from './runners';
 import { logScope } from '../../utils';
-import { markTask, pendingTasks, removeTask } from './status';
+import { markTask, pendingTasks, removeTask, runningTasks } from './status';
 
 const log = logScope('run-tasks');
 
@@ -36,10 +36,20 @@ const runTask = async (task: Task): Promise<void> => {
 
 export const runTasks = async () => {
   const tasks = await pendingTasks();
+  const running = await runningTasks();
 
   if (!tasks.length) {
     return Promise.resolve();
   }
 
-  return runTask(toTask(tasks[0]));
+  const runnableTasks = tasks.filter(task => {
+    const options = taskDefinitionOptions.get(task.category as TaskCategory);
+    if (!options || !options.workers) {
+      return true;
+    }
+    const runningOfCategory = running.filter(t => t.category === task.category);
+    return runningOfCategory.length < options.workers;
+  });
+
+  return runTask(toTask(runnableTasks[0]));
 };

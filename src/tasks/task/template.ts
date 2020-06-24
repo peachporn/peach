@@ -1,4 +1,4 @@
-import { Task, TaskCategory, TaskResult, TaskRunner } from './type';
+import { Task, TaskCategory, TaskResult, TaskRunner, TaskDefinitionOptions } from './type';
 import { createTask, createUniqueTask } from './create';
 import { logScope } from '../../utils/logging';
 import { runningTasksOfCategory } from './status';

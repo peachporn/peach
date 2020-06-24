@@ -11,7 +11,6 @@ import { Headline2 } from '../../../components/components/headline';
 import { findActressQuery } from '../../queries/findActress.gql';
 import { Loading } from '../../../components/components/loading';
 import { ActressCard, ActressCardList } from '../../../components/components/actressCard';
-import { Button } from '../../../components/components/button';
 import { isTouched } from '../../utils/form';
 import {
   addActressToMovieMutation,

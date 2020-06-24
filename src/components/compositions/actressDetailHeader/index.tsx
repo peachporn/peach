@@ -6,7 +6,10 @@ import { Text } from '../../components/text';
 import { i } from '../../../frontend/i18n/i18n';
 
 export type ActressDetailHeaderProps = {
-  actress: Actress;
+  actress: Pick<
+    Actress,
+    'name' | 'picture' | 'dateOfBirth' | 'dateOfCareerstart' | 'dateOfRetirement' | 'dateOfDeath'
+  >;
 };
 
 export const ActressDetailHeader: FunctionalComponent<ActressDetailHeaderProps> = ({ actress }) => (

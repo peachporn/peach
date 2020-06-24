@@ -6,7 +6,6 @@ import { Container, Flex, Loading, Screencap, ScreencapGrid } from '../../compon
 import { BasePage } from './basePage';
 import { actressDetailQuery } from '../queries/actressDetail.gql';
 import { PageIntro } from '../../components/components/pageIntro';
-import { ActressCard } from '../../components/components/actressCard';
 import { forceLength, shuffle } from '../../utils/list';
 import { ActressDetailHeader } from '../../components/compositions/actressDetailHeader';
 

@@ -10,6 +10,7 @@ export type ActressCardProps = {
   focus?: boolean;
   shadow?: boolean;
   buttonSlot?: VNode;
+  noName?: boolean;
 };
 
 export const ActressCard: FunctionalComponent<ActressCardProps> = ({
@@ -20,6 +21,7 @@ export const ActressCard: FunctionalComponent<ActressCardProps> = ({
   shadow,
   url,
   buttonSlot,
+  noName,
 }) => {
   const className = `actress-card ${focus ? 'actress-card--focus' : ''} ${
     shadow ? 'actress-card--shadow' : ''
@@ -28,7 +30,7 @@ export const ActressCard: FunctionalComponent<ActressCardProps> = ({
   const children = (
     <Fragment>
       <Image src={imageUrl || logo} alt={name} placeholder={logo} />
-      <span>{name}</span>
+      {noName ? null : <span>{name}</span>}
       <div className="actress-card__button-slot">{buttonSlot || null}</div>
     </Fragment>
   );

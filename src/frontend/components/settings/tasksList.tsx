@@ -130,6 +130,7 @@ export const TasksList: FunctionalComponent = () => {
         {data.tasks.map(task => (
           <TaskView task={task} />
         ))}
+        {data.tasks.length === 0 ? <span>No tasks running!</span> : null}
       </TaskList>
     </div>
   );

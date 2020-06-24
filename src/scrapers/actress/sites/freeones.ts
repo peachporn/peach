@@ -55,9 +55,16 @@ export const FreeonesScraper: ActressScraper = {
     },
     dateOfDeath: {
       selector:
-        '#search-result > section > div.d-md-flex.flex-md-row.large-items > div.profile-meta-item.large-meta-item.flex-basis-30.block-shadow > div > p.mb-1.color-text-dark.font-size-xs',
+        '#search-result > section > div.d-md-flex.flex-md-row.large-items > div.profile-meta-item.large-meta-item.flex-basis-30.block-shadow > div > p.mb-1.font-size-xs',
       type: 'text',
-      transform: regex(/Passed away on (.*) at/, x => new Date(x).toISOString()),
+      transform: x => {
+        const matches = x.match(/Passed away on (?<date>.*) at/);
+        const date = matches && matches.groups && matches.groups.date;
+        if (!date) {
+          return undefined;
+        }
+        return new Date(date).toISOString();
+      },
     },
     country: {
       selector:

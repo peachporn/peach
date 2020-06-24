@@ -1,12 +1,5 @@
-import { FunctionalComponent, h, VNode } from 'preact';
+import { FunctionalComponent, h } from 'preact';
 
-export type PageIntroProps = {
-  heroSlot?: VNode;
-};
-
-export const PageIntro: FunctionalComponent<PageIntroProps> = ({ heroSlot, children }) => (
-  <section className="page-intro">
-    {!heroSlot ? null : <div className="page-intro__hero">{heroSlot}</div>}
-    {children}
-  </section>
+export const PageIntro: FunctionalComponent = ({ children }) => (
+  <section className="page-intro">{children}</section>
 );

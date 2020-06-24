@@ -8,6 +8,7 @@ import { actressDetailQuery } from '../queries/actressDetail.gql';
 import { PageIntro } from '../../components/components/pageIntro';
 import { ActressCard } from '../../components/components/actressCard';
 import { forceLength, shuffle } from '../../utils/list';
+import { ActressDetailHeader } from '../../components/compositions/actressDetailHeader';
 
 export type ActressDetailPageProps = {
   actressId: string;
@@ -46,16 +47,16 @@ export const ActressDetailPage: FunctionalComponent = () => {
         </Flex>
       ) : (
         <Fragment>
-          <PageIntro
-            heroSlot={<ActressCard name={actress.name} imageUrl={actress.picture} shadow />}
-          >
+          <PageIntro>
             <ScreencapGrid>
               {screencaps.map(s => (
                 <Screencap name={s.title} url={s.screencap} appearance="tint" />
               ))}
             </ScreencapGrid>
           </PageIntro>
-          <Container background="white" />
+          <Container background="white">
+            <ActressDetailHeader actress={actress} />
+          </Container>
         </Fragment>
       )}
     </BasePage>

@@ -55,4 +55,10 @@ export default {
   ACTRESS_FORM_NORESULT: 'No actress found!',
   ACTRESS_CREATE_BUTTON: 'Create her!',
   ACTRESS_CREATE_SUCCESS: 'Actress created successfully!',
+  ACTRESS_YEARS_OLD: ' years old',
+  ACTRESS_STARTED: 'Started porn in ',
+  ACTRESS_BORN: 'Born on ',
+  ACTRESS_RETIRED: 'Retired in ',
+  ACTRESS_PASSED_AWAY: 'Passed away on ',
+  ACTRESS_AT_AGE: ', at the age of ',
 } as const;

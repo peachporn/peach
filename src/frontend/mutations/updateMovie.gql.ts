@@ -22,6 +22,7 @@ export const addActressToMovieMutation = gql`
       actresses {
         id
         name
+        picture
       }
     }
   }
@@ -33,6 +34,7 @@ export const removeActressFromMovieMutation = gql`
       actresses {
         id
         name
+        picture
       }
     }
   }

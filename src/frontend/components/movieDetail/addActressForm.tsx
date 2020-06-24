@@ -42,7 +42,7 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
 
   const [name, setName] = useState('');
 
-  const { data, loading } = useQuery<FindActressQuery, FindActressQueryVariables>(
+  const { data, loading, error } = useQuery<FindActressQuery, FindActressQueryVariables>(
     findActressQuery,
     {
       skip: name.length < 3,
@@ -51,6 +51,8 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
       },
     },
   );
+
+  console.log(error);
 
   const [actrs, setActrs] = useState<ActressCardActress[]>(actresses);
 
@@ -63,15 +65,11 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
     RemoveActressFromMovieMutationVariables
   >(removeActressFromMovieMutation);
 
-  const { formState, setValue, getValues, handleSubmit, register, reset } = useForm<
-    AddActressFormData
-  >({
+  const { setValue, getValues, handleSubmit, register, reset } = useForm<AddActressFormData>({
     defaultValues: {
       id: null,
     },
   });
-
-  const { dirty } = formState;
 
   const resetForm = () => {
     setFormVisible(false);
@@ -118,7 +116,8 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
             url={actressDetailRoute(actress.id)}
             buttonSlot={
               <Icon
-                onClick={() => {
+                onClick={e => {
+                  e.preventDefault();
                   removeActressSubmit(actress.id);
                 }}
                 icon="close"
@@ -140,7 +139,7 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
           }}
           onEnter={focusFirstActress}
         />
-        {loading ? (
+        {loading && !data ? (
           <Loading color="peach" />
         ) : !fetchedActressesWithoutExisting.length && name.trim() ? (
           <NoResult
@@ -157,24 +156,18 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
                   focus={`${getValues().id}` === `${actress.id.toString()}`}
                   name={actress.name}
                   imageUrl={actress.picture}
-                  onClick={() => {
+                  onClick={event => {
                     setValue('id', actress.id);
+                    handleSubmit((formData: AddActressFormData) => {
+                      if (!formData.id) {
+                        return Promise.resolve();
+                      }
+                      return addActressSubmit(parseInt(`${formData.id}`, 10));
+                    })(event);
                   }}
                 />
               ))}
             </ActressCardList>
-            {!dirty ? null : (
-              <Button
-                onClick={handleSubmit((formData: AddActressFormData) => {
-                  if (!formData.id) {
-                    return Promise.resolve();
-                  }
-                  return addActressSubmit(parseInt(`${formData.id}`, 10));
-                })}
-              >
-                {i('FORM_SAVE')}
-              </Button>
-            )}
             <input type="hidden" ref={register} name="id" />
           </Fragment>
         )}

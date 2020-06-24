@@ -2,10 +2,11 @@ import { FunctionalComponent, h } from 'preact';
 
 export type HeadlineProps = {
   onClick?: OnEvent;
+  className?: string;
 };
 
-export const Headline1: FunctionalComponent<HeadlineProps> = ({ onClick, children }) => (
-  <h1 onClick={onClick} className="headline headline--1">
+export const Headline1: FunctionalComponent<HeadlineProps> = ({ onClick, className, children }) => (
+  <h1 onClick={onClick} className={`headline headline--1 ${className || ''}`.trim()}>
     {children}
   </h1>
 );

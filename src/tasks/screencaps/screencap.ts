@@ -25,6 +25,8 @@ export const screencapCommand = (screencapPath: string, movie: ScreencapMovie) =
 
   return [
     'ffmpeg',
+    '-v',
+    'error',
     '-y',
     '-i',
     `'${fullPath(movie)}'`,

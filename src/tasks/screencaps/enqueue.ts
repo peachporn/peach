@@ -4,8 +4,7 @@ import { hasMissingScreencaps, missingScreencaps } from './util';
 import { ScreencapMovie } from './type';
 import { tasksByCategoryAndStatus } from '../task/status';
 import { takeScreencap, TakeScreencapParams } from './take';
-import { Task } from '..';
-import { toTask } from '../task/type';
+import { Task, toTask } from '../task/type';
 
 const log = logScope('screencaps');
 

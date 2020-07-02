@@ -1,3 +1,6 @@
 # Prisma Migrate lockfile v1
 
 20200623171717-setup-database
+20200702144413-add-scenes-and-genres
+20200702165756-add-linkable-parents-and-valid-as-root
+20200702172808-genre-unique

@@ -18,11 +18,11 @@
     "build:frontend": "parcel build src/frontend/index.html --public-url /assets --out-dir dist/frontend",
     "build:migrations": "webpack --mode=production --config webpack.migrations.config.js",
     "lint": "eslint src",
-    "generate": "run-p generate:*",
+    "generate": "env $(cat .env | xargs) run-p generate:*",
     "generate:types": "graphql-codegen --config codegen.yml",
     "generate:prisma": "prisma generate",
     "migration:run": "env $(cat .env | xargs) prisma migrate up --experimental",
-    "migration:save": "prisma migrate save --experimental",
+    "migration:save": "env $(cat .env | xargs) prisma migrate save --experimental",
     "studio": "prisma studio --experimental"
   },
   "alias": {

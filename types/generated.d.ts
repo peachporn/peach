@@ -71,6 +71,37 @@ type Eyecolor = 'Green' | 'Blue' | 'Brown' | 'Hazel' | 'Grey' | 'Other';
 
 type Format = 'mp4' | 'wmv';
 
+type Genre = {
+  __typename?: 'Genre';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  category: GenreCategory;
+  kinkiness: Scalars['Int'];
+  validAsRoot: Scalars['Boolean'];
+  linkableParents: Array<Genre>;
+};
+
+type GenreCategory =
+  | 'Position'
+  | 'Location'
+  | 'Clothing'
+  | 'Practice'
+  | 'Film'
+  | 'Feature'
+  | 'BodyPart';
+
+type GenreCreateInput = {
+  name: Scalars['String'];
+  category: GenreCategory;
+  kinkiness: Scalars['Int'];
+  validAsRoot: Scalars['Boolean'];
+};
+
+type GenreFilter = {
+  name?: Maybe<Scalars['String']>;
+  category?: Maybe<GenreCategory>;
+};
+
 type GeoLocation = {
   __typename?: 'GeoLocation';
   longitude: Scalars['Float'];
@@ -148,11 +179,14 @@ type MovieUpdateInput = {
 type Mutation = {
   __typename?: 'Mutation';
   addActressToMovie?: Maybe<Movie>;
+  addLinkableParent?: Maybe<Genre>;
   cancelTask?: Maybe<Scalars['Boolean']>;
   createActress?: Maybe<Actress>;
+  createGenre?: Maybe<Genre>;
   createMovieFromFile: Movie;
   deleteMovie?: Maybe<Movie>;
   removeActressFromMovie?: Maybe<Movie>;
+  removeLinkableParent?: Maybe<Genre>;
   restartTask?: Maybe<Task>;
   saveVolumes: Array<Volume>;
   scanLibrary?: Maybe<Scalars['Boolean']>;
@@ -170,12 +204,21 @@ type MutationAddActressToMovieArgs = {
   actressId: Scalars['Int'];
 };
 
+type MutationAddLinkableParentArgs = {
+  child: Scalars['Int'];
+  parent: Scalars['Int'];
+};
+
 type MutationCancelTaskArgs = {
   taskId: Scalars['Int'];
 };
 
 type MutationCreateActressArgs = {
   actress: ActressCreateInput;
+};
+
+type MutationCreateGenreArgs = {
+  genreInput: GenreCreateInput;
 };
 
 type MutationCreateMovieFromFileArgs = {
@@ -189,6 +232,11 @@ type MutationDeleteMovieArgs = {
 type MutationRemoveActressFromMovieArgs = {
   movieId: Scalars['Int'];
   actressId: Scalars['Int'];
+};
+
+type MutationRemoveLinkableParentArgs = {
+  child: Scalars['Int'];
+  parent: Scalars['Int'];
 };
 
 type MutationRestartTaskArgs = {
@@ -231,6 +279,7 @@ type Query = {
   actress?: Maybe<Actress>;
   actresses: Array<Actress>;
   actressesCount: Scalars['Int'];
+  genres: Array<Genre>;
   movie?: Maybe<Movie>;
   movieCount: Scalars['Int'];
   movies: Array<MovieListMovie>;
@@ -254,6 +303,12 @@ type QueryActressesArgs = {
 
 type QueryActressesCountArgs = {
   filter?: Maybe<ActressFilter>;
+};
+
+type QueryGenresArgs = {
+  filter?: Maybe<GenreFilter>;
+  limit?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
 };
 
 type QueryMovieArgs = {

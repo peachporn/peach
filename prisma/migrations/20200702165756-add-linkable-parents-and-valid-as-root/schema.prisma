@@ -1,6 +1,6 @@
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -114,7 +114,7 @@ model Scene {
 
 model Genre {
   id                  Int @id @default(autoincrement())
-  name                String @unique
+  name                String
   category            String
   kinkiness           Int
   validAsRoot         Boolean

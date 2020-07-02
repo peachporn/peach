@@ -4,6 +4,7 @@ import { settingsResolvers } from './settings';
 import { movieResolvers } from './movie';
 import { setupResolvers } from './setup';
 import { tasksResolvers } from './tasks';
+import { genreResolvers } from './genre';
 
 export const resolvers = [
   volumeResolvers,
@@ -12,4 +13,5 @@ export const resolvers = [
   setupResolvers,
   actressResolvers,
   tasksResolvers,
+  genreResolvers,
 ];

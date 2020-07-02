@@ -1,7 +1,7 @@
 .movie-detail-page .container
   display grid
   grid-template-columns repeat(5, 1fr)
-  grid-template-areas "headline headline headline headline headline"  "stats stats actresses actresses actresses" "screencaps screencaps screencaps screencaps screencaps" "table table table table table"
+  grid-template-areas "headline headline headline headline headline"  "stats stats actresses actresses actresses" "screencaps screencaps screencaps screencaps screencaps" "table table table actions actions"
   grid-gap 2em
 
   .movie-metadata-table
@@ -23,3 +23,6 @@
 
   .screencap-strip
     grid-area screencaps
+
+  .movie-detail-actions
+    grid-area actions

@@ -9,6 +9,8 @@ import { ScreencapStripForm } from '../components/movieDetail/screencapStripForm
 import { TitleForm } from '../components/movieDetail/titleForm';
 import { AddActressForm } from '../components/movieDetail/addActressForm';
 import { PageIntro } from '../../components/components/pageIntro';
+import { i } from '../i18n/i18n';
+import { MovieDetailActions } from '../components/movieDetail/movieDetailActions';
 
 export type MovieDetailPageProps = {
   movieId: string;
@@ -50,6 +52,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
                 path={movie.path}
               />
             )}
+            <MovieDetailActions movie={movie} />
           </Container>
         </Fragment>
       )}

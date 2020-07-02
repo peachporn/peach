@@ -3,6 +3,8 @@ import { i } from '../i18n/i18n';
 
 export const settingsRoute = '/settings';
 
+export const homeRoute = '/';
+
 export const movieDetailRoute = (movieId: number) => `/movies/${movieId}`;
 export const actressDetailRoute = (actressId: number) => `/actresses/${actressId}`;
 

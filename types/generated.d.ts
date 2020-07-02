@@ -151,6 +151,7 @@ type Mutation = {
   cancelTask?: Maybe<Scalars['Boolean']>;
   createActress?: Maybe<Actress>;
   createMovieFromFile: Movie;
+  deleteMovie?: Maybe<Movie>;
   removeActressFromMovie?: Maybe<Movie>;
   restartTask?: Maybe<Task>;
   saveVolumes: Array<Volume>;
@@ -179,6 +180,10 @@ type MutationCreateActressArgs = {
 
 type MutationCreateMovieFromFileArgs = {
   input: MovieFromFileInput;
+};
+
+type MutationDeleteMovieArgs = {
+  movieId: Scalars['Int'];
 };
 
 type MutationRemoveActressFromMovieArgs = {
@@ -308,6 +313,15 @@ type CreateActressMutationVariables = {
 type CreateActressMutation = {
   __typename?: 'Mutation';
   createActress?: Maybe<{ __typename?: 'Actress'; id: number; name: string }>;
+};
+
+type DeleteMovieMutationVariables = {
+  movieId: Scalars['Int'];
+};
+
+type DeleteMovieMutation = {
+  __typename?: 'Mutation';
+  deleteMovie?: Maybe<{ __typename?: 'Movie'; id: number }>;
 };
 
 type SaveVolumesMutationVariables = {

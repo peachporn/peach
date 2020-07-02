@@ -1,6 +1,7 @@
 import { FunctionalComponent, h } from 'preact';
 import { Table, TableCell, TableRow } from '../../components/table';
 import { i } from '../../../frontend/i18n/i18n';
+import { Headline2 } from '../../components/headline';
 
 type DisplayableMovieMetadata = Pick<
   MovieMetadata,
@@ -33,6 +34,7 @@ export const MovieMetadataTable: FunctionalComponent<MovieMetadataTableProps> = 
   path,
 }) => (
   <section className="movie-metadata-table">
+    <Headline2>{i('MOVIE_METADATA')}</Headline2>
     <Table borders>
       <TableRow>
         <TableCell>{i('METADATA_VIDEO')}</TableCell>

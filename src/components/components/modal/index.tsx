@@ -4,7 +4,7 @@ import { Icon } from '../icon';
 export type ModalProps = {
   visible: boolean;
   setVisible: (x: boolean) => void;
-  appearance?: 'default' | 'slit';
+  appearance?: 'default' | 'slit' | 'tiny';
 };
 
 export const Modal: FunctionalComponent<ModalProps> = ({

@@ -68,5 +68,6 @@ export const typeDef = gql`
     updateMovie(movieId: Int!, data: MovieUpdateInput!): Movie
     addActressToMovie(movieId: Int!, actressId: Int!): Movie
     removeActressFromMovie(movieId: Int!, actressId: Int!): Movie
+    deleteMovie(movieId: Int!): Movie
   }
 `;

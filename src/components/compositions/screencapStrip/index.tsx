@@ -36,7 +36,11 @@ export const Screencap = forwardRef<HTMLInputElement, ScreencapProps>(
           appearance === 'tint' ? 'screencap-strip__element--tint' : ''
         }`.trim()}
       >
-        {!value ? children : <label htmlFor={`screencap-input-${value}`}>{children}</label>}
+        {value === undefined ? (
+          children
+        ) : (
+          <label htmlFor={`screencap-input-${value}`}>{children}</label>
+        )}
       </li>
     );
   },

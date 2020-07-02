@@ -21,7 +21,7 @@
     "generate": "run-p generate:*",
     "generate:types": "graphql-codegen --config codegen.yml",
     "generate:prisma": "prisma generate",
-    "migration:run": "prisma migrate up --experimental",
+    "migration:run": "env $(cat .env | xargs) prisma migrate up --experimental",
     "migration:save": "prisma migrate save --experimental",
     "studio": "prisma studio --experimental"
   },

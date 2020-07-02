@@ -371,7 +371,7 @@ type AddActressToMovieMutation = {
   __typename?: 'Mutation';
   addActressToMovie?: Maybe<{
     __typename?: 'Movie';
-    actresses: Array<{ __typename?: 'Actress'; id: number; name: string }>;
+    actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
   }>;
 };
 
@@ -384,7 +384,7 @@ type RemoveActressFromMovieMutation = {
   __typename?: 'Mutation';
   removeActressFromMovie?: Maybe<{
     __typename?: 'Movie';
-    actresses: Array<{ __typename?: 'Actress'; id: number; name: string }>;
+    actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
   }>;
 };
 

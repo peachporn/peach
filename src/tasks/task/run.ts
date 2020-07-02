@@ -51,5 +51,9 @@ export const runTasks = async () => {
     return runningOfCategory.length < options.workers;
   });
 
+  if (!runnableTasks.length) {
+    return Promise.resolve();
+  }
+
   return runTask(toTask(runnableTasks[0]));
 };

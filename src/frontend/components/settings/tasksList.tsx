@@ -70,9 +70,14 @@ const TaskView: FunctionalComponent<{ task: TasksQuery['tasks'][number] }> = ({
 
   return (
     <TaskListEntry>
-      <TaskEntryCategory>{i(category as TaskCategory)}</TaskEntryCategory>
+      <TaskEntryCategory>
+        {i(category as TaskCategory)}
+        {category === 'TAKE_SCREENCAP' ? ` - ${params.index}` : ''}
+      </TaskEntryCategory>
       <TaskEntryParameters>
-        {category === 'TAKE_SCREENCAPS' && params?.movie?.title && params?.movie?.id ? (
+        {['ENQUEUE_SCREENCAPS', 'TAKE_SCREENCAP'].includes(category) &&
+        params?.movie?.title &&
+        params?.movie?.id ? (
           <a href={movieDetailRoute(params.movie.id)}>{params.movie.title}</a>
         ) : null}
       </TaskEntryParameters>

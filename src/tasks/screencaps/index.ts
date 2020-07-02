@@ -1,36 +1,6 @@
-import { logScope } from '../../utils';
-import { defineTask } from '../task/template';
 import { prisma } from '../../prisma';
-import { takeScreencapsForMovie } from './screencap';
 import { hasMissingScreencaps } from './util';
-import { ScreencapMovie } from './type';
-
-const log = logScope('screencaps');
-
-type TakeScreencapParams = {
-  movie: ScreencapMovie;
-};
-
-const { createTask, runTask, taskDefinitionOptions } = defineTask<TakeScreencapParams>(
-  'TAKE_SCREENCAPS',
-  async ({ parameters: { movie } }) => {
-    try {
-      await takeScreencapsForMovie(movie);
-
-      return 'SUCCESS';
-    } catch (e) {
-      log.error(e);
-      return 'ERROR';
-    }
-  },
-  {
-    workers: 1,
-  },
-);
-
-export const takeScreencaps = createTask;
-export const runTakeScreencapTask = runTask;
-export const takeScreencapsDefinitionOptions = taskDefinitionOptions;
+import { enqueueScreencaps } from './enqueue';
 
 export const takeScreencapsForAllMovies = async () => {
   prisma.movie
@@ -43,7 +13,10 @@ export const takeScreencapsForAllMovies = async () => {
     .then(movies =>
       movies.map(async movie => {
         const missing = await hasMissingScreencaps(movie);
-        return missing ? takeScreencaps({ movie }) : Promise.resolve();
+        return missing ? enqueueScreencaps({ movie }) : Promise.resolve();
       }),
     );
 };
+
+export * from './take';
+export * from './enqueue';

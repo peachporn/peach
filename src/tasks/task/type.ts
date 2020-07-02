@@ -18,7 +18,8 @@ export type TaskStatusMessage = 'SERVER_RESTARTED';
 export type TaskCategory =
   | 'SCAN_LIBRARY'
   | 'SCRAPE_METADATA'
-  | 'TAKE_SCREENCAPS'
+  | 'ENQUEUE_SCREENCAPS'
+  | 'TAKE_SCREENCAP'
   | 'SCRAPE_ACTRESS';
 export type TaskStatus = 'PENDING' | 'RUNNING' | 'ERROR';
 

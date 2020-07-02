@@ -38,12 +38,16 @@ export const removeTask = (task: Task) =>
     },
   });
 
-export const runningTasksOfCategory = (category: TaskCategory): Promise<number> =>
-  prisma.task
-    .findMany({
-      where: {
-        status: 'RUNNING',
-        category,
-      },
-    })
-    .then(data => data.length);
+export const tasksByCategoryAndStatus = (category: TaskCategory, statuses: TaskStatus[]) =>
+  prisma.task.findMany({
+    where: {
+      OR: statuses.map(status => ({ status })),
+      category,
+    },
+  });
+
+export const runningTasksOfCategory = (category: TaskCategory) =>
+  tasksByCategoryAndStatus(category, ['RUNNING']);
+
+export const numberOfRunningTasksOfCategory = (category: TaskCategory): Promise<number> =>
+  runningTasksOfCategory(category).then(data => data.length);

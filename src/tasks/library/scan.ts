@@ -46,7 +46,11 @@ const lastSegment = (p: string) => {
 const titleFromFolder = (moviePath: string) => lastSegment(path.dirname(moviePath));
 const titleFromFilename = (moviePath: string) => lastSegment(moviePath);
 
-const createMovie = async (volume: Volume, moviePath: string) => {
+const createMovie = async (
+  existingMovies: Movie[],
+  volume: Volume,
+  moviePath: string,
+): Promise<Movie | undefined> => {
   const inferMovieTitleType = await getInferMovieTitle();
   const title =
     inferMovieTitleType === 'FILENAME'
@@ -58,6 +62,11 @@ const createMovie = async (volume: Volume, moviePath: string) => {
   if (!title) {
     log.error(`Couldn't derive title from movie path ${moviePath}`);
     throw new Error('Error running task');
+  }
+
+  if (existingMovies.map(m => m.title).includes(title)) {
+    log.error(`Movie with title ${title} already exists`);
+    return undefined;
   }
 
   const movie = await prisma.movie.create({
@@ -80,7 +89,7 @@ const createMovie = async (volume: Volume, moviePath: string) => {
 const trimVolumePath = (volumePath: string) => (filePath: string) =>
   filePath.replace(new RegExp(`^${volumePath}`), '');
 
-export const scanVolume = (volume: Volume): Promise<Movie[]> => {
+export const scanVolume = (volume: Volume): Promise<(Movie | undefined)[]> => {
   const moviesGlob = `${volume.path}/**/${extensionsGlob}`;
   log.debug(`Searching for movies in: ${moviesGlob}`);
 
@@ -92,6 +101,8 @@ export const scanVolume = (volume: Volume): Promise<Movie[]> => {
       .filter(file => !existingMovies.map(m => m.path).includes(file));
     log.debug(`Found ${moviesToCreate.length} new movies!`);
 
-    return sequence(moviesToCreate.map(moviePath => () => createMovie(volume, moviePath)));
+    return sequence(
+      moviesToCreate.map(moviePath => () => createMovie(existingMovies, volume, moviePath)),
+    );
   });
 };

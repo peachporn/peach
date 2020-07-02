@@ -2,7 +2,7 @@ import { Task as DBTask } from '@prisma/client';
 import { prisma } from '../../prisma';
 import { TaskDefinition } from './type';
 
-export const createTask = <TaskParameters = {}>(
+export const createTask = async <TaskParameters = {}>(
   task: TaskDefinition<TaskParameters>,
 ): Promise<DBTask> =>
   prisma.task.create({

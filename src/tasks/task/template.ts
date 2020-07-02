@@ -1,7 +1,7 @@
 import { Task, TaskCategory, TaskResult, TaskRunner, TaskDefinitionOptions } from './type';
 import { createTask, createUniqueTask } from './create';
 import { logScope } from '../../utils/logging';
-import { runningTasksOfCategory } from './status';
+import { numberOfRunningTasksOfCategory } from './status';
 
 const log = logScope('run-tasks');
 
@@ -27,7 +27,7 @@ export const defineTask = <TaskParameters = {}>(
         return 'SKIPPED';
       }
 
-      const runningOfCategory = await runningTasksOfCategory(category);
+      const runningOfCategory = await numberOfRunningTasksOfCategory(category);
       if (runningOfCategory > (options.workers || defaultOptions.workers)) {
         return 'RETRY';
       }

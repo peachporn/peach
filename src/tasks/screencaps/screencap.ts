@@ -1,16 +1,19 @@
 import path from 'path';
 import { fullPath } from '../../domain/movie/path';
-import { sequence } from '../../utils/promise';
-import { execP } from '../../utils/exec';
-import { logScope } from '../../utils/logging';
 import { ScreencapMovie } from './type';
-import { missingScreencaps, SCREENCAP_NUM } from './util';
+import { SCREENCAP_NUM } from './util';
 
-const log = logScope('screencaps');
-
-const screencapCommand = (screencapPath: string, movie: ScreencapMovie) => {
+export const screencapCommand = (screencapPath: string, movie: ScreencapMovie) => {
   if (!movie.metadata) {
-    throw new Error('Cannot create screencaps for movie without metadata!');
+    throw new Error(
+      'Cannot create screencaps for movie without metadata! Maybe you forgot to include it in the query?',
+    );
+  }
+
+  if (!movie.volume) {
+    throw new Error(
+      'Cannot create screencaps for movie without volume! Maybe you forgot to include it in the query?',
+    );
   }
 
   const i = parseInt(screencapPath.split('.jpg')[0].slice(-2), 10);
@@ -20,7 +23,7 @@ const screencapCommand = (screencapPath: string, movie: ScreencapMovie) => {
 
   const offset = Math.floor((movie.metadata.durationSeconds / SCREENCAP_NUM) * offsetMultiplier);
 
-  const command = [
+  return [
     'ffmpeg',
     '-y',
     '-i',
@@ -33,11 +36,4 @@ const screencapCommand = (screencapPath: string, movie: ScreencapMovie) => {
     'image2',
     screencapPath,
   ].join(' ');
-  log.debug(`Running command: ${command}`);
-  return command;
 };
-
-export const takeScreencapsForMovie = async (movie: ScreencapMovie) =>
-  missingScreencaps(movie).then(missing =>
-    sequence(missing.map(s => screencapCommand(s, movie)).map(command => () => execP(command))),
-  );

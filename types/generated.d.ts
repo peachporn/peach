@@ -280,6 +280,7 @@ type Query = {
   actresses: Array<Actress>;
   actressesCount: Scalars['Int'];
   genres: Array<Genre>;
+  genresCount: Scalars['Int'];
   movie?: Maybe<Movie>;
   movieCount: Scalars['Int'];
   movies: Array<MovieListMovie>;
@@ -309,6 +310,10 @@ type QueryGenresArgs = {
   filter?: Maybe<GenreFilter>;
   limit?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+};
+
+type QueryGenresCountArgs = {
+  filter?: Maybe<GenreFilter>;
 };
 
 type QueryMovieArgs = {
@@ -559,6 +564,20 @@ type FindActressQuery = {
   __typename?: 'Query';
   actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
 };
+
+type GenresListQueryVariables = {
+  limit: Scalars['Int'];
+  skip: Scalars['Int'];
+};
+
+type GenresListQuery = {
+  __typename?: 'Query';
+  genres: Array<{ __typename?: 'Genre'; id: number; name: string; category: GenreCategory }>;
+};
+
+type GenresCountQueryVariables = {};
+
+type GenresCountQuery = { __typename?: 'Query'; genresCount: number };
 
 type MovieQueryVariables = {
   id: Scalars['Int'];

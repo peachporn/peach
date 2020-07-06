@@ -41,5 +41,6 @@ export const typeDef = gql`
 
   extend type Query {
     genres(filter: GenreFilter, limit: Int, skip: Int): [Genre!]!
+    genresCount(filter: GenreFilter): Int!
   }
 `;

@@ -15,6 +15,8 @@ export const genreResolvers: Resolvers = {
           },
         })
         .then(genres => genres.map(transformGenre)),
+
+    genresCount: async (_parent, { filter }, { prisma }) => prisma.genre.count(applyFilter(filter)),
   },
   Mutation: {
     removeLinkableParent: async (_parent, args, { prisma }) => {

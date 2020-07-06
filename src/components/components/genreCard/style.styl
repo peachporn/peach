@@ -1,0 +1,30 @@
+.genre-card-grid
+  display grid
+  grid-template-columns repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap 1em
+  padding 1em
+
+.genre-card
+  position relative
+  display grid
+  column-gap 1em
+  align-items center
+  grid-template-columns 1fr 2fr
+  grid-template-rows 1fr 1fr
+  border-radius .5em
+  background white
+  cursor pointer
+  bounce()
+
+.genre-card__image
+  grid-row span 2
+  border-radius .5em
+
+.genre-card__name
+  font-size 1.1em
+  align-self flex-end
+
+.genre-card__category
+  font-size .8em
+  align-self flex-start
+

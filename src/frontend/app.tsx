@@ -13,6 +13,7 @@ import { SettingsProvider } from './context/settings';
 import { MovieDetailPage } from './pages/movieDetail';
 import { ActressesPage } from './pages/actresses';
 import { ActressDetailPage } from './pages/actressDetail';
+import { GenresPage } from './pages/genres';
 
 const App = (
   <ApolloProvider client={client}>
@@ -33,6 +34,9 @@ const App = (
           </Route>
           <Route exact path="/actresses/:actressId">
             <ActressDetailPage />
+          </Route>
+          <Route exact path="/genres">
+            <GenresPage />
           </Route>
           <Route path="/">
             <Homepage />

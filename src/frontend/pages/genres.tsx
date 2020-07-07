@@ -7,6 +7,7 @@ import { usePagination } from '../utils/pagination';
 
 import { Pagination } from '../../components/components/pagination';
 import { GenreCard, GenreCardGrid } from '../../components/components/genreCard';
+import { genreDetailRoute } from '../utils/route';
 
 const pageLength = 48;
 
@@ -39,7 +40,7 @@ export const GenresPage: FunctionalComponent = () => {
         <Fragment>
           <GenreCardGrid>
             {data?.genres.map(g => (
-              <GenreCard name={g.name} category={g.category} />
+              <GenreCard name={g.name} category={g.category} url={genreDetailRoute(g.id)} />
             ))}
           </GenreCardGrid>
           <Pagination page={page} maxPage={maxPage} onNext={nextPage} onPrevious={previousPage} />

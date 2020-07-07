@@ -1,0 +1,32 @@
+.checkbox
+  position relative
+  margin 5px
+  cursor pointer
+
+  +medium()
+    margin-right 15px
+
+  &:before
+    position absolute
+    top 0
+    left 0
+    width 1em
+    height 1em
+    border-radius .1em
+    background-color #ddd
+    content ''
+    transition background-color .2s ease
+
+    +medium()
+      top -.4em
+      left -.4em
+      width 1.5em
+      height 1.5em
+
+  &:hover
+    &:before
+      background-color #bbb
+
+  &:checked
+    &:before
+      background-color mainColor

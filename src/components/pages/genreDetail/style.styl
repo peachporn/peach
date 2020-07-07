@@ -1,0 +1,33 @@
+.genre-detail-page .container
+  display grid
+  grid-template-columns 1fr 1fr 1fr
+  grid-template-areas "card header score" "card data ." ". data ."
+  column-gap 2em
+  row-gap 1em
+  min-height 30vh
+
+.genre-data-form
+  grid-column span 2
+
+.genre-detail-page .kink-score
+  grid-area score
+  align-items flex-start
+
+.genre-detail-header
+  grid-area header
+
+.genre-detail-card
+  border-radius .5em
+
+.genre-detail-card,
+.genre-detail__controls
+  grid-area card
+  justify-self end
+  position relative
+
+.genre-detail-card
+  bottom 10em
+
+.genre-detail__controls
+  align-self flex-end
+  bottom 5em

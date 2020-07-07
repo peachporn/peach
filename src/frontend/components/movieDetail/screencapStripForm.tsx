@@ -29,6 +29,7 @@ export const ScreencapStripForm: FunctionalComponent<ScreencapStripFormProps> = 
   );
 
   const onSubmit = (data: ScreencapFormData) => {
+    console.log(data);
     if (!formState.dirty) {
       return;
     }

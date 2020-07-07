@@ -7,10 +7,7 @@ import { Input } from '../../../components/components/input';
 import { Button } from '../../../components/components/button';
 import { FloatingControls } from '../../../components/components/floatingControls';
 import { updateActressMutation } from '../../mutations/updateActress.gql';
-import {
-  ActressDataGridContainer,
-  ActressDataGridEntry,
-} from '../../../components/compositions/actressDataGrid';
+import { DataGridContainer, DataGridEntry } from '../../../components/compositions/dataGrid';
 import { Select } from '../../../components/components/select';
 import {
   boobs,
@@ -148,24 +145,24 @@ export const ActressDataForm: FunctionalComponent<ActressDataFormProps> = ({
         name="name"
         appearance="display"
       />
-      <ActressDataGridContainer>
-        <ActressDataGridEntry
+      <DataGridContainer>
+        <DataGridEntry
           label="ACTRESS_DATEOFBIRTH"
           value={<Input type="date" name="dateOfBirth" ref={register} appearance="wide" />}
         />
-        <ActressDataGridEntry
+        <DataGridEntry
           label="ACTRESS_DATEOFCAREERSTART"
           value={<Input type="date" name="dateOfCareerstart" ref={register} appearance="wide" />}
         />
-        <ActressDataGridEntry
+        <DataGridEntry
           label="ACTRESS_DATEOFRETIREMENT"
           value={<Input type="date" name="dateOfRetirement" ref={register} appearance="wide" />}
         />
-        <ActressDataGridEntry
+        <DataGridEntry
           label="ACTRESS_DATEOFDEATH"
           value={<Input type="date" name="dateOfDeath" ref={register} appearance="wide" />}
         />
-        <ActressDataGridEntry
+        <DataGridEntry
           label="ACTRESS_HAIRCOLOR"
           value={
             <Select name="haircolor" ref={register}>
@@ -175,7 +172,7 @@ export const ActressDataForm: FunctionalComponent<ActressDataFormProps> = ({
             </Select>
           }
         />
-        <ActressDataGridEntry
+        <DataGridEntry
           label="ACTRESS_EYECOLOR"
           value={
             <Select name="eyecolor" ref={register}>
@@ -185,7 +182,7 @@ export const ActressDataForm: FunctionalComponent<ActressDataFormProps> = ({
             </Select>
           }
         />
-        <ActressDataGridEntry
+        <DataGridEntry
           label="ACTRESS_ETHNICITY"
           value={
             <Select name="ethnicity" ref={register}>
@@ -195,7 +192,7 @@ export const ActressDataForm: FunctionalComponent<ActressDataFormProps> = ({
             </Select>
           }
         />
-        <ActressDataGridEntry
+        <DataGridEntry
           label="ACTRESS_HEIGHT"
           value={
             <Input
@@ -209,7 +206,7 @@ export const ActressDataForm: FunctionalComponent<ActressDataFormProps> = ({
             />
           }
         />
-        <ActressDataGridEntry
+        <DataGridEntry
           label="ACTRESS_WEIGHT"
           value={
             <Input
@@ -223,7 +220,7 @@ export const ActressDataForm: FunctionalComponent<ActressDataFormProps> = ({
             />
           }
         />
-        <ActressDataGridEntry
+        <DataGridEntry
           label="ACTRESS_MEASUREMENTS"
           value={
             <Fragment>
@@ -257,7 +254,7 @@ export const ActressDataForm: FunctionalComponent<ActressDataFormProps> = ({
             </Fragment>
           }
         />
-        <ActressDataGridEntry
+        <DataGridEntry
           label="ACTRESS_CUPSIZE"
           value={
             <Select name="cupsize" ref={register}>
@@ -267,7 +264,7 @@ export const ActressDataForm: FunctionalComponent<ActressDataFormProps> = ({
             </Select>
           }
         />
-        <ActressDataGridEntry
+        <DataGridEntry
           label="ACTRESS_BOOBS"
           value={
             <Select name="boobs" ref={register}>
@@ -277,15 +274,15 @@ export const ActressDataForm: FunctionalComponent<ActressDataFormProps> = ({
             </Select>
           }
         />
-        <ActressDataGridEntry
+        <DataGridEntry
           label="ACTRESS_TATTOOS"
           value={<Input name="tattoos" ref={register} appearance="wide" />}
         />
-        <ActressDataGridEntry
+        <DataGridEntry
           label="ACTRESS_PIERCINGS"
           value={<Input name="piercings" ref={register} appearance="wide" />}
         />
-      </ActressDataGridContainer>
+      </DataGridContainer>
     </div>
   );
 };

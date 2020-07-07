@@ -3,7 +3,21 @@ import { transformGenre } from '../../transformers/genre';
 import { applyFilter } from './filter';
 
 export const genreResolvers: Resolvers = {
+  Genre: {
+    picture: parent => `/assets/genre/${parent.id}.jpg`,
+  },
   Query: {
+    genre: async (_parent, { id }, { prisma }) =>
+      prisma.genre
+        .findOne({
+          where: {
+            id,
+          },
+          include: {
+            linkableParents: true,
+          },
+        })
+        .then(g => (!g ? undefined : transformGenre(g))),
     genres: async (_parent, { filter, skip, limit }, { prisma }) =>
       prisma.genre
         .findMany({
@@ -72,6 +86,18 @@ export const genreResolvers: Resolvers = {
           include: {
             linkableParents: true,
           },
+        })
+        .then(transformGenre),
+    updateGenre: async (_parent, { genreId, data }, { prisma }) =>
+      prisma.genre
+        .update({
+          where: {
+            id: genreId,
+          },
+          include: {
+            linkableParents: true,
+          },
+          data,
         })
         .then(transformGenre),
   },

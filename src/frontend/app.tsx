@@ -14,6 +14,7 @@ import { MovieDetailPage } from './pages/movieDetail';
 import { ActressesPage } from './pages/actresses';
 import { ActressDetailPage } from './pages/actressDetail';
 import { GenresPage } from './pages/genres';
+import { GenreDetailPage } from './pages/genreDetail';
 
 const App = (
   <ApolloProvider client={client}>
@@ -40,6 +41,12 @@ const App = (
           </Route>
           <Route exact path="/genres">
             <GenresPage />
+          </Route>
+          <Route exact path="/genres/:genreId">
+            <GenreDetailPage />
+          </Route>
+          <Route exact path="/genres/:genreId/edit">
+            <GenreDetailPage />
           </Route>
           <Route path="/">
             <Homepage />

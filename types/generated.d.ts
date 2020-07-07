@@ -95,6 +95,7 @@ type Genre = {
   name: Scalars['String'];
   category: GenreCategory;
   kinkiness: Scalars['Int'];
+  picture: Scalars['String'];
   validAsRoot: Scalars['Boolean'];
   linkableParents: Array<Genre>;
 };
@@ -118,6 +119,13 @@ type GenreCreateInput = {
 type GenreFilter = {
   name?: Maybe<Scalars['String']>;
   category?: Maybe<GenreCategory>;
+};
+
+type GenreUpdateInput = {
+  name?: Maybe<Scalars['String']>;
+  category?: Maybe<GenreCategory>;
+  validAsRoot?: Maybe<Scalars['Boolean']>;
+  kinkiness?: Maybe<Scalars['Int']>;
 };
 
 type GeoLocation = {
@@ -218,6 +226,7 @@ type Mutation = {
   takeAllScreencaps?: Maybe<Scalars['Boolean']>;
   updateActress?: Maybe<Actress>;
   updateActressImagePath: Settings;
+  updateGenre?: Maybe<Genre>;
   updateInferMovieTitle: Settings;
   updateLanguage: Settings;
   updateMovie?: Maybe<Movie>;
@@ -285,6 +294,11 @@ type MutationUpdateActressImagePathArgs = {
   path: Scalars['String'];
 };
 
+type MutationUpdateGenreArgs = {
+  genreId: Scalars['Int'];
+  data: GenreUpdateInput;
+};
+
 type MutationUpdateInferMovieTitleArgs = {
   inferMovieTitle?: Maybe<InferMovieTitle>;
 };
@@ -309,6 +323,7 @@ type Query = {
   actress?: Maybe<Actress>;
   actresses: Array<Actress>;
   actressesCount: Scalars['Int'];
+  genre?: Maybe<Genre>;
   genres: Array<Genre>;
   genresCount: Scalars['Int'];
   movie?: Maybe<Movie>;
@@ -334,6 +349,10 @@ type QueryActressesArgs = {
 
 type QueryActressesCountArgs = {
   filter?: Maybe<ActressFilter>;
+};
+
+type QueryGenreArgs = {
+  id: Scalars['Int'];
 };
 
 type QueryGenresArgs = {
@@ -460,6 +479,16 @@ type UpdateActressMutationVariables = {
 type UpdateActressMutation = {
   __typename?: 'Mutation';
   updateActress?: Maybe<{ __typename?: 'Actress'; id: number }>;
+};
+
+type UpdateGenreMutationVariables = {
+  genreId: Scalars['Int'];
+  data: GenreUpdateInput;
+};
+
+type UpdateGenreMutation = {
+  __typename?: 'Mutation';
+  updateGenre?: Maybe<{ __typename?: 'Genre'; id: number }>;
 };
 
 type UpdateCoverMutationVariables = {
@@ -609,6 +638,24 @@ type FindActressQueryVariables = {
 type FindActressQuery = {
   __typename?: 'Query';
   actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
+};
+
+type GenreQueryVariables = {
+  id: Scalars['Int'];
+};
+
+type GenreQuery = {
+  __typename?: 'Query';
+  genre?: Maybe<{
+    __typename?: 'Genre';
+    id: number;
+    name: string;
+    category: GenreCategory;
+    kinkiness: number;
+    picture: string;
+    validAsRoot: boolean;
+    linkableParents: Array<{ __typename?: 'Genre'; name: string; category: GenreCategory }>;
+  }>;
 };
 
 type GenresListQueryVariables = {

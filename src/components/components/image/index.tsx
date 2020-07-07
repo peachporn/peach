@@ -2,13 +2,20 @@ import { h, FunctionalComponent } from 'preact';
 
 import { useState } from 'preact/hooks';
 
+import logo from '../../static/logo.png';
+
 export type ImageProps = {
   className?: string;
   src: string;
   alt: string;
   placeholder?: string;
 };
-export const Image: FunctionalComponent<ImageProps> = ({ className, src, placeholder, alt }) => {
+export const Image: FunctionalComponent<ImageProps> = ({
+  className,
+  src,
+  placeholder = logo,
+  alt,
+}) => {
   const [source, setSource] = useState(src);
 
   return (

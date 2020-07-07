@@ -7,12 +7,15 @@ import { getScreencapPath } from '../domain/settings';
 import { serveScreencaps } from './serve/screencaps';
 import { serveMovies } from './serve/movies';
 import { serveActressImages } from './serve/actress-images';
+import { applyFileUploadMiddleware } from './serve/file-upload';
 
 export const startServer = () => {
   const port = () => (fromEnv('PORT') ? parseInt(fromEnv('PORT'), 10) : 3000);
 
   const server = new ApolloServer(serverConfig);
   const app = express();
+
+  applyFileUploadMiddleware(app);
 
   server.applyMiddleware({ app });
 

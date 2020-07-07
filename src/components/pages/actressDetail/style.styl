@@ -1,23 +1,30 @@
 .actress-detail-page .container
   display grid
   grid-template-columns 33vw 66vw
-  grid-template-areas "card header" "card data" "controls data"
+  grid-template-areas "card header" "card data" ". data"
   column-gap 2em
   row-gap 1em
-
-.actress-detail-card
-  grid-area card
-  justify-self end
-  height 15em
-  position relative
-  bottom 10em
 
 .actress-data-grid
   grid-area data
 
+.actress-form
+  grid-row span 3
+
 .actress-detail-header
   grid-area header
 
-.actress-detail__controls
-  grid-area controls
+.actress-detail-card,
+.actress-detail__controls,
+.actress-image-form
+  grid-area card
   justify-self end
+  position relative
+
+.actress-detail-card
+  bottom 10em
+
+.actress-detail__controls,
+.actress-image-form
+  align-self flex-end
+  bottom 5em

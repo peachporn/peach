@@ -57,7 +57,7 @@ type ActressFormData = {
   height: string;
   weight: string;
   measurements: Measurements;
-  cupsize: string;
+  cupsize: Cupsize;
   boobs: Boobs;
   tattoos: string;
   piercings: string;
@@ -95,6 +95,11 @@ export const ActressDataForm: FunctionalComponent<ActressDataFormProps> = ({
         actressId: actress.id,
         data: {
           ...data,
+          haircolor: data.haircolor || undefined,
+          eyecolor: data.eyecolor || undefined,
+          ethnicity: data.ethnicity || undefined,
+          boobs: data.boobs || undefined,
+          cupsize: data.cupsize || undefined,
           height: data.height ? parseInt(data.height, 10) : undefined,
           weight: data.weight ? parseInt(data.weight, 10) : undefined,
           dateOfBirth: data.dateOfBirth ? new Date(data.dateOfBirth).toISOString() : undefined,

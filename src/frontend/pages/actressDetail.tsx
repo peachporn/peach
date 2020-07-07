@@ -13,6 +13,7 @@ import { i } from '../i18n/i18n';
 import { ActressDataForm } from '../components/actressDetail/actressDataForm';
 import { ActressDataGrid } from '../components/actressDetail/actressDataGrid';
 import { actressDetailRoute, actressEditRoute, isActressEditRoute } from '../utils/route';
+import { ActressImageForm } from '../components/actressDetail/actressImageForm';
 
 export type ActressDetailPageProps = {
   actressId: string;
@@ -93,14 +94,17 @@ export const ActressDetailPage: FunctionalComponent = () => {
               )}
             </div>
             {editingData ? (
-              <ActressDataForm
-                actress={actress}
-                submit={() => {
-                  setEditingData(false);
-                  return refetch();
-                }}
-                cancel={() => setEditingData(false)}
-              />
+              <Fragment>
+                <ActressDataForm
+                  actress={actress}
+                  submit={() => {
+                    setEditingData(false);
+                    return refetch();
+                  }}
+                  cancel={() => setEditingData(false)}
+                />
+                <ActressImageForm actress={actress} />
+              </Fragment>
             ) : (
               <Fragment>
                 <ActressDetailHeader actress={actress} />

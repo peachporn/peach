@@ -11,6 +11,8 @@ export const actressEditRoute = (actressId: number) => `/actresses/${actressId}/
 
 export const isActressEditRoute = (route: string) => route.match(/actresses\/.*\/edit/g);
 
+export const actressUploadImageRoute = (actressId: number) => `/upload/actress/${actressId}`;
+
 export const routes: RouteDefinition[] = [
   {
     url: '/movies',

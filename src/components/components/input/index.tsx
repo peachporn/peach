@@ -6,12 +6,13 @@ import { debounce } from '../../../utils/debounce';
 
 type InputProps = {
   name: string;
-  type?: 'text' | 'date';
+  type?: 'text' | 'date' | 'file';
   appearance?: 'default' | 'wide' | 'display' | 'third';
   error?: boolean;
   placeholder?: string;
   onEnter?: OnEvent;
   onKeyUp?: OnEvent;
+  onChange?: OnEvent;
   tabIndex?: number;
   autoFocus?: boolean;
 };
@@ -26,6 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       error,
       onKeyUp,
       onEnter,
+      onChange,
       tabIndex,
       autoFocus,
     }: InputProps,
@@ -53,6 +55,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           }
           keyUp(event);
         }}
+        onChange={onChange}
         placeholder={placeholder}
       />
     );

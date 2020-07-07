@@ -88,4 +88,5 @@ export default {
   ACTRESS_KG: ' kg',
   ACTRESS_MEASUREMENTS: 'Measurements',
   ACTRESS_FORM_SUCCESS: 'Actress updated!',
+  ACTRESS_UPLOAD_SUCCESS: 'Actress image uploaded!',
 } as const;

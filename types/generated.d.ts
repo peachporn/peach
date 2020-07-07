@@ -58,6 +58,10 @@ type ActressUpdateInput = {
   height?: Maybe<Scalars['Int']>;
   weight?: Maybe<Scalars['Int']>;
   measurements?: Maybe<MeasurementsInput>;
+  cupsize?: Maybe<Cupsize>;
+  boobs?: Maybe<Boobs>;
+  tattoos?: Maybe<Scalars['String']>;
+  piercings?: Maybe<Scalars['String']>;
 };
 
 type Boobs = 'Natural' | 'Fake';

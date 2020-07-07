@@ -1,4 +1,4 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
+import { Fragment, FunctionalComponent, h, VNode } from 'preact';
 import { Image } from '../image';
 import logo from '../../static/logo.png';
 
@@ -9,6 +9,9 @@ export type GenreCardProps = {
   imageUrl?: string;
   url?: string;
   onClick?: OnEvent;
+  buttonSlot?: VNode;
+  focus?: boolean;
+  appearance?: 'small';
 };
 
 export const GenreCard: FunctionalComponent<GenreCardProps> = ({
@@ -18,14 +21,20 @@ export const GenreCard: FunctionalComponent<GenreCardProps> = ({
   imageUrl,
   onClick,
   url,
+  buttonSlot,
+  focus,
+  appearance,
 }) => {
-  const className = `genre-card ${classNameProp || ''}`.trim();
+  const className = `genre-card ${classNameProp || ''} ${focus ? 'genre-card--focus' : ''} ${
+    appearance ? `genre-card--${appearance}` : ''
+  }`.trim();
 
   const children = (
     <Fragment>
       <Image className="genre-card__image" src={imageUrl || logo} alt={name} placeholder={logo} />
       <span className="genre-card__name">{name}</span>
       {category && <span className="genre-card__category">{category}</span>}
+      {buttonSlot ? <div className="genre-card__button-slot">{buttonSlot}</div> : null}
     </Fragment>
   );
 

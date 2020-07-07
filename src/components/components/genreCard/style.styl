@@ -16,15 +16,39 @@
   cursor pointer
   bounce()
 
+  &:hover
+    .genre-card__button-slot
+      visibility visible
+      opacity 1
+
 .genre-card__image
   grid-row span 2
   border-radius .5em
+  max-height 100%
 
 .genre-card__name
   font-size 1.1em
   align-self flex-end
+  cursor pointer
 
 .genre-card__category
   font-size .8em
   align-self flex-start
+  cursor pointer
 
+.genre-card__button-slot
+  visibility hidden
+  transition opacity .2s ease
+  opacity 0
+  position absolute
+  top 0
+  right 0
+  padding .2em
+
+.genre-card--focus
+  border-bottom 3px solid mainColor
+
+.genre-card--small
+  max-width 150px
+  max-height 2.5em
+  column-gap .5em

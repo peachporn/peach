@@ -4,6 +4,18 @@ import { applyFilter } from './filter';
 
 export const genreResolvers: Resolvers = {
   Genre: {
+    linkableChildren: (parent, _args, { prisma }) =>
+      prisma.genre
+        .findMany({
+          include: {
+            linkableParents: true,
+          },
+        })
+        .then(genres =>
+          genres
+            .filter(g => g.linkableParents.map(p => p.id).includes(parent.id))
+            .map(transformGenre),
+        ),
     picture: parent => `/assets/genre/${parent.id}.jpg`,
   },
   Query: {

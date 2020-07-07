@@ -20,6 +20,7 @@ export const typeDef = gql`
 
     validAsRoot: Boolean!
     linkableParents: [Genre!]!
+    linkableChildren: [Genre!]!
   }
 
   input GenreCreateInput {

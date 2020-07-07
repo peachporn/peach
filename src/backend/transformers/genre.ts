@@ -18,6 +18,7 @@ const transformBaseGenre = (genre: DBGenre): Genre => ({
   validAsRoot: genre.validAsRoot,
   picture: '',
   linkableParents: [],
+  linkableChildren: [],
 });
 
 export const transformGenre = (

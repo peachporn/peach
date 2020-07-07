@@ -7,3 +7,22 @@ export const updateGenreMutation = gql`
     }
   }
 `;
+
+export const addLinkableParentMutation = gql`
+  mutation AddLinkableParent($parentId: Int!, $childId: Int!) {
+    addLinkableParent(parent: $parentId, child: $childId) {
+      id
+      name
+      category
+      picture
+    }
+  }
+`;
+
+export const removeLinkableParentMutation = gql`
+  mutation RemoveLinkableParent($parentId: Int!, $childId: Int!) {
+    removeLinkableParent(parent: $parentId, child: $childId) {
+      id
+    }
+  }
+`;

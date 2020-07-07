@@ -1,4 +1,5 @@
 export default {
+  SUCCESS: 'Success!',
   NAVIGATION_MOVIES: 'Movies',
   NAVIGATION_ACTRESSES: 'Actresses',
   NAVIGATION_WEBSITES: 'Websites',
@@ -95,6 +96,9 @@ export default {
   GENRE_CATEGORY: 'Category',
   GENRE_VALIDASROOT: 'Base genre',
   GENRE_KINKINESS: 'Kinkiness',
+  SUBGENRES: 'Subgenres',
+  SUBGENRE_FORM_HEADLINE: 'Add a subgenre',
+  SUBGENRE_FORM_NORESULT: 'No genre found!',
   SOFTCORE: 'Softcore',
   EROTIC: 'Erotic',
   JUICY: 'Juicy',

@@ -10,9 +10,11 @@ export const genreDetailQuery = gql`
       picture
 
       validAsRoot
-      linkableParents {
+      linkableChildren {
+        id
         name
         category
+        picture
       }
     }
   }

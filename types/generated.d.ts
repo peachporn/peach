@@ -98,6 +98,7 @@ type Genre = {
   picture: Scalars['String'];
   validAsRoot: Scalars['Boolean'];
   linkableParents: Array<Genre>;
+  linkableChildren: Array<Genre>;
 };
 
 type GenreCategory =
@@ -491,6 +492,32 @@ type UpdateGenreMutation = {
   updateGenre?: Maybe<{ __typename?: 'Genre'; id: number }>;
 };
 
+type AddLinkableParentMutationVariables = {
+  parentId: Scalars['Int'];
+  childId: Scalars['Int'];
+};
+
+type AddLinkableParentMutation = {
+  __typename?: 'Mutation';
+  addLinkableParent?: Maybe<{
+    __typename?: 'Genre';
+    id: number;
+    name: string;
+    category: GenreCategory;
+    picture: string;
+  }>;
+};
+
+type RemoveLinkableParentMutationVariables = {
+  parentId: Scalars['Int'];
+  childId: Scalars['Int'];
+};
+
+type RemoveLinkableParentMutation = {
+  __typename?: 'Mutation';
+  removeLinkableParent?: Maybe<{ __typename?: 'Genre'; id: number }>;
+};
+
 type UpdateCoverMutationVariables = {
   movieId: Scalars['Int'];
   cover: Scalars['Int'];
@@ -640,6 +667,21 @@ type FindActressQuery = {
   actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
 };
 
+type FindGenreQueryVariables = {
+  name: Scalars['String'];
+};
+
+type FindGenreQuery = {
+  __typename?: 'Query';
+  genres: Array<{
+    __typename?: 'Genre';
+    id: number;
+    name: string;
+    category: GenreCategory;
+    picture: string;
+  }>;
+};
+
 type GenreQueryVariables = {
   id: Scalars['Int'];
 };
@@ -654,7 +696,13 @@ type GenreQuery = {
     kinkiness: number;
     picture: string;
     validAsRoot: boolean;
-    linkableParents: Array<{ __typename?: 'Genre'; name: string; category: GenreCategory }>;
+    linkableChildren: Array<{
+      __typename?: 'Genre';
+      id: number;
+      name: string;
+      category: GenreCategory;
+      picture: string;
+    }>;
   }>;
 };
 

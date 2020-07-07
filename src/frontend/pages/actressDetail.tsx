@@ -1,7 +1,8 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import { useEffect, useState } from 'preact/hooks';
+import { toast } from 'react-toastify';
 import { Button, Container, Flex, Loading, Screencap, ScreencapGrid } from '../../components';
 import { BasePage } from './basePage';
 import { actressDetailQuery } from '../queries/actressDetail.gql';
@@ -14,6 +15,7 @@ import { ActressDataForm } from '../components/actressDetail/actressDataForm';
 import { ActressDataGrid } from '../components/actressDetail/actressDataGrid';
 import { actressDetailRoute, actressEditRoute, isActressEditRoute } from '../utils/route';
 import { ActressImageForm } from '../components/actressDetail/actressImageForm';
+import { scrapeActressMutation } from '../mutations/scrapeActress.gql';
 
 export type ActressDetailPageProps = {
   actressId: string;
@@ -40,6 +42,14 @@ export const ActressDetailPage: FunctionalComponent = () => {
 
   const { loading, data, refetch } = useQuery<ActressQuery, ActressQueryVariables>(
     actressDetailQuery,
+    {
+      variables: {
+        id: actressId,
+      },
+    },
+  );
+  const [scrapeActress] = useMutation<ScrapeActressMutation, ScrapeActressMutationVariables>(
+    scrapeActressMutation,
     {
       variables: {
         id: actressId,
@@ -84,13 +94,24 @@ export const ActressDetailPage: FunctionalComponent = () => {
             />
             <div className="actress-detail__controls">
               {!editingData && (
-                <Button
-                  onClick={() => {
-                    setEditingData(true);
-                  }}
-                >
-                  {i('EDIT')}
-                </Button>
+                <Fragment>
+                  <Button
+                    onClick={() => {
+                      scrapeActress().then(() => {
+                        toast.success(i('ACTRESS_SCRAPE_STARTED'));
+                      });
+                    }}
+                  >
+                    {i('ACTRESS_SCRAPE')}
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setEditingData(true);
+                    }}
+                  >
+                    {i('EDIT')}
+                  </Button>
+                </Fragment>
               )}
             </div>
             {editingData ? (

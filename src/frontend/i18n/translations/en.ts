@@ -89,4 +89,6 @@ export default {
   ACTRESS_MEASUREMENTS: 'Measurements',
   ACTRESS_FORM_SUCCESS: 'Actress updated!',
   ACTRESS_UPLOAD_SUCCESS: 'Actress image uploaded!',
+  ACTRESS_SCRAPE: 'Scrape Data',
+  ACTRESS_SCRAPE_STARTED: 'Actress scraping started!',
 } as const;

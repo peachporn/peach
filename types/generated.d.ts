@@ -427,6 +427,12 @@ type ScanLibraryMutationVariables = {};
 
 type ScanLibraryMutation = { __typename?: 'Mutation'; scanLibrary?: Maybe<boolean> };
 
+type ScrapeActressMutationVariables = {
+  id: Scalars['Int'];
+};
+
+type ScrapeActressMutation = { __typename?: 'Mutation'; scrapeActress?: Maybe<boolean> };
+
 type TakeAllScreencapsMutationVariables = {};
 
 type TakeAllScreencapsMutation = { __typename?: 'Mutation'; takeAllScreencaps?: Maybe<boolean> };

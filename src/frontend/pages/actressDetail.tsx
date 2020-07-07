@@ -1,32 +1,50 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory, useLocation } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import { useEffect, useState } from 'preact/hooks';
-import { Container, Flex, Loading, Screencap, ScreencapGrid } from '../../components';
+import { Button, Container, Flex, Loading, Screencap, ScreencapGrid } from '../../components';
 import { BasePage } from './basePage';
 import { actressDetailQuery } from '../queries/actressDetail.gql';
 import { PageIntro } from '../../components/components/pageIntro';
 import { forceLength, shuffle } from '../../utils/list';
 import { ActressDetailHeader } from '../../components/compositions/actressDetailHeader';
-import { ActressDataGrid } from '../../components/compositions/actressDataGrid';
 import { ActressCard } from '../../components/components/actressCard';
+import { i } from '../i18n/i18n';
+import { ActressDataForm } from '../components/actressDetail/actressDataForm';
+import { ActressDataGrid } from '../components/actressDetail/actressDataGrid';
+import { actressDetailRoute, actressEditRoute, isActressEditRoute } from '../utils/route';
 
 export type ActressDetailPageProps = {
   actressId: string;
 };
 
 export const ActressDetailPage: FunctionalComponent = () => {
+  const history = useHistory();
+  const location = useLocation();
   const params = useParams<ActressDetailPageProps>();
+  const [editingData, setEditingData_] = useState<boolean>(!!isActressEditRoute(location.pathname));
   const actressId = parseInt(params.actressId, 10);
   if (!actressId) {
     return null;
   }
 
-  const { loading, data } = useQuery<ActressQuery, ActressQueryVariables>(actressDetailQuery, {
-    variables: {
-      id: actressId,
+  const setEditingData = (x: boolean) => {
+    setEditingData_(x);
+    if (x) {
+      history.push(actressEditRoute(actressId));
+    } else {
+      history.push(actressDetailRoute(actressId));
+    }
+  };
+
+  const { loading, data, refetch } = useQuery<ActressQuery, ActressQueryVariables>(
+    actressDetailQuery,
+    {
+      variables: {
+        id: actressId,
+      },
     },
-  });
+  );
 
   const [screencaps, setScreencaps] = useState<{ screencap: string; title: string }[]>([]);
 
@@ -63,8 +81,32 @@ export const ActressDetailPage: FunctionalComponent = () => {
               shadow
               noName
             />
-            <ActressDetailHeader actress={actress} />
-            <ActressDataGrid actress={actress} />
+            <div className="actress-detail__controls">
+              {!editingData && (
+                <Button
+                  onClick={() => {
+                    setEditingData(true);
+                  }}
+                >
+                  {i('EDIT')}
+                </Button>
+              )}
+            </div>
+            {editingData ? (
+              <ActressDataForm
+                actress={actress}
+                submit={() => {
+                  setEditingData(false);
+                  return refetch();
+                }}
+                cancel={() => setEditingData(false)}
+              />
+            ) : (
+              <Fragment>
+                <ActressDetailHeader actress={actress} />
+                <ActressDataGrid actress={actress} />
+              </Fragment>
+            )}
           </Container>
         </Fragment>
       )}

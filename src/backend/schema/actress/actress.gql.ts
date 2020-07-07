@@ -24,8 +24,7 @@ export const typeDef = gql`
     Asian
     Latina
     Ebony
-    Native
-    American
+    NativeAmerican
     Indian
   }
 
@@ -100,6 +99,30 @@ export const typeDef = gql`
     name: String!
   }
 
+  input ActressUpdateInput {
+    name: String
+    dateOfBirth: String
+    dateOfCareerstart: String
+    dateOfRetirement: String
+    dateOfDeath: String
+    haircolor: Haircolor
+    eyecolor: Eyecolor
+    ethnicity: Ethnicity
+    height: Int
+    weight: Int
+    measurements: MeasurementsInput
+    cupsize: Cupsize
+    boobs: Boobs
+    tattoos: String
+    piercings: String
+  }
+
+  input MeasurementsInput {
+    bust: Int!
+    waist: Int!
+    hips: Int!
+  }
+
   input ActressFilter {
     name: String
   }
@@ -113,5 +136,6 @@ export const typeDef = gql`
   extend type Mutation {
     createActress(actress: ActressCreateInput!): Actress
     scrapeActress(id: Int!): Boolean
+    updateActress(actressId: Int!, data: ActressUpdateInput!): Actress
   }
 `;

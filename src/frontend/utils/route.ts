@@ -7,6 +7,9 @@ export const homeRoute = '/';
 
 export const movieDetailRoute = (movieId: number) => `/movies/${movieId}`;
 export const actressDetailRoute = (actressId: number) => `/actresses/${actressId}`;
+export const actressEditRoute = (actressId: number) => `/actresses/${actressId}/edit`;
+
+export const isActressEditRoute = (route: string) => route.match(/actresses\/.*\/edit/g);
 
 export const routes: RouteDefinition[] = [
   {

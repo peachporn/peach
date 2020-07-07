@@ -46,6 +46,20 @@ type ActressFilter = {
   name?: Maybe<Scalars['String']>;
 };
 
+type ActressUpdateInput = {
+  name?: Maybe<Scalars['String']>;
+  dateOfBirth?: Maybe<Scalars['String']>;
+  dateOfCareerstart?: Maybe<Scalars['String']>;
+  dateOfRetirement?: Maybe<Scalars['String']>;
+  dateOfDeath?: Maybe<Scalars['String']>;
+  haircolor?: Maybe<Haircolor>;
+  eyecolor?: Maybe<Eyecolor>;
+  ethnicity?: Maybe<Ethnicity>;
+  height?: Maybe<Scalars['Int']>;
+  weight?: Maybe<Scalars['Int']>;
+  measurements?: Maybe<MeasurementsInput>;
+};
+
 type Boobs = 'Natural' | 'Fake';
 
 type Cupsize =
@@ -65,7 +79,7 @@ type Cupsize =
   | 'J'
   | 'K';
 
-type Ethnicity = 'Caucasian' | 'Asian' | 'Latina' | 'Ebony' | 'Native' | 'American' | 'Indian';
+type Ethnicity = 'Caucasian' | 'Asian' | 'Latina' | 'Ebony' | 'NativeAmerican' | 'Indian';
 
 type Eyecolor = 'Green' | 'Blue' | 'Brown' | 'Hazel' | 'Grey' | 'Other';
 
@@ -116,6 +130,12 @@ type Language = 'EN';
 
 type Measurements = {
   __typename?: 'Measurements';
+  bust: Scalars['Int'];
+  waist: Scalars['Int'];
+  hips: Scalars['Int'];
+};
+
+type MeasurementsInput = {
   bust: Scalars['Int'];
   waist: Scalars['Int'];
   hips: Scalars['Int'];
@@ -192,6 +212,7 @@ type Mutation = {
   scanLibrary?: Maybe<Scalars['Boolean']>;
   scrapeActress?: Maybe<Scalars['Boolean']>;
   takeAllScreencaps?: Maybe<Scalars['Boolean']>;
+  updateActress?: Maybe<Actress>;
   updateActressImagePath: Settings;
   updateInferMovieTitle: Settings;
   updateLanguage: Settings;
@@ -249,6 +270,11 @@ type MutationSaveVolumesArgs = {
 
 type MutationScrapeActressArgs = {
   id: Scalars['Int'];
+};
+
+type MutationUpdateActressArgs = {
+  actressId: Scalars['Int'];
+  data: ActressUpdateInput;
 };
 
 type MutationUpdateActressImagePathArgs = {
@@ -415,6 +441,16 @@ type CancelTaskMutationVariables = {
 };
 
 type CancelTaskMutation = { __typename?: 'Mutation'; cancelTask?: Maybe<boolean> };
+
+type UpdateActressMutationVariables = {
+  actressId: Scalars['Int'];
+  data: ActressUpdateInput;
+};
+
+type UpdateActressMutation = {
+  __typename?: 'Mutation';
+  updateActress?: Maybe<{ __typename?: 'Actress'; id: number }>;
+};
 
 type UpdateCoverMutationVariables = {
   movieId: Scalars['Int'];

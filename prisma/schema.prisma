@@ -55,7 +55,7 @@ model Actress {
 
   height              Int?
   weight              Int?
-  measurements        String @default("[]")
+  measurements        String @default("{}")
   cupsize             String?
 
   socialMediaLinks    String?

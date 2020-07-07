@@ -33,7 +33,8 @@ export const FreeonesScraper: ActressScraper = {
       selector:
         '#search-result > section > div.d-md-flex.flex-md-row.large-items > div.flex-1 > div.d-flex.flex-wrap.flex-md-nowrap > div.d-flex.flex-column.profile-meta-item.row-item-2.block-shadow > div > p > a > span',
       type: 'text',
-      transform: filter<Ethnicity>(isEthnicity),
+      transform: x =>
+        x === 'Latin' ? 'Latina' : x === 'Black' ? 'Ebony' : filter<Ethnicity>(isEthnicity)(x),
     },
     dateOfBirth: {
       selector:
@@ -117,8 +118,8 @@ export const FreeonesScraper: ActressScraper = {
 
         return {
           bust: parse(matches[1] || undefined),
-          hips: parse(matches[2] || undefined),
-          waist: parse(matches[3] || undefined),
+          waist: parse(matches[2] || undefined),
+          hips: parse(matches[3] || undefined),
         };
       },
     },

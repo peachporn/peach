@@ -35,6 +35,9 @@ const App = (
           <Route exact path="/actresses/:actressId">
             <ActressDetailPage />
           </Route>
+          <Route exact path="/actresses/:actressId/edit">
+            <ActressDetailPage />
+          </Route>
           <Route exact path="/genres">
             <GenresPage />
           </Route>

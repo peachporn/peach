@@ -6,7 +6,8 @@ import { debounce } from '../../../utils/debounce';
 
 type InputProps = {
   name: string;
-  appearance?: 'default' | 'wide' | 'display';
+  type?: 'text' | 'date';
+  appearance?: 'default' | 'wide' | 'display' | 'third';
   error?: boolean;
   placeholder?: string;
   onEnter?: OnEvent;
@@ -18,6 +19,7 @@ type InputProps = {
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
+      type,
       appearance = 'default',
       placeholder,
       name,
@@ -40,6 +42,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     const keyUp = onKeyUp ? debounce(onKeyUp, 300) : () => {};
     return (
       <input
+        type={type}
         ref={composeRefs(ref, inputRef) as Ref<HTMLInputElement>}
         name={name}
         tabIndex={tabIndex}

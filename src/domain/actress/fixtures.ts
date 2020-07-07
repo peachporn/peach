@@ -22,8 +22,7 @@ export const ethnicities: Ethnicity[] = [
   'Asian',
   'Latina',
   'Ebony',
-  'Native',
-  'American',
+  'NativeAmerican',
   'Indian',
 ];
 export const isEthnicity = (s: string): s is Ethnicity => ethnicities.includes(s as Ethnicity);

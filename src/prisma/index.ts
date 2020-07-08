@@ -6,6 +6,8 @@ const databasePath = fromEnv('DATABASE_PATH') || './database.db';
 
 export const prisma = new PrismaClient({
   datasources: {
-    db: `file:${databasePath}`,
+    db: {
+      url: `file:${databasePath}`,
+    },
   },
 });

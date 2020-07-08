@@ -12,26 +12,22 @@ export const FreeonesScraper: ActressScraper = {
       type: 'text',
     },
     aliases: {
-      selector:
-        '#search-result > section > div.d-md-flex.flex-md-row.large-items > div.flex-1 > div.d-md-flex > div.d-flex.flex-column.profile-meta-item.astro-meta.row-item-2.block-shadow > div > p',
+      selector: '[data-test="p_aliases"]',
       type: 'text',
       transform: str => str.split(', ').map(x => x.trim()),
     },
     haircolor: {
-      selector:
-        '#search-result > section > div.profile-meta-item.block-shadow > dl > dd:nth-child(4) > a > span',
+      selector: '[data-test="link_span_hair_color"]',
       type: 'text',
       transform: x => (x === 'Brown' ? 'Brunette' : filter<Haircolor>(isHaircolor)(x)),
     },
     eyecolor: {
-      selector:
-        '#search-result > section > div.profile-meta-item.block-shadow > dl > dd:nth-child(2) > a > span',
+      selector: '[data-test="link_span_eye_color"]',
       type: 'text',
       transform: filter<Eyecolor>(isEyecolor),
     },
     ethnicity: {
-      selector:
-        '#search-result > section > div.d-md-flex.flex-md-row.large-items > div.flex-1 > div.d-flex.flex-wrap.flex-md-nowrap > div.d-flex.flex-column.profile-meta-item.row-item-2.block-shadow > div > p > a > span',
+      selector: '[data-test="link_span_ethnicity"]',
       type: 'text',
       transform: x =>
         x === 'Latin' ? 'Latina' : x === 'Black' ? 'Ebony' : filter<Ethnicity>(isEthnicity)(x),
@@ -68,8 +64,7 @@ export const FreeonesScraper: ActressScraper = {
       },
     },
     country: {
-      selector:
-        '#search-result > section > div.d-md-flex.flex-md-row.large-items > div.profile-meta-item.large-meta-item.flex-basis-30.block-shadow > div > p:nth-child(3) > a:nth-child(1)',
+      selector: '[data-test="link-country"]',
       type: 'href',
       transform: regex(/=(.*)$/, x => x),
     },
@@ -84,25 +79,25 @@ export const FreeonesScraper: ActressScraper = {
       type: 'text',
     },
     boobs: {
-      selector: '#search-result > section > div:nth-child(3) > dl > dd:nth-child(12) > a > span',
+      selector: '[data-test="link_span_boobs"]',
       type: 'text',
       transform: x => (x === 'Natural' || x === 'Fake' ? x : undefined),
     },
     piercings: {
-      selector: '#search-result > section > div:nth-child(3) > dl > dd:nth-child(18) > span',
+      selector: '[data-test="p_has_piercings"]',
       type: 'text',
     },
     tattoos: {
-      selector: '#search-result > section > div:nth-child(3) > dl > dd:nth-child(16) > span',
+      selector: '[data-test="p_has_tattoos"]',
       type: 'text',
     },
     height: {
-      selector: '#search-result > section > div:nth-child(3) > dl > dd:nth-child(6) > a > span',
+      selector: '[data-test="link_height"]',
       type: 'text',
       transform: regex(/(\d*)cm/, x => parseInt(x, 10)),
     },
     weight: {
-      selector: '#search-result > section > div:nth-child(3) > dl > dd:nth-child(8) > a > span',
+      selector: '[data-test="link_weight"]',
       type: 'text',
       transform: regex(/(\d*)kg/, x => parseInt(x, 10)),
     },
@@ -144,8 +139,7 @@ export const FreeonesScraper: ActressScraper = {
       type: 'href',
     },
     picture: {
-      selector:
-        'body > div.height-container.flex-m-row.d-m-flex > div.right-container.flex-m-column.d-m-flex.flex-1 > main > div.px-2.px-md-3 > section > header > div.profile-image-container > a > img',
+      selector: '.profile-image-container img',
       type: 'src',
       transform: x => x.replace('/teaser/', '/big/'),
     },

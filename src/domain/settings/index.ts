@@ -5,6 +5,7 @@ export const defaultSettings: SettingsCreateInput = {
   language: 'EN',
   screencapPath: '',
   actressImagePath: '',
+  genreImagePath: '',
   inferMovieTitle: 'FILENAME',
 };
 
@@ -16,3 +17,5 @@ export const getInferMovieTitle = () =>
 export const getScreencapPath = () => settings().then(s => s && s.screencapPath);
 
 export const getActressImagePath = () => settings().then(s => s && s.actressImagePath);
+
+export const getGenreImagePath = () => settings().then(s => s && s.genreImagePath);

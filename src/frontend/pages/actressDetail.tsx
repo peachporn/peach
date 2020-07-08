@@ -85,47 +85,47 @@ export const ActressDetailPage: FunctionalComponent = () => {
             </ScreencapGrid>
           </PageIntro>
           <Container background="white">
-            <ActressCard
-              className="actress-detail-card"
-              name={actress.name}
-              imageUrl={actress.picture}
-              shadow
-              noName
-            />
-            <div className="actress-detail__controls">
+            <div className="actress-detail__left-bar">
+              <ActressCard
+                className="actress-detail__card"
+                name={actress.name}
+                imageUrl={actress.picture}
+                shadow
+                noName
+              />
               {!editingData && (
-                <Fragment>
-                  <Button
-                    onClick={() => {
-                      scrapeActress().then(() => {
-                        toast.success(i('ACTRESS_SCRAPE_STARTED'));
-                      });
-                    }}
-                  >
-                    {i('ACTRESS_SCRAPE')}
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      setEditingData(true);
-                    }}
-                  >
-                    {i('EDIT')}
-                  </Button>
-                </Fragment>
+                <div className="actress-detail__controls">
+                  <Fragment>
+                    <Button
+                      onClick={() => {
+                        scrapeActress().then(() => {
+                          toast.success(i('ACTRESS_SCRAPE_STARTED'));
+                        });
+                      }}
+                    >
+                      {i('ACTRESS_SCRAPE')}
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setEditingData(true);
+                      }}
+                    >
+                      {i('EDIT')}
+                    </Button>
+                  </Fragment>
+                </div>
               )}
+              {editingData && <ActressImageForm actress={actress} />}
             </div>
             {editingData ? (
-              <Fragment>
-                <ActressDataForm
-                  actress={actress}
-                  submit={() => {
-                    setEditingData(false);
-                    return refetch();
-                  }}
-                  cancel={() => setEditingData(false)}
-                />
-                <ActressImageForm actress={actress} />
-              </Fragment>
+              <ActressDataForm
+                actress={actress}
+                submit={() => {
+                  setEditingData(false);
+                  return refetch();
+                }}
+                cancel={() => setEditingData(false)}
+              />
             ) : (
               <Fragment>
                 <ActressDetailHeader actress={actress} />

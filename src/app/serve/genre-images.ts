@@ -1,24 +1,24 @@
 import { Request, Response } from 'express';
 import path from 'path';
 import { createReadStream } from 'fs';
-import { getActressImagePath, getScreencapPath } from '../../domain/settings';
+import { getGenreImagePath, getScreencapPath } from '../../domain/settings';
 
-export const serveActressImages = async (req: Request, res: Response) => {
-  const requested = req.params.actressId;
+export const serveGenreImages = async (req: Request, res: Response) => {
+  const requested = req.params.genreId;
 
   if (!requested) {
     res.status(404);
     return res.send();
   }
 
-  const actressImagePath = await getActressImagePath();
+  const genreImagePath = await getGenreImagePath();
 
-  if (!actressImagePath) {
+  if (!genreImagePath) {
     res.status(400);
-    return res.send('No actress image path configured!');
+    return res.send('No genre image path configured!');
   }
 
-  const s = createReadStream(path.join(actressImagePath, requested));
+  const s = createReadStream(path.join(genreImagePath, requested));
 
   s.on('open', () => {
     res.set('Content-Type', 'image/jpeg');

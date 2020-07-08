@@ -1,46 +1,40 @@
 .genre-detail-page .container
   display grid
-  grid-template-columns 1fr 1fr 1fr
-  grid-template-areas "card header score" "controls data ."
+  grid-template-columns 33vw 1fr 1fr
+  grid-template-areas "left data score" "left subgenres ."
   column-gap 2em
   row-gap 2em
   min-height 30vh
 
-.genre-detail-page .data-grid
-  margin-top .5em
+.genre-detail__card
+  max-height 30em
+  max-width 30vw
+  border-radius .5em
+  margin-bottom .5em
+
+.genre-detail-header
+  grid-area data
+
+.genre-detail__left-bar
+  grid-area left
+  justify-self end
+  display flex
+  flex-direction column
+  align-items flex-end
+  position relative
+  bottom 7em
 
 .genre-data-form
-  grid-column span 2
+  grid-area data
+
+.add-subgenre-form
+  grid-area subgenres
+
+.genre-detail-page .data-grid
+  grid-area data
+  margin-top .5em
 
 .genre-detail-page .kink-score
   grid-area score
-  align-items flex-start
-
-.genre-detail-header
-  grid-area header
-
-.genre-detail-card
-  border-radius .5em
-
-.genre-detail-card,
-.genre-image-form,
-.genre-detail__controls
-  grid-area card
-  justify-self end
-  position relative
-
-.genre-detail-card
-  bottom 3em
-
-.genre-image-form
-  bottom 6em
-
-.genre-detail__controls
-  bottom -1em
-
-.genre-detail__controls,
-.genre-image-form
-  align-self flex-end
-
-.add-subgenre-form
-  grid-area data
+  align-items center
+  align-self flex-start

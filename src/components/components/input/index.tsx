@@ -15,6 +15,7 @@ type InputProps = {
   onChange?: OnEvent;
   tabIndex?: number;
   autoFocus?: boolean;
+  className?: string;
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -30,6 +31,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       onChange,
       tabIndex,
       autoFocus,
+      className,
     }: InputProps,
     ref,
   ) => {
@@ -48,7 +50,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         ref={composeRefs(ref, inputRef) as Ref<HTMLInputElement>}
         name={name}
         tabIndex={tabIndex}
-        className={`input input--${appearance} ${error ? 'input--error' : ''}`.trim()}
+        className={`input input--${appearance} ${error ? 'input--error' : ''} ${
+          className || ''
+        }`.trim()}
         onKeyUp={event => {
           if (onEnter && event.key === 'Enter') {
             onEnter(event);

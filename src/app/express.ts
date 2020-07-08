@@ -8,6 +8,7 @@ import { serveScreencaps } from './serve/screencaps';
 import { serveMovies } from './serve/movies';
 import { serveActressImages } from './serve/actress-images';
 import { applyFileUploadMiddleware } from './serve/file-upload';
+import { serveGenreImages } from './serve/genre-images';
 
 export const startServer = () => {
   const port = () => (fromEnv('PORT') ? parseInt(fromEnv('PORT'), 10) : 3000);
@@ -32,6 +33,7 @@ export const startServer = () => {
   });
 
   app.get('/assets/actress/:actressId*', serveActressImages);
+  app.get('/assets/genre/:genreId*', serveGenreImages);
   app.get('/assets/screencaps/:movieId*', serveScreencaps);
   app.get('/assets/movie/:movieId', serveMovies);
   app.use('/assets', express.static(frontendDistPath));

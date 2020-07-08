@@ -32,8 +32,11 @@ export const GenreImageForm: FunctionalComponent<GenreDataFormProps> = ({ genre 
   };
 
   return (
-    <div className="genre-image-form">
-      <Input type="file" name="image" ref={register} onChange={handleSubmit(onSubmit)} />
-    </div>
+    <Input
+      type="file"
+      name="image"
+      ref={register}
+      onChange={handleSubmit(onSubmit)}
+    />
   );
 };

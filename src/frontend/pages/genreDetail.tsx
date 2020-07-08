@@ -68,34 +68,20 @@ export const GenreDetailPage: FunctionalComponent = () => {
             <ScreencapGrid />
           </PageIntro>
           <Container background="white">
-            <Image className="genre-detail-card" alt={genre.name} src={genre.picture} />
-            <div className="genre-detail__controls">
+            <div className="genre-detail__left-bar">
+              <Image className="genre-detail__card" alt={genre.name} src={genre.picture} />
               {!editingData && (
-                <Fragment>
-                  <Button
-                    onClick={() => {
-                      setEditingData(true);
-                    }}
-                  >
-                    {i('EDIT')}
-                  </Button>
-                </Fragment>
-              )}
-            </div>
-            <AddSubgenreForm genre={genre} linkableChildren={genre.linkableChildren} />
-            {editingData ? (
-              <Fragment>
-                <GenreDataForm
-                  genre={genre}
-                  submit={() => {
-                    setEditingData(false);
-                    return refetch();
+                <Button
+                  onClick={() => {
+                    setEditingData(true);
                   }}
-                  cancel={() => setEditingData(false)}
-                />
-                <GenreImageForm genre={genre} />
-              </Fragment>
-            ) : (
+                >
+                  {i('EDIT')}
+                </Button>
+              )}
+              {editingData && <GenreImageForm genre={genre} />}
+            </div>
+            {!editingData ? (
               <Fragment>
                 <div className="genre-detail-header">
                   <Headline1>{genre.name}</Headline1>
@@ -103,7 +89,17 @@ export const GenreDetailPage: FunctionalComponent = () => {
                 </div>
                 <KinkScore value={genre.kinkiness} scale="genre" />
               </Fragment>
+            ) : (
+              <GenreDataForm
+                genre={genre}
+                submit={() => {
+                  setEditingData(false);
+                  return refetch();
+                }}
+                cancel={() => setEditingData(false)}
+              />
             )}
+            <AddSubgenreForm genre={genre} linkableChildren={genre.linkableChildren} />
           </Container>
         </Fragment>
       )}

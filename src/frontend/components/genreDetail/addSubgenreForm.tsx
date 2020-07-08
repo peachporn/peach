@@ -13,10 +13,7 @@ import { isTouched } from '../../utils/form';
 import { NoResult } from '../../../components/components/noResult';
 import { Icon } from '../../../components/components/icon';
 import { genreDetailRoute } from '../../utils/route';
-import {
-  addSubgenreMutation,
-  removeSubgenreMutation,
-} from '../../mutations/updateGenre.gql';
+import { addSubgenreMutation, removeSubgenreMutation } from '../../mutations/updateGenre.gql';
 import { findGenreQuery } from '../../queries/findGenre.gql';
 import { GenreCard, GenreCardGrid } from '../../../components/components/genreCard';
 
@@ -49,15 +46,13 @@ export const AddSubgenreForm: FunctionalComponent<AddSubgenreFormProps> = ({
 
   const [subgenres, setSubgenres] = useState<GenreCardGenre[]>(linkableChildren || []);
 
-  const [addSubgenre] = useMutation<
-    AddSubgenreMutation,
-    AddSubgenreMutationVariables
-  >(addSubgenreMutation);
+  const [addSubgenre] = useMutation<AddSubgenreMutation, AddSubgenreMutationVariables>(
+    addSubgenreMutation,
+  );
 
-  const [removeSubgenre] = useMutation<
-    RemoveSubgenreMutation,
-    RemoveSubgenreMutationVariables
-  >(removeSubgenreMutation);
+  const [removeSubgenre] = useMutation<RemoveSubgenreMutation, RemoveSubgenreMutationVariables>(
+    removeSubgenreMutation,
+  );
 
   const { setValue, getValues, handleSubmit, register, reset } = useForm<AddSubgenreFormData>({
     defaultValues: {

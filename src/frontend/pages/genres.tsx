@@ -8,6 +8,7 @@ import { usePagination } from '../utils/pagination';
 import { Pagination } from '../../components/components/pagination';
 import { GenreCard, GenreCardGrid } from '../../components/components/genreCard';
 import { genreDetailRoute } from '../utils/route';
+import { CreateGenreForm } from '../components/genreList/createGenreForm';
 
 const pageLength = 48;
 
@@ -23,12 +24,15 @@ export const GenresPage: FunctionalComponent = () => {
     maxItems: count.data.genresCount,
   });
 
-  const { loading, data } = useQuery<GenresListQuery, GenresListQueryVariables>(genresListQuery, {
-    variables: {
-      limit,
-      skip,
+  const { refetch, loading, data } = useQuery<GenresListQuery, GenresListQueryVariables>(
+    genresListQuery,
+    {
+      variables: {
+        limit,
+        skip,
+      },
     },
-  });
+  );
 
   return (
     <BasePage>
@@ -42,6 +46,7 @@ export const GenresPage: FunctionalComponent = () => {
             {data?.genres.map(g => (
               <GenreCard name={g.name} category={g.category} url={genreDetailRoute(g.id)} />
             ))}
+            <CreateGenreForm onSubmit={refetch} />
           </GenreCardGrid>
           <Pagination page={page} maxPage={maxPage} onNext={nextPage} onPrevious={previousPage} />
         </Fragment>

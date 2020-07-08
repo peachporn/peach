@@ -1,7 +1,6 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { useRef } from 'preact/hooks';
 import { i } from '../../i18n/i18n';
 import { Input } from '../../../components/components/input';
 import { uploadActressImage, uploadActressImageFromUrl } from '../../fetch/uploadImage';

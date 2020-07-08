@@ -419,6 +419,15 @@ type CreateActressMutation = {
   createActress?: Maybe<{ __typename?: 'Actress'; id: number; name: string }>;
 };
 
+type CreateGenreMutationVariables = {
+  data: GenreCreateInput;
+};
+
+type CreateGenreMutation = {
+  __typename?: 'Mutation';
+  createGenre?: Maybe<{ __typename?: 'Genre'; id: number; name: string }>;
+};
+
 type DeleteMovieMutationVariables = {
   movieId: Scalars['Int'];
 };

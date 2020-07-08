@@ -2,15 +2,7 @@ import { Fragment, FunctionalComponent, h } from 'preact';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
 import { useQuery } from '@apollo/react-hooks';
 import { useState } from 'preact/hooks';
-import {
-  Button,
-  Container,
-  Flex,
-  Headline1,
-  Headline2,
-  Loading,
-  ScreencapGrid,
-} from '../../components';
+import { Button, Container, Flex, Headline1, Loading, ScreencapGrid } from '../../components';
 import { BasePage } from './basePage';
 import { genreDetailQuery } from '../queries/genreDetail.gql';
 import { PageIntro } from '../../components/components/pageIntro';
@@ -81,9 +73,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
                   </Button>
                 </Fragment>
               )}
-              {editingData && (
-                  <GenreImageForm genre={genre} />
-              )}
+              {editingData && <GenreImageForm genre={genre} />}
             </div>
             {!editingData ? (
               <Fragment>
@@ -103,7 +93,10 @@ export const GenreDetailPage: FunctionalComponent = () => {
                 cancel={() => setEditingData(false)}
               />
             )}
-            <AddSubgenreForm genre={genre} linkableChildren={genre.linkableChildren} />
+            {genre.validAsRoot ||
+              (editingData && (
+                <AddSubgenreForm genre={genre} linkableChildren={genre.linkableChildren} />
+              ))}
           </Container>
         </Fragment>
       )}

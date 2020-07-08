@@ -1,5 +1,6 @@
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
+import bodyParser from 'body-parser';
 import path from 'path';
 import { serverConfig } from '../backend';
 import { fromEnv } from '../utils/env';
@@ -15,6 +16,8 @@ export const startServer = () => {
 
   const server = new ApolloServer(serverConfig);
   const app = express();
+
+  app.use(bodyParser.json());
 
   applyFileUploadMiddleware(app);
 

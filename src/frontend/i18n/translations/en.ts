@@ -109,4 +109,5 @@ export default {
   FETISH: 'Fetish',
   EXTREME: 'Extreme',
   KINKYNESS: 'Kinkyness',
+  IMAGE_URL: 'Picture URL',
 } as const;

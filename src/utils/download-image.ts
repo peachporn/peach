@@ -13,15 +13,18 @@ export const extension = (imageUrl: string) => {
 
 export const downloadImage = (url: string, path: string) =>
   new Promise((resolve, reject) => {
-    if (extension(url) !== extension(path)) {
-      reject(new Error('Extensions to not match!'));
-    }
     const uri = url.replace('https', 'http');
 
-    request.head(uri, err => {
+    return request.head(uri, err => {
       if (err) {
         return reject(err);
       }
-      return request(uri).pipe(createWriteStream(path).on('close', () => resolve()));
+
+      const stream = createWriteStream(path);
+
+      stream.on('close', () => resolve());
+      stream.on('error', e => reject(e));
+
+      return request(uri).pipe(stream);
     });
   });

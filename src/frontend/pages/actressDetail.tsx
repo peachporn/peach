@@ -86,16 +86,16 @@ export const ActressDetailPage: FunctionalComponent = () => {
           </PageIntro>
           <Container background="white">
             <div className="actress-detail__left-bar">
-              <ActressCard
-                className="actress-detail__card"
-                name={actress.name}
-                imageUrl={actress.picture}
-                shadow
-                noName
-              />
               {!editingData && (
-                <div className="actress-detail__controls">
-                  <Fragment>
+                <Fragment>
+                  <ActressCard
+                    className="actress-detail__card"
+                    name={actress.name}
+                    imageUrl={actress.picture}
+                    shadow
+                    noName
+                  />
+                  <div className="actress-detail__controls">
                     <Button
                       onClick={() => {
                         scrapeActress().then(() => {
@@ -112,8 +112,8 @@ export const ActressDetailPage: FunctionalComponent = () => {
                     >
                       {i('EDIT')}
                     </Button>
-                  </Fragment>
-                </div>
+                  </div>
+                </Fragment>
               )}
               {editingData && <ActressImageForm actress={actress} />}
             </div>

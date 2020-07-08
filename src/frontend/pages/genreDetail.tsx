@@ -69,17 +69,21 @@ export const GenreDetailPage: FunctionalComponent = () => {
           </PageIntro>
           <Container background="white">
             <div className="genre-detail__left-bar">
-              <Image className="genre-detail__card" alt={genre.name} src={genre.picture} />
               {!editingData && (
-                <Button
-                  onClick={() => {
-                    setEditingData(true);
-                  }}
-                >
-                  {i('EDIT')}
-                </Button>
+                <Fragment>
+                  <Image className="genre-detail__card" alt={genre.name} src={genre.picture} />
+                  <Button
+                    onClick={() => {
+                      setEditingData(true);
+                    }}
+                  >
+                    {i('EDIT')}
+                  </Button>
+                </Fragment>
               )}
-              {editingData && <GenreImageForm genre={genre} />}
+              {editingData && (
+                  <GenreImageForm genre={genre} />
+              )}
             </div>
             {!editingData ? (
               <Fragment>

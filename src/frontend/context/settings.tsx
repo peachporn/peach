@@ -6,6 +6,7 @@ const defaultSettings: Settings = {
   language: 'EN',
   inferMovieTitle: 'FILENAME',
   actressImagePath: '',
+  genreImagePath: '',
   screencapPath: '',
   volumes: [],
 };

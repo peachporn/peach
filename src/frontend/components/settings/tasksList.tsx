@@ -1,11 +1,13 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
-import { Headline2, Button, Icon } from '../../../components';
+import { Headline2, Button, Icon, Flex } from '../../../components';
 import { i } from '../../i18n/i18n';
 import { isTouched } from '../../utils/form';
 import { tasksQuery } from '../../queries/settings.gql';
 import { TaskCategory, TaskStatusMessage } from '../../../tasks/task/type';
+import { scanLibraryMutation } from '../../mutations/scanLibrary.gql';
+import { takeAllScreencapsMutation } from '../../mutations/takeScreencaps.gql';
 import { movieDetailRoute } from '../../utils/route';
 import {
   TaskEntryCategory,
@@ -123,6 +125,36 @@ const TaskView: FunctionalComponent<{ task: TasksQuery['tasks'][number] }> = ({
   );
 };
 
+const TaskControls: FunctionalComponent = () => {
+  const [takeAllScreencaps] = useMutation(takeAllScreencapsMutation);
+  const [scanLibrary] = useMutation(scanLibraryMutation);
+
+  return (
+    <Flex justify="end">
+      <Button
+        appearance="inverted"
+        onClick={() =>
+          scanLibrary().then(() => {
+            toast.success(i('LIBRARY_SCAN_STARTED'));
+          })
+        }
+      >
+        {i('SETTINGS_SCAN_LIBRARY')}
+      </Button>
+      <Button
+        appearance="inverted"
+        onClick={() =>
+          takeAllScreencaps().then(() => {
+            toast.success(i('SCREENCAPPING_STARTED'));
+          })
+        }
+      >
+        {i('SETTINGS_TAKE_SCREENCAPS')}
+      </Button>
+    </Flex>
+  );
+};
+
 export const TasksList: FunctionalComponent = () => {
   const { data, loading } = useQuery<TasksQuery>(tasksQuery, {
     pollInterval: 1000,
@@ -137,6 +169,7 @@ export const TasksList: FunctionalComponent = () => {
         ))}
         {data.tasks.length === 0 ? <span>No tasks running!</span> : null}
       </TaskList>
+      <TaskControls />
     </div>
   );
 };

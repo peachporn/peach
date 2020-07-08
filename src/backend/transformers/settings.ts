@@ -13,5 +13,6 @@ export const transformSettings = (settings: DBSettings): Settings => ({
   inferMovieTitle: inferMovieTitleMap[settings.inferMovieTitle] || 'FILENAME',
   screencapPath: settings.screencapPath || undefined,
   actressImagePath: settings.actressImagePath || undefined,
+  genreImagePath: settings.genreImagePath || undefined,
   volumes: [],
 });

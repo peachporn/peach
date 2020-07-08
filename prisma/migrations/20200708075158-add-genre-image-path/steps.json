@@ -1,0 +1,26 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Actress",
+          "field": "measurements"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "newValue": "\"{}\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Settings",
+      "field": "genreImagePath",
+      "type": "String",
+      "arity": "Optional"
+    }
+  ]
+}

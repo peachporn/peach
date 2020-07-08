@@ -16,21 +16,16 @@ import {
   Input,
 } from '../../../components';
 import { i } from '../../i18n/i18n';
-import {
-  updateActressImagePathMutation,
-  updateInferMovieTitleMutation,
-  updateScreencapPathMutation,
-} from '../../mutations/updateSettings.gql';
-import { scanLibraryMutation } from '../../mutations/scanLibrary.gql';
 import { isTouched } from '../../utils/form';
 import { SettingsContext } from '../../context/settings';
 import { pathExistsQuery } from '../../queries/settings.gql';
-import { takeAllScreencapsMutation } from '../../mutations/takeScreencaps.gql';
+import { updateSettingsMutation } from '../../mutations/updateSettings.gql';
 
 type LibraryFormData = {
   inferMovieTitle: InferMovieTitle;
   screencapPath: string;
   actressImagePath: string;
+  genreImagePath: string;
 };
 
 const validateExistingPath = (client: ApolloClient<object>) => (value: string) =>
@@ -45,25 +40,13 @@ const validateExistingPath = (client: ApolloClient<object>) => (value: string) =
 
 export const LibraryForm: FunctionalComponent = () => {
   const client = useApolloClient();
-  const { inferMovieTitle, actressImagePath, screencapPath } = useContext(SettingsContext);
+  const { inferMovieTitle, actressImagePath, genreImagePath, screencapPath } = useContext(
+    SettingsContext,
+  );
 
-  const [takeAllScreencaps] = useMutation(takeAllScreencapsMutation);
-  const [scanLibrary] = useMutation(scanLibraryMutation);
-
-  const [updateInferMovieTitle] = useMutation<
-    UpdateInferMovieTitleMutation,
-    UpdateInferMovieTitleMutationVariables
-  >(updateInferMovieTitleMutation);
-
-  const [updateActressImagePath] = useMutation<
-    UpdateActressImagePathMutation,
-    UpdateActressImagePathMutationVariables
-  >(updateActressImagePathMutation);
-
-  const [updateScreencapPath] = useMutation<
-    UpdateScreencapPathMutation,
-    UpdateScreencapPathMutationVariables
-  >(updateScreencapPathMutation);
+  const [updateSettings] = useMutation<UpdateSettingsMutation, UpdateSettingsMutationVariables>(
+    updateSettingsMutation,
+  );
 
   const {
     formState: { touched },
@@ -75,15 +58,16 @@ export const LibraryForm: FunctionalComponent = () => {
     defaultValues: {
       inferMovieTitle,
       actressImagePath,
+      genreImagePath,
       screencapPath,
     },
   });
   const onSubmit = (data: LibraryFormData) =>
-    Promise.all([
-      updateInferMovieTitle({ variables: data }),
-      updateScreencapPath({ variables: data }),
-      updateActressImagePath({ variables: data }),
-    ]).then(() => {
+    updateSettings({
+      variables: {
+        data,
+      },
+    }).then(() => {
       toast.success(i('SETTINGS_FORM_SUCCESS'));
       reset(data);
     });
@@ -130,29 +114,22 @@ export const LibraryForm: FunctionalComponent = () => {
             />
           </TableCell>
         </TableRow>
+        <TableRow>
+          <TableCell>{i('SETTINGS_GENREIMAGEPATH')}</TableCell>
+          <TableCell>
+            <Input
+              appearance="wide"
+              name="genreImagePath"
+              error={!!errors.genreImagePath}
+              ref={register({
+                validate: validateExistingPath(client),
+              })}
+            />
+          </TableCell>
+        </TableRow>
       </Table>
       <Flex justify="end">
         {isTouched(touched) && <Button type="submit">{i('FORM_SAVE')}</Button>}
-        <Button
-          appearance="inverted"
-          onClick={() =>
-            scanLibrary().then(() => {
-              toast.success(i('LIBRARY_SCAN_STARTED'));
-            })
-          }
-        >
-          {i('SETTINGS_SCAN_LIBRARY')}
-        </Button>
-        <Button
-          appearance="inverted"
-          onClick={() =>
-            takeAllScreencaps().then(() => {
-              toast.success(i('SCREENCAPPING_STARTED'));
-            })
-          }
-        >
-          {i('SETTINGS_TAKE_SCREENCAPS')}
-        </Button>
       </Flex>
     </form>
   );

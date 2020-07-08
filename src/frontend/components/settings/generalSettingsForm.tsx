@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/react-hooks';
 import { useContext } from 'preact/hooks';
 import { Button, Headline2, Select, Flex, Table, TableCell, TableRow } from '../../../components';
 import { i } from '../../i18n/i18n';
-import { updateLanguageMutation } from '../../mutations/updateSettings.gql';
+import { updateSettingsMutation } from '../../mutations/updateSettings.gql';
 import { isTouched } from '../../utils/form';
 import { SettingsContext } from '../../context/settings';
 
@@ -16,8 +16,8 @@ type GeneralSettingsFormData = {
 export const GeneralSettingsForm: FunctionalComponent = () => {
   const { language } = useContext(SettingsContext);
 
-  const [updateLanguage] = useMutation<UpdateLanguageMutation, UpdateLanguageMutationVariables>(
-    updateLanguageMutation,
+  const [updateSettings] = useMutation<UpdateSettingsMutation, UpdateSettingsMutationVariables>(
+    updateSettingsMutation,
   );
   const {
     formState: { touched },
@@ -28,7 +28,12 @@ export const GeneralSettingsForm: FunctionalComponent = () => {
       language,
     },
   });
-  const onSubmit = (data: GeneralSettingsFormData) => updateLanguage({ variables: data });
+  const onSubmit = (data: GeneralSettingsFormData) =>
+    updateSettings({
+      variables: {
+        data,
+      },
+    });
 
   return (
     <form

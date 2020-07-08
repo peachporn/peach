@@ -226,12 +226,9 @@ type Mutation = {
   scrapeActress?: Maybe<Scalars['Boolean']>;
   takeAllScreencaps?: Maybe<Scalars['Boolean']>;
   updateActress?: Maybe<Actress>;
-  updateActressImagePath: Settings;
   updateGenre?: Maybe<Genre>;
-  updateInferMovieTitle: Settings;
-  updateLanguage: Settings;
   updateMovie?: Maybe<Movie>;
-  updateScreencapPath: Settings;
+  updateSettings: Settings;
 };
 
 type MutationAddActressToMovieArgs = {
@@ -291,21 +288,9 @@ type MutationUpdateActressArgs = {
   data: ActressUpdateInput;
 };
 
-type MutationUpdateActressImagePathArgs = {
-  path: Scalars['String'];
-};
-
 type MutationUpdateGenreArgs = {
   genreId: Scalars['Int'];
   data: GenreUpdateInput;
-};
-
-type MutationUpdateInferMovieTitleArgs = {
-  inferMovieTitle?: Maybe<InferMovieTitle>;
-};
-
-type MutationUpdateLanguageArgs = {
-  language?: Maybe<Language>;
 };
 
 type MutationUpdateMovieArgs = {
@@ -313,8 +298,8 @@ type MutationUpdateMovieArgs = {
   data: MovieUpdateInput;
 };
 
-type MutationUpdateScreencapPathArgs = {
-  path: Scalars['String'];
+type MutationUpdateSettingsArgs = {
+  data: UpdateSettingsInput;
 };
 
 type Quality = 'SD' | 'HD' | 'FullHD' | 'UHD';
@@ -389,6 +374,7 @@ type Settings = {
   volumes: Array<Volume>;
   inferMovieTitle: InferMovieTitle;
   actressImagePath?: Maybe<Scalars['String']>;
+  genreImagePath?: Maybe<Scalars['String']>;
   screencapPath?: Maybe<Scalars['String']>;
 };
 
@@ -404,6 +390,14 @@ type Task = {
 };
 
 type TaskStatus = 'RUNNING' | 'PENDING' | 'ERROR';
+
+type UpdateSettingsInput = {
+  language?: Maybe<Language>;
+  inferMovieTitle?: Maybe<InferMovieTitle>;
+  actressImagePath?: Maybe<Scalars['String']>;
+  genreImagePath?: Maybe<Scalars['String']>;
+  screencapPath?: Maybe<Scalars['String']>;
+};
 
 type Volume = {
   __typename?: 'Volume';
@@ -564,40 +558,20 @@ type RemoveActressFromMovieMutation = {
   }>;
 };
 
-type UpdateLanguageMutationVariables = {
-  language?: Maybe<Language>;
+type UpdateSettingsMutationVariables = {
+  data: UpdateSettingsInput;
 };
 
-type UpdateLanguageMutation = {
+type UpdateSettingsMutation = {
   __typename?: 'Mutation';
-  updateLanguage: { __typename?: 'Settings'; language: Language };
-};
-
-type UpdateInferMovieTitleMutationVariables = {
-  inferMovieTitle?: Maybe<InferMovieTitle>;
-};
-
-type UpdateInferMovieTitleMutation = {
-  __typename?: 'Mutation';
-  updateInferMovieTitle: { __typename?: 'Settings'; inferMovieTitle: InferMovieTitle };
-};
-
-type UpdateScreencapPathMutationVariables = {
-  screencapPath: Scalars['String'];
-};
-
-type UpdateScreencapPathMutation = {
-  __typename?: 'Mutation';
-  updateScreencapPath: { __typename?: 'Settings'; screencapPath?: Maybe<string> };
-};
-
-type UpdateActressImagePathMutationVariables = {
-  actressImagePath: Scalars['String'];
-};
-
-type UpdateActressImagePathMutation = {
-  __typename?: 'Mutation';
-  updateActressImagePath: { __typename?: 'Settings'; actressImagePath?: Maybe<string> };
+  updateSettings: {
+    __typename?: 'Settings';
+    language: Language;
+    inferMovieTitle: InferMovieTitle;
+    screencapPath?: Maybe<string>;
+    actressImagePath?: Maybe<string>;
+    genreImagePath?: Maybe<string>;
+  };
 };
 
 type ActressQueryVariables = {
@@ -792,6 +766,7 @@ type SettingsQuery = {
     language: Language;
     inferMovieTitle: InferMovieTitle;
     actressImagePath?: Maybe<string>;
+    genreImagePath?: Maybe<string>;
     screencapPath?: Maybe<string>;
     volumes: Array<{ __typename?: 'Volume'; name: string; path: string }>;
   };

@@ -6,6 +6,7 @@ export const settingsQuery = gql`
       language
       inferMovieTitle
       actressImagePath
+      genreImagePath
       screencapPath
       volumes {
         name

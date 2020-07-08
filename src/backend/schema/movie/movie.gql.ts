@@ -27,6 +27,7 @@ export const typeDef = gql`
     screencaps: [String!]!
     coverIndex: Int!
     path: String!
+    scenes: [Scene!]!
   }
 
   type MovieMetadata {
@@ -66,8 +67,10 @@ export const typeDef = gql`
 
   extend type Mutation {
     updateMovie(movieId: Int!, data: MovieUpdateInput!): Movie
+
     addActressToMovie(movieId: Int!, actressId: Int!): Movie
     removeActressFromMovie(movieId: Int!, actressId: Int!): Movie
+
     deleteMovie(movieId: Int!): Movie
   }
 `;

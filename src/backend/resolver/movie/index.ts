@@ -1,14 +1,21 @@
 import { transformMovie, transformMovieListMovie } from '../../transformers/movie';
 import { Resolvers } from '../../generated/resolver-types';
-import { getScreencapPath } from '../../../domain/settings';
-import { moviePathForId } from '../../../domain/movie';
 import { resolveScreencaps } from './screencaps';
+import { resolveScene } from './scene';
 
 export const movieResolvers: Resolvers = {
   MovieListMovie: {
     screencaps: resolveScreencaps,
   },
   Movie: {
+    scenes: (parent, _args, { prisma }) =>
+      prisma.scene
+        .findMany({
+          where: {
+            movieId: parent.id,
+          },
+        })
+        .then(scenes => scenes.map(resolveScene(prisma))),
     screencaps: resolveScreencaps,
     url: parent => `/assets/movie/${parent.id}`,
   },
@@ -24,7 +31,7 @@ export const movieResolvers: Resolvers = {
     movie: async (_parent, { id }, { prisma }) => {
       const movie = await prisma.movie.findOne({
         where: { id },
-        include: { metadata: true, volume: true, actresses: true },
+        include: { metadata: true, volume: true, actresses: true, scenes: true },
       });
 
       return movie ? transformMovie(movie) : undefined;
@@ -125,5 +132,22 @@ export const movieResolvers: Resolvers = {
         })
         .then(transformMovie);
     },
+    addScene: async (_parent, { movieId, scene }, { prisma }) =>
+      prisma.movie
+        .update({
+          where: {
+            id: movieId,
+          },
+          data: {
+            scenes: {
+              create: {
+                timeStart: scene.timeStart,
+                timeEnd: scene.timeEnd,
+                genres: JSON.stringify(scene.genres),
+              },
+            },
+          },
+        })
+        .then(transformMovie),
   },
 };

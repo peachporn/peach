@@ -122,6 +122,17 @@ type GenreFilter = {
   category?: Maybe<GenreCategory>;
 };
 
+type GenreLink = {
+  __typename?: 'GenreLink';
+  parent: Genre;
+  children: Array<Genre>;
+};
+
+type GenreLinkInput = {
+  parent: Scalars['Int'];
+  children: Array<Scalars['Int']>;
+};
+
 type GenreUpdateInput = {
   name?: Maybe<Scalars['String']>;
   category?: Maybe<GenreCategory>;
@@ -168,6 +179,7 @@ type Movie = {
   screencaps: Array<Scalars['String']>;
   coverIndex: Scalars['Int'];
   path: Scalars['String'];
+  scenes: Array<Scene>;
 };
 
 type MovieFromFileInput = {
@@ -212,6 +224,7 @@ type MovieUpdateInput = {
 type Mutation = {
   __typename?: 'Mutation';
   addActressToMovie?: Maybe<Movie>;
+  addScene?: Maybe<Movie>;
   addSubgenre?: Maybe<Genre>;
   cancelTask?: Maybe<Scalars['Boolean']>;
   createActress?: Maybe<Actress>;
@@ -234,6 +247,11 @@ type Mutation = {
 type MutationAddActressToMovieArgs = {
   movieId: Scalars['Int'];
   actressId: Scalars['Int'];
+};
+
+type MutationAddSceneArgs = {
+  movieId: Scalars['Int'];
+  scene: SceneInput;
 };
 
 type MutationAddSubgenreArgs = {
@@ -366,6 +384,20 @@ type QueryPathExistsArgs = {
 
 type SaveVolumesInput = {
   volumes: Array<VolumeInput>;
+};
+
+type Scene = {
+  __typename?: 'Scene';
+  id: Scalars['Int'];
+  timeStart: Scalars['Int'];
+  timeEnd: Scalars['Int'];
+  genres: Array<GenreLink>;
+};
+
+type SceneInput = {
+  timeStart: Scalars['Int'];
+  timeEnd: Scalars['Int'];
+  genres: Array<GenreLinkInput>;
 };
 
 type Settings = {

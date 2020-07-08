@@ -10,7 +10,7 @@ const categoryMap: { [key: string]: GenreCategory } = {
   BodyPart: 'BodyPart',
 };
 
-const transformBaseGenre = (genre: DBGenre): Genre => ({
+export const transformBaseGenre = (genre: DBGenre): Genre => ({
   id: genre.id,
   name: genre.name,
   category: categoryMap[genre.category],

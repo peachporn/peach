@@ -77,6 +77,7 @@ export default {
   ACTRESS_DATEOFCAREERSTART: 'Date of career start',
   ACTRESS_DATEOFRETIREMENT: 'Date of retirement',
   ACTRESS_DATEOFDEATH: 'Date of death',
+  ACTRESS_COUNTRY: 'Country',
   ACTRESS_HAIRCOLOR: 'Haircolor',
   ACTRESS_EYECOLOR: 'Eyecolor',
   ACTRESS_ETHNICITY: 'Ethnicity',

@@ -6,6 +6,7 @@ import { i } from '../../i18n/i18n';
 export type ActressDataGridProps = {
   actress: Pick<
     Actress,
+    | 'country'
     | 'cupsize'
     | 'haircolor'
     | 'eyecolor'
@@ -21,6 +22,7 @@ export type ActressDataGridProps = {
 
 export const ActressDataGrid: FunctionalComponent<ActressDataGridProps> = ({ actress }) => (
   <DataGridContainer>
+    <DataGridEntry label="ACTRESS_COUNTRY" value={actress.country} />
     <DataGridEntry label="ACTRESS_HAIRCOLOR" value={actress.haircolor} />
     <DataGridEntry label="ACTRESS_EYECOLOR" value={actress.eyecolor} />
     <DataGridEntry label="ACTRESS_ETHNICITY" value={actress.ethnicity} />

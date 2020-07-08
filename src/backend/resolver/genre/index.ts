@@ -4,18 +4,6 @@ import { applyFilter } from './filter';
 
 export const genreResolvers: Resolvers = {
   Genre: {
-    linkableChildren: (parent, _args, { prisma }) =>
-      prisma.genre
-        .findMany({
-          include: {
-            linkableParents: true,
-          },
-        })
-        .then(genres =>
-          genres
-            .filter(g => g.linkableParents.map(p => p.id).includes(parent.id))
-            .map(transformGenre),
-        ),
     picture: parent => `/assets/genre/${parent.id}.jpg`,
   },
   Query: {
@@ -26,6 +14,7 @@ export const genreResolvers: Resolvers = {
             id,
           },
           include: {
+            linkableChildren: true,
             linkableParents: true,
           },
         })
@@ -37,6 +26,7 @@ export const genreResolvers: Resolvers = {
           take: limit || 30,
           ...applyFilter(filter),
           include: {
+            linkableChildren: true,
             linkableParents: true,
           },
         })
@@ -45,7 +35,7 @@ export const genreResolvers: Resolvers = {
     genresCount: async (_parent, { filter }, { prisma }) => prisma.genre.count(applyFilter(filter)),
   },
   Mutation: {
-    removeLinkableParent: async (_parent, args, { prisma }) => {
+    removeSubgenre: async (_parent, args, { prisma }) => {
       const child = await prisma.genre.findOne({ where: { id: args.child } });
       const parent = await prisma.genre.findOne({ where: { id: args.parent } });
 
@@ -55,19 +45,20 @@ export const genreResolvers: Resolvers = {
 
       return prisma.genre
         .update({
-          where: { id: args.child },
+          where: { id: args.parent },
           data: {
             linkableParents: {
-              disconnect: { id: parent.id },
+              disconnect: { id: child.id },
             },
           },
           include: {
+            linkableChildren: true,
             linkableParents: true,
           },
         })
         .then(g => (!g ? undefined : transformGenre(g)));
     },
-    addLinkableParent: async (_parent, args, { prisma }) => {
+    addSubgenre: async (_parent, args, { prisma }) => {
       const child = await prisma.genre.findOne({ where: { id: args.child } });
       const parent = await prisma.genre.findOne({ where: { id: args.parent } });
 
@@ -77,14 +68,15 @@ export const genreResolvers: Resolvers = {
 
       return prisma.genre
         .update({
-          where: { id: args.child },
+          where: { id: args.parent },
           data: {
-            linkableParents: {
-              connect: { id: parent.id },
+            linkableChildren: {
+              connect: [{ id: child.id }],
             },
           },
           include: {
             linkableParents: true,
+            linkableChildren: true,
           },
         })
         .then(g => (!g ? undefined : transformGenre(g)));
@@ -96,6 +88,7 @@ export const genreResolvers: Resolvers = {
             ...genreInput,
           },
           include: {
+            linkableChildren: true,
             linkableParents: true,
           },
         })
@@ -107,6 +100,7 @@ export const genreResolvers: Resolvers = {
             id: genreId,
           },
           include: {
+            linkableChildren: true,
             linkableParents: true,
           },
           data,

@@ -45,8 +45,8 @@ export const typeDef = gql`
   extend type Mutation {
     updateGenre(genreId: Int!, data: GenreUpdateInput!): Genre
     createGenre(genreInput: GenreCreateInput!): Genre
-    addLinkableParent(child: Int!, parent: Int!): Genre
-    removeLinkableParent(child: Int!, parent: Int!): Genre
+    addSubgenre(child: Int!, parent: Int!): Genre
+    removeSubgenre(child: Int!, parent: Int!): Genre
   }
 
   extend type Query {

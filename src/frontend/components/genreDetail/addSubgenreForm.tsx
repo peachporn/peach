@@ -14,8 +14,8 @@ import { NoResult } from '../../../components/components/noResult';
 import { Icon } from '../../../components/components/icon';
 import { genreDetailRoute } from '../../utils/route';
 import {
-  addLinkableParentMutation,
-  removeLinkableParentMutation,
+  addSubgenreMutation,
+  removeSubgenreMutation,
 } from '../../mutations/updateGenre.gql';
 import { findGenreQuery } from '../../queries/findGenre.gql';
 import { GenreCard, GenreCardGrid } from '../../../components/components/genreCard';
@@ -49,15 +49,15 @@ export const AddSubgenreForm: FunctionalComponent<AddSubgenreFormProps> = ({
 
   const [subgenres, setSubgenres] = useState<GenreCardGenre[]>(linkableChildren || []);
 
-  const [addLinkableParent] = useMutation<
-    AddLinkableParentMutation,
-    AddLinkableParentMutationVariables
-  >(addLinkableParentMutation);
+  const [addSubgenre] = useMutation<
+    AddSubgenreMutation,
+    AddSubgenreMutationVariables
+  >(addSubgenreMutation);
 
-  const [removeLinkableParent] = useMutation<
-    RemoveLinkableParentMutation,
-    RemoveLinkableParentMutationVariables
-  >(removeLinkableParentMutation);
+  const [removeSubgenre] = useMutation<
+    RemoveSubgenreMutation,
+    RemoveSubgenreMutationVariables
+  >(removeSubgenreMutation);
 
   const { setValue, getValues, handleSubmit, register, reset } = useForm<AddSubgenreFormData>({
     defaultValues: {
@@ -74,22 +74,22 @@ export const AddSubgenreForm: FunctionalComponent<AddSubgenreFormProps> = ({
   };
 
   const addSubgenreSubmit = (childId: number) =>
-    addLinkableParent({
+    addSubgenre({
       variables: { parentId: genre.id, childId },
     }).then(result => {
       toast.success(i('SUCCESS'));
       resetForm();
-      if (result.data?.addLinkableParent) {
-        setSubgenres([...subgenres, result.data.addLinkableParent]);
+      if (result.data?.addSubgenre) {
+        setSubgenres([...subgenres, result.data.addSubgenre]);
       }
     });
 
   const removeSubgenreSubmit = (childId: number) =>
-    removeLinkableParent({
+    removeSubgenre({
       variables: { parentId: genre.id, childId },
     }).then(result => {
       toast.success(i('SUCCESS'));
-      if (result.data?.removeLinkableParent) {
+      if (result.data?.removeSubgenre) {
         setSubgenres(subgenres.filter(g => g.id !== childId));
       }
     });

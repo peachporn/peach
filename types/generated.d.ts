@@ -212,14 +212,14 @@ type MovieUpdateInput = {
 type Mutation = {
   __typename?: 'Mutation';
   addActressToMovie?: Maybe<Movie>;
-  addLinkableParent?: Maybe<Genre>;
+  addSubgenre?: Maybe<Genre>;
   cancelTask?: Maybe<Scalars['Boolean']>;
   createActress?: Maybe<Actress>;
   createGenre?: Maybe<Genre>;
   createMovieFromFile: Movie;
   deleteMovie?: Maybe<Movie>;
   removeActressFromMovie?: Maybe<Movie>;
-  removeLinkableParent?: Maybe<Genre>;
+  removeSubgenre?: Maybe<Genre>;
   restartTask?: Maybe<Task>;
   saveVolumes: Array<Volume>;
   scanLibrary?: Maybe<Scalars['Boolean']>;
@@ -236,7 +236,7 @@ type MutationAddActressToMovieArgs = {
   actressId: Scalars['Int'];
 };
 
-type MutationAddLinkableParentArgs = {
+type MutationAddSubgenreArgs = {
   child: Scalars['Int'];
   parent: Scalars['Int'];
 };
@@ -266,7 +266,7 @@ type MutationRemoveActressFromMovieArgs = {
   actressId: Scalars['Int'];
 };
 
-type MutationRemoveLinkableParentArgs = {
+type MutationRemoveSubgenreArgs = {
   child: Scalars['Int'];
   parent: Scalars['Int'];
 };
@@ -486,14 +486,14 @@ type UpdateGenreMutation = {
   updateGenre?: Maybe<{ __typename?: 'Genre'; id: number }>;
 };
 
-type AddLinkableParentMutationVariables = {
+type AddSubgenreMutationVariables = {
   parentId: Scalars['Int'];
   childId: Scalars['Int'];
 };
 
-type AddLinkableParentMutation = {
+type AddSubgenreMutation = {
   __typename?: 'Mutation';
-  addLinkableParent?: Maybe<{
+  addSubgenre?: Maybe<{
     __typename?: 'Genre';
     id: number;
     name: string;
@@ -502,14 +502,14 @@ type AddLinkableParentMutation = {
   }>;
 };
 
-type RemoveLinkableParentMutationVariables = {
+type RemoveSubgenreMutationVariables = {
   parentId: Scalars['Int'];
   childId: Scalars['Int'];
 };
 
-type RemoveLinkableParentMutation = {
+type RemoveSubgenreMutation = {
   __typename?: 'Mutation';
-  removeLinkableParent?: Maybe<{ __typename?: 'Genre'; id: number }>;
+  removeSubgenre?: Maybe<{ __typename?: 'Genre'; id: number }>;
 };
 
 type UpdateCoverMutationVariables = {

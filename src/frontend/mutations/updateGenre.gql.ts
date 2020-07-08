@@ -8,9 +8,9 @@ export const updateGenreMutation = gql`
   }
 `;
 
-export const addLinkableParentMutation = gql`
-  mutation AddLinkableParent($parentId: Int!, $childId: Int!) {
-    addLinkableParent(parent: $parentId, child: $childId) {
+export const addSubgenreMutation = gql`
+  mutation AddSubgenre($parentId: Int!, $childId: Int!) {
+    addSubgenre(parent: $parentId, child: $childId) {
       id
       name
       category
@@ -19,9 +19,9 @@ export const addLinkableParentMutation = gql`
   }
 `;
 
-export const removeLinkableParentMutation = gql`
-  mutation RemoveLinkableParent($parentId: Int!, $childId: Int!) {
-    removeLinkableParent(parent: $parentId, child: $childId) {
+export const removeSubgenreMutation = gql`
+  mutation RemoveSubgenre($parentId: Int!, $childId: Int!) {
+    removeSubgenre(parent: $parentId, child: $childId) {
       id
     }
   }

@@ -22,8 +22,9 @@ const transformBaseGenre = (genre: DBGenre): Genre => ({
 });
 
 export const transformGenre = (
-  genre: GenreGetPayload<{ include: { linkableParents: true } }>,
+  genre: GenreGetPayload<{ include: { linkableChildren: true; linkableParents: true } }>,
 ): Genre => ({
   ...transformBaseGenre(genre),
   linkableParents: genre.linkableParents.map(transformBaseGenre),
+  linkableChildren: genre.linkableChildren.map(transformBaseGenre),
 });

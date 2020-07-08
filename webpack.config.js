@@ -43,6 +43,11 @@ module.exports = (_env, argv) => ({
         },
         {
           flatten: true,
+          from: 'scripts',
+          to: '.',
+        },
+        {
+          flatten: true,
           from: 'node_modules/.prisma/client/*-engine-*',
         },
         {

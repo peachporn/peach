@@ -1,7 +1,10 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
-import { execP } from '../utils/exec';
+import { execP, spawnP } from '../utils/exec';
+import { logScope } from '../utils';
+
+const log = logScope('migration');
 
 dotenv.config();
 
@@ -15,7 +18,7 @@ const checkMigrationsPath = () =>
 
 const addPermissions = () => execP(`chmod -R +x ./node_modules`);
 const runPrismaMigrate = () =>
-  execP(`./node_modules/@prisma/cli/build/index.js --experimental migrate up`);
+  spawnP(`./node_modules/@prisma/cli/build/index.js --experimental migrate up`, log);
 
 const runMigrations = async () => {
   await checkMigrationsPath();

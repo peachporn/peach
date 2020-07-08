@@ -93,6 +93,7 @@ export default {
   ACTRESS_SCRAPE: 'Scrape Data',
   ACTRESS_SCRAPE_STARTED: 'Actress scraping started!',
   GENRE_FORM_SUCCESS: 'Genre updated successfully!',
+  GENRE_UPLOAD_SUCCESS: 'Actress image uploaded!',
   GENRE_CATEGORY: 'Category',
   GENRE_VALIDASROOT: 'Base genre',
   GENRE_KINKINESS: 'Kinkiness',

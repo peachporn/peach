@@ -6,15 +6,16 @@ export const settingsRoute = '/settings';
 export const homeRoute = '/';
 
 export const movieDetailRoute = (movieId: number) => `/movies/${movieId}`;
+
 export const actressDetailRoute = (actressId: number) => `/actresses/${actressId}`;
 export const actressEditRoute = (actressId: number) => `/actresses/${actressId}/edit`;
+export const isActressEditRoute = (route: string) => route.match(/actresses\/.*\/edit/g);
+export const actressUploadImageRoute = (id: number) => `/upload/actress/${id}`;
+
 export const genreDetailRoute = (genreId: number) => `/genres/${genreId}`;
 export const genreEditRoute = (genreId: number) => `/genres/${genreId}/edit`;
-
-export const isActressEditRoute = (route: string) => route.match(/actresses\/.*\/edit/g);
 export const isGenreEditRoute = (route: string) => route.match(/genres\/.*\/edit/g);
-
-export const actressUploadImageRoute = (actressId: number) => `/upload/actress/${actressId}`;
+export const genreUploadImageRoute = (id: number) => `/upload/genre/${id}`;
 
 export const routes: RouteDefinition[] = [
   {

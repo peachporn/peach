@@ -1,10 +1,13 @@
 .genre-detail-page .container
   display grid
   grid-template-columns 1fr 1fr 1fr
-  grid-template-areas "card header score" "card data ."
+  grid-template-areas "card header score" "controls data ."
   column-gap 2em
   row-gap 2em
   min-height 30vh
+
+.genre-detail-page .data-grid
+  margin-top .5em
 
 .genre-data-form
   grid-column span 2
@@ -20,6 +23,7 @@
   border-radius .5em
 
 .genre-detail-card,
+.genre-image-form,
 .genre-detail__controls
   grid-area card
   justify-self end
@@ -28,6 +32,15 @@
 .genre-detail-card
   bottom 3em
 
+.genre-image-form
+  bottom 6em
+
 .genre-detail__controls
+  bottom -1em
+
+.genre-detail__controls,
+.genre-image-form
   align-self flex-end
-  bottom 7em
+
+.add-subgenre-form
+  grid-area data

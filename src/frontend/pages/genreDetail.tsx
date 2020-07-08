@@ -22,6 +22,7 @@ import { GenreDataForm } from '../components/genreDetail/genreDataForm';
 import { Text } from '../../components/components/text';
 import { KinkScore } from '../../components/components/kinkScore';
 import { AddSubgenreForm } from '../components/genreDetail/addSubgenreForm';
+import { GenreImageForm } from '../components/genreDetail/genreImageForm';
 
 export type GenreDetailPageProps = {
   genreId: string;
@@ -81,6 +82,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
                 </Fragment>
               )}
             </div>
+            <AddSubgenreForm genre={genre} linkableChildren={genre.linkableChildren} />
             {editingData ? (
               <Fragment>
                 <GenreDataForm
@@ -91,7 +93,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
                   }}
                   cancel={() => setEditingData(false)}
                 />
-                <AddSubgenreForm genre={genre} linkableChildren={genre.linkableChildren} />
+                <GenreImageForm genre={genre} />
               </Fragment>
             ) : (
               <Fragment>
@@ -100,10 +102,6 @@ export const GenreDetailPage: FunctionalComponent = () => {
                   <Text>{genre.category}</Text>
                 </div>
                 <KinkScore value={genre.kinkiness} scale="genre" />
-                <section className="genre-detail-subgenres">
-                  <Headline2>{i('SUBGENRES')}</Headline2>
-                  <AddSubgenreForm genre={genre} linkableChildren={genre.linkableChildren} />
-                </section>
               </Fragment>
             )}
           </Container>

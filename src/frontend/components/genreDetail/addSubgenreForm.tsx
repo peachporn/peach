@@ -84,7 +84,7 @@ export const AddSubgenreForm: FunctionalComponent<AddSubgenreFormProps> = ({
       }
     });
 
-  const removeActressSubmit = (childId: number) =>
+  const removeSubgenreSubmit = (childId: number) =>
     removeLinkableParent({
       variables: { parentId: genre.id, childId },
     }).then(result => {
@@ -98,14 +98,15 @@ export const AddSubgenreForm: FunctionalComponent<AddSubgenreFormProps> = ({
     a => !subgenres.map(b => b.id).includes(a.id),
   );
 
-  const focusFirstActress = () => {
+  const focusFirstSubgenre = () => {
     if (fetchedWithoutExisting.length === 1) {
       setValue('name', fetchedWithoutExisting[1]);
     }
   };
 
   return (
-    <div className="add-actress-form">
+    <div className="add-subgenre-form">
+      <Headline2>{i('SUBGENRES')}</Headline2>
       <GenreCardGrid>
         {subgenres.map(g => (
           <GenreCard
@@ -118,7 +119,7 @@ export const AddSubgenreForm: FunctionalComponent<AddSubgenreFormProps> = ({
               <Icon
                 onClick={e => {
                   e.preventDefault();
-                  removeActressSubmit(g.id);
+                  removeSubgenreSubmit(g.id);
                 }}
                 icon="close"
               />
@@ -137,7 +138,7 @@ export const AddSubgenreForm: FunctionalComponent<AddSubgenreFormProps> = ({
           onKeyUp={event => {
             setName(event.target.value);
           }}
-          onEnter={focusFirstActress}
+          onEnter={focusFirstSubgenre}
         />
         {loading && !data ? (
           <Loading color="peach" />

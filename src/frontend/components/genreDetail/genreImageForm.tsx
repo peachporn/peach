@@ -3,25 +3,25 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { i } from '../../i18n/i18n';
 import { Input } from '../../../components/components/input';
-import { uploadActressImage } from '../../fetch/uploadImage';
+import { uploadGenreImage } from '../../fetch/uploadImage';
 
-export type ActressDataFormProps = {
-  actress: Pick<Actress, 'id'>;
+export type GenreDataFormProps = {
+  genre: Pick<Genre, 'id'>;
 };
 
-type ActressFormData = {
+type GenreFormData = {
   image: FileList;
 };
 
-export const ActressImageForm: FunctionalComponent<ActressDataFormProps> = ({ actress }) => {
-  const { reset, watch, register, handleSubmit } = useForm<ActressFormData>({
+export const GenreImageForm: FunctionalComponent<GenreDataFormProps> = ({ genre }) => {
+  const { reset, watch, register, handleSubmit } = useForm<GenreFormData>({
     mode: 'onChange',
   });
 
-  const onSubmit = (data: ActressFormData) => {
-    uploadActressImage(actress.id, data.image[0])
+  const onSubmit = (data: GenreFormData) => {
+    uploadGenreImage(genre.id, data.image[0])
       .then(() => {
-        toast.success(i('ACTRESS_UPLOAD_SUCCESS'));
+        toast.success(i('GENRE_UPLOAD_SUCCESS'));
       })
       .catch(e => {
         toast.error(e.message.toString());
@@ -32,7 +32,7 @@ export const ActressImageForm: FunctionalComponent<ActressDataFormProps> = ({ ac
   };
 
   return (
-    <div className="actress-image-form">
+    <div className="genre-image-form">
       <Input type="file" name="image" ref={register} onChange={handleSubmit(onSubmit)} />
     </div>
   );

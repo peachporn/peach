@@ -4,6 +4,12 @@
   grid-gap 1em
   padding 1em
 
+.genre-card-list
+  display grid
+  grid-template-columns repeat(auto-fill, 150px);
+  grid-gap 1em
+  padding 1em
+
 .genre-card
   position relative
   display grid
@@ -21,6 +27,9 @@
       visibility visible
       opacity 1
 
+  &:focus
+    outline none
+
 .genre-card__image
   grid-row span 2
   border-radius .5em
@@ -30,6 +39,8 @@
   font-size 1.1em
   align-self flex-end
   cursor pointer
+  white-space nowrap
+  overflow hidden
 
 .genre-card__category
   font-size .8em
@@ -45,10 +56,32 @@
   right 0
   padding .2em
 
-.genre-card--focus
+.genre-card--focus,
+.genre-card:focus
+  outline none
   border-bottom 3px solid mainColor
 
 .genre-card--small
-  max-width 150px
   max-height 2.5em
   column-gap .5em
+  border-bottom 3px solid transparent
+
+  .genre-card__name
+    font-size 1em
+
+  .genre-card__category
+    font-size 0.8em
+
+  .genre-card__image
+    height calc(100% + 4px)
+    max-height calc(100% + 4px)
+    max-width 3em
+    object-fit cover
+    position relative
+    top 1px
+
+.genre-card--shadow
+  box-shadow 0 0 10px rgba(0,0,0,.2)
+
+.genre-card--small.genre-card--shadow
+  box-shadow 0 0 6px rgba(0,0,0,.2)

@@ -1,0 +1,60 @@
+genreClipSize = 3.5em
+
+.genre-clip-list
+  display flex
+  flex-flow row nowrap
+  padding .5em
+
+.genre-clip
+  display flex
+  flex-flow row nowrap
+  border-radius .5em
+  background white
+  cursor pointer
+  overflow hidden
+  bounce()
+  transition all .2s ease
+
+  &:focus
+    outline none
+
+  & + &
+    margin-left .5em
+
+  height genreClipSize
+  min-width genreClipSize
+  max-width genreClipSize
+
+  &--tiny
+    height (genreClipSize / 1.5)
+    max-width (genreClipSize / 1.5)
+
+
+.genre-clip--focus,
+.genre-clip:hover
+  max-width genreClipSize * 5
+
+.genre-clip__image
+  object-fit cover
+  height genreClipSize
+  width genreClipSize
+
+  .genre-clip--tiny &
+    height (genreClipSize / 1.5)
+    width (genreClipSize / 1.5)
+
+.genre-clip--focus
+  border-bottom 3px solid mainColor
+
+.genre-clip--shadow
+  box-shadow 0 0 6px rgba(0,0,0,.2)
+
+.genre-clip__interaction-slot
+  display flex
+  height 100%
+  align-items center
+  padding (genreClipSize / 10)
+
+  &:empty
+    padding 0
+

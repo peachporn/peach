@@ -1,7 +1,9 @@
+import { without } from 'ramda';
 import { transformMovie, transformMovieListMovie } from '../../transformers/movie';
 import { Resolvers } from '../../generated/resolver-types';
 import { resolveScreencaps } from './screencaps';
-import { resolveScene } from './scene';
+import { resolveScene, serializeSceneGenres } from './scene';
+import { GenreLinkRaw } from '../../../domain/movie/scene';
 
 export const movieResolvers: Resolvers = {
   MovieListMovie: {
@@ -132,22 +134,94 @@ export const movieResolvers: Resolvers = {
         })
         .then(transformMovie);
     },
-    addScene: async (_parent, { movieId, scene }, { prisma }) =>
-      prisma.movie
-        .update({
-          where: {
-            id: movieId,
+    updateScenes: async (_parent, { movieId, scenes }, { prisma }) => {
+      const movie = await prisma.movie.findOne({
+        where: { id: movieId },
+        include: {
+          scenes: true,
+        },
+      });
+
+      const movieScenes = (movie && movie.scenes) || [];
+
+      const updatedScenes = movieScenes
+        .map(scene => {
+          const updateSceneData = scenes.find(s => s.timeStart === scene.timeStart);
+          if (updateSceneData) {
+            return {
+              ...scene,
+              timeStart: updateSceneData.timeStart,
+              timeEnd: updateSceneData.timeEnd,
+              genres: serializeSceneGenres(updateSceneData.genres as GenreLinkRaw[]),
+            };
+          }
+          return null;
+        })
+        .filter(Boolean);
+
+      const removedScenes = movieScenes.filter(
+        s => !updatedScenes.map(ss => ss && ss.id).includes(s.id),
+      );
+
+      const addedScenes = scenes
+        .map(scene => {
+          if (movie && !movie.scenes.find(s => s.timeStart === scene.timeStart)) {
+            return {
+              timeStart: scene.timeStart,
+              timeEnd: scene.timeEnd,
+              genres: serializeSceneGenres(scene.genres as GenreLinkRaw[]),
+            };
+          }
+          return null;
+        })
+        .filter(Boolean);
+
+      await prisma.movie.update({
+        where: {
+          id: movieId,
+        },
+        data: {
+          scenes: {
+            create: addedScenes.map(s => ({
+              timeStart: s!.timeStart,
+              timeEnd: s!.timeEnd,
+              genres: s!.genres,
+            })),
           },
-          data: {
-            scenes: {
-              create: {
-                timeStart: scene.timeStart,
-                timeEnd: scene.timeEnd,
-                genres: JSON.stringify(scene.genres),
-              },
+        },
+      });
+
+      await prisma.scene.deleteMany({
+        where: {
+          id: {
+            in: removedScenes.map(s => s && s.id).filter(Boolean) as number[],
+          },
+        },
+      });
+
+      await Promise.all(
+        updatedScenes.map(s =>
+          prisma.scene.update({
+            where: {
+              id: s!.id,
             },
+            data: {
+              timeStart: s!.timeStart,
+              timeEnd: s!.timeEnd,
+              genres: s!.genres,
+            },
+          }),
+        ),
+      );
+
+      return prisma.movie
+        .findOne({
+          where: { id: movieId },
+          include: {
+            scenes: true,
           },
         })
-        .then(transformMovie),
+        .then(m => (m ? transformMovie(m) : undefined));
+    },
   },
 };

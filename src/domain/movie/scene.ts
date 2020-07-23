@@ -10,7 +10,7 @@ export type GenreLink = {
 
 export const genreIdsForGenreLink = (genreLink: GenreLinkRaw) => [
   genreLink.parent,
-  ...genreLink.children,
+  ...(genreLink.children || []),
 ];
 
 const genreById = (genres: Genre[]) => (genreId: number) => genres.find(g => g.id === genreId);

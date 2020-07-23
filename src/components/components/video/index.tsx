@@ -1,6 +1,7 @@
-import { h, FunctionalComponent } from 'preact';
+import { h, RefObject } from 'preact';
 import { compose } from 'ramda';
-import { useRef, useState } from 'preact/hooks';
+import { useState } from 'preact/hooks';
+import { forwardRef } from 'preact/compat';
 
 type VideoSrc = {
   [type: string]: string;
@@ -8,14 +9,14 @@ type VideoSrc = {
 
 export type VideoProps = {
   src: VideoSrc;
+  ref: RefObject<HTMLVideoElement>;
 };
 
 const sources = (src: VideoSrc) =>
   Object.keys(src).map(sourceType => <source type={sourceType} src={src[sourceType]} />);
 
-export const Video: FunctionalComponent<VideoProps> = ({ src }) => {
+export const Video = forwardRef<HTMLVideoElement, VideoProps>(({ src }, video) => {
   const [touchPosition, setTouchPosition] = useState(0);
-  const video = useRef<HTMLVideoElement>();
 
   const startScrub = (e: TouchEvent) => setTouchPosition(e.touches[0].clientX);
   const resetTouchPosition = () => setTouchPosition(0);
@@ -30,6 +31,7 @@ export const Video: FunctionalComponent<VideoProps> = ({ src }) => {
     const scrubTime = newTouchPosition - touchPosition;
 
     setTouchPosition(newTouchPosition);
+    // eslint-disable-next-line no-param-reassign
     video.current.currentTime = current + scrubTime;
   };
 
@@ -47,6 +49,6 @@ export const Video: FunctionalComponent<VideoProps> = ({ src }) => {
       {sources(src)}
     </video>
   );
-};
+});
 
 export default Video;

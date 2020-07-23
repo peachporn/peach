@@ -2,21 +2,22 @@ import { FunctionalComponent, h } from 'preact';
 
 export type Icon =
   | 'access_alarm'
-  | 'error'
   | 'add_circle'
+  | 'arrow_backward'
+  | 'arrow_forward'
+  | 'chevron_left'
+  | 'chevron_right'
   | 'close'
-  | 'search'
+  | 'cloud'
+  | 'delete_forever'
+  | 'edit'
+  | 'error'
+  | 'local_offer'
   | 'more_vert'
   | 'movie'
   | 'person_pin'
-  | 'cloud'
-  | 'local_offer'
-  | 'settings'
-  | 'edit'
-  | 'arrow_forward'
-  | 'arrow_backward'
-  | 'chevron_right'
-  | 'chevron_left';
+  | 'search'
+  | 'settings';
 
 export type IconProps = {
   icon: Icon;

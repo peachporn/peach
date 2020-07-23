@@ -44,7 +44,7 @@ export const GenresPage: FunctionalComponent = () => {
         <Fragment>
           <GenreCardGrid>
             {data?.genres.map(g => (
-              <GenreCard name={g.name} category={g.category} url={genreDetailRoute(g.id)} />
+              <GenreCard genre={g} url={genreDetailRoute(g.id)} />
             ))}
             <CreateGenreForm onSubmit={refetch} />
           </GenreCardGrid>

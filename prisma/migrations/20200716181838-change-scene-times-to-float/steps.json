@@ -1,0 +1,17 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "UpdateField",
+      "model": "Scene",
+      "field": "timeStart",
+      "type": "Float"
+    },
+    {
+      "tag": "UpdateField",
+      "model": "Scene",
+      "field": "timeEnd",
+      "type": "Float"
+    }
+  ]
+}

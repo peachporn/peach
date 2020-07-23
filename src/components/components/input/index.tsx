@@ -12,6 +12,7 @@ type InputProps = {
   placeholder?: string;
   onEnter?: OnEvent;
   onKeyUp?: OnEvent;
+  onKeyDown?: OnEvent;
   onChange?: OnEvent;
   tabIndex?: number;
   autoFocus?: boolean;
@@ -27,6 +28,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       name,
       error,
       onKeyUp,
+      onKeyDown,
       onEnter,
       onChange,
       tabIndex,
@@ -44,12 +46,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     }, [inputRef]);
 
     const keyUp = onKeyUp ? debounce(onKeyUp, 300) : () => {};
+    const keyDown = onKeyDown ? debounce(onKeyDown, 300) : () => {};
     return (
       <input
         type={type}
         ref={composeRefs(ref, inputRef) as Ref<HTMLInputElement>}
         name={name}
         tabIndex={tabIndex}
+        autoComplete="none"
         className={`input input--${appearance} ${error ? 'input--error' : ''} ${
           className || ''
         }`.trim()}
@@ -59,6 +63,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           }
           keyUp(event);
         }}
+        onKeyDown={keyDown}
         onChange={onChange}
         placeholder={placeholder}
       />

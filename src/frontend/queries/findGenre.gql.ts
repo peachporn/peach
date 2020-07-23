@@ -7,6 +7,10 @@ export const findGenreQuery = gql`
       name
       category
       picture
+      validAsRoot
+      linkableChildren {
+        id
+      }
     }
   }
 `;

@@ -15,9 +15,9 @@ export const Modal: FunctionalComponent<ModalProps> = ({
 }) =>
   !visible ? null : (
     <div className={`modal modal--${appearance}`}>
+      {children}
       <button onClick={() => setVisible(false)} className="modal__close">
         <Icon icon="close" />
       </button>
-      {children}
     </div>
   );

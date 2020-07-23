@@ -1,5 +1,5 @@
 import { PrismaClient, Scene as DBScene } from '@prisma/client';
-import { uniq } from 'ramda';
+import { chain, uniq } from 'ramda';
 import {
   genreIdsForGenreLink,
   GenreLink,
@@ -8,10 +8,13 @@ import {
 } from '../../../domain/movie/scene';
 import { transformBaseGenre } from '../../transformers/genre';
 
-export const resolveScene = (prisma: PrismaClient) => async (scene: DBScene): Promise<Scene> => {
-  const genreLinks = JSON.parse(scene.genres) as GenreLinkRaw[];
+export const serializeSceneGenres = (genreLinks: GenreLinkRaw[]) => JSON.stringify(genreLinks);
+export const deserializeSceneGenres = (json: string) => JSON.parse(json) as GenreLinkRaw[];
 
-  const genreIds = uniq(genreLinks.flatMap(genreIdsForGenreLink));
+export const resolveScene = (prisma: PrismaClient) => async (scene: DBScene): Promise<Scene> => {
+  const genreLinks = deserializeSceneGenres(scene.genres) || [];
+
+  const genreIds = uniq(chain(genreIdsForGenreLink, genreLinks));
 
   const genres = await prisma.genre
     .findMany({

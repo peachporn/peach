@@ -224,7 +224,6 @@ type MovieUpdateInput = {
 type Mutation = {
   __typename?: 'Mutation';
   addActressToMovie?: Maybe<Movie>;
-  addScene?: Maybe<Movie>;
   addSubgenre?: Maybe<Genre>;
   cancelTask?: Maybe<Scalars['Boolean']>;
   createActress?: Maybe<Actress>;
@@ -241,17 +240,13 @@ type Mutation = {
   updateActress?: Maybe<Actress>;
   updateGenre?: Maybe<Genre>;
   updateMovie?: Maybe<Movie>;
+  updateScenes?: Maybe<Movie>;
   updateSettings: Settings;
 };
 
 type MutationAddActressToMovieArgs = {
   movieId: Scalars['Int'];
   actressId: Scalars['Int'];
-};
-
-type MutationAddSceneArgs = {
-  movieId: Scalars['Int'];
-  scene: SceneInput;
 };
 
 type MutationAddSubgenreArgs = {
@@ -314,6 +309,11 @@ type MutationUpdateGenreArgs = {
 type MutationUpdateMovieArgs = {
   movieId: Scalars['Int'];
   data: MovieUpdateInput;
+};
+
+type MutationUpdateScenesArgs = {
+  movieId: Scalars['Int'];
+  scenes: Array<SceneInput>;
 };
 
 type MutationUpdateSettingsArgs = {
@@ -389,14 +389,14 @@ type SaveVolumesInput = {
 type Scene = {
   __typename?: 'Scene';
   id: Scalars['Int'];
-  timeStart: Scalars['Int'];
-  timeEnd: Scalars['Int'];
+  timeStart: Scalars['Float'];
+  timeEnd: Scalars['Float'];
   genres: Array<GenreLink>;
 };
 
 type SceneInput = {
-  timeStart: Scalars['Int'];
-  timeEnd: Scalars['Int'];
+  timeStart: Scalars['Float'];
+  timeEnd: Scalars['Float'];
   genres: Array<GenreLinkInput>;
 };
 
@@ -599,6 +599,16 @@ type RemoveActressFromMovieMutation = {
   }>;
 };
 
+type UpdateScenesMutationVariables = {
+  movieId: Scalars['Int'];
+  scenes: Array<SceneInput>;
+};
+
+type UpdateScenesMutation = {
+  __typename?: 'Mutation';
+  updateScenes?: Maybe<{ __typename?: 'Movie'; id: number }>;
+};
+
 type UpdateSettingsMutationVariables = {
   data: UpdateSettingsInput;
 };
@@ -694,6 +704,8 @@ type FindGenreQuery = {
     name: string;
     category: GenreCategory;
     picture: string;
+    validAsRoot: boolean;
+    linkableChildren: Array<{ __typename?: 'Genre'; id: number }>;
   }>;
 };
 
@@ -760,6 +772,30 @@ type MovieQuery = {
       quality: Quality;
       format: Format;
       fps: number;
+    }>;
+    scenes: Array<{
+      __typename?: 'Scene';
+      timeStart: number;
+      timeEnd: number;
+      genres: Array<{
+        __typename?: 'GenreLink';
+        parent: {
+          __typename?: 'Genre';
+          id: number;
+          name: string;
+          picture: string;
+          validAsRoot: boolean;
+          linkableChildren: Array<{ __typename?: 'Genre'; id: number }>;
+        };
+        children: Array<{
+          __typename?: 'Genre';
+          id: number;
+          name: string;
+          picture: string;
+          validAsRoot: boolean;
+          linkableChildren: Array<{ __typename?: 'Genre'; id: number }>;
+        }>;
+      }>;
     }>;
   }>;
 };

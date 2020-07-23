@@ -13,6 +13,7 @@ export * from './components/flex';
 export * from './components/loading';
 export * from './components/video';
 export * from './components/backdrop';
+export * from './components/genreClip';
 
 export * from './compositions/movieList';
 export * from './compositions/movieMetadataTable';

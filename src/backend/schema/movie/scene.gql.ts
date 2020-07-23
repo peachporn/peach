@@ -3,8 +3,8 @@ import { gql } from 'apollo-server';
 export const typeDef = gql`
   type Scene {
     id: Int!
-    timeStart: Int!
-    timeEnd: Int!
+    timeStart: Float!
+    timeEnd: Float!
     genres: [GenreLink!]!
   }
 
@@ -19,12 +19,12 @@ export const typeDef = gql`
   }
 
   input SceneInput {
-    timeStart: Int!
-    timeEnd: Int!
+    timeStart: Float!
+    timeEnd: Float!
     genres: [GenreLinkInput!]!
   }
 
   extend type Mutation {
-    addScene(movieId: Int!, scene: SceneInput!): Movie
+    updateScenes(movieId: Int!, scenes: [SceneInput!]!): Movie
   }
 `;

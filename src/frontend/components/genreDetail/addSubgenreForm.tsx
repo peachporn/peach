@@ -106,9 +106,7 @@ export const AddSubgenreForm: FunctionalComponent<AddSubgenreFormProps> = ({
         {subgenres.map(g => (
           <GenreCard
             appearance="small"
-            name={g.name}
-            category={g.category}
-            imageUrl={g.picture}
+            genre={g}
             url={genreDetailRoute(g.id)}
             buttonSlot={
               <Icon
@@ -146,9 +144,7 @@ export const AddSubgenreForm: FunctionalComponent<AddSubgenreFormProps> = ({
                 <GenreCard
                   appearance="small"
                   focus={`${getValues().id}` === `${g.id.toString()}`}
-                  name={g.name}
-                  category={g.category}
-                  imageUrl={g.picture}
+                  genre={g}
                   onClick={event => {
                     setValue('id', g.id);
                     handleSubmit((formData: AddSubgenreFormData) => {

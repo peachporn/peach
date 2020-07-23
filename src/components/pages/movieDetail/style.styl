@@ -26,3 +26,27 @@
 
   .movie-detail-actions
     grid-area actions
+
+.scene-form
+  display grid
+  grid-template-areas "bar bar bar" "input genres controls"
+  grid-template-columns 1fr 3fr 1fr
+
+.scene-view
+  grid-area bar
+
+.scene-form__genres
+  grid-area genres
+  min-height 4.5em
+  background white
+
+.scene-form__input
+  grid-area input
+
+.scene-form__controls
+  grid-area controls
+  display flex
+  align-items center
+  justify-content center
+  background white
+

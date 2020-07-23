@@ -26,6 +26,30 @@ export const movieDetailQuery = gql`
         format
         fps
       }
+      scenes {
+        timeStart
+        timeEnd
+        genres {
+          parent {
+            id
+            name
+            picture
+            validAsRoot
+            linkableChildren {
+              id
+            }
+          }
+          children {
+            id
+            name
+            picture
+            validAsRoot
+            linkableChildren {
+              id
+            }
+          }
+        }
+      }
     }
   }
 `;

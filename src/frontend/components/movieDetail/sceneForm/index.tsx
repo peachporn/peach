@@ -40,7 +40,7 @@ export type SceneFormProps = {
 
 const distributeColumns = (scenes: SceneDraft[], duration: number) => {
   const length = (s: SceneDraft) => s.timeEnd || duration - s.timeStart;
-  const longestSceneLength = scenes.map(length).reduce((acc, cur) => (cur > acc ? cur : acc));
+  const longestSceneLength = scenes.map(length).reduce((acc, cur) => (cur > acc ? cur : acc), 1);
 
   return scenes
     .map(length)

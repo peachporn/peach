@@ -5,6 +5,7 @@ export const genresListQuery = gql`
     genres(limit: $limit, skip: $skip) {
       id
       name
+      picture
       category
     }
   }

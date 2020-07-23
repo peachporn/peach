@@ -30,6 +30,7 @@ import { updateScenesMutation } from '../../../mutations/updateScenes.gql';
 import { throttle } from '../../../../utils/debounce';
 import { DeleteSceneModal } from './deleteSceneModal';
 import { isTouched } from '../../../utils/form';
+import { Text } from '../../../../components/components/text';
 
 type UnMaybe<T> = T extends undefined ? never : T;
 export type SceneFormProps = {
@@ -37,7 +38,18 @@ export type SceneFormProps = {
   video: PropRef<HTMLVideoElement>;
 };
 
-const markerPosition = (duration: number, time: number) => (time / duration) * 100;
+const distributeColumns = (scenes: SceneDraft[], duration: number) => {
+  const length = (s: SceneDraft) => s.timeEnd || duration - s.timeStart;
+  const longestSceneLength = scenes.map(length).reduce((acc, cur) => (cur > acc ? cur : acc));
+  console.log(longestSceneLength);
+  console.log(scenes.map(length));
+
+  return scenes
+    .map(length)
+    .map(l => (l / longestSceneLength) * scenes.length)
+    .map(fr => `${fr}fr`)
+    .join(' ');
+};
 
 export const SceneForm: FunctionalComponent<SceneFormProps> = ({ movie, video }) => {
   /*
@@ -341,7 +353,12 @@ export const SceneForm: FunctionalComponent<SceneFormProps> = ({ movie, video })
 
   return (
     <div className="scene-form">
-      <div className="scene-view">
+      <div
+        className="scene-view"
+        style={{
+          gridTemplateColumns: distributeColumns(scenes, duration || 1),
+        }}
+      >
         <DeleteSceneModal
           closeModal={() => {
             setSceneToDelete(null);
@@ -363,13 +380,6 @@ export const SceneForm: FunctionalComponent<SceneFormProps> = ({ movie, video })
             className={`scene-view__marker ${
               currentScene()?.timeStart === scene.timeStart ? 'scene-view__marker--current' : ''
             }`.trim()}
-            style={{
-              left: `${markerPosition(duration, scene.timeStart)}%`,
-              width: `${
-                markerPosition(duration, scene.timeEnd || duration) -
-                markerPosition(duration, scene.timeStart)
-              }%`,
-            }}
           >
             {j > 0 && (
               <Icon
@@ -391,17 +401,22 @@ export const SceneForm: FunctionalComponent<SceneFormProps> = ({ movie, video })
                   }
                   interactionSlot={
                     <Fragment>
-                      {g.children.map(c => (
-                        <GenreClip
-                          genre={c}
-                          appearance="tiny"
-                          onClick={e => {
-                            e.stopPropagation();
-                            removeSubgenreFromGenre(g.parent.id, c.id);
-                          }}
-                        />
-                      ))}
+                      <Text size="S">{g.parent.name}</Text>
+                      <div className="scene-view__subgenres">
+                        {g.children.map(c => (
+                          <GenreClip
+                            genre={c}
+                            appearance="tiny"
+                            onClick={e => {
+                              e.stopPropagation();
+                              removeSubgenreFromGenre(g.parent.id, c.id);
+                            }}
+                            interactionSlot={<Text size="S">{c.name}</Text>}
+                          />
+                        ))}
+                      </div>
                       <Icon
+                        className="genre-clip__delete"
                         icon="close"
                         onClick={() => {
                           removeGenreFromCurrentScene(g.parent);
@@ -439,7 +454,7 @@ export const SceneForm: FunctionalComponent<SceneFormProps> = ({ movie, video })
           <GenreCard
             shadow
             genre={g}
-            appearance="small"
+            appearance={['small']}
             focus={focusedCandidate === j}
             onClick={() => {
               addGenreOrSubgenre(g);

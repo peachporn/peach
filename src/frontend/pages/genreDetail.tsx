@@ -93,10 +93,9 @@ export const GenreDetailPage: FunctionalComponent = () => {
                 cancel={() => setEditingData(false)}
               />
             )}
-            {genre.validAsRoot ||
-              (editingData && (
-                <AddSubgenreForm genre={genre} linkableChildren={genre.linkableChildren} />
-              ))}
+            {(genre.validAsRoot || editingData) && (
+              <AddSubgenreForm genre={genre} linkableChildren={genre.linkableChildren} />
+            )}
           </Container>
         </Fragment>
       )}

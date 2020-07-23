@@ -11,7 +11,7 @@ export type GenreCardProps = {
   buttonSlot?: VNode;
   focus?: boolean;
   shadow?: boolean;
-  appearance?: 'small';
+  appearance?: ('small' | 'white')[];
 };
 
 export type GenreCardGenre = {
@@ -30,11 +30,13 @@ export const GenreCard: FunctionalComponent<GenreCardProps> = ({
   buttonSlot,
   focus,
   shadow,
-  appearance,
+  appearance = [],
 }) => {
-  const className = `genre-card ${classNameProp || ''} ${focus ? 'genre-card--focus' : ''} ${
-    appearance ? `genre-card--${appearance}` : ''
-  } ${shadow ? 'genre-card--shadow' : ''}`.trim();
+  const className = `genre-card ${classNameProp || ''} ${
+    focus ? 'genre-card--focus' : ''
+  } ${appearance.map(a => `genre-card--${a}`).join(' ')} ${
+    shadow ? 'genre-card--shadow' : ''
+  }`.trim();
 
   const children = (
     <Fragment>
@@ -67,8 +69,17 @@ export const GenreCard: FunctionalComponent<GenreCardProps> = ({
   );
 };
 
-export const GenreCardGrid: FunctionalComponent = ({ children }) => (
-  <div className="genre-card-grid">{children}</div>
+export type GenreCardGridProps = {
+  appearance?: 'small';
+};
+
+export const GenreCardGrid: FunctionalComponent<GenreCardGridProps> = ({
+  appearance,
+  children,
+}) => (
+  <div className={`genre-card-grid ${appearance ? `genre-card-grid--${appearance}` : ''}`}>
+    {children}
+  </div>
 );
 
 export const GenreCardList: FunctionalComponent<{ className?: string }> = ({

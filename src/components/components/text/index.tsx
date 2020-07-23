@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from 'preact';
 
-type TextSize = 'M' | 'L' | 'XL' | 'XXL';
+type TextSize = 'S' | 'M' | 'L' | 'XL' | 'XXL';
 
 export type TextProps = {
   size?: TextSize;

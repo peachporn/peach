@@ -26,8 +26,7 @@ genreClipSize = 3.5em
   max-width genreClipSize
 
   &--tiny
-    height (genreClipSize / 1.5)
-    max-width (genreClipSize / 1.5)
+    font-size .5em
 
 
 .genre-clip--focus,
@@ -38,10 +37,7 @@ genreClipSize = 3.5em
   object-fit cover
   height genreClipSize
   width genreClipSize
-
-  .genre-clip--tiny &
-    height (genreClipSize / 1.5)
-    width (genreClipSize / 1.5)
+  border-radius .5em
 
 .genre-clip--focus
   border-bottom 3px solid mainColor
@@ -50,11 +46,19 @@ genreClipSize = 3.5em
   box-shadow 0 0 6px rgba(0,0,0,.2)
 
 .genre-clip__interaction-slot
-  display flex
+  position relative
+  display grid
+  grid-template-rows 1fr 2fr
   height 100%
   align-items center
-  padding (genreClipSize / 10)
+  p = (genreClipSize / 10)
+  padding p (genreClipSize / 1.5) p p
 
   &:empty
     padding 0
+
+.genre-clip__delete
+  position absolute
+  top .2em
+  right .2em
 

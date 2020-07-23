@@ -2,9 +2,9 @@
   position relative
   width 100%
   height 4.5em
+  display grid
 
 .scene-view__marker
-  position absolute
   display flex
   cursor pointer
   height 100%
@@ -12,8 +12,6 @@
   border-left 2px solid mainColor
   background-color white
   filter opacity(.6)
-  overflow-x auto
-  overflow-y visible
 
   &:focus
     outline none
@@ -28,4 +26,8 @@
   background white
   display flex
   align-items center
+
+.scene-view__subgenres
+  display flex
+  flex-flow row nowrap
 

@@ -15,7 +15,7 @@ import { Icon } from '../../../components/components/icon';
 import { genreDetailRoute } from '../../utils/route';
 import { addSubgenreMutation, removeSubgenreMutation } from '../../mutations/updateGenre.gql';
 import { findGenreQuery } from '../../queries/findGenre.gql';
-import { GenreCard, GenreCardGrid } from '../../../components/components/genreCard';
+import { GenreCard, GenreCardGrid, GenreCardList } from '../../../components/components/genreCard';
 
 type GenreCardGenre = Pick<Genre, 'id' | 'name' | 'category' | 'picture'>;
 
@@ -102,10 +102,10 @@ export const AddSubgenreForm: FunctionalComponent<AddSubgenreFormProps> = ({
   return (
     <div className="add-subgenre-form">
       <Headline2>{i('SUBGENRES')}</Headline2>
-      <GenreCardGrid>
+      <GenreCardList>
         {subgenres.map(g => (
           <GenreCard
-            appearance="small"
+            appearance={['small']}
             genre={g}
             url={genreDetailRoute(g.id)}
             buttonSlot={
@@ -120,7 +120,7 @@ export const AddSubgenreForm: FunctionalComponent<AddSubgenreFormProps> = ({
           />
         ))}
         <BubbleButton label="+" onClick={open} />
-      </GenreCardGrid>
+      </GenreCardList>
       <Modal visible={formVisible} setVisible={setFormVisible} appearance="slit">
         <Headline2>{i('SUBGENRE_FORM_HEADLINE')}</Headline2>
         <Input
@@ -142,7 +142,7 @@ export const AddSubgenreForm: FunctionalComponent<AddSubgenreFormProps> = ({
             <GenreCardGrid>
               {fetchedWithoutExisting.map(g => (
                 <GenreCard
-                  appearance="small"
+                  appearance={['small']}
                   focus={`${getValues().id}` === `${g.id.toString()}`}
                   genre={g}
                   onClick={event => {

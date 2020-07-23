@@ -32,6 +32,7 @@ export const ScreencapStripForm: FunctionalComponent<ScreencapStripFormProps> = 
     if (!formState.dirty) {
       return;
     }
+    console.log(data);
 
     saveCover({
       variables: {

@@ -24,7 +24,7 @@ export const Screencap = forwardRef<HTMLInputElement, ScreencapProps>(
     const children = (
       <Fragment>
         <img alt={name} src={url} />
-        {!value ? null : (
+        {value === undefined ? null : (
           <input type="radio" value={value} name={name} id={`screencap-input-${value}`} ref={ref} />
         )}
       </Fragment>

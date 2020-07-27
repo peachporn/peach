@@ -26,12 +26,14 @@ export const mergeEndTimeToPreviousScene = (scene: SceneDraft) => (scenes: Scene
     : updateScene(previousScene.timeStart, { ...previousScene, timeEnd: scene.timeEnd })(scenes);
 };
 
-export const endPreviousScene = (time: number) => (scenes: SceneDraft[]) => {
-  const previousScene = scenesSortedFromEnd(scenes).find(s => s.timeStart < time);
+export const previousScene = (time: number, scenes: SceneDraft[]) =>
+  scenesSortedFromEnd(scenes).find(s => s.timeStart < time);
 
-  return !previousScene
+export const endPreviousScene = (time: number) => (scenes: SceneDraft[]) => {
+  const previous = previousScene(time, scenes);
+  return !previous
     ? scenes
-    : updateScene(previousScene.timeStart, { ...previousScene, timeEnd: time })(scenes);
+    : updateScene(previous.timeStart, { ...previous, timeEnd: time })(scenes);
 };
 
 export const getCurrentScene = (time: number, scenes: SceneDraft[]) =>

@@ -9,6 +9,6 @@ export type GenreLink = {
   children: SceneGenre[];
 };
 
-export type SceneGenre = Pick<Genre, 'id' | 'name' | 'picture' | 'validAsRoot'> & {
+export type SceneGenre = Pick<Genre, 'id' | 'name' | 'picture' | 'validAsRoot' | 'category'> & {
   linkableChildren: { id: number }[];
 };

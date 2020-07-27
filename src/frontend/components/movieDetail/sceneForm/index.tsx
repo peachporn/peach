@@ -20,12 +20,18 @@ import {
   getCurrentScene,
   latestGenre,
   mergeEndTimeToPreviousScene,
+  previousScene,
   removeGenre,
   removeScene,
   updateScene,
 } from './scenes';
 import { jumpToTime, pause, playPause, scrub } from './video';
-import { addChildToGenreLink, removeChildFromGenreLink } from './genreLink';
+import {
+  addChildToGenreLink,
+  onlyClothingAndLocation,
+  removeChildFromGenreLink,
+  transferrable,
+} from './genreLink';
 import { updateScenesMutation } from '../../../mutations/updateScenes.gql';
 import { throttle } from '../../../../utils/debounce';
 import { DeleteSceneModal } from './deleteSceneModal';
@@ -38,16 +44,7 @@ export type SceneFormProps = {
   video: PropRef<HTMLVideoElement>;
 };
 
-const distributeColumns = (scenes: SceneDraft[], duration: number) => {
-  const length = (s: SceneDraft) => s.timeEnd || duration - s.timeStart;
-  const longestSceneLength = scenes.map(length).reduce((acc, cur) => (cur > acc ? cur : acc), 1);
-
-  return scenes
-    .map(length)
-    .map(l => (l / longestSceneLength) * scenes.length)
-    .map(fr => `${fr}fr`)
-    .join(' ');
-};
+const distributeColumns = (scenes: SceneDraft[]) => scenes.map(() => `1fr`).join(' ');
 
 export const SceneForm: FunctionalComponent<SceneFormProps> = ({ movie, video }) => {
   /*
@@ -164,10 +161,15 @@ export const SceneForm: FunctionalComponent<SceneFormProps> = ({ movie, video })
   /*
    *
    *  SCENE MANIPULATION: ADDING */
-  const emptyScene = () => ({
-    timeStart: !scenes.length ? 0 : currentTime,
-    genres: [],
-  });
+  const emptyScene = () => {
+    const time = !scenes.length ? 0 : currentTime;
+    const previous = previousScene(time, scenes);
+
+    return {
+      timeStart: time,
+      genres: (previous?.genres || []).filter(transferrable),
+    };
+  };
 
   const newScene = () => {
     const s = emptyScene();
@@ -354,7 +356,7 @@ export const SceneForm: FunctionalComponent<SceneFormProps> = ({ movie, video })
       <div
         className="scene-view"
         style={{
-          gridTemplateColumns: distributeColumns(scenes, duration || 1),
+          gridTemplateColumns: distributeColumns(scenes),
         }}
       >
         <DeleteSceneModal
@@ -389,30 +391,22 @@ export const SceneForm: FunctionalComponent<SceneFormProps> = ({ movie, video })
               />
             )}
             <GenreClipList>
-              {(scene.genres || []).map(g => (
-                <GenreClip
-                  shadow
-                  genre={g.parent}
-                  focus={
-                    currentScene()?.timeStart === scene.timeStart &&
-                    focusedGenre?.id === g.parent.id
-                  }
-                  interactionSlot={
-                    <Fragment>
-                      <Text size="S">{g.parent.name}</Text>
-                      <div className="scene-view__subgenres">
-                        {g.children.map(c => (
-                          <GenreClip
-                            genre={c}
-                            appearance="tiny"
-                            onClick={e => {
-                              e.stopPropagation();
-                              removeSubgenreFromGenre(g.parent.id, c.id);
-                            }}
-                            interactionSlot={<Text size="S">{c.name}</Text>}
-                          />
-                        ))}
-                      </div>
+              {(scene.genres || [])
+                .sort((a, b) => a.children.length - b.children.length)
+                .map(g => (
+                  <GenreClip
+                    key={g.parent.id}
+                    style={{
+                      gridColumnEnd: `span ${Math.ceil(1 + g.children.length / 2)}`,
+                    }}
+                    shadow
+                    genre={g.parent}
+                    focus={
+                      currentScene()?.timeStart === scene.timeStart &&
+                      focusedGenre?.id === g.parent.id
+                    }
+                    descriptionSlot={<Text size="S">{g.parent.name}</Text>}
+                    interactionSlot={
                       <Icon
                         className="genre-clip__delete"
                         icon="close"
@@ -420,19 +414,35 @@ export const SceneForm: FunctionalComponent<SceneFormProps> = ({ movie, video })
                           removeGenreFromCurrentScene(g.parent);
                         }}
                       />
-                    </Fragment>
-                  }
-                  onClick={e => {
-                    e.stopPropagation();
-                    jumpToScene(scene);
-                    if (focusedGenre && focusedGenre.id === g.parent.id) {
-                      focusGenre(null);
-                    } else {
-                      focusGenre(g.parent);
                     }
-                  }}
-                />
-              ))}
+                    onClick={e => {
+                      e.stopPropagation();
+                      jumpToScene(scene);
+                      if (focusedGenre && focusedGenre.id === g.parent.id) {
+                        focusGenre(null);
+                      } else {
+                        focusGenre(g.parent);
+                      }
+                    }}
+                  >
+                    {g.children.length === 0 ? null : (
+                      <div className="scene-view__subgenres">
+                        {g.children.map(c => (
+                          <GenreClip
+                            key={c.id}
+                            genre={c}
+                            appearance="tiny"
+                            descriptionSlot={<Text size="XS">{c.name}</Text>}
+                            onClick={e => {
+                              e.stopPropagation();
+                              removeSubgenreFromGenre(g.parent.id, c.id);
+                            }}
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </GenreClip>
+                ))}
             </GenreClipList>
           </span>
         ))}

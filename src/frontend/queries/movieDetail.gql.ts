@@ -35,6 +35,7 @@ export const movieDetailQuery = gql`
             name
             picture
             validAsRoot
+            category
             linkableChildren {
               id
             }
@@ -44,6 +45,7 @@ export const movieDetailQuery = gql`
             name
             picture
             validAsRoot
+            category
             linkableChildren {
               id
             }

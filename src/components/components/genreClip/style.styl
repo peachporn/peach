@@ -1,12 +1,19 @@
 genreClipSize = 3.5em
 
 .genre-clip-list
-  display flex
-  flex-flow row nowrap
+  display grid
   padding .5em
+  grid-gap .2em
+  align-items flex-start
+  justify-items flex-start
+  grid-template-columns repeat(auto-fit, genreClipSize)
+  grid-auto-rows genreClipSize
+  grid-auto-flow dense
+  width 100%
 
 .genre-clip
-  display flex
+  position relative
+  display inline-flex
   flex-flow row nowrap
   border-radius .5em
   background white
@@ -18,20 +25,11 @@ genreClipSize = 3.5em
   &:focus
     outline none
 
-  & + &
-    margin-left .5em
-
   height genreClipSize
   min-width genreClipSize
-  max-width genreClipSize
 
   &--tiny
     font-size .5em
-
-
-.genre-clip--focus,
-.genre-clip:hover
-  max-width genreClipSize * 5
 
 .genre-clip__image
   object-fit cover
@@ -46,19 +44,38 @@ genreClipSize = 3.5em
   box-shadow 0 0 6px rgba(0,0,0,.2)
 
 .genre-clip__interaction-slot
-  position relative
-  display grid
-  grid-template-rows 1fr 2fr
+  position absolute
+  top .2em
+  left .2em
+  opacity 0
+  visibility hidden
+  color #fff
+  z-index 11
+
+.genre-clip__description-slot
+  position absolute
+  width genreClipSize
   height 100%
-  align-items center
-  p = (genreClipSize / 10)
-  padding p (genreClipSize / 1.5) p p
+  top 0
+  background rgba(0,0,0,.2)
+  color white
+  display flex
+  align-items flex-end
+  padding .2em
+  font-weight bold
+  opacity 0
+  visibility hidden
+  transition all .2s ease
+  z-index 10
+
+.genre-clip:hover .genre-clip__interaction-slot,
+.genre-clip:hover .genre-clip__description-slot
+  opacity 1
+  visibility visible
+
+.genre-clip__children
+  display flex
+  padding .5em
 
   &:empty
     padding 0
-
-.genre-clip__delete
-  position absolute
-  top .2em
-  right .2em
-

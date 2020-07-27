@@ -36,3 +36,6 @@ export const removeChildFromGenreLink = (parentId: number, childId: number) => (
         genreLinks,
       );
 };
+
+export const transferrable = (genre: GenreLink) =>
+  ['Clothing', 'Feature', 'Location', 'Film'].includes(genre.parent.category);

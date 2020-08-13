@@ -64,7 +64,13 @@ const createMovie = async (
     throw new Error('Error running task');
   }
 
-  if (existingMovies.map(m => m.title).includes(title)) {
+  const movieWithTitle = await prisma.movie.findMany({
+    where: {
+      title,
+    },
+  });
+
+  if (existingMovies.map(m => m.title).includes(title) || movieWithTitle.length > 0) {
     log.error(`Movie with title ${title} already exists`);
     return undefined;
   }

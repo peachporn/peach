@@ -26,10 +26,10 @@ export const movieDetailQuery = gql`
         format
         fps
       }
-      scenes {
+      genres {
         timeStart
         timeEnd
-        genres {
+        genre {
           parent {
             id
             name

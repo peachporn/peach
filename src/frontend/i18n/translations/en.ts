@@ -115,6 +115,5 @@ export default {
   KINKYNESS: 'Kinkyness',
   IMAGE_URL: 'Picture URL',
   SCENE_FORM_PLACEHOLDER: 'Genre',
-  SCENE_FORM_SUCCESS: 'Scenes saved successfully!',
-  DELETE_SCENE_CONFIRM: 'Do you really want to delete this scene?',
+  SCENE_FORM_SUCCESS: 'Genres saved successfully!',
 } as const;

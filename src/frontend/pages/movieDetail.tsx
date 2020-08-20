@@ -11,8 +11,8 @@ import { TitleForm } from '../components/movieDetail/titleForm';
 import { AddActressForm } from '../components/movieDetail/addActressForm';
 import { PageIntro } from '../../components/components/pageIntro';
 import { MovieDetailActions } from '../components/movieDetail/movieDetailActions';
-import { SceneForm } from '../components/movieDetail/sceneForm';
 import { throttle } from '../../utils/debounce';
+import { GenreForm } from '../components/movieDetail/genreForm';
 
 export type MovieDetailPageProps = {
   movieId: string;
@@ -43,7 +43,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
         <Fragment>
           <PageIntro>
             <Video ref={videoRef} src={{ 'video/mp4': movie.url }} />
-            <SceneForm movie={movie} video={videoRef} />
+            <GenreForm movie={movie} video={videoRef} />
           </PageIntro>
           <Container background="white">
             <TitleForm movie={movie} />

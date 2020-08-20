@@ -8,3 +8,6 @@
 20200708092432-add-linkable-children
 20200708164224-reduce-scene-genre-links
 20200716181838-change-scene-times-to-float
+20200820142815-add-genre-definition
+20200820142915-remove-scenes
+20200820143236-add-tree-genres

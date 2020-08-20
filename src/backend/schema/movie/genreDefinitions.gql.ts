@@ -1,11 +1,11 @@
 import { gql } from 'apollo-server';
 
 export const typeDef = gql`
-  type Scene {
+  type GenreDefinition {
     id: Int!
     timeStart: Float!
     timeEnd: Float!
-    genres: [GenreLink!]!
+    genre: GenreLink!
   }
 
   type GenreLink {
@@ -18,13 +18,13 @@ export const typeDef = gql`
     children: [Int!]!
   }
 
-  input SceneInput {
+  input GenreDefinitionInput {
     timeStart: Float!
     timeEnd: Float!
-    genres: [GenreLinkInput!]!
+    genre: GenreLinkInput!
   }
 
   extend type Mutation {
-    updateScenes(movieId: Int!, scenes: [SceneInput!]!): Movie
+    updateGenreDefinitions(movieId: Int!, genreDefinitions: [GenreDefinitionInput!]!): Movie
   }
 `;

@@ -17,7 +17,6 @@ export const typeDef = gql`
     title: String!
     url: String!
     actresses: [Actress!]!
-    # genres      Genre[]
     # highlights  Highlight[]
     # website     Website
     metaData: MovieMetadata
@@ -27,7 +26,7 @@ export const typeDef = gql`
     screencaps: [String!]!
     coverIndex: Int!
     path: String!
-    scenes: [Scene!]!
+    genres: [GenreDefinition!]!
   }
 
   type MovieMetadata {

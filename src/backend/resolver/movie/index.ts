@@ -2,22 +2,22 @@ import { without } from 'ramda';
 import { transformMovie, transformMovieListMovie } from '../../transformers/movie';
 import { Resolvers } from '../../generated/resolver-types';
 import { resolveScreencaps } from './screencaps';
-import { resolveScene, serializeSceneGenres } from './scene';
-import { GenreLinkRaw } from '../../../domain/movie/scene';
+import { resolveGenreDefinition, serializeGenreDefinitionGenre } from './genreDefinition';
+import { GenreLinkRaw } from '../../../domain/movie/genreDefinition';
 
 export const movieResolvers: Resolvers = {
   MovieListMovie: {
     screencaps: resolveScreencaps,
   },
   Movie: {
-    scenes: (parent, _args, { prisma }) =>
-      prisma.scene
+    genres: (parent, _args, { prisma }) =>
+      prisma.genreDefinition
         .findMany({
           where: {
             movieId: parent.id,
           },
         })
-        .then(scenes => scenes.map(resolveScene(prisma))),
+        .then(genreDefinitions => genreDefinitions.map(resolveGenreDefinition(prisma))),
     screencaps: resolveScreencaps,
     url: parent => `/assets/movie/${parent.id}`,
   },
@@ -33,7 +33,7 @@ export const movieResolvers: Resolvers = {
     movie: async (_parent, { id }, { prisma }) => {
       const movie = await prisma.movie.findOne({
         where: { id },
-        include: { metadata: true, volume: true, actresses: true, scenes: true },
+        include: { metadata: true, volume: true, actresses: true, genres: true },
       });
 
       return movie ? transformMovie(movie) : undefined;
@@ -134,42 +134,44 @@ export const movieResolvers: Resolvers = {
         })
         .then(transformMovie);
     },
-    updateScenes: async (_parent, { movieId, scenes }, { prisma }) => {
+    updateGenreDefinitions: async (_parent, { movieId, genreDefinitions }, { prisma }) => {
       const movie = await prisma.movie.findOne({
         where: { id: movieId },
         include: {
-          scenes: true,
+          genres: true,
         },
       });
 
-      const movieScenes = (movie && movie.scenes) || [];
+      const movieGenreDefinitions = (movie && movie.genres) || [];
 
-      const updatedScenes = movieScenes
-        .map(scene => {
-          const updateSceneData = scenes.find(s => s.timeStart === scene.timeStart);
-          if (updateSceneData) {
+      const updateGenreDefinitions = movieGenreDefinitions
+        .map(genreDefinition => {
+          const updateGenreDefinitionData = genreDefinitions.find(
+            g => g.timeStart === genreDefinition.timeStart,
+          );
+          if (updateGenreDefinitionData) {
             return {
-              ...scene,
-              timeStart: updateSceneData.timeStart,
-              timeEnd: updateSceneData.timeEnd,
-              genres: serializeSceneGenres(updateSceneData.genres as GenreLinkRaw[]),
+              ...genreDefinition,
+              timeStart: updateGenreDefinitionData.timeStart,
+              timeEnd: updateGenreDefinitionData.timeEnd,
+              genre: serializeGenreDefinitionGenre(updateGenreDefinitionData.genre as GenreLinkRaw),
             };
           }
           return null;
         })
         .filter(Boolean);
 
-      const removedScenes = movieScenes.filter(
-        s => !updatedScenes.map(ss => ss && ss.id).includes(s.id),
+      const removedGenreDefinitions = movieGenreDefinitions.filter(
+        s => !updateGenreDefinitions.map(ss => ss && ss.id).includes(s.id),
       );
 
-      const addedScenes = scenes
-        .map(scene => {
-          if (movie && !movie.scenes.find(s => s.timeStart === scene.timeStart)) {
+      const addedGenreDefinitions = genreDefinitions
+        .map(genreDefinition => {
+          if (movie && !movie.genres.find(g => g.timeStart === genreDefinition.timeStart)) {
             return {
-              timeStart: scene.timeStart,
-              timeEnd: scene.timeEnd,
-              genres: serializeSceneGenres(scene.genres as GenreLinkRaw[]),
+              timeStart: genreDefinition.timeStart,
+              timeEnd: genreDefinition.timeEnd,
+              genre: serializeGenreDefinitionGenre(genreDefinition.genre as GenreLinkRaw),
             };
           }
           return null;
@@ -181,34 +183,34 @@ export const movieResolvers: Resolvers = {
           id: movieId,
         },
         data: {
-          scenes: {
-            create: addedScenes.map(s => ({
+          genres: {
+            create: addedGenreDefinitions.map(s => ({
               timeStart: s!.timeStart,
               timeEnd: s!.timeEnd,
-              genres: s!.genres,
+              genre: s!.genre,
             })),
           },
         },
       });
 
-      await prisma.scene.deleteMany({
+      await prisma.genreDefinition.deleteMany({
         where: {
           id: {
-            in: removedScenes.map(s => s && s.id).filter(Boolean) as number[],
+            in: removedGenreDefinitions.map(s => s && s.id).filter(Boolean) as number[],
           },
         },
       });
 
       await Promise.all(
-        updatedScenes.map(s =>
-          prisma.scene.update({
+        updateGenreDefinitions.map(s =>
+          prisma.genreDefinition.update({
             where: {
               id: s!.id,
             },
             data: {
               timeStart: s!.timeStart,
               timeEnd: s!.timeEnd,
-              genres: s!.genres,
+              genre: s!.genre,
             },
           }),
         ),
@@ -218,7 +220,7 @@ export const movieResolvers: Resolvers = {
         .findOne({
           where: { id: movieId },
           include: {
-            scenes: true,
+            genres: true,
           },
         })
         .then(m => (m ? transformMovie(m) : undefined));

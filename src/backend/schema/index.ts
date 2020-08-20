@@ -1,6 +1,6 @@
 import { typeDef as actress } from './actress/actress.gql';
 import { typeDef as createMovie } from './movie/createMovie.gql';
-import { typeDef as scene } from './movie/scene.gql';
+import { typeDef as scene } from './movie/genreDefinitions.gql';
 import { typeDef as movie } from './movie/movie.gql';
 import { typeDef as settings } from './settings/settings.gql';
 import { typeDef as setup } from './settings/setup.gql';

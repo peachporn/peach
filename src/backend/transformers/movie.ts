@@ -60,7 +60,7 @@ export const transformMovie = (movie: MovieWithOptionalMetadataAndVolume): Movie
   actors: movie.actors,
   volume: movie.volume,
   screencaps: [],
-  scenes: [],
+  genres: [],
   coverIndex: movie.cover,
   path: movie.path,
   fresh: true,

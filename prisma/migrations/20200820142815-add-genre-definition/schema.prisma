@@ -1,6 +1,6 @@
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 generator client {
@@ -70,6 +70,7 @@ model Movie {
 
   title       String @unique
   actresses   Actress[] @relation(references: [id])
+  scenes      Scene[]
   genres      GenreDefinition[]
   // highlights  Highlight[]
   actors      Int @default(0)
@@ -101,15 +102,28 @@ model Task {
 }
 
 model GenreDefinition {
-  id          Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-  movie       Movie @relation(fields: [movieId], references: [id])
-  movieId     Int
+  genre Genre @relation(fields: [genreId], references: [id])
+  genreId Int
 
-  genre       String // { parent: Genre, children: Genre[] } serialized as JSON
+  movie             Movie @relation(fields: [movieId], references: [id])
+  movieId           Int
 
-  timeStart   Float
-  timeEnd     Float
+  timeStart Float
+  timeEnd Float
+}
+
+model Scene {
+  id                Int @id @default(autoincrement())
+
+  movie             Movie @relation(fields: [movieId], references: [id])
+  movieId           Int
+
+  timeStart         Float
+  timeEnd           Float
+
+  genres            String // { parent: Genre, children: Genre[] }[] serialized as JSON
 }
 
 model Genre {

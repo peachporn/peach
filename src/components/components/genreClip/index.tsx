@@ -1,11 +1,13 @@
-import { Fragment, FunctionalComponent, h, VNode } from 'preact';
+import { JSX, Fragment, FunctionalComponent, h, VNode } from 'preact';
 import { Image } from '../image';
 import logo from '../../static/logo.png';
 
 export type GenreClipProps = {
   genre: GenreClipGenre;
   className?: string;
-  onClick?: OnEvent;
+  onDblClick?: JSX.MouseEventHandler<HTMLElement>;
+  onClick?: JSX.MouseEventHandler<HTMLElement>;
+  onKeyup?: JSX.KeyboardEventHandler<HTMLElement>;
   interactionSlot?: VNode;
   descriptionSlot?: VNode;
   focus?: boolean;
@@ -25,7 +27,9 @@ export const GenreClip: FunctionalComponent<GenreClipProps> = ({
   genre: { name, picture },
   className: classNameProp,
   appearance,
+  onDblClick,
   onClick,
+  onKeyup,
   interactionSlot,
   descriptionSlot,
   focus,
@@ -58,6 +62,8 @@ export const GenreClip: FunctionalComponent<GenreClipProps> = ({
       tabIndex={0}
       role="button"
       onClick={onClick || (() => {})}
+      onDblClick={onDblClick || (() => {})}
+      onKeyUp={onKeyup || (() => {})}
       className={className}
     >
       {children}

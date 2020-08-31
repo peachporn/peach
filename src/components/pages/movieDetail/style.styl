@@ -29,19 +29,24 @@
 
 .scene-form
   display grid
-  grid-template-areas "bar bar bar" "input genres controls"
+  grid-template-areas "bar bar bar" "input actions controls"
   grid-template-columns 1fr 3fr 1fr
+  background white
 
 .scene-view
   grid-area bar
 
-.scene-form__genres
-  grid-area genres
+.scene-form__actions
+  grid-area actions
+  display flex
+  flex-flow column nowrap
+  align-items flex-start
   min-height 4.5em
   background white
 
 .scene-form__input
   grid-area input
+  align-self flex-start
 
 .scene-form__controls
   grid-area controls

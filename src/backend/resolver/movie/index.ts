@@ -142,41 +142,15 @@ export const movieResolvers: Resolvers = {
         },
       });
 
-      const movieGenreDefinitions = (movie && movie.genres) || [];
+      const movieGenres = !movie ? [] : movie.genres;
 
-      const updateGenreDefinitions = movieGenreDefinitions
-        .map(genreDefinition => {
-          const updateGenreDefinitionData = genreDefinitions.find(
-            g => g.timeStart === genreDefinition.timeStart,
-          );
-          if (updateGenreDefinitionData) {
-            return {
-              ...genreDefinition,
-              timeStart: updateGenreDefinitionData.timeStart,
-              timeEnd: updateGenreDefinitionData.timeEnd,
-              genre: serializeGenreDefinitionGenre(updateGenreDefinitionData.genre as GenreLinkRaw),
-            };
-          }
-          return null;
-        })
-        .filter(Boolean);
-
-      const removedGenreDefinitions = movieGenreDefinitions.filter(
-        s => !updateGenreDefinitions.map(ss => ss && ss.id).includes(s.id),
-      );
-
-      const addedGenreDefinitions = genreDefinitions
-        .map(genreDefinition => {
-          if (movie && !movie.genres.find(g => g.timeStart === genreDefinition.timeStart)) {
-            return {
-              timeStart: genreDefinition.timeStart,
-              timeEnd: genreDefinition.timeEnd,
-              genre: serializeGenreDefinitionGenre(genreDefinition.genre as GenreLinkRaw),
-            };
-          }
-          return null;
-        })
-        .filter(Boolean);
+      await prisma.genreDefinition.deleteMany({
+        where: {
+          id: {
+            in: movieGenres.map(g => g.id),
+          },
+        },
+      });
 
       await prisma.movie.update({
         where: {
@@ -184,37 +158,14 @@ export const movieResolvers: Resolvers = {
         },
         data: {
           genres: {
-            create: addedGenreDefinitions.map(s => ({
-              timeStart: s!.timeStart,
-              timeEnd: s!.timeEnd,
-              genre: s!.genre,
+            create: genreDefinitions.map(genreDefinition => ({
+              timeStart: genreDefinition.timeStart,
+              timeEnd: genreDefinition.timeEnd,
+              genre: serializeGenreDefinitionGenre(genreDefinition.genre as GenreLinkRaw),
             })),
           },
         },
       });
-
-      await prisma.genreDefinition.deleteMany({
-        where: {
-          id: {
-            in: removedGenreDefinitions.map(s => s && s.id).filter(Boolean) as number[],
-          },
-        },
-      });
-
-      await Promise.all(
-        updateGenreDefinitions.map(s =>
-          prisma.genreDefinition.update({
-            where: {
-              id: s!.id,
-            },
-            data: {
-              timeStart: s!.timeStart,
-              timeEnd: s!.timeEnd,
-              genre: s!.genre,
-            },
-          }),
-        ),
-      );
 
       return prisma.movie
         .findOne({

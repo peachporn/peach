@@ -11,6 +11,8 @@ export type GenreCardProps = {
   buttonSlot?: VNode;
   focus?: boolean;
   shadow?: boolean;
+  headline?: string;
+  categorySlot?: JSX.Element | null;
   appearance?: ('small' | 'white')[];
 };
 
@@ -30,6 +32,8 @@ export const GenreCard: FunctionalComponent<GenreCardProps> = ({
   buttonSlot,
   focus,
   shadow,
+  headline,
+  categorySlot,
   appearance = [],
 }) => {
   const className = `genre-card ${classNameProp || ''} ${
@@ -41,8 +45,10 @@ export const GenreCard: FunctionalComponent<GenreCardProps> = ({
   const children = (
     <Fragment>
       <Image className="genre-card__image" src={picture || logo} alt={name} placeholder={logo} />
-      <span className="genre-card__name">{name}</span>
-      {category && <span className="genre-card__category">{category}</span>}
+      <span className="genre-card__name">{headline || name}</span>
+      {categorySlot !== undefined
+        ? { categorySlot }
+        : category && <span className="genre-card__category">{category}</span>}
       {buttonSlot ? <div className="genre-card__button-slot">{buttonSlot}</div> : null}
     </Fragment>
   );

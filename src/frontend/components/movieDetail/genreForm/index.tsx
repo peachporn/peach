@@ -6,18 +6,33 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { Button } from '../../../../components/components/button';
 import { Input } from '../../../../components/components/input';
-import { i } from '../../../i18n/i18n';
+import { i, I18nKey } from '../../../i18n/i18n';
 import { findGenreQuery } from '../../../queries/findGenre.gql';
 import { GenreCard, GenreCardList } from '../../../../components/components/genreCard';
-import { GenreClip, GenreClipList } from '../../../../components/components/genreClip';
+import { GenreClip } from '../../../../components/components/genreClip';
 import { Icon } from '../../../../components/components/icon';
 import { GenreDefinitionDraft, DefinableGenre } from './types';
-import { pause, playPause, scrub } from './video';
-import { addChildToGenreDefinition, removeChildFromGenreDefinition } from './genreLink';
+import { jumpToTime, pause, playPause, scrub } from './video';
+import { removeChildFromGenreDefinition } from './genreLink';
 import { throttle } from '../../../../utils/debounce';
 import { isTouched } from '../../../utils/form';
 import { Text } from '../../../../components/components/text';
 import { updateGenreDefinitionsMutation } from '../../../mutations/updateGenreDefinitions.gql';
+import {
+  Action,
+  addChild,
+  change,
+  createAddChildAction,
+  createChangeAction,
+  createEndAction,
+  createSetFullLengthAction,
+  createStartAction,
+  executeAction,
+  possibleActionTypes,
+  printAction,
+  setFullLength,
+} from './action';
+import { buildGenreGrid } from './display';
 
 type UnMaybe<T> = T extends undefined ? never : T;
 
@@ -56,7 +71,15 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video })
 
   /*
    *  GENRE FOCUS */
+  const [lastAction, setLastAction] = useState<Action | null>(null);
   const [focusedGenre, focusGenre] = useState<GenreDefinitionDraft | null>(null);
+
+  useEffect(() => {
+    if (lastAction && lastAction.type === 'START') {
+      focusGenre(genreDefinitions[genreDefinitions.length - 1]);
+    }
+  }, [lastAction]);
+
   useEffect(() => {
     const focusedGenreWasRemoved =
       focusedGenre && !genreDefinitions.find(g => g.timeStart === focusedGenre.timeStart);
@@ -67,7 +90,7 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video })
   });
 
   /*
-   *  GENRE CANDIDATES */
+   *  ACTIONS */
   const { data } = useQuery<FindGenreQuery, FindGenreQueryVariables>(findGenreQuery, {
     skip: genreName === '',
     variables: {
@@ -75,35 +98,62 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video })
     },
   });
 
-  const genreCandidates = (data?.genres || []).filter(g =>
-    !focusedGenre
-      ? g.validAsRoot
-      : focusedGenre.genre.parent.linkableChildren.map(x => x.id).includes(g.id),
-  );
+  const possibleActions = (genre: DefinableGenre) => {
+    const actionTypes = possibleActionTypes(genre, genreDefinitions, focusedGenre || undefined);
+    console.log(actionTypes);
+
+    return actionTypes.map(a => {
+      if (a === 'START') {
+        return createStartAction({ genre, time: currentTime });
+      }
+
+      if (a === 'END') {
+        return createEndAction({ genre, time: currentTime });
+      }
+
+      if (a === 'CHANGE') {
+        return createChangeAction({ genre, time: currentTime });
+      }
+
+      if (a === 'SET_FULLLENGTH') {
+        return createSetFullLengthAction({ genre, duration });
+      }
+
+      if (a === 'ADD_CHILD' && focusedGenre) {
+        return createAddChildAction({ genre, parent: focusedGenre });
+      }
+
+      return null;
+    });
+  };
+
+  const actions = (data?.genres || []).flatMap(possibleActions);
 
   /*
-   *  CANDIDATE FOCUS */
-  const [focusedCandidate, focusCandidate] = useState<number | null>(null);
+   *  ACTION FOCUS */
+  const [focusedAction, focusAction] = useState<number | null>(null);
 
-  const focusNextCandidate = () => {
-    focusCandidate(
-      focusedCandidate === null || focusedCandidate === genreCandidates.length - 1
-        ? 0
-        : focusedCandidate + 1,
+  const focusNextAction = () => {
+    focusAction(
+      focusedAction === null || focusedAction === actions.length - 1 ? 0 : focusedAction + 1,
     );
   };
 
   const focusPreviousCandidate = () => {
-    focusCandidate(
-      focusedCandidate === null || focusedCandidate === 0
-        ? genreCandidates.length - 1
-        : focusedCandidate - 1,
+    focusAction(
+      focusedAction === null || focusedAction === 0 ? actions.length - 1 : focusedAction - 1,
     );
   };
 
   const reset = () => {
     resetForm();
-    focusCandidate(null);
+    focusAction(null);
+  };
+
+  const submitAction = (action: Action) => {
+    setGenreDefinitions(executeAction(action, genreDefinitions));
+    setLastAction(action);
+    reset();
   };
 
   /*
@@ -126,36 +176,6 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video })
 
   /*
    *
-   *  ADDING */
-  const addGenreDefinition = (genre: DefinableGenre) => {
-    const genreDefinition = { genre: { parent: genre, children: [] }, timeStart: currentTime };
-    setGenreDefinitions([...genreDefinitions, genreDefinition]);
-
-    if (genre.linkableChildren.length > 0) {
-      focusGenre(genreDefinition);
-    }
-
-    reset();
-  };
-
-  const addSubgenre = (genre: DefinableGenre, genreDefinition: GenreDefinitionDraft) => {
-    const x = addChildToGenreDefinition(genreDefinition, genre)(genreDefinitions);
-    console.log(x);
-    setGenreDefinitions(x);
-    reset();
-  };
-
-  const addGenreOrSubgenre = (genre: DefinableGenre) => {
-    if (focusedGenre) {
-      addSubgenre(genre, focusedGenre);
-    } else {
-      addGenreDefinition(genre);
-    }
-    focusTextInput();
-  };
-
-  /*
-   *
    *  REMOVING */
   const removeSubgenreFromGenre = (genreDefinition: GenreDefinitionDraft, childId: number) => {
     setGenreDefinitions(removeChildFromGenreDefinition(genreDefinition, childId)(genreDefinitions));
@@ -163,7 +183,11 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video })
 
   const removeGenreDefinition = (genre: GenreDefinitionDraft) => {
     focusGenre(null);
-    setGenreDefinitions(genreDefinitions.filter(g => g.timeStart !== genre.timeStart));
+    setGenreDefinitions(
+      genreDefinitions.filter(
+        g => !(g.timeStart === genre.timeStart && g.genre.parent.id === genre.genre.parent.id),
+      ),
+    );
     reset();
   };
 
@@ -185,20 +209,20 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video })
       return;
     }
 
-    if (key === 'ArrowUp' && genreCandidates.length) {
-      focusNextCandidate();
+    if (key === 'ArrowUp' && actions.length) {
+      focusNextAction();
       return;
     }
 
-    if (key === 'ArrowDown' && genreCandidates.length) {
+    if (key === 'ArrowDown' && actions.length) {
       focusPreviousCandidate();
       return;
     }
 
     if (key === 'Enter') {
-      if (focusedCandidate !== null || genreCandidates.length === 1) {
-        addGenreOrSubgenre(genreCandidates[focusedCandidate || 0]);
-        playPause(video);
+      const actionToExecute = focusedAction ? actions[focusedAction] : actions[0];
+      if (actionToExecute) {
+        submitAction(actionToExecute);
         return;
       }
     }
@@ -267,53 +291,74 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video })
   return (
     <div className="scene-form">
       <div className="scene-view">
-        <span className="scene-view__marker scene-view__marker--current">
-          <GenreClipList>
-            {genreDefinitions.map(genreDefinition => (
-              <GenreClip
-                key={genreDefinition.genre.parent.id}
-                shadow
-                genre={genreDefinition.genre.parent}
-                focus={focusedGenre?.timeStart === genreDefinition.timeStart}
-                descriptionSlot={<Text size="S">{genreDefinition.genre.parent.name}</Text>}
-                interactionSlot={
-                  <Icon
-                    className="genre-clip__delete"
-                    icon="close"
-                    onClick={() => {
-                      removeGenreDefinition(genreDefinition);
-                    }}
-                  />
-                }
-                onClick={e => {
-                  e.stopPropagation();
-                  if (focusedGenre && focusedGenre.timeStart === genreDefinition.timeStart) {
-                    focusGenre(null);
-                  } else {
-                    focusGenre(genreDefinition);
-                  }
-                }}
-              >
-                {genreDefinition.genre.children.length === 0 ? null : (
-                  <div className="scene-view__subgenres">
-                    {genreDefinition.genre.children.map(c => (
-                      <GenreClip
-                        key={c.id}
-                        genre={c}
-                        appearance="tiny"
-                        descriptionSlot={<Text size="XS">{c.name}</Text>}
-                        onClick={e => {
-                          e.stopPropagation();
-                          removeSubgenreFromGenre(genreDefinition, c.id);
-                        }}
-                      />
-                    ))}
-                  </div>
-                )}
-              </GenreClip>
-            ))}
-          </GenreClipList>
-        </span>
+        {['Practice', 'Location', 'Clothing', 'Position', 'Film', 'Feature'].map(
+          category =>
+            genreDefinitions.filter(g => g.genre.parent.category === category).length > 0 && (
+              <span className="scene-view__marker">
+                <span className="scene-view__title">
+                  {i(`GENRE_CATEGORY_${category.toUpperCase()}` as I18nKey)}
+                </span>
+                <div className="scene-view__track">
+                  {buildGenreGrid(
+                    duration,
+                    genreDefinitions.filter(g => g.genre.parent.category === category),
+                  ).map(genreDefinition => (
+                    <GenreClip
+                      style={{
+                        gridColumnStart: genreDefinition.gridColumnStart.toString(),
+                        gridColumnEnd: `span ${genreDefinition.gridColumnSpan}`,
+                      }}
+                      key={genreDefinition.genre.parent.id}
+                      genre={genreDefinition.genre.parent}
+                      focus={
+                        focusedGenre?.timeStart === genreDefinition.timeStart &&
+                        focusedGenre.genre.parent.id === genreDefinition.genre.parent.id
+                      }
+                      descriptionSlot={<Text size="S">{genreDefinition.genre.parent.name}</Text>}
+                      interactionSlot={
+                        <Icon
+                          className="genre-clip__delete"
+                          icon="close"
+                          onClick={() => {
+                            removeGenreDefinition(genreDefinition);
+                          }}
+                        />
+                      }
+                      onDblClick={e => {
+                        e.stopPropagation();
+                        jumpToTime(genreDefinition.timeStart, video);
+                      }}
+                      onClick={e => {
+                        e.stopPropagation();
+                        if (focusedGenre && focusedGenre.timeStart === genreDefinition.timeStart) {
+                          focusGenre(null);
+                        } else {
+                          focusGenre(genreDefinition);
+                        }
+                      }}
+                    >
+                      {genreDefinition.genre.children.length === 0 ? null : (
+                        <div className="scene-view__subgenres">
+                          {genreDefinition.genre.children.map(c => (
+                            <GenreClip
+                              key={c.id}
+                              genre={c}
+                              appearance="tiny"
+                              descriptionSlot={<Text size="XS">{c.name}</Text>}
+                              onClick={e => {
+                                e.stopPropagation();
+                                removeSubgenreFromGenre(genreDefinition, c.id);
+                              }}
+                            />
+                          ))}
+                        </div>
+                      )}
+                    </GenreClip>
+                  ))}
+                </div>
+              </span>
+            ),
+        )}
       </div>
       <Input
         name="genreName"
@@ -325,23 +370,29 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video })
         }}
         placeholder={i('SCENE_FORM_PLACEHOLDER')}
       />
-      <GenreCardList className="scene-form__genres">
-        {genreCandidates.map((g, j) => (
-          <GenreCard
-            shadow
-            genre={g}
-            appearance={['small']}
-            focus={focusedCandidate === j}
-            onClick={() => {
-              addGenreOrSubgenre(g);
-            }}
-            onKeyup={({ key }) => {
-              if (key === 'Enter') {
-                addGenreOrSubgenre(g);
-              }
-            }}
-          />
-        ))}
+      <GenreCardList className="scene-form__actions">
+        {actions.map(
+          (a, j) =>
+            a && (
+              <GenreCard
+                shadow
+                genre={a.props.genre}
+                focus={focusedAction === j}
+                headline={printAction(a)}
+                categorySlot={null}
+                onClick={() => {
+                  submitAction(a);
+                  focusTextInput();
+                }}
+                onKeyup={({ key }) => {
+                  if (key === 'Enter') {
+                    submitAction(a);
+                    focusTextInput();
+                  }
+                }}
+              />
+            ),
+        )}
       </GenreCardList>
       <div className="scene-form__controls">
         {!equals(genreDefinitions, movie.genres) && <Button onClick={submit}>Submit</Button>}

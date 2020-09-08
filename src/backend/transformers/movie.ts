@@ -40,14 +40,16 @@ const transformMetadata = (metadata: MovieMetadata): Movie['metaData'] =>
         sizeInMB: Math.floor(metadata.sizeInKB / 1000),
       };
 
-export const transformMovieListMovie = (movie: MovieGetPayload<{}>): MovieListMovie => ({
+export const transformMovieListMovie = (
+  movie: MovieGetPayload<{ include: { genres: true } }>,
+): MovieListMovie => ({
   id: movie.id,
   url: '',
   createdAt: movie.createdAt.toString(),
   title: movie.title,
   screencaps: [],
   coverIndex: movie.cover,
-  fresh: true,
+  fresh: movie.genres.length > 0,
 });
 
 export const transformMovie = (movie: MovieWithOptionalMetadataAndVolume): Movie => ({

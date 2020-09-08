@@ -53,7 +53,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         ref={composeRefs(ref, inputRef) as Ref<HTMLInputElement>}
         name={name}
         tabIndex={tabIndex}
-        autoComplete="none"
+        autoComplete="off"
         className={`input input--${appearance} ${error ? 'input--error' : ''} ${
           className || ''
         }`.trim()}

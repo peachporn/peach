@@ -37,7 +37,8 @@ genreClipSize = 3.5em
   width genreClipSize
   border-radius .5em
 
-.genre-clip--focus
+.genre-clip--focus:not(.genre-clip--no-child),
+.genre-clip--focus.genre-clip--no-child .genre-clip__image
   border-bottom 3px solid mainColor
 
 .genre-clip--shadow

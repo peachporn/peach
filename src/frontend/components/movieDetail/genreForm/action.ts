@@ -111,7 +111,9 @@ export const addChild: ActionExecutor<AddChildAction['props']> = ({
   genre,
   parent,
 }) => genreDefinitions => {
-  const indexToUpdate = genreDefinitions.findIndex(g => g.timeStart === parent.timeStart);
+  const indexToUpdate = genreDefinitions.findIndex(
+    g => g.timeStart === parent.timeStart && g.genre.parent.id === parent.genre.parent.id,
+  );
 
   return indexToUpdate === undefined
     ? genreDefinitions
@@ -162,19 +164,15 @@ export const possibleActionTypes = (
   const isValidChild =
     focusedGenre && focusedGenre.genre.parent.linkableChildren.map(c => c.id).includes(genre.id);
 
-  const genreSelectedPreviously = genreDefinitions.find(g => g.genre.parent.id === genre.id);
-
   return actions.filter(a => {
     if (a === 'ADD_CHILD') {
       return isValidChild;
     }
-    if (a === 'END' || a === 'CHANGE') {
-      return genreSelectedPreviously;
+
+    if (a === 'START') {
+      return true;
     }
-    if (a === 'START' || a === 'SET_FULLLENGTH') {
-      return !genreSelectedPreviously;
-    }
-    return true;
+    return false;
   });
 };
 

@@ -37,11 +37,17 @@ export const GenreClip: FunctionalComponent<GenreClipProps> = ({
   shadow,
   children: propChildren,
 }) => {
+  if (name === 'Fisting') {
+    console.log(propChildren, descriptionSlot);
+  }
   const className = `genre-clip ${classNameProp || ''} ${focus ? 'genre-clip--focus' : ''}
   ${appearance ? `genre-clip--${appearance}` : ''}
   ${shadow ? 'genre-clip--shadow' : ''}
   ${descriptionSlot || interactionSlot ? 'genre-clip--with-slot' : ''}
-  `.trim();
+  ${!propChildren ? 'genre-clip--no-child' : ''}
+  `
+    .trim()
+    .replace('\n', '');
 
   const children = (
     <Fragment>

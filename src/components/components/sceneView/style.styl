@@ -3,7 +3,14 @@
   width 100%
   display grid
   overflow-x auto
-  padding 1em
+  transition all .2s ease
+  grid-gap 1em
+
+.scene-view:not(.scene-view__hidden)
+  opacity 1
+
+.scene-view__hidden
+  opacity 0
 
 .scene-view__marker
   display flex
@@ -16,6 +23,7 @@
   position relative
   display grid
   grid-template-columns repeat(100, 1fr)
+  grid-auto-flow dense
 
   & > .genre-clip
     z-index 2
@@ -43,3 +51,6 @@
   flex-flow row nowrap
   align-self flex-end
 
+.scene-view__single-categories
+  display flex
+  column-gap .5em

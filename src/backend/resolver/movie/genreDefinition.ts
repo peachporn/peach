@@ -6,7 +6,7 @@ import {
   GenreLinkRaw,
   resolveGenreLink,
 } from '../../../domain/movie/genreDefinition';
-import { transformBaseGenre } from '../../transformers/genre';
+import { transformGenre } from '../../transformers/genre';
 
 export const serializeGenreDefinitionGenre = (genreLinks: GenreLinkRaw) =>
   JSON.stringify(genreLinks);
@@ -26,8 +26,12 @@ export const resolveGenreDefinition = (prisma: PrismaClient) => async (
           in: genreIds,
         },
       },
+      include: {
+        linkableChildren: true,
+        linkableParents: true,
+      },
     })
-    .then(gs => gs.map(transformBaseGenre));
+    .then(gs => gs.map(transformGenre));
 
   return {
     id: genreDefinition.id,

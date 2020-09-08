@@ -28,6 +28,9 @@ export const movieResolvers: Resolvers = {
         .findMany({
           skip: skip || 0,
           take: limit || 30,
+          include: {
+            genres: true,
+          },
         })
         .then(movies => movies.map(transformMovieListMovie)),
     movie: async (_parent, { id }, { prisma }) => {

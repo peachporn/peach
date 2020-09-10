@@ -39,7 +39,7 @@ generates:
       # typescript
       noExport: true
       enumsAsTypes: true
-      immutableTypes: true
+      immutableTypes: false
 
       #typescript-resolvers
       contextType: ../context#Context

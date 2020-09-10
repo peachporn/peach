@@ -247,6 +247,7 @@ type Mutation = {
   removeActressFromMovie?: Maybe<Movie>;
   removeSubgenre?: Maybe<Genre>;
   restartTask?: Maybe<Task>;
+  restartTasks: Scalars['Int'];
   saveVolumes: Array<Volume>;
   scanLibrary?: Maybe<Scalars['Boolean']>;
   scrapeActress?: Maybe<Scalars['Boolean']>;
@@ -300,6 +301,10 @@ type MutationRemoveSubgenreArgs = {
 
 type MutationRestartTaskArgs = {
   taskId: Scalars['Int'];
+};
+
+type MutationRestartTasksArgs = {
+  taskIds: Array<Scalars['Int']>;
 };
 
 type MutationSaveVolumesArgs = {
@@ -501,6 +506,12 @@ type RestartTaskMutation = {
   restartTask?: Maybe<{ __typename?: 'Task'; id: number }>;
 };
 
+type RestartTasksMutationVariables = {
+  taskIds: Array<Scalars['Int']>;
+};
+
+type RestartTasksMutation = { __typename?: 'Mutation'; restartTasks: number };
+
 type CancelTaskMutationVariables = {
   taskId: Scalars['Int'];
 };
@@ -553,6 +564,16 @@ type RemoveSubgenreMutation = {
   removeSubgenre?: Maybe<{ __typename?: 'Genre'; id: number }>;
 };
 
+type UpdateGenreDefinitionsMutationVariables = {
+  movieId: Scalars['Int'];
+  genreDefinitions: Array<GenreDefinitionInput>;
+};
+
+type UpdateGenreDefinitionsMutation = {
+  __typename?: 'Mutation';
+  updateGenreDefinitions?: Maybe<{ __typename?: 'Movie'; id: number }>;
+};
+
 type UpdateCoverMutationVariables = {
   movieId: Scalars['Int'];
   cover: Scalars['Int'];
@@ -597,16 +618,6 @@ type RemoveActressFromMovieMutation = {
     __typename?: 'Movie';
     actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
   }>;
-};
-
-type UpdateGenreDefinitionsMutationVariables = {
-  movieId: Scalars['Int'];
-  genreDefinitions: Array<GenreDefinitionInput>;
-};
-
-type UpdateGenreDefinitionsMutation = {
-  __typename?: 'Mutation';
-  updateGenreDefinitions?: Maybe<{ __typename?: 'Movie'; id: number }>;
 };
 
 type UpdateSettingsMutationVariables = {

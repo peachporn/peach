@@ -12,6 +12,7 @@ export default {
   SETTINGS_VOLUMES: 'Volumes',
   SETTINGS_LIBRARY: 'Library',
   SETTINGS_TASKS: 'Tasks',
+  SETTINGS_RESTART_FAILED: 'Restart failed',
   SCAN_LIBRARY: 'Update Library',
   SCRAPE_METADATA: 'Read movie metadata',
   ENQUEUE_SCREENCAPS: 'Enqueue screencaps',
@@ -19,6 +20,7 @@ export default {
   SCRAPE_ACTRESS: 'Scrape actress data',
   TASK_RESTART: 'Restart',
   TASK_RESTART_SUCCESS: 'Task restarted successfully!',
+  TASKS_RESTART_SUCCESS: 'Tasks restarted successfully!',
   TASK_CANCEL: 'Discard',
   TASK_ERROR: 'Error!',
   TASK_RUNNING: 'Running',
@@ -139,5 +141,5 @@ export default {
   ACTION_FEATURE_START: 'Set {{genre}} from now',
   ACTION_FEATURE_END: 'End {{genre}}',
   ACTION_FEATURE_SET_FULLLENGTH: 'Set {{genre}} for whole movie',
-  ACTION_BODYPART_ADD_CHILD: '{{parent}} - {{genre}}',
+  ACTION_BODYPART_ADD_CHILD: '{{parent}} - {{genr}}',
 } as const;

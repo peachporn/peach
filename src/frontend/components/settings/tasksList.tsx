@@ -5,7 +5,7 @@ import { Headline2, Button, Icon, Flex } from '../../../components';
 import { i } from '../../i18n/i18n';
 import { isTouched } from '../../utils/form';
 import { tasksQuery } from '../../queries/settings.gql';
-import { TaskCategory, TaskStatusMessage } from '../../../tasks/task/type';
+import { TaskCategory, TaskStatus, TaskStatusMessage } from '../../../tasks/task/type';
 import { scanLibraryMutation } from '../../mutations/scanLibrary.gql';
 import { takeAllScreencapsMutation } from '../../mutations/takeScreencaps.gql';
 import { movieDetailRoute } from '../../utils/route';
@@ -18,9 +18,13 @@ import {
   TaskList,
   TaskListEntry,
 } from '../../../components/compositions/taskList';
-import { cancelTaskMutation, restartTaskMutation } from '../../mutations/tasks.gql';
+import {
+  cancelTaskMutation,
+  restartTaskMutation,
+  restartTasksMutation,
+} from '../../mutations/tasks.gql';
 
-const TaskStatus: FunctionalComponent<{ status: TaskStatus }> = ({ status }) => {
+const TaskStatusDisplay: FunctionalComponent<{ status: TaskStatus }> = ({ status }) => {
   if (status === 'ERROR') {
     return (
       <Fragment>
@@ -84,7 +88,7 @@ const TaskView: FunctionalComponent<{ task: TasksQuery['tasks'][number] }> = ({
         ) : null}
       </TaskEntryParameters>
       <TaskEntryStatus>
-        <TaskStatus status={status} />
+        <TaskStatusDisplay status={status} />
       </TaskEntryStatus>
       {status === 'ERROR' ? (
         <TaskEntryControls>
@@ -160,9 +164,31 @@ export const TasksList: FunctionalComponent = () => {
     pollInterval: 1000,
   });
 
+  const [restartFailedTasks] = useMutation<RestartTasksMutation, RestartTasksMutationVariables>(
+    restartTasksMutation,
+    {
+      variables: {
+        taskIds: (data?.tasks || []).filter(task => task.status === 'ERROR').map(task => task.id),
+      },
+    },
+  );
+
   return loading || !data ? null : (
     <div>
-      <Headline2>{i('SETTINGS_TASKS')}</Headline2>
+      <Headline2>
+        <Flex justify="space-between">
+          {i('SETTINGS_TASKS')}
+          <Button
+            onClick={() => {
+              restartFailedTasks().then(() => {
+                toast.success(i('TASKS_RESTART_SUCCESS'));
+              });
+            }}
+          >
+            {i('SETTINGS_RESTART_FAILED')}
+          </Button>
+        </Flex>
+      </Headline2>
       <TaskList>
         {data.tasks.map(task => (
           <TaskView task={task} />

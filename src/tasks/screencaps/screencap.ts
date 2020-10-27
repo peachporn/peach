@@ -26,10 +26,10 @@ export const screencapCommand = (screencapPath: string, movie: ScreencapMovie) =
   return [
     'ffmpeg',
     '-v',
-    'error',
+    'debug',
     '-y',
     '-i',
-    `'${fullPath(movie)}'`,
+    `"${fullPath(movie)}"`,
     '-ss',
     offset.toString(),
     '-frames:v',

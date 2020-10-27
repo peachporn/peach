@@ -10,10 +10,12 @@ export type GenreClipProps = {
   onKeyup?: JSX.KeyboardEventHandler<HTMLElement>;
   interactionSlot?: VNode;
   descriptionSlot?: VNode;
+  descriptionSlotPermanent?: boolean;
   focus?: boolean;
   shadow?: boolean;
   style?: Record<string, string>;
-  appearance?: 'tiny';
+  appearance?: 'tiny' | 'large';
+  url?: string;
 };
 
 export type GenreClipGenre = {
@@ -32,14 +34,13 @@ export const GenreClip: FunctionalComponent<GenreClipProps> = ({
   onKeyup,
   interactionSlot,
   descriptionSlot,
+  descriptionSlotPermanent,
   focus,
   style,
   shadow,
+  url,
   children: propChildren,
 }) => {
-  if (name === 'Fisting') {
-    console.log(propChildren, descriptionSlot);
-  }
   const className = `genre-clip ${classNameProp || ''} ${focus ? 'genre-clip--focus' : ''}
   ${appearance ? `genre-clip--${appearance}` : ''}
   ${shadow ? 'genre-clip--shadow' : ''}
@@ -53,7 +54,13 @@ export const GenreClip: FunctionalComponent<GenreClipProps> = ({
     <Fragment>
       <Image className="genre-clip__image" src={picture || logo} alt={name} placeholder={logo} />
       {descriptionSlot ? (
-        <div className="genre-clip__description-slot">{descriptionSlot}</div>
+        <div
+          className={`genre-clip__description-slot ${
+            descriptionSlotPermanent ? 'genre-clip__description-slot--permanent' : ''
+          }`}
+        >
+          {descriptionSlot}
+        </div>
       ) : null}
       {interactionSlot ? (
         <div className="genre-clip__interaction-slot">{interactionSlot}</div>
@@ -62,7 +69,18 @@ export const GenreClip: FunctionalComponent<GenreClipProps> = ({
     </Fragment>
   );
 
-  return (
+  return url ? (
+    <a
+      style={style || {}}
+      href={url}
+      onClick={onClick || (() => {})}
+      onDblClick={onDblClick || (() => {})}
+      onKeyUp={onKeyup || (() => {})}
+      className={className}
+    >
+      {children}
+    </a>
+  ) : (
     <div
       style={style || {}}
       tabIndex={0}
@@ -77,7 +95,21 @@ export const GenreClip: FunctionalComponent<GenreClipProps> = ({
   );
 };
 
-export const GenreClipList: FunctionalComponent<{ className?: string }> = ({
+export type GenreClipListProps = {
+  className?: string;
+  appearance?: 'large';
+};
+
+export const GenreClipList: FunctionalComponent<GenreClipListProps> = ({
   children,
   className,
-}) => <div className={`genre-clip-list ${className || ''}`}>{children}</div>;
+  appearance,
+}) => (
+  <div
+    className={`genre-clip-list ${appearance ? `genre-clip-list--${appearance}` : ''}${
+      className || ''
+    }`}
+  >
+    {children}
+  </div>
+);

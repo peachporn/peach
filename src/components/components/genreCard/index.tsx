@@ -76,7 +76,7 @@ export const GenreCard: FunctionalComponent<GenreCardProps> = ({
 };
 
 export type GenreCardGridProps = {
-  appearance?: 'small';
+  appearance?: 'white';
 };
 
 export const GenreCardGrid: FunctionalComponent<GenreCardGridProps> = ({

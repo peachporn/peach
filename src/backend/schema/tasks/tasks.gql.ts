@@ -22,6 +22,7 @@ export const typeDef = gql`
   extend type Mutation {
     restartTask(taskId: Int!): Task
     restartTasks(taskIds: [Int!]!): Int!
+    cancelTasks(taskIds: [Int!]!): Int!
     cancelTask(taskId: Int!): Boolean
   }
 `;

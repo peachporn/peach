@@ -13,6 +13,7 @@ export default {
   SETTINGS_LIBRARY: 'Library',
   SETTINGS_TASKS: 'Tasks',
   SETTINGS_RESTART_FAILED: 'Restart failed',
+  SETTINGS_CANCEL_FAILED: 'Discard failed',
   SCAN_LIBRARY: 'Update Library',
   SCRAPE_METADATA: 'Read movie metadata',
   ENQUEUE_SCREENCAPS: 'Enqueue screencaps',
@@ -21,6 +22,7 @@ export default {
   TASK_RESTART: 'Restart',
   TASK_RESTART_SUCCESS: 'Task restarted successfully!',
   TASKS_RESTART_SUCCESS: 'Tasks restarted successfully!',
+  TASKS_CANCEL_SUCCESS: 'Tasks cleaned up successfully!',
   TASK_CANCEL: 'Discard',
   TASK_ERROR: 'Error!',
   TASK_RUNNING: 'Running',
@@ -141,5 +143,5 @@ export default {
   ACTION_FEATURE_START: 'Set {{genre}} from now',
   ACTION_FEATURE_END: 'End {{genre}}',
   ACTION_FEATURE_SET_FULLLENGTH: 'Set {{genre}} for whole movie',
-  ACTION_BODYPART_ADD_CHILD: '{{parent}} - {{genr}}',
+  ACTION_BODYPART_ADD_CHILD: '{{parent}} - {{genre}}',
 } as const;

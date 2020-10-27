@@ -15,6 +15,8 @@ export const tasksResolvers: Resolvers = {
       prisma.task
         .updateMany({ where: { id: { in: taskIds } }, data: { status: 'PENDING' } })
         .then(tasks => tasks.count),
+    cancelTasks: (_parent, { taskIds }, { prisma }) =>
+      prisma.task.deleteMany({ where: { id: { in: taskIds } } }).then(tasks => tasks.count),
     cancelTask: (_parent, { taskId }, { prisma }) =>
       prisma.task
         .delete({ where: { id: taskId } })

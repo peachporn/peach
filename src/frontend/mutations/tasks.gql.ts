@@ -19,3 +19,9 @@ export const cancelTaskMutation = gql`
     cancelTask(taskId: $taskId)
   }
 `;
+
+export const cancelTasksMutation = gql`
+  mutation cancelTasks($taskIds: [Int!]!) {
+    cancelTasks(taskIds: $taskIds)
+  }
+`;

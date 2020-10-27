@@ -6,10 +6,16 @@ genreClipSize = 3.5em
   grid-gap .2em
   align-items flex-start
   justify-items flex-start
-  grid-template-columns repeat(auto-fit, genreClipSize)
+  grid-template-columns repeat(auto-fit, minmax(genreClipSize, 1fr))
   grid-auto-rows genreClipSize
   grid-auto-flow dense
   width 100%
+
+  &--tiny
+    font-size .5em
+
+  &--large
+    font-size 2em
 
 .genre-clip
   position relative
@@ -30,6 +36,9 @@ genreClipSize = 3.5em
 
   &--tiny
     font-size .5em
+
+  &--large
+    font-size 2em
 
 .genre-clip__image
   object-fit cover
@@ -68,6 +77,10 @@ genreClipSize = 3.5em
   visibility hidden
   transition all .2s ease
   z-index 10
+
+  &--permanent
+    opacity 1
+    visibility visible
 
 .genre-clip:hover .genre-clip__interaction-slot,
 .genre-clip:hover .genre-clip__description-slot

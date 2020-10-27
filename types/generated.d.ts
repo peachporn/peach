@@ -240,6 +240,7 @@ type Mutation = {
   addActressToMovie?: Maybe<Movie>;
   addSubgenre?: Maybe<Genre>;
   cancelTask?: Maybe<Scalars['Boolean']>;
+  cancelTasks: Scalars['Int'];
   createActress?: Maybe<Actress>;
   createGenre?: Maybe<Genre>;
   createMovieFromFile: Movie;
@@ -271,6 +272,10 @@ type MutationAddSubgenreArgs = {
 
 type MutationCancelTaskArgs = {
   taskId: Scalars['Int'];
+};
+
+type MutationCancelTasksArgs = {
+  taskIds: Array<Scalars['Int']>;
 };
 
 type MutationCreateActressArgs = {
@@ -517,6 +522,12 @@ type CancelTaskMutationVariables = {
 };
 
 type CancelTaskMutation = { __typename?: 'Mutation'; cancelTask?: Maybe<boolean> };
+
+type CancelTasksMutationVariables = {
+  taskIds: Array<Scalars['Int']>;
+};
+
+type CancelTasksMutation = { __typename?: 'Mutation'; cancelTasks: number };
 
 type UpdateActressMutationVariables = {
   actressId: Scalars['Int'];

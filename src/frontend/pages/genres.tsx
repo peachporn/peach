@@ -1,14 +1,15 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/react-hooks';
-import { Flex, Loading } from '../../components';
+import { Flex, GenreClip, GenreClipList, Headline2, Loading } from '../../components';
 import { BasePage } from './basePage';
 import { genresCountQuery, genresListQuery } from '../queries/genreList.gql';
 import { usePagination } from '../utils/pagination';
 
-import { Pagination } from '../../components/components/pagination';
-import { GenreCard, GenreCardGrid } from '../../components/components/genreCard';
 import { genreDetailRoute } from '../utils/route';
 import { CreateGenreForm } from '../components/genreList/createGenreForm';
+import { HeadBar } from '../../components/components/headBar';
+import { Text } from '../../components/components/text';
+import { genreCategories } from '../../domain/genre/fixtures';
 
 const pageLength = 48;
 
@@ -19,8 +20,8 @@ export const GenresPage: FunctionalComponent = () => {
     return <Loading color="white" />;
   }
 
-  const { limit, skip, maxPage, page, previousPage, nextPage } = usePagination({
-    pageLength,
+  const { limit, skip } = usePagination({
+    pageLength: count.data.genresCount,
     maxItems: count.data.genresCount,
   });
 
@@ -42,13 +43,25 @@ export const GenresPage: FunctionalComponent = () => {
         </Flex>
       ) : (
         <Fragment>
-          <GenreCardGrid>
-            {data?.genres.map(g => (
-              <GenreCard genre={g} url={genreDetailRoute(g.id)} />
-            ))}
-            <CreateGenreForm onSubmit={refetch} />
-          </GenreCardGrid>
-          <Pagination page={page} maxPage={maxPage} onNext={nextPage} onPrevious={previousPage} />
+          <HeadBar headline="Genres" />
+          {genreCategories.map(c => (
+            <Fragment>
+              <Headline2>{c}</Headline2>
+              <GenreClipList appearance="large">
+                {data?.genres
+                  .filter(g => g.category === c)
+                  .map(g => (
+                    <GenreClip
+                      descriptionSlot={<Text size="S">{g.name}</Text>}
+                      genre={g}
+                      shadow
+                      url={genreDetailRoute(g.id)}
+                    />
+                  ))}
+              </GenreClipList>
+            </Fragment>
+          ))}
+          <CreateGenreForm onSubmit={refetch} />
         </Fragment>
       )}
     </BasePage>

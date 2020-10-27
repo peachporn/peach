@@ -21,7 +21,7 @@ export const spawnP = (
 ): Promise<string> =>
   new Promise((resolve, reject) => {
     const commandParts = command.split(' ').map(s => s.replace(/'/g, ''));
-    const cp = child_process.spawn(commandParts[0], commandParts.slice(1));
+    const cp = child_process.spawn(commandParts[0], commandParts.slice(1), { shell: true });
 
     cp.stdout.on('data', data => {
       logger.debug(data.toString());

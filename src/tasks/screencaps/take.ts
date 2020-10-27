@@ -31,3 +31,4 @@ const { createTask, runTask, taskDefinitionOptions } = defineTask<TakeScreencapP
 export const takeScreencap = createTask;
 export const runTakeScreencapTask = runTask;
 export const takeScreencapDefinitionOptions = taskDefinitionOptions;
+

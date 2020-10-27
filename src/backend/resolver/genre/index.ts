@@ -23,6 +23,9 @@ export const genreResolvers: Resolvers = {
       prisma.genre
         .findMany({
           skip,
+          orderBy: {
+            name: 'asc',
+          },
           take: limit || 30,
           ...applyFilter(filter),
           include: {

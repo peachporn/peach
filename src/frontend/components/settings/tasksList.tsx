@@ -22,6 +22,7 @@ import {
   cancelTaskMutation,
   restartTaskMutation,
   restartTasksMutation,
+  cancelTasksMutation,
 } from '../../mutations/tasks.gql';
 
 const TaskStatusDisplay: FunctionalComponent<{ status: TaskStatus }> = ({ status }) => {
@@ -173,20 +174,41 @@ export const TasksList: FunctionalComponent = () => {
     },
   );
 
+  const [cancelFailedTasks] = useMutation<CancelTasksMutation, CancelTasksMutationVariables>(
+    cancelTasksMutation,
+    {
+      variables: {
+        taskIds: (data?.tasks || []).filter(task => task.status === 'ERROR').map(task => task.id),
+      },
+    },
+  );
+
   return loading || !data ? null : (
     <div>
       <Headline2>
         <Flex justify="space-between">
           {i('SETTINGS_TASKS')}
-          <Button
-            onClick={() => {
-              restartFailedTasks().then(() => {
-                toast.success(i('TASKS_RESTART_SUCCESS'));
-              });
-            }}
-          >
-            {i('SETTINGS_RESTART_FAILED')}
-          </Button>
+          <div>
+            <Button
+              onClick={() => {
+                restartFailedTasks().then(() => {
+                  toast.success(i('TASKS_RESTART_SUCCESS'));
+                });
+              }}
+            >
+              {i('SETTINGS_RESTART_FAILED')}
+            </Button>
+            <Button
+              appearance="inverted"
+              onClick={() => {
+                cancelFailedTasks().then(() => {
+                  toast.success(i('TASKS_CANCEL_SUCCESS'));
+                });
+              }}
+            >
+              {i('SETTINGS_CANCEL_FAILED')}
+            </Button>
+          </div>
         </Flex>
       </Headline2>
       <TaskList>

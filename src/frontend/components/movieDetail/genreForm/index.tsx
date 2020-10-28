@@ -21,16 +21,12 @@ import { updateGenreDefinitionsMutation } from '../../../mutations/updateGenreDe
 import {
   Action,
   addChild,
-  change,
   createAddChildAction,
-  createChangeAction,
-  createEndAction,
-  createSetFullLengthAction,
+  createDuplicateAction,
   createStartAction,
   executeAction,
   possibleActionTypes,
   printAction,
-  setFullLength,
 } from './action';
 import { buildGenreGrid, DisplayableGenre } from './display';
 
@@ -75,7 +71,7 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video })
   const [focusedGenre, focusGenre] = useState<GenreDefinitionDraft | null>(null);
 
   useEffect(() => {
-    if (lastAction && (lastAction.type === 'START' || lastAction?.type === 'CHANGE')) {
+    if (lastAction && lastAction.type === 'START') {
       const g = genreDefinitions[genreDefinitions.length - 1];
       if (g.genre.parent.linkableChildren.length > 0) {
         focusGenre(g);
@@ -109,16 +105,8 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video })
         return createStartAction({ genre, time: currentTime });
       }
 
-      if (a === 'END') {
-        return createEndAction({ genre, time: currentTime });
-      }
-
-      if (a === 'CHANGE') {
-        return createChangeAction({ genre, time: currentTime });
-      }
-
-      if (a === 'SET_FULLLENGTH') {
-        return createSetFullLengthAction({ genre, duration });
+      if (a === 'DUPLICATE' && focusedGenre) {
+        return createDuplicateAction({ genre: focusedGenre, time: currentTime });
       }
 
       if (a === 'ADD_CHILD' && focusedGenre) {
@@ -401,9 +389,11 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video })
           (a, j) =>
             a && (
               <GenreCard
-                key={`${a.type}${a.props.genre.id}`}
+                key={`${a.type}${
+                  'name' in a.props.genre ? a.props.genre.id : a.props.genre.genre.parent.id
+                }`}
                 shadow
-                genre={a.props.genre}
+                genre={'name' in a.props.genre ? a.props.genre : a.props.genre.genre.parent}
                 focus={focusedAction === j}
                 headline={printAction(a)}
                 categorySlot={null}

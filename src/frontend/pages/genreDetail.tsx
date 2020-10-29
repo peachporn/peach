@@ -15,6 +15,7 @@ import { Text } from '../../components/components/text';
 import { KinkScore } from '../../components/components/kinkScore';
 import { AddSubgenreForm } from '../components/genreDetail/addSubgenreForm';
 import { GenreImageForm } from '../components/genreDetail/genreImageForm';
+import { GenreDeleteButton } from '../components/genreDetail/genreDeleteButton';
 
 export type GenreDetailPageProps = {
   genreId: string;
@@ -71,6 +72,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
                   >
                     {i('EDIT')}
                   </Button>
+                  <GenreDeleteButton genre={genre} />
                 </Fragment>
               )}
               {editingData && <GenreImageForm genre={genre} />}
@@ -84,14 +86,16 @@ export const GenreDetailPage: FunctionalComponent = () => {
                 <KinkScore value={genre.kinkiness} scale="genre" />
               </Fragment>
             ) : (
-              <GenreDataForm
-                genre={genre}
-                submit={() => {
-                  setEditingData(false);
-                  return refetch();
-                }}
-                cancel={() => setEditingData(false)}
-              />
+              <Fragment>
+                <GenreDataForm
+                  genre={genre}
+                  submit={() => {
+                    setEditingData(false);
+                    return refetch();
+                  }}
+                  cancel={() => setEditingData(false)}
+                />
+              </Fragment>
             )}
             {(genre.validAsRoot || editingData) && (
               <AddSubgenreForm genre={genre} linkableChildren={genre.linkableChildren} />

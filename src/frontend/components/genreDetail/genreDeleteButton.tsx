@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from 'preact';
+import { Fragment, FunctionalComponent, h } from 'preact';
 import { useState } from 'preact/hooks';
 import { useMutation } from '@apollo/react-hooks';
 import { useHistory } from 'react-router-dom';
@@ -10,35 +10,35 @@ import { Button } from '../../../components/components/button';
 import { Modal } from '../../../components/components/modal';
 import { Text } from '../../../components/components/text';
 import { Flex } from '../../../components/components/flex';
-import { deleteMovieMutation } from '../../mutations/deleteMovie.gql';
+import { deleteGenreMutation } from '../../mutations/deleteGenre.gql';
 import { homeRoute } from '../../utils/route';
 
-export type MovieDetailActionsProps = {
-  movie: Pick<Movie, 'id'>;
+export type GenreDeleteButtonProps = {
+  genre: Pick<Genre, 'id'>;
 };
 
-export const MovieDetailActions: FunctionalComponent<MovieDetailActionsProps> = ({ movie }) => {
+export const GenreDeleteButton: FunctionalComponent<GenreDeleteButtonProps> = ({ genre }) => {
   const history = useHistory();
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [deleteMovie] = useMutation<DeleteMovieMutation, DeleteMovieMutationVariables>(
-    deleteMovieMutation,
+  const [deleteGenre] = useMutation<DeleteGenreMutation, DeleteGenreMutationVariables>(
+    deleteGenreMutation,
     {
       variables: {
-        movieId: movie.id,
+        genreId: genre.id,
       },
     },
   );
 
   return (
-    <section className="movie-detail-actions">
+    <Fragment>
       <Modal appearance="tiny" visible={deleteModalVisible} setVisible={setDeleteModalVisible}>
         <Headline2>{i('CONFIRM_DELETE_HEADLINE')}</Headline2>
-        <Text>{i('CONFIRM_DELETE_MOVIE')}</Text>
+        <Text>{i('CONFIRM_DELETE_GENRE')}</Text>
         <Flex justify="center">
           <Button
             onClick={() => {
-              deleteMovie().then(() => {
-                toast.success(i('DELETE_MOVIE_SUCCESS'));
+              deleteGenre().then(() => {
+                toast.success(i('DELETE_GENRE_SUCCESS'));
                 history.replace(homeRoute);
               });
             }}
@@ -55,7 +55,6 @@ export const MovieDetailActions: FunctionalComponent<MovieDetailActionsProps> = 
           </Button>
         </Flex>
       </Modal>
-      <Headline2>{i('ACTIONS')}</Headline2>
       <Button
         appearance="inverted"
         onClick={() => {
@@ -64,6 +63,6 @@ export const MovieDetailActions: FunctionalComponent<MovieDetailActionsProps> = 
       >
         {i('DELETE')}
       </Button>
-    </section>
+    </Fragment>
   );
 };

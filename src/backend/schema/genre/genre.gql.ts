@@ -47,6 +47,7 @@ export const typeDef = gql`
     createGenre(genreInput: GenreCreateInput!): Genre
     addSubgenre(child: Int!, parent: Int!): Genre
     removeSubgenre(child: Int!, parent: Int!): Genre
+    deleteGenre(genreId: Int!): Genre
   }
 
   extend type Query {

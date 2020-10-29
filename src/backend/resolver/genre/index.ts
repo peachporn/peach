@@ -109,5 +109,17 @@ export const genreResolvers: Resolvers = {
           data,
         })
         .then(transformGenre),
+    deleteGenre: async (_parent, { genreId }, { prisma }) =>
+      prisma.genre
+        .delete({
+          where: {
+            id: genreId,
+          },
+          include: {
+            linkableChildren: true,
+            linkableParents: true,
+          },
+        })
+        .then(transformGenre),
   },
 };

@@ -244,6 +244,7 @@ type Mutation = {
   createActress?: Maybe<Actress>;
   createGenre?: Maybe<Genre>;
   createMovieFromFile: Movie;
+  deleteGenre?: Maybe<Genre>;
   deleteMovie?: Maybe<Movie>;
   removeActressFromMovie?: Maybe<Movie>;
   removeSubgenre?: Maybe<Genre>;
@@ -288,6 +289,10 @@ type MutationCreateGenreArgs = {
 
 type MutationCreateMovieFromFileArgs = {
   input: MovieFromFileInput;
+};
+
+type MutationDeleteGenreArgs = {
+  genreId: Scalars['Int'];
 };
 
 type MutationDeleteMovieArgs = {
@@ -468,6 +473,15 @@ type CreateGenreMutationVariables = {
 type CreateGenreMutation = {
   __typename?: 'Mutation';
   createGenre?: Maybe<{ __typename?: 'Genre'; id: number; name: string }>;
+};
+
+type DeleteGenreMutationVariables = {
+  genreId: Scalars['Int'];
+};
+
+type DeleteGenreMutation = {
+  __typename?: 'Mutation';
+  deleteGenre?: Maybe<{ __typename?: 'Genre'; id: number }>;
 };
 
 type DeleteMovieMutationVariables = {

@@ -30,10 +30,14 @@ export const MoviesPage: FunctionalComponent = () => {
     maxItems: count.data.movieCount,
   });
 
+  const searchParams = new URLSearchParams(window.location?.search);
+  const fetish = parseInt(searchParams.get('fetish') || '0', 10);
+
   const { loading, data } = useQuery<MovieListQuery, MovieListQueryVariables>(movieListQuery, {
     variables: {
       limit,
       skip,
+      filter: fetish ? { fetishes: [fetish] } : undefined,
     },
   });
 

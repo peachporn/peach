@@ -16,6 +16,7 @@ export const transformBaseGenre = (genre: DBGenre): Genre => ({
   category: categoryMap[genre.category],
   kinkiness: genre.kinkiness,
   validAsRoot: genre.validAsRoot,
+  validAsFetish: genre.validAsFetish,
   picture: '',
   linkableParents: [],
   linkableChildren: [],

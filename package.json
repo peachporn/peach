@@ -22,8 +22,7 @@
     "generate": "env $(cat .env | xargs) run-p generate:*",
     "generate:types": "graphql-codegen --config codegen.yml",
     "generate:prisma": "prisma generate",
-    "migration:run": "env $(cat .env | xargs) prisma migrate up --experimental",
-    "migration:save": "env $(cat .env | xargs) prisma migrate save --experimental",
+    "migrate": "env $(cat .env | xargs) prisma migrate dev --preview-feature",
     "studio": "prisma studio --experimental"
   },
   "alias": {
@@ -37,8 +36,8 @@
     "@esri/arcgis-rest-request": "^2.13.2",
     "@graphql-tools/merge": "^6.0.5",
     "@graphql-tools/schema": "^6.0.5",
-    "@prisma/cli": "^2.2.0",
-    "@prisma/client": "^2.2.0",
+    "@prisma/cli": "^2.14.0",
+    "@prisma/client": "^2.14.0",
     "@seznam/compose-react-refs": "^1.0.4",
     "apollo-boost": "^0.4.9",
     "apollo-server": "^2.14.1",

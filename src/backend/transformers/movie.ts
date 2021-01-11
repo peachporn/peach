@@ -1,5 +1,6 @@
 import { MovieGetPayload, MovieMetadata } from '@prisma/client';
 import { fromDBActress } from '../../domain/actress/db';
+import { transformBaseGenre } from './genre';
 
 const qualityMap: { [key: string]: Quality } = {
   SD: 'SD',
@@ -63,6 +64,7 @@ export const transformMovie = (movie: MovieWithOptionalMetadataAndVolume): Movie
   volume: movie.volume,
   screencaps: [],
   genres: [],
+  fetishes: (movie.fetishes || []).map(transformBaseGenre),
   coverIndex: movie.cover,
   path: movie.path,
   fresh: true,

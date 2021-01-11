@@ -7,7 +7,7 @@ export const fullPath = (movie: MovieGetPayload<{ include: { volume: true } }>) 
 
 export const moviePathForId = (movieId: number): Promise<string | undefined> =>
   prisma.movie
-    .findOne({
+    .findUnique({
       where: { id: movieId },
       include: {
         volume: true,

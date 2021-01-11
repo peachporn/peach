@@ -19,6 +19,7 @@ export const typeDef = gql`
     picture: String!
 
     validAsRoot: Boolean!
+    validAsFetish: Boolean!
     linkableParents: [Genre!]!
     linkableChildren: [Genre!]!
   }
@@ -28,6 +29,7 @@ export const typeDef = gql`
     category: GenreCategory!
     kinkiness: Int!
     validAsRoot: Boolean!
+    validAsFetish: Boolean!
   }
 
   input GenreUpdateInput {
@@ -39,6 +41,7 @@ export const typeDef = gql`
 
   input GenreFilter {
     name: String
+    fetish: Boolean
     category: GenreCategory
   }
 

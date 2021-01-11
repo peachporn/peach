@@ -52,6 +52,11 @@ export const movieDetailQuery = gql`
           }
         }
       }
+      fetishes {
+        id
+        name
+        picture
+      }
     }
   }
 `;

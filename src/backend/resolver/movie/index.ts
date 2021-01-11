@@ -4,6 +4,7 @@ import { Resolvers } from '../../generated/resolver-types';
 import { resolveScreencaps } from './screencaps';
 import { resolveGenreDefinition, serializeGenreDefinitionGenre } from './genreDefinition';
 import { GenreLinkRaw } from '../../../domain/movie/genreDefinition';
+import { applyFilter } from './filter';
 
 export const movieResolvers: Resolvers = {
   MovieListMovie: {
@@ -23,20 +24,21 @@ export const movieResolvers: Resolvers = {
   },
   Query: {
     movieCount: (_parent, _args, { prisma }) => prisma.movie.count(),
-    movies: (_parent, { limit, skip }, { prisma }) =>
+    movies: (_parent, { limit, skip, filter }, { prisma }) =>
       prisma.movie
         .findMany({
           skip: skip || 0,
           take: limit || 30,
+          ...applyFilter(filter),
           include: {
             genres: true,
           },
         })
         .then(movies => movies.map(transformMovieListMovie)),
     movie: async (_parent, { id }, { prisma }) => {
-      const movie = await prisma.movie.findOne({
+      const movie = await prisma.movie.findUnique({
         where: { id },
-        include: { metadata: true, volume: true, actresses: true, genres: true },
+        include: { metadata: true, volume: true, actresses: true, genres: true, fetishes: true },
       });
 
       return movie ? transformMovie(movie) : undefined;
@@ -82,6 +84,22 @@ export const movieResolvers: Resolvers = {
             id: movieId,
           },
           data,
+        })
+        .then(transformMovie),
+    setMovieFetishes: async (_parent, { movieId, genreIds }, { prisma }) =>
+      prisma.movie
+        .update({
+          where: {
+            id: movieId,
+          },
+          include: {
+            fetishes: true,
+          },
+          data: {
+            fetishes: {
+              set: genreIds.map(id => ({ id })),
+            },
+          },
         })
         .then(transformMovie),
     addActressToMovie: async (_parent, { movieId, actressId }, { prisma }) =>
@@ -138,7 +156,7 @@ export const movieResolvers: Resolvers = {
         .then(transformMovie);
     },
     updateGenreDefinitions: async (_parent, { movieId, genreDefinitions }, { prisma }) => {
-      const movie = await prisma.movie.findOne({
+      const movie = await prisma.movie.findUnique({
         where: { id: movieId },
         include: {
           genres: true,
@@ -171,7 +189,7 @@ export const movieResolvers: Resolvers = {
       });
 
       return prisma.movie
-        .findOne({
+        .findUnique({
           where: { id: movieId },
           include: {
             genres: true,

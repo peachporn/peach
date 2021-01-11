@@ -17,16 +17,18 @@ export const typeDef = gql`
     title: String!
     url: String!
     actresses: [Actress!]!
-    # highlights  Highlight[]
     # website     Website
     metaData: MovieMetadata
     actors: Int!
     fresh: Boolean!
+
     volume: Volume
     screencaps: [String!]!
     coverIndex: Int!
     path: String!
+
     genres: [GenreDefinition!]!
+    fetishes: [Genre!]!
   }
 
   type MovieMetadata {
@@ -57,8 +59,12 @@ export const typeDef = gql`
     title: String
   }
 
+  input MoviesFilter {
+    fetishes: [Int!]
+  }
+
   type Query {
-    movies(limit: Int, skip: Int): [MovieListMovie!]!
+    movies(limit: Int, skip: Int, filter: MoviesFilter): [MovieListMovie!]!
     movieCount: Int!
     movie(id: Int!): Movie
     randomMovie: Movie!
@@ -69,6 +75,8 @@ export const typeDef = gql`
 
     addActressToMovie(movieId: Int!, actressId: Int!): Movie
     removeActressFromMovie(movieId: Int!, actressId: Int!): Movie
+
+    setMovieFetishes(movieId: Int!, genreIds: [Int!]!): Movie
 
     deleteMovie(movieId: Int!): Movie
   }

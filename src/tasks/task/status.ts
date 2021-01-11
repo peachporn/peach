@@ -1,3 +1,4 @@
+import { omit } from 'ramda';
 import { DBTask, Task, TaskCategory, TaskStatus, toDBTask } from './type';
 import { prisma } from '../../prisma';
 
@@ -20,7 +21,7 @@ export const markTask = (status: TaskStatus, task: Task, message?: string) =>
     where: {
       id: task.id,
     },
-    data: {
+    data: omit(['id'], {
       ...toDBTask(task),
       status,
       ...(!message
@@ -28,7 +29,7 @@ export const markTask = (status: TaskStatus, task: Task, message?: string) =>
         : {
             statusMessage: message,
           }),
-    },
+    }),
   });
 
 export const removeTask = (task: Task) =>

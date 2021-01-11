@@ -39,3 +39,13 @@ export const removeActressFromMovieMutation = gql`
     }
   }
 `;
+
+export const setMovieFetishesMutation = gql`
+  mutation SetMovieFetishes($movieId: Int!, $genreIds: [Int!]!) {
+    setMovieFetishes(movieId: $movieId, genreIds: $genreIds) {
+      fetishes {
+        name
+      }
+    }
+  }
+`;

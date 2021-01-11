@@ -37,7 +37,7 @@ export const applyFileUploadMiddleware = (app: Application) => {
       return res.send('No actress id given!');
     }
 
-    const actress = await prisma.actress.findOne({ where: { id: parseInt(actressId, 10) } });
+    const actress = await prisma.actress.findUnique({ where: { id: parseInt(actressId, 10) } });
 
     if (!actress) {
       res.status(400);
@@ -80,7 +80,7 @@ export const applyFileUploadMiddleware = (app: Application) => {
       return res.send('No genre id given!');
     }
 
-    const genre = await prisma.genre.findOne({ where: { id: parseInt(genreId, 10) } });
+    const genre = await prisma.genre.findUnique({ where: { id: parseInt(genreId, 10) } });
 
     if (!genre) {
       res.status(400);

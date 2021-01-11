@@ -12,7 +12,7 @@ export const actressResolvers: Resolvers = {
   Query: {
     actress: async (_parent, { id }, { prisma }) =>
       prisma.actress
-        .findOne({ where: { id }, include: { movies: true } })
+        .findUnique({ where: { id }, include: { movies: true } })
         .then(actress => (actress ? transformActress(actress) : undefined)),
 
     actressesCount: async (_parent, { filter }, { prisma }) =>
@@ -58,7 +58,7 @@ export const actressResolvers: Resolvers = {
         .then(transformActress);
     },
     scrapeActress: async (_parent, { id }, { prisma }) => {
-      const actress = await prisma.actress.findOne({ where: { id } });
+      const actress = await prisma.actress.findUnique({ where: { id } });
 
       if (!actress) {
         throw new Error(`No actress found with id ${id}`);

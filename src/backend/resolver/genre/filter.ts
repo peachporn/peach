@@ -12,6 +12,11 @@ export const applyFilter = (filter: GenreFilter | undefined): Pick<FindManyGenre
                   contains: filter.name,
                 },
               }),
+          ...(!filter.fetish
+            ? {}
+            : {
+                validAsFetish: filter.fetish,
+              }),
           ...(!filter.category
             ? {}
             : {

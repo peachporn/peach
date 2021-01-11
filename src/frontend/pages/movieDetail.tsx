@@ -13,6 +13,7 @@ import { PageIntro } from '../../components/components/pageIntro';
 import { MovieDetailActions } from '../components/movieDetail/movieDetailActions';
 import { throttle } from '../../utils/debounce';
 import { GenreForm } from '../components/movieDetail/genreForm';
+import { FetishForm } from "../components/movieDetail/fetishForm";
 
 export type MovieDetailPageProps = {
   movieId: string;
@@ -47,6 +48,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
           </PageIntro>
           <Container background="white">
             <TitleForm movie={movie} />
+            <FetishForm movie={movie} />
             <AddActressForm movieId={movie.id} actresses={movie.actresses} />
             <ScreencapStripForm movie={movie} />
             {!movie.metaData || !movie.volume ? null : (

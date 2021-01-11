@@ -23,6 +23,7 @@ type CreateGenreFormData = {
   category: GenreCategory;
   kinkiness: string;
   validAsRoot: boolean;
+  validAsFetish: boolean;
 };
 
 export type CreateGenreFormProps = {
@@ -106,6 +107,10 @@ export const CreateGenreForm: FunctionalComponent<CreateGenreFormProps> = ({
           <DataGridEntry
             label="GENRE_VALIDASROOT"
             value={<Checkbox ref={register} name="validAsRoot" />}
+          />
+          <DataGridEntry
+            label="GENRE_VALIDASFETISH"
+            value={<Checkbox ref={register} name="validAsFetish" />}
           />
         </DataGridContainer>
         <Button onClick={handleSubmit(onSubmit)}>{i('CREATE_GENRE_FORM_SUBMIT')}</Button>

@@ -107,6 +107,7 @@ export default {
   GENRE_NAME: 'Name',
   GENRE_CATEGORY: 'Category',
   GENRE_VALIDASROOT: 'Base genre',
+  GENRE_VALIDASFETISH: 'Fetish',
   GENRE_KINKINESS: 'Kinkiness',
   SUBGENRES: 'Subgenres',
   SUBGENRE_FORM_HEADLINE: 'Add a subgenre',

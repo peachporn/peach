@@ -9,7 +9,7 @@ export const genreResolvers: Resolvers = {
   Query: {
     genre: async (_parent, { id }, { prisma }) =>
       prisma.genre
-        .findOne({
+        .findUnique({
           where: {
             id,
           },
@@ -39,8 +39,8 @@ export const genreResolvers: Resolvers = {
   },
   Mutation: {
     removeSubgenre: async (_parent, args, { prisma }) => {
-      const child = await prisma.genre.findOne({ where: { id: args.child } });
-      const parent = await prisma.genre.findOne({ where: { id: args.parent } });
+      const child = await prisma.genre.findUnique({ where: { id: args.child } });
+      const parent = await prisma.genre.findUnique({ where: { id: args.parent } });
 
       if (child === null || parent === null) {
         return undefined;
@@ -62,8 +62,8 @@ export const genreResolvers: Resolvers = {
         .then(g => (!g ? undefined : transformGenre(g)));
     },
     addSubgenre: async (_parent, args, { prisma }) => {
-      const child = await prisma.genre.findOne({ where: { id: args.child } });
-      const parent = await prisma.genre.findOne({ where: { id: args.parent } });
+      const child = await prisma.genre.findUnique({ where: { id: args.child } });
+      const parent = await prisma.genre.findUnique({ where: { id: args.parent } });
 
       if (child === null || parent === null) {
         return undefined;

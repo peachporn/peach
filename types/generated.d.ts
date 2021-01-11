@@ -97,6 +97,7 @@ type Genre = {
   kinkiness: Scalars['Int'];
   picture: Scalars['String'];
   validAsRoot: Scalars['Boolean'];
+  validAsFetish: Scalars['Boolean'];
   linkableParents: Array<Genre>;
   linkableChildren: Array<Genre>;
 };
@@ -115,6 +116,7 @@ type GenreCreateInput = {
   category: GenreCategory;
   kinkiness: Scalars['Int'];
   validAsRoot: Scalars['Boolean'];
+  validAsFetish: Scalars['Boolean'];
 };
 
 type GenreDefinition = {
@@ -133,6 +135,7 @@ type GenreDefinitionInput = {
 
 type GenreFilter = {
   name?: Maybe<Scalars['String']>;
+  fetish?: Maybe<Scalars['Boolean']>;
   category?: Maybe<GenreCategory>;
 };
 
@@ -194,6 +197,7 @@ type Movie = {
   coverIndex: Scalars['Int'];
   path: Scalars['String'];
   genres: Array<GenreDefinition>;
+  fetishes: Array<Genre>;
 };
 
 type MovieFromFileInput = {
@@ -230,6 +234,10 @@ type MovieMetadata = {
   sizeInMB: Scalars['Int'];
 };
 
+type MoviesFilter = {
+  fetishes?: Maybe<Array<Scalars['Int']>>;
+};
+
 type MovieUpdateInput = {
   cover?: Maybe<Scalars['Int']>;
   title?: Maybe<Scalars['String']>;
@@ -253,6 +261,7 @@ type Mutation = {
   saveVolumes: Array<Volume>;
   scanLibrary?: Maybe<Scalars['Boolean']>;
   scrapeActress?: Maybe<Scalars['Boolean']>;
+  setMovieFetishes?: Maybe<Movie>;
   takeAllScreencaps?: Maybe<Scalars['Boolean']>;
   updateActress?: Maybe<Actress>;
   updateGenre?: Maybe<Genre>;
@@ -323,6 +332,11 @@ type MutationSaveVolumesArgs = {
 
 type MutationScrapeActressArgs = {
   id: Scalars['Int'];
+};
+
+type MutationSetMovieFetishesArgs = {
+  movieId: Scalars['Int'];
+  genreIds: Array<Scalars['Int']>;
 };
 
 type MutationUpdateActressArgs = {
@@ -405,6 +419,7 @@ type QueryMovieArgs = {
 type QueryMoviesArgs = {
   limit?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
+  filter?: Maybe<MoviesFilter>;
 };
 
 type QueryPathExistsArgs = {
@@ -645,6 +660,19 @@ type RemoveActressFromMovieMutation = {
   }>;
 };
 
+type SetMovieFetishesMutationVariables = {
+  movieId: Scalars['Int'];
+  genreIds: Array<Scalars['Int']>;
+};
+
+type SetMovieFetishesMutation = {
+  __typename?: 'Mutation';
+  setMovieFetishes?: Maybe<{
+    __typename?: 'Movie';
+    fetishes: Array<{ __typename?: 'Genre'; name: string }>;
+  }>;
+};
+
 type UpdateSettingsMutationVariables = {
   data: UpdateSettingsInput;
 };
@@ -730,6 +758,7 @@ type FindActressQuery = {
 
 type FindGenreQueryVariables = {
   name: Scalars['String'];
+  fetish?: Maybe<Scalars['Boolean']>;
 };
 
 type FindGenreQuery = {
@@ -741,6 +770,7 @@ type FindGenreQuery = {
     category: GenreCategory;
     picture: string;
     validAsRoot: boolean;
+    validAsFetish: boolean;
     linkableChildren: Array<{ __typename?: 'Genre'; id: number }>;
   }>;
 };
@@ -841,12 +871,14 @@ type MovieQuery = {
         }>;
       };
     }>;
+    fetishes: Array<{ __typename?: 'Genre'; id: number; name: string; picture: string }>;
   }>;
 };
 
 type MovieListQueryVariables = {
   limit: Scalars['Int'];
   skip: Scalars['Int'];
+  filter?: Maybe<MoviesFilter>;
 };
 
 type MovieListQuery = {

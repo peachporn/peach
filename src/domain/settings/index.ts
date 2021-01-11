@@ -9,7 +9,7 @@ export const defaultSettings: SettingsCreateInput = {
   inferMovieTitle: 'FILENAME',
 };
 
-const settings = () => prisma.settings.findOne({ where: { id: 1 } });
+const settings = () => prisma.settings.findUnique({ where: { id: 1 } });
 
 export const getInferMovieTitle = () =>
   settings().then(s => (s && s.inferMovieTitle) || ('FILENAME' as InferMovieTitle));

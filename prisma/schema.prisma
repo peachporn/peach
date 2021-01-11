@@ -71,7 +71,8 @@ model Movie {
   title       String @unique
   actresses   Actress[] @relation(references: [id])
   genres      GenreDefinition[]
-  // highlights  Highlight[]
+  fetishes    Genre[]
+
   actors      Int @default(0)
   // website     Website
   cover       Int @default(2)
@@ -109,7 +110,6 @@ model GenreDefinition {
   genre       String // { parent: Genre, children: Genre[] } serialized as JSON
 
   timeStart   Float
-  timeEnd     Float
 }
 
 model Genre {
@@ -118,7 +118,10 @@ model Genre {
   category            String
   kinkiness           Int
   validAsRoot         Boolean
+  validAsFetish       Boolean
 
   linkableParents     Genre[] @relation("Subgenre", references: [id])
   linkableChildren    Genre[] @relation("Subgenre", references: [id])
+
+  movies              Movie[] @relation(references: [id])
 }

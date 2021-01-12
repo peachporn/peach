@@ -25,6 +25,7 @@ const MovieListItem: FunctionalComponent<{ movie: MovieListMovie }> = ({
       <div className="movie-item__screencaps">
         {screencaps.map(screencap => (
           <Fragment>
+            <span className="movie-item__screencaps-hover-area" />
             <img
               alt={title}
               src={screencap.src}

@@ -6,14 +6,14 @@ import { Homepage } from './pages/home';
 import { client } from './apollo-client';
 import { SetupChecker } from './components/setupChecker';
 import { SettingsPage } from './pages/settings';
-import { MoviesPage } from './pages/movies';
 
 import '../components/index.styl';
 import { SettingsProvider } from './context/settings';
 import { MovieDetailPage } from './pages/movieDetail';
-import { ActressesPage } from './pages/actresses';
 import { ActressDetailPage } from './pages/actressDetail';
-import { GenresPage } from './pages/genres';
+import { MoviesPage } from './pages/movieList';
+import { ActressesPage } from './pages/actressList';
+import { GenresPage } from './pages/genreList';
 import { GenreDetailPage } from './pages/genreDetail';
 
 const App = (

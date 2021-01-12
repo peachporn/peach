@@ -475,91 +475,11 @@ type VolumeInput = {
   path: Scalars['String'];
 };
 
-type CreateActressMutationVariables = {
-  name: Scalars['String'];
-};
-
-type CreateActressMutation = {
-  __typename?: 'Mutation';
-  createActress?: Maybe<{ __typename?: 'Actress'; id: number; name: string }>;
-};
-
-type CreateGenreMutationVariables = {
-  data: GenreCreateInput;
-};
-
-type CreateGenreMutation = {
-  __typename?: 'Mutation';
-  createGenre?: Maybe<{ __typename?: 'Genre'; id: number; name: string }>;
-};
-
-type DeleteGenreMutationVariables = {
-  genreId: Scalars['Int'];
-};
-
-type DeleteGenreMutation = {
-  __typename?: 'Mutation';
-  deleteGenre?: Maybe<{ __typename?: 'Genre'; id: number }>;
-};
-
-type DeleteMovieMutationVariables = {
-  movieId: Scalars['Int'];
-};
-
-type DeleteMovieMutation = {
-  __typename?: 'Mutation';
-  deleteMovie?: Maybe<{ __typename?: 'Movie'; id: number }>;
-};
-
-type SaveVolumesMutationVariables = {
-  input: SaveVolumesInput;
-};
-
-type SaveVolumesMutation = {
-  __typename?: 'Mutation';
-  saveVolumes: Array<{ __typename?: 'Volume'; name: string; path: string }>;
-};
-
-type ScanLibraryMutationVariables = {};
-
-type ScanLibraryMutation = { __typename?: 'Mutation'; scanLibrary?: Maybe<boolean> };
-
 type ScrapeActressMutationVariables = {
   id: Scalars['Int'];
 };
 
 type ScrapeActressMutation = { __typename?: 'Mutation'; scrapeActress?: Maybe<boolean> };
-
-type TakeAllScreencapsMutationVariables = {};
-
-type TakeAllScreencapsMutation = { __typename?: 'Mutation'; takeAllScreencaps?: Maybe<boolean> };
-
-type RestartTaskMutationVariables = {
-  taskId: Scalars['Int'];
-};
-
-type RestartTaskMutation = {
-  __typename?: 'Mutation';
-  restartTask?: Maybe<{ __typename?: 'Task'; id: number }>;
-};
-
-type RestartTasksMutationVariables = {
-  taskIds: Array<Scalars['Int']>;
-};
-
-type RestartTasksMutation = { __typename?: 'Mutation'; restartTasks: number };
-
-type CancelTaskMutationVariables = {
-  taskId: Scalars['Int'];
-};
-
-type CancelTaskMutation = { __typename?: 'Mutation'; cancelTask?: Maybe<boolean> };
-
-type CancelTasksMutationVariables = {
-  taskIds: Array<Scalars['Int']>;
-};
-
-type CancelTasksMutation = { __typename?: 'Mutation'; cancelTasks: number };
 
 type UpdateActressMutationVariables = {
   actressId: Scalars['Int'];
@@ -569,6 +489,78 @@ type UpdateActressMutationVariables = {
 type UpdateActressMutation = {
   __typename?: 'Mutation';
   updateActress?: Maybe<{ __typename?: 'Actress'; id: number }>;
+};
+
+type ActressQueryVariables = {
+  id: Scalars['Int'];
+};
+
+type ActressQuery = {
+  __typename?: 'Query';
+  actress?: Maybe<{
+    __typename?: 'Actress';
+    id: number;
+    name: string;
+    picture?: Maybe<string>;
+    aliases: Array<string>;
+    haircolor?: Maybe<Haircolor>;
+    eyecolor?: Maybe<Eyecolor>;
+    ethnicity?: Maybe<Ethnicity>;
+    dateOfBirth?: Maybe<string>;
+    dateOfCareerstart?: Maybe<string>;
+    dateOfRetirement?: Maybe<string>;
+    dateOfDeath?: Maybe<string>;
+    inBusiness?: Maybe<boolean>;
+    country?: Maybe<string>;
+    province?: Maybe<string>;
+    city?: Maybe<string>;
+    boobs?: Maybe<Boobs>;
+    piercings?: Maybe<string>;
+    tattoos?: Maybe<string>;
+    height?: Maybe<number>;
+    weight?: Maybe<number>;
+    cupsize?: Maybe<Cupsize>;
+    socialMediaLinks?: Maybe<Array<Maybe<string>>>;
+    officialWebsite?: Maybe<string>;
+    location?: Maybe<{ __typename?: 'GeoLocation'; latitude: number; longitude: number }>;
+    measurements?: Maybe<{
+      __typename?: 'Measurements';
+      bust: number;
+      hips: number;
+      waist: number;
+    }>;
+    movies?: Maybe<
+      Array<{
+        __typename?: 'Movie';
+        id: number;
+        title: string;
+        screencaps: Array<{ __typename?: 'Screencap'; src: string; cover: boolean }>;
+      }>
+    >;
+  }>;
+};
+
+type ActressesListQueryVariables = {
+  limit: Scalars['Int'];
+  skip: Scalars['Int'];
+};
+
+type ActressesListQuery = {
+  __typename?: 'Query';
+  actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
+};
+
+type ActressesCountQueryVariables = {};
+
+type ActressesCountQuery = { __typename?: 'Query'; actressesCount: number };
+
+type DeleteGenreMutationVariables = {
+  genreId: Scalars['Int'];
+};
+
+type DeleteGenreMutation = {
+  __typename?: 'Mutation';
+  deleteGenre?: Maybe<{ __typename?: 'Genre'; id: number }>;
 };
 
 type UpdateGenreMutationVariables = {
@@ -607,6 +599,89 @@ type RemoveSubgenreMutation = {
   removeSubgenre?: Maybe<{ __typename?: 'Genre'; id: number }>;
 };
 
+type GenreQueryVariables = {
+  id: Scalars['Int'];
+};
+
+type GenreQuery = {
+  __typename?: 'Query';
+  genre?: Maybe<{
+    __typename?: 'Genre';
+    id: number;
+    name: string;
+    category: GenreCategory;
+    kinkiness: number;
+    picture: string;
+    validAsRoot: boolean;
+    linkableChildren: Array<{
+      __typename?: 'Genre';
+      id: number;
+      name: string;
+      category: GenreCategory;
+      picture: string;
+    }>;
+  }>;
+};
+
+type CreateGenreMutationVariables = {
+  data: GenreCreateInput;
+};
+
+type CreateGenreMutation = {
+  __typename?: 'Mutation';
+  createGenre?: Maybe<{ __typename?: 'Genre'; id: number; name: string }>;
+};
+
+type GenresListQueryVariables = {
+  limit: Scalars['Int'];
+  skip: Scalars['Int'];
+};
+
+type GenresListQuery = {
+  __typename?: 'Query';
+  genres: Array<{
+    __typename?: 'Genre';
+    id: number;
+    name: string;
+    picture: string;
+    category: GenreCategory;
+  }>;
+};
+
+type GenresCountQueryVariables = {};
+
+type GenresCountQuery = { __typename?: 'Query'; genresCount: number };
+
+type RandomMovieQueryVariables = {};
+
+type RandomMovieQuery = {
+  __typename?: 'Query';
+  randomMovie: {
+    __typename?: 'Movie';
+    id: number;
+    title: string;
+    screencaps: Array<{ __typename?: 'Screencap'; src: string; cover: boolean; index: number }>;
+  };
+};
+
+type CreateActressMutationVariables = {
+  name: Scalars['String'];
+};
+
+type CreateActressMutation = {
+  __typename?: 'Mutation';
+  createActress?: Maybe<{ __typename?: 'Actress'; id: number; name: string }>;
+};
+
+type DeleteMovieMutationVariables = {
+  movieId: Scalars['Int'];
+};
+
+type DeleteMovieMutation = {
+  __typename?: 'Mutation';
+  deleteMovie?: Maybe<{ __typename?: 'Movie'; id: number }>;
+};
+
 type UpdateGenreDefinitionsMutationVariables = {
   movieId: Scalars['Int'];
   genreDefinitions: Array<GenreDefinitionInput>;
@@ -626,7 +701,7 @@ type UpdateCoverMutation = {
   __typename?: 'Mutation';
   updateMovie?: Maybe<{
     __typename?: 'Movie';
-    screencaps: Array<{ __typename?: 'Screencap'; index: number; cover: boolean }>;
+    screencaps: Array<{ __typename?: 'Screencap'; index: number; src: string; cover: boolean }>;
   }>;
 };
 
@@ -679,85 +754,6 @@ type SetMovieFetishesMutation = {
   }>;
 };
 
-type UpdateSettingsMutationVariables = {
-  data: UpdateSettingsInput;
-};
-
-type UpdateSettingsMutation = {
-  __typename?: 'Mutation';
-  updateSettings: {
-    __typename?: 'Settings';
-    language: Language;
-    inferMovieTitle: InferMovieTitle;
-    screencapPath?: Maybe<string>;
-    actressImagePath?: Maybe<string>;
-    genreImagePath?: Maybe<string>;
-  };
-};
-
-type ActressQueryVariables = {
-  id: Scalars['Int'];
-};
-
-type ActressQuery = {
-  __typename?: 'Query';
-  actress?: Maybe<{
-    __typename?: 'Actress';
-    id: number;
-    name: string;
-    picture?: Maybe<string>;
-    aliases: Array<string>;
-    haircolor?: Maybe<Haircolor>;
-    eyecolor?: Maybe<Eyecolor>;
-    ethnicity?: Maybe<Ethnicity>;
-    dateOfBirth?: Maybe<string>;
-    dateOfCareerstart?: Maybe<string>;
-    dateOfRetirement?: Maybe<string>;
-    dateOfDeath?: Maybe<string>;
-    inBusiness?: Maybe<boolean>;
-    country?: Maybe<string>;
-    province?: Maybe<string>;
-    city?: Maybe<string>;
-    boobs?: Maybe<Boobs>;
-    piercings?: Maybe<string>;
-    tattoos?: Maybe<string>;
-    height?: Maybe<number>;
-    weight?: Maybe<number>;
-    cupsize?: Maybe<Cupsize>;
-    socialMediaLinks?: Maybe<Array<Maybe<string>>>;
-    officialWebsite?: Maybe<string>;
-    location?: Maybe<{ __typename?: 'GeoLocation'; latitude: number; longitude: number }>;
-    measurements?: Maybe<{
-      __typename?: 'Measurements';
-      bust: number;
-      hips: number;
-      waist: number;
-    }>;
-    movies?: Maybe<
-      Array<{
-        __typename?: 'Movie';
-        id: number;
-        title: string;
-        screencaps: Array<{ __typename?: 'Screencap'; src: string; index: number }>;
-      }>
-    >;
-  }>;
-};
-
-type ActressesListQueryVariables = {
-  limit: Scalars['Int'];
-  skip: Scalars['Int'];
-};
-
-type ActressesListQuery = {
-  __typename?: 'Query';
-  actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
-};
-
-type ActressesCountQueryVariables = {};
-
-type ActressesCountQuery = { __typename?: 'Query'; actressesCount: number };
-
 type FindActressQueryVariables = {
   name: Scalars['String'];
 };
@@ -786,50 +782,6 @@ type FindGenreQuery = {
   }>;
 };
 
-type GenreQueryVariables = {
-  id: Scalars['Int'];
-};
-
-type GenreQuery = {
-  __typename?: 'Query';
-  genre?: Maybe<{
-    __typename?: 'Genre';
-    id: number;
-    name: string;
-    category: GenreCategory;
-    kinkiness: number;
-    picture: string;
-    validAsRoot: boolean;
-    linkableChildren: Array<{
-      __typename?: 'Genre';
-      id: number;
-      name: string;
-      category: GenreCategory;
-      picture: string;
-    }>;
-  }>;
-};
-
-type GenresListQueryVariables = {
-  limit: Scalars['Int'];
-  skip: Scalars['Int'];
-};
-
-type GenresListQuery = {
-  __typename?: 'Query';
-  genres: Array<{
-    __typename?: 'Genre';
-    id: number;
-    name: string;
-    picture: string;
-    category: GenreCategory;
-  }>;
-};
-
-type GenresCountQueryVariables = {};
-
-type GenresCountQuery = { __typename?: 'Query'; genresCount: number };
-
 type MovieQueryVariables = {
   id: Scalars['Int'];
 };
@@ -845,7 +797,8 @@ type MovieDetailFragment = {
   title: string;
   url: string;
   path: string;
-  screencaps: Array<{ __typename?: 'Screencap'; src: string; index: number }>;
+  cover: number;
+  screencaps: Array<{ __typename?: 'Screencap'; src: string; cover: boolean; index: number }>;
   volume?: Maybe<{ __typename?: 'Volume'; name: string }>;
   actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
   metaData?: Maybe<{
@@ -898,7 +851,7 @@ type MovieListQuery = {
     __typename?: 'MovieListMovie';
     id: number;
     title: string;
-    screencaps: Array<{ __typename?: 'Screencap'; src: string; index: number }>;
+    screencaps: Array<{ __typename?: 'Screencap'; src: string; index: number; cover: boolean }>;
   }>;
 };
 
@@ -906,15 +859,63 @@ type MovieCountQueryVariables = {};
 
 type MovieCountQuery = { __typename?: 'Query'; movieCount: number };
 
-type RandomMovieQueryVariables = {};
+type SaveVolumesMutationVariables = {
+  input: SaveVolumesInput;
+};
 
-type RandomMovieQuery = {
-  __typename?: 'Query';
-  randomMovie: {
-    __typename?: 'Movie';
-    id: number;
-    title: string;
-    screencaps: Array<{ __typename?: 'Screencap'; src: string; index: number }>;
+type SaveVolumesMutation = {
+  __typename?: 'Mutation';
+  saveVolumes: Array<{ __typename?: 'Volume'; name: string; path: string }>;
+};
+
+type ScanLibraryMutationVariables = {};
+
+type ScanLibraryMutation = { __typename?: 'Mutation'; scanLibrary?: Maybe<boolean> };
+
+type TakeAllScreencapsMutationVariables = {};
+
+type TakeAllScreencapsMutation = { __typename?: 'Mutation'; takeAllScreencaps?: Maybe<boolean> };
+
+type RestartTaskMutationVariables = {
+  taskId: Scalars['Int'];
+};
+
+type RestartTaskMutation = {
+  __typename?: 'Mutation';
+  restartTask?: Maybe<{ __typename?: 'Task'; id: number }>;
+};
+
+type RestartTasksMutationVariables = {
+  taskIds: Array<Scalars['Int']>;
+};
+
+type RestartTasksMutation = { __typename?: 'Mutation'; restartTasks: number };
+
+type CancelTaskMutationVariables = {
+  taskId: Scalars['Int'];
+};
+
+type CancelTaskMutation = { __typename?: 'Mutation'; cancelTask?: Maybe<boolean> };
+
+type CancelTasksMutationVariables = {
+  taskIds: Array<Scalars['Int']>;
+};
+
+type CancelTasksMutation = { __typename?: 'Mutation'; cancelTasks: number };
+
+type UpdateSettingsMutationVariables = {
+  data: UpdateSettingsInput;
+};
+
+type UpdateSettingsMutation = {
+  __typename?: 'Mutation';
+  updateSettings: {
+    __typename?: 'Settings';
+    language: Language;
+    inferMovieTitle: InferMovieTitle;
+    screencapPath?: Maybe<string>;
+    actressImagePath?: Maybe<string>;
+    genreImagePath?: Maybe<string>;
   };
 };
 

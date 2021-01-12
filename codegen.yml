@@ -1,9 +1,10 @@
 overwrite: true
 schema: 'src/backend/domain/**/schema/*.gql.ts'
 documents:
-  - 'src/frontend/mutations/**/*.gql.ts'
-  - 'src/frontend/queries/**/*.gql.ts'
-  - 'src/frontend/fragments/**/*.gql.ts'
+  - 'src/frontend/queries/*.gql.ts'
+  - 'src/frontend/pages/**/mutations/*.gql.ts'
+  - 'src/frontend/pages/**/queries/*.gql.ts'
+  - 'src/frontend/pages/**/fragments/*.gql.ts'
 hooks:
   afterAllFileWrite:
     - "eslint --fix --no-ignore

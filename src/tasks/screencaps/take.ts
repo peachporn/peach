@@ -18,7 +18,7 @@ const { createTask, runTask, taskDefinitionOptions } = defineTask<TakeScreencapP
     const command = screencapCommand(filename, movie);
     log.debug(`Running command ${command}`);
 
-    await spawnP(command, log);
+    await spawnP(command, log, true);
 
     return 'SUCCESS';
   },

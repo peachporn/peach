@@ -54,7 +54,7 @@ export const ScreencapStripForm: FunctionalComponent<ScreencapStripFormProps> = 
       {movie.screencaps.map((s, j) => (
         <Screencap
           name="cover"
-          value={j}
+          value={j + 1}
           url={s.src}
           ref={register}
           active={getValues().cover === `${s.index}`}

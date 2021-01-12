@@ -2,6 +2,9 @@ overwrite: true
 schema: 'src/backend/domain/**/schema/*.gql.ts'
 documents:
   - 'src/frontend/queries/*.gql.ts'
+  - 'src/frontend/context/**/queries/*.gql.ts'
+  - 'src/frontend/context/**/mutations/*.gql.ts'
+  - 'src/frontend/context/**/fragments/*.gql.ts'
   - 'src/frontend/pages/**/mutations/*.gql.ts'
   - 'src/frontend/pages/**/queries/*.gql.ts'
   - 'src/frontend/pages/**/fragments/*.gql.ts'

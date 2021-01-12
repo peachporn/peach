@@ -37,11 +37,6 @@ module.exports = (_env, argv) => ({
     new CopyPlugin({
       patterns: [
         {
-          from: argv.mode === 'development' ? './.env' : './.env.example',
-          to: './.env',
-          toType: 'file',
-        },
-        {
           flatten: true,
           from: 'scripts',
           to: '.',

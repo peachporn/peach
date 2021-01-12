@@ -18,7 +18,7 @@ const checkMigrationsPath = () =>
 
 const addPermissions = () => execP(`chmod -R +x ./node_modules`);
 const runPrismaMigrate = () =>
-  spawnP(`./node_modules/@prisma/cli/build/index.js --experimental migrate up`, log);
+  spawnP(`./node_modules/@prisma/cli/build/index.js --preview-feature migrate deploy`, log);
 
 const runMigrations = async () => {
   await checkMigrationsPath();

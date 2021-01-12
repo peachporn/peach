@@ -47,6 +47,10 @@ module.exports = (_env, argv) => ({
           to: './node_modules/@prisma/cli',
         },
         {
+          from: 'node_modules/@prisma/engines',
+          to: './node_modules/@prisma/engines',
+        },
+        {
           flatten: true,
           from: 'node_modules/.prisma/client/schema.prisma',
         },

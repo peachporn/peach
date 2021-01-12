@@ -52,10 +52,6 @@ module.exports = (_env, argv) => ({
         },
         {
           flatten: true,
-          from: './prisma/database.db',
-        },
-        {
-          flatten: true,
           from: 'node_modules/.prisma/client/schema.prisma',
         },
       ],

@@ -265,7 +265,6 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video })
         movieId: movie.id,
         genreDefinitions: genreDefinitions.map(g => ({
           timeStart: g.timeStart,
-          timeEnd: g.timeEnd || duration,
           genre: {
             parent: g.genre.parent.id,
             children: g.genre.children.map(c => c.id),

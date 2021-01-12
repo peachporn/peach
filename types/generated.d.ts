@@ -123,13 +123,11 @@ type GenreDefinition = {
   __typename?: 'GenreDefinition';
   id: Scalars['Int'];
   timeStart: Scalars['Float'];
-  timeEnd: Scalars['Float'];
   genre: GenreLink;
 };
 
 type GenreDefinitionInput = {
   timeStart: Scalars['Float'];
-  timeEnd: Scalars['Float'];
   genre: GenreLinkInput;
 };
 
@@ -148,13 +146,6 @@ type GenreLink = {
 type GenreLinkInput = {
   parent: Scalars['Int'];
   children: Array<Scalars['Int']>;
-};
-
-type GenreUpdateInput = {
-  name?: Maybe<Scalars['String']>;
-  category?: Maybe<GenreCategory>;
-  validAsRoot?: Maybe<Scalars['Boolean']>;
-  kinkiness?: Maybe<Scalars['Int']>;
 };
 
 type GeoLocation = {
@@ -186,13 +177,12 @@ type Movie = {
   __typename?: 'Movie';
   id: Scalars['Int'];
   createdAt: Scalars['String'];
-  title: Scalars['String'];
   url: Scalars['String'];
+  title: Scalars['String'];
   actresses: Array<Actress>;
-  metaData?: Maybe<MovieMetadata>;
   actors: Scalars['Int'];
-  fresh: Scalars['Boolean'];
   volume?: Maybe<Volume>;
+  metaData?: Maybe<MovieMetadata>;
   screencaps: Array<Scalars['String']>;
   coverIndex: Scalars['Int'];
   path: Scalars['String'];
@@ -346,7 +336,7 @@ type MutationUpdateActressArgs = {
 
 type MutationUpdateGenreArgs = {
   genreId: Scalars['Int'];
-  data: GenreUpdateInput;
+  data: UpdateGenreInput;
 };
 
 type MutationUpdateGenreDefinitionsArgs = {
@@ -433,11 +423,11 @@ type SaveVolumesInput = {
 type Settings = {
   __typename?: 'Settings';
   language: Language;
-  volumes: Array<Volume>;
   inferMovieTitle: InferMovieTitle;
   actressImagePath?: Maybe<Scalars['String']>;
   genreImagePath?: Maybe<Scalars['String']>;
   screencapPath?: Maybe<Scalars['String']>;
+  volumes: Array<Volume>;
 };
 
 type SetupStatus = 'Complete' | 'NoVolumes';
@@ -452,6 +442,13 @@ type Task = {
 };
 
 type TaskStatus = 'RUNNING' | 'PENDING' | 'ERROR';
+
+type UpdateGenreInput = {
+  name?: Maybe<Scalars['String']>;
+  category?: Maybe<GenreCategory>;
+  validAsRoot?: Maybe<Scalars['Boolean']>;
+  kinkiness?: Maybe<Scalars['Int']>;
+};
 
 type UpdateSettingsInput = {
   language?: Maybe<Language>;
@@ -570,7 +567,7 @@ type UpdateActressMutation = {
 
 type UpdateGenreMutationVariables = {
   genreId: Scalars['Int'];
-  data: GenreUpdateInput;
+  data: UpdateGenreInput;
 };
 
 type UpdateGenreMutation = {
@@ -825,54 +822,55 @@ type MovieQueryVariables = {
 
 type MovieQuery = {
   __typename?: 'Query';
-  movie?: Maybe<{
-    __typename?: 'Movie';
-    id: number;
-    title: string;
-    url: string;
-    path: string;
-    screencaps: Array<string>;
-    coverIndex: number;
-    volume?: Maybe<{ __typename?: 'Volume'; name: string }>;
-    actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
-    metaData?: Maybe<{
-      __typename?: 'MovieMetadata';
-      durationSeconds: number;
-      sizeInMB: number;
-      minutes: number;
-      seconds: number;
-      quality: Quality;
-      format: Format;
-      fps: number;
-    }>;
-    genres: Array<{
-      __typename?: 'GenreDefinition';
-      timeStart: number;
-      timeEnd: number;
-      genre: {
-        __typename?: 'GenreLink';
-        parent: {
-          __typename?: 'Genre';
-          id: number;
-          name: string;
-          picture: string;
-          validAsRoot: boolean;
-          category: GenreCategory;
-          linkableChildren: Array<{ __typename?: 'Genre'; id: number }>;
-        };
-        children: Array<{
-          __typename?: 'Genre';
-          id: number;
-          name: string;
-          picture: string;
-          validAsRoot: boolean;
-          category: GenreCategory;
-          linkableChildren: Array<{ __typename?: 'Genre'; id: number }>;
-        }>;
-      };
-    }>;
-    fetishes: Array<{ __typename?: 'Genre'; id: number; name: string; picture: string }>;
+  movie?: Maybe<{ __typename?: 'Movie' } & MovieDetailFragment>;
+};
+
+type MovieDetailFragment = {
+  __typename?: 'Movie';
+  id: number;
+  title: string;
+  url: string;
+  path: string;
+  screencaps: Array<string>;
+  coverIndex: number;
+  volume?: Maybe<{ __typename?: 'Volume'; name: string }>;
+  actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
+  metaData?: Maybe<{
+    __typename?: 'MovieMetadata';
+    durationSeconds: number;
+    sizeInMB: number;
+    minutes: number;
+    seconds: number;
+    quality: Quality;
+    format: Format;
+    fps: number;
   }>;
+  genres: Array<{
+    __typename?: 'GenreDefinition';
+    timeStart: number;
+    genre: {
+      __typename?: 'GenreLink';
+      parent: {
+        __typename?: 'Genre';
+        id: number;
+        name: string;
+        picture: string;
+        validAsRoot: boolean;
+        category: GenreCategory;
+        linkableChildren: Array<{ __typename?: 'Genre'; id: number }>;
+      };
+      children: Array<{
+        __typename?: 'Genre';
+        id: number;
+        name: string;
+        picture: string;
+        validAsRoot: boolean;
+        category: GenreCategory;
+        linkableChildren: Array<{ __typename?: 'Genre'; id: number }>;
+      }>;
+    };
+  }>;
+  fetishes: Array<{ __typename?: 'Genre'; id: number; name: string; picture: string }>;
 };
 
 type MovieListQueryVariables = {

@@ -13,7 +13,7 @@ import { PageIntro } from '../../components/components/pageIntro';
 import { MovieDetailActions } from '../components/movieDetail/movieDetailActions';
 import { throttle } from '../../utils/debounce';
 import { GenreForm } from '../components/movieDetail/genreForm';
-import { FetishForm } from "../components/movieDetail/fetishForm";
+import { FetishForm } from '../components/movieDetail/fetishForm';
 
 export type MovieDetailPageProps = {
   movieId: string;

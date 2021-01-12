@@ -1,9 +1,9 @@
-import { MovieGetPayload } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { logScope } from '../../utils';
 
 export const log = logScope('scrape-metadata');
 
-export type ScrapeableMovie = MovieGetPayload<{
+export type ScrapeableMovie = Prisma.MovieGetPayload<{
   select: {
     path: true;
   };

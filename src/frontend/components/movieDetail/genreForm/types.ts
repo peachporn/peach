@@ -1,6 +1,5 @@
 export type GenreDefinitionDraft = {
   timeStart: number;
-  timeEnd?: number;
   genre: GenreLink;
 };
 

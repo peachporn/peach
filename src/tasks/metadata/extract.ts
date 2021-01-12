@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { MovieGetPayload } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import {
   FFProbeFormat,
   FFProbeMetadata,
@@ -13,7 +13,7 @@ const toCLIOptions = (entries: (keyof FFProbeFormat | keyof FFProbeStream)[]): s
   entries.join(',');
 
 export const extractMovieMetadata = (
-  movie: MovieGetPayload<{ include: { volume: true } }>,
+  movie: Prisma.MovieGetPayload<{ include: { volume: true } }>,
 ): Promise<FFProbeMetadata> => {
   const moviePath = path.join(movie.volume.path, movie.path);
   const command = [

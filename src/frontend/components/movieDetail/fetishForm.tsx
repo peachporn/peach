@@ -9,7 +9,7 @@ import { i } from '../../i18n/i18n';
 import { setMovieFetishesMutation } from '../../mutations/updateMovie.gql';
 
 export type FetishFormProps = {
-  movie: Pick<Movie, 'id' | 'title' | 'fetishes'>;
+  movie: Pick<MovieDetailFragment, 'id' | 'title' | 'fetishes'>;
 };
 
 type FetishFormData = {

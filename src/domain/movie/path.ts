@@ -1,8 +1,8 @@
-import { MovieGetPayload } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import path from 'path';
 import { prisma } from '../../prisma';
 
-export const fullPath = (movie: MovieGetPayload<{ include: { volume: true } }>) =>
+export const fullPath = (movie: Prisma.MovieGetPayload<{ include: { volume: true } }>) =>
   path.join(movie.volume.path, movie.path);
 
 export const moviePathForId = (movieId: number): Promise<string | undefined> =>

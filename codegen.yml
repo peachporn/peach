@@ -1,5 +1,5 @@
 overwrite: true
-schema: 'src/backend/schema/**/*.gql.ts'
+schema: 'src/backend/domain/**/schema/*.gql.ts'
 documents:
   - 'src/frontend/mutations/**/*.gql.ts'
   - 'src/frontend/queries/**/*.gql.ts'

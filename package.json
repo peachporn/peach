@@ -22,8 +22,8 @@
     "generate": "env $(cat .env | xargs) run-p generate:*",
     "generate:types": "graphql-codegen --config codegen.yml",
     "generate:prisma": "prisma generate",
-    "migrate": "env $(cat .env | xargs) prisma migrate dev --preview-feature",
-    "studio": "prisma studio --experimental"
+    "migrate": "prisma migrate dev --schema=dist/schema.prisma --preview-feature",
+    "studio": "prisma studio --preview-feature"
   },
   "alias": {
     "react": "preact/compat",

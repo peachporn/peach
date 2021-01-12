@@ -9,7 +9,6 @@ const resolveScreencaps: Resolver<Screencap[], Pick<Movie, 'id' | 'cover'>> = pa
         files
           .map(file => {
             const index = indexFromFilename(file);
-            console.log(index, parent.cover);
             return {
               src: `/assets/screencaps/${parent.id}/${file}`,
               index,

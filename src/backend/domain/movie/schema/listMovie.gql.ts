@@ -6,9 +6,8 @@ export const listMovieTypeDefs = gql`
     createdAt: String!
     title: String!
     url: String!
-    fresh: Boolean!
-    screencaps: [String!]!
-    coverIndex: Int!
+    screencaps: [Screencap!]!
+    cover: Int!
   }
 
   input MoviesFilter {

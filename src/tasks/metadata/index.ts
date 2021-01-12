@@ -1,6 +1,7 @@
 import { defineTask } from '../task/template';
 import { scrapeMovieMetadata } from './scrape';
 import { ScrapeableMovie } from './types';
+import { enqueueScreencaps } from '../screencaps';
 
 type ScrapeMetadataParameters = {
   movie: ScrapeableMovie;
@@ -8,7 +9,10 @@ type ScrapeMetadataParameters = {
 
 const { createTask, runTask, taskDefinitionOptions } = defineTask<ScrapeMetadataParameters>(
   'SCRAPE_METADATA',
-  async ({ parameters: { movie } }) => scrapeMovieMetadata(movie).then(() => 'SUCCESS'),
+  async ({ parameters: { movie } }) =>
+    scrapeMovieMetadata(movie)
+      .then(metadata => enqueueScreencaps({ mode: 'critical', movie: { ...movie, metadata } }))
+      .then(() => 'SUCCESS'),
   {
     workers: 1,
   },

@@ -10,6 +10,7 @@ const quality = (stream: FFProbeStream): MovieQuality => {
   const height = parseInt(stream.height, 10);
   return height < 700 ? 'SD' : height < 1000 ? 'HD' : height < 1800 ? 'FullHD' : 'UHD';
 };
+
 const format = (metadata: FFProbeMetadata): MovieFormat => {
   const filenameParts = metadata.format.filename.split('.');
   if (!filenameParts.length) {

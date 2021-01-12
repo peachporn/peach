@@ -183,9 +183,9 @@ type Movie = {
   actors: Scalars['Int'];
   volume?: Maybe<Volume>;
   metaData?: Maybe<MovieMetadata>;
-  screencaps: Array<Scalars['String']>;
-  coverIndex: Scalars['Int'];
   path: Scalars['String'];
+  screencaps: Array<Screencap>;
+  cover: Scalars['Int'];
   genres: Array<GenreDefinition>;
   fetishes: Array<Genre>;
 };
@@ -202,9 +202,8 @@ type MovieListMovie = {
   createdAt: Scalars['String'];
   title: Scalars['String'];
   url: Scalars['String'];
-  fresh: Scalars['Boolean'];
-  screencaps: Array<Scalars['String']>;
-  coverIndex: Scalars['Int'];
+  screencaps: Array<Screencap>;
+  cover: Scalars['Int'];
 };
 
 type MovieLocation = {
@@ -420,6 +419,13 @@ type SaveVolumesInput = {
   volumes: Array<VolumeInput>;
 };
 
+type Screencap = {
+  __typename?: 'Screencap';
+  index: Scalars['Int'];
+  cover: Scalars['Boolean'];
+  src: Scalars['String'];
+};
+
 type Settings = {
   __typename?: 'Settings';
   language: Language;
@@ -618,7 +624,10 @@ type UpdateCoverMutationVariables = {
 
 type UpdateCoverMutation = {
   __typename?: 'Mutation';
-  updateMovie?: Maybe<{ __typename?: 'Movie'; coverIndex: number }>;
+  updateMovie?: Maybe<{
+    __typename?: 'Movie';
+    screencaps: Array<{ __typename?: 'Screencap'; index: number; cover: boolean }>;
+  }>;
 };
 
 type UpdateTitleMutationVariables = {
@@ -725,7 +734,12 @@ type ActressQuery = {
       waist: number;
     }>;
     movies?: Maybe<
-      Array<{ __typename?: 'Movie'; id: number; title: string; screencaps: Array<string> }>
+      Array<{
+        __typename?: 'Movie';
+        id: number;
+        title: string;
+        screencaps: Array<{ __typename?: 'Screencap'; src: string; index: number }>;
+      }>
     >;
   }>;
 };
@@ -831,8 +845,7 @@ type MovieDetailFragment = {
   title: string;
   url: string;
   path: string;
-  screencaps: Array<string>;
-  coverIndex: number;
+  screencaps: Array<{ __typename?: 'Screencap'; src: string; index: number }>;
   volume?: Maybe<{ __typename?: 'Volume'; name: string }>;
   actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
   metaData?: Maybe<{
@@ -885,9 +898,7 @@ type MovieListQuery = {
     __typename?: 'MovieListMovie';
     id: number;
     title: string;
-    fresh: boolean;
-    screencaps: Array<string>;
-    coverIndex: number;
+    screencaps: Array<{ __typename?: 'Screencap'; src: string; index: number }>;
   }>;
 };
 
@@ -903,8 +914,7 @@ type RandomMovieQuery = {
     __typename?: 'Movie';
     id: number;
     title: string;
-    screencaps: Array<string>;
-    coverIndex: number;
+    screencaps: Array<{ __typename?: 'Screencap'; src: string; index: number }>;
   };
 };
 

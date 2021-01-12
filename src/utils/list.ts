@@ -29,3 +29,6 @@ export const forceLength = <T>(length: number, list: T[]): T[] => {
 
   return [...list, ...range(0, diff).map(() => randomElement())];
 };
+
+export const nonNullish = <T>(xs: (T | undefined | null)[]): T[] =>
+  xs.filter(x => x !== undefined && x !== null) as T[];

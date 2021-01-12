@@ -1,7 +1,7 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
-module.exports = (_env, argv) => ({
+module.exports = (_env) => ({
   entry: path.resolve(__dirname, './src/app/index.ts'),
   output: {
     filename: 'app.js',

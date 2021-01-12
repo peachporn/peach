@@ -13,10 +13,10 @@ export const movieTypeDefs = gql`
 
     volume: Volume
     metaData: MovieMetadata
-
-    screencaps: [String!]!
-    coverIndex: Int!
     path: String!
+
+    screencaps: [Screencap!]!
+    cover: Int!
 
     genres: [GenreDefinition!]!
     fetishes: [Genre!]!

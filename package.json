@@ -25,8 +25,9 @@
     "lint": "eslint src",
     "generate": "run-p generate:*",
     "generate:types": "graphql-codegen --config codegen.yml",
+    "migrate:save": "DATABASE_URL=file:./database.db prisma migrate dev --preview-feature",
     "migrate:dev": "prisma migrate dev --schema=dist/schema.prisma --preview-feature",
-    "studio": "prisma studio --preview-feature"
+    "studio": "cd dist && prisma studio"
   },
   "alias": {
     "react": "preact/compat",

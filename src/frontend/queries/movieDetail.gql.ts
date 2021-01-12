@@ -12,8 +12,11 @@ export const movieDetailQuery = gql`
     title
     url
     path
-    screencaps
-    coverIndex
+    screencaps {
+      src
+      index
+    }
+    cover
     volume {
       name
     }

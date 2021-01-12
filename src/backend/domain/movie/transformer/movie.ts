@@ -23,13 +23,17 @@ export const transformMovie = (movie: MovieWithOptionalMetadataAndVolume): Movie
   url: '',
   createdAt: movie.createdAt.toString(),
   title: movie.title,
-  metaData: movie.metadata ? transformMetadata(movie.metadata) : undefined,
+
   actresses: (movie.actresses || []).map(fromDBActress),
   actors: movie.actors,
+
+  metaData: movie.metadata ? transformMetadata(movie.metadata) : undefined,
   volume: movie.volume,
+  path: movie.path,
+
   screencaps: [],
+  cover: movie.cover,
+
   genres: [],
   fetishes: (movie.fetishes || []).map(transformBaseGenre),
-  coverIndex: movie.cover,
-  path: movie.path,
 });

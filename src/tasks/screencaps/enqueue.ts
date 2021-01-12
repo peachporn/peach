@@ -1,20 +1,21 @@
 import { logScope } from '../../utils';
 import { defineTask } from '../task/template';
-import { hasMissingScreencaps, missingScreencaps } from './util';
 import { ScreencapMovie } from './type';
 import { tasksByCategoryAndStatus } from '../task/status';
 import { takeScreencap, TakeScreencapParams } from './take';
 import { Task, toTask } from '../task/type';
+import { allMissingScreencapDefinitions, criticalScreencapDefinitions } from './definitions';
 
 const log = logScope('screencaps');
 
 type EnqueueScreencapsParams = {
   movie: ScreencapMovie;
+  mode: 'allMissing' | 'critical';
 };
 
 const { createTask, runTask, taskDefinitionOptions } = defineTask<EnqueueScreencapsParams>(
   'ENQUEUE_SCREENCAPS',
-  async ({ parameters: { movie } }) => {
+  async ({ parameters: { movie, mode = 'allMissing' } }) => {
     try {
       const runningTakeScreencapTaskIndices = (
         await tasksByCategoryAndStatus('TAKE_SCREENCAP', ['RUNNING', 'ERROR'])
@@ -22,15 +23,17 @@ const { createTask, runTask, taskDefinitionOptions } = defineTask<EnqueueScreenc
         .map(toTask)
         .map(t => (t as Task<TakeScreencapParams>).parameters.index);
 
-      const missing = await missingScreencaps(movie);
+      const definitions = await (mode === 'allMissing'
+        ? allMissingScreencapDefinitions(movie)
+        : criticalScreencapDefinitions(movie));
 
       await Promise.all(
-        missing
-          .filter(m => !runningTakeScreencapTaskIndices.includes(m.index))
-          .map(m => {
-            log.debug(`Adding screencapjob: ${JSON.stringify(m)}`);
+        definitions
+          .filter(d => !runningTakeScreencapTaskIndices.includes(d.index))
+          .map(d => {
+            log.debug(`Adding screencapjob: ${JSON.stringify(d)}`);
             return takeScreencap({
-              ...m,
+              ...d,
               movie,
             });
           }),

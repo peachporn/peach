@@ -47,7 +47,10 @@ export const actressDetailQuery = gql`
       movies {
         id
         title
-        screencaps
+        screencaps {
+          src
+          cover
+        }
       }
     }
   }

@@ -1,10 +1,12 @@
 import { without } from 'ramda';
 import { transformMovie } from '../transformer/movie';
 import { Resolvers } from '../../../generated/resolver-types';
+import { DEFAULT_COVER_SCREENCAP_INDEX } from '../../../../domain/screencaps';
 
 export const createMovieResolvers: Resolvers = {
   Mutation: {
     createMovieFromFile: async (_parent, { input: { title, location, actors } }, { prisma }) => {
+      console.log(DEFAULT_COVER_SCREENCAP_INDEX);
       const movie = await prisma.movie.create({
         include: {
           metadata: true,
@@ -12,7 +14,7 @@ export const createMovieResolvers: Resolvers = {
         data: {
           title,
           actors: actors || 0,
-          cover: 2,
+          cover: DEFAULT_COVER_SCREENCAP_INDEX,
           path: location.filePath,
           volume: {
             connect: {

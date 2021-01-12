@@ -8,6 +8,5 @@ export const transformMovieListMovie = (
   createdAt: movie.createdAt.toString(),
   title: movie.title,
   screencaps: [],
-  coverIndex: movie.cover,
-  fresh: movie.genres.length > 0,
+  cover: movie.cover,
 });

@@ -5,8 +5,10 @@ export const randomMovieQuery = gql`
     randomMovie {
       id
       title
-      screencaps
-      coverIndex
+      screencaps {
+        src
+        index
+      }
     }
   }
 `;

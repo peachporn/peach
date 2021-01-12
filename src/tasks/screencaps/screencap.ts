@@ -1,7 +1,7 @@
 import path from 'path';
-import { fullPath } from '../../domain/movie/path';
+import { fullPath } from '../../domain/movie';
 import { ScreencapMovie } from './type';
-import { SCREENCAP_NUM } from './util';
+import { NUMBER_OF_SCREENCAPS } from '../../domain/screencaps';
 
 export const screencapCommand = (screencapPath: string, movie: ScreencapMovie) => {
   if (!movie.metadata) {
@@ -19,9 +19,11 @@ export const screencapCommand = (screencapPath: string, movie: ScreencapMovie) =
   const i = parseInt(screencapPath.split('.jpg')[0].slice(-2), 10);
 
   const offsetMultiplier =
-    i === 0 ? 1.5 : i === 1 ? 1.5 : i === SCREENCAP_NUM ? SCREENCAP_NUM - 0.5 : i;
+    i === 0 ? 1.5 : i === 1 ? 1.5 : i === NUMBER_OF_SCREENCAPS ? NUMBER_OF_SCREENCAPS - 0.5 : i;
 
-  const offset = Math.floor((movie.metadata.durationSeconds / SCREENCAP_NUM) * offsetMultiplier);
+  const offset = Math.floor(
+    (movie.metadata.durationSeconds / NUMBER_OF_SCREENCAPS) * offsetMultiplier,
+  );
 
   return [
     'ffmpeg',

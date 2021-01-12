@@ -5,9 +5,10 @@ export const movieListQuery = gql`
     movies(limit: $limit, skip: $skip, filter: $filter) {
       id
       title
-      fresh
-      screencaps
-      coverIndex
+      screencaps {
+        src
+        cover
+      }
     }
   }
 `;

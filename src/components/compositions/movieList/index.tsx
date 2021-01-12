@@ -1,12 +1,13 @@
 import { h, FunctionalComponent, Fragment } from 'preact';
-import { Icon } from '../../components/icon';
 
 export type MovieListMovie = {
   title: string;
   link: string;
-  fresh: boolean;
-  screencaps: string[];
-  cover: number;
+  screencaps: {
+    src: string;
+    cover: boolean;
+    index: number;
+  }[];
 };
 
 export type MovieListProps = {
@@ -14,36 +15,27 @@ export type MovieListProps = {
 };
 
 const MovieListItem: FunctionalComponent<{ movie: MovieListMovie }> = ({
-  movie: { title, cover, screencaps, fresh, link },
+  movie: { title, screencaps, link },
 }) => (
   <li className="movie-item">
     <h3 className="movie-item__title">
-      <span className="movie-item__title-text">
-        {fresh ? '* ' : ''}
-        {title}
-      </span>
-      <a className="movie-item__title-link" href={link}>
-        <Icon icon="arrow_forward" />
-      </a>
+      <span className="movie-item__title-text">{title}</span>
     </h3>
-    <div className="movie-item__screencaps">
-      {screencaps.map((screencap, i) => (
-        <Fragment>
-          <a
-            aria-label={`Screencap #${i + 1}`}
-            href={link}
-            className="movie-item__screencaps-hover-area"
-          />
-          <img
-            alt={title}
-            src={screencap}
-            className={`movie-item__screencaps-pic ${
-              cover === i ? 'movie-item__screencaps-pic--default' : ''
-            }`}
-          />
-        </Fragment>
-      ))}
-    </div>
+    <a href={link}>
+      <div className="movie-item__screencaps">
+        {screencaps.map(screencap => (
+          <Fragment>
+            <img
+              alt={title}
+              src={screencap.src}
+              className={`movie-item__screencaps-pic ${
+                screencap.cover ? 'movie-item__screencaps-pic--default' : ''
+              }`}
+            />
+          </Fragment>
+        ))}
+      </div>
+    </a>
   </li>
 );
 

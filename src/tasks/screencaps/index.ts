@@ -1,6 +1,6 @@
 import { prisma } from '../../prisma';
-import { hasMissingScreencaps } from './util';
 import { enqueueScreencaps } from './enqueue';
+import { hasMissingScreencaps } from './definitions';
 
 export const takeScreencapsForAllMovies = async () => {
   prisma.movie
@@ -13,7 +13,7 @@ export const takeScreencapsForAllMovies = async () => {
     .then(movies =>
       movies.map(async movie => {
         const missing = await hasMissingScreencaps(movie);
-        return missing ? enqueueScreencaps({ movie }) : Promise.resolve();
+        return missing ? enqueueScreencaps({ movie, mode: 'allMissing' }) : Promise.resolve();
       }),
     );
 };

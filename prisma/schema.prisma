@@ -75,7 +75,7 @@ model Movie {
 
   actors      Int @default(0)
   // website     Website
-  cover       Int @default(2)
+  cover       Int @default(3)
 
   path        String
   volume      Volume @relation(fields: [volumeId], references: [id])

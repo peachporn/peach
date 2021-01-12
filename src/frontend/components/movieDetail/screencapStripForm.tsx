@@ -3,12 +3,12 @@ import { useForm } from 'react-hook-form';
 import { useEffect } from 'preact/hooks';
 import { useMutation } from '@apollo/react-hooks';
 import { toast } from 'react-toastify';
-import { Screencap, ScreencapStrip } from '../../../components/compositions/screencapStrip';
+import { Screencap, ScreencapStrip } from '../../../components';
 import { updateCoverMutation } from '../../mutations/updateMovie.gql';
 import { i } from '../../i18n/i18n';
 
 export type ScreencapStripFormProps = {
-  movie: Pick<Movie, 'id' | 'screencaps' | 'coverIndex'>;
+  movie: Pick<Movie, 'id' | 'screencaps' | 'cover'>;
 };
 
 type ScreencapFormData = {
@@ -19,7 +19,7 @@ export const ScreencapStripForm: FunctionalComponent<ScreencapStripFormProps> = 
   const { reset, formState, watch, getValues, register, handleSubmit } = useForm<ScreencapFormData>(
     {
       defaultValues: {
-        cover: movie.coverIndex.toString(),
+        cover: movie.cover.toString(),
       },
     },
   );
@@ -55,9 +55,9 @@ export const ScreencapStripForm: FunctionalComponent<ScreencapStripFormProps> = 
         <Screencap
           name="cover"
           value={j}
-          url={s}
+          url={s.src}
           ref={register}
-          active={getValues().cover === j.toString()}
+          active={getValues().cover === `${s.index}`}
         />
       ))}
     </ScreencapStrip>

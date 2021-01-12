@@ -38,11 +38,6 @@ module.exports = (_env, argv) => ({
       patterns: [
         { from: 'prisma/migrations', to: 'migrations' },
         {
-          from: argv.mode === 'development' ? './.env' : './.env.example',
-          to: './.env',
-          toType: 'file',
-        },
-        {
           from: 'node_modules/@prisma/cli',
           to: './node_modules/@prisma/cli',
         },

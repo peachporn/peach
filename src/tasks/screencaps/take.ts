@@ -1,5 +1,4 @@
 import { defineTask } from '../task/template';
-import { hasMissingScreencaps } from './util';
 import { logScope } from '../../utils';
 import { ScreencapMovie } from './type';
 import { spawnP } from '../../utils/exec';

@@ -13,7 +13,6 @@ const pageLength = 12;
 const transformMovie = (movie: MovieListQuery['movies'][number]): MovieListMovie => ({
   title: movie.title,
   link: movieDetailRoute(movie.id),
-  fresh: movie.fresh,
   screencaps: movie.screencaps,
   cover: movie.coverIndex,
 });

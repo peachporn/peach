@@ -1,6 +1,6 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { useState } from 'preact/hooks';
 import { AddSubgenreForm } from './components/addSubgenreForm';
 import { genreDetailQuery } from './queries/genreDetail.gql';
@@ -15,7 +15,6 @@ import { GenreImageForm } from './components/genreImageForm';
 import { PageIntro } from '../../../components/components/pageIntro';
 import { ScreencapGrid } from '../movieDetail/components/screencapStrip';
 import { KinkScore } from '../../../components/components/kinkScore';
-import { BasePage } from '../../components/basePage';
 
 export type GenreDetailPageProps = {
   genreId: string;
@@ -50,7 +49,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
   const genre = data?.genre;
 
   return (
-    <BasePage className="genre-detail-page">
+    <Fragment>
       {loading || !genre ? (
         <Flex justify="center">
           <Loading color="white" />
@@ -103,6 +102,6 @@ export const GenreDetailPage: FunctionalComponent = () => {
           </Container>
         </Fragment>
       )}
-    </BasePage>
+    </Fragment>
   );
 };

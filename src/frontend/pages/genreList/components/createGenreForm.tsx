@@ -1,6 +1,6 @@
 import { FunctionalComponent, Fragment, h } from 'preact';
 import { useState } from 'preact/hooks';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { Button, Headline2, Input, Select } from '../../../../components';

@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from 'preact';
 import { useForm } from 'react-hook-form';
 import { useEffect } from 'preact/hooks';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
 import { ScreencapStrip, Screencap as ScreencapComponent } from './screencapStrip';
 import { updateCoverMutation } from '../mutations/updateMovie.gql';

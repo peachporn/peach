@@ -1,7 +1,7 @@
 import { FunctionalComponent, h, JSX } from 'preact';
 import { PropRef, useEffect, useRef, useState } from 'preact/hooks';
 import { equals, path } from 'ramda';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { GenreDefinitionDraft, DefinableGenre } from './types';

@@ -1,6 +1,6 @@
 import { h, FunctionalComponent } from 'preact';
 
-import logo from '../../static/logo.png';
+import logo from 'url:../../static/logo.png';
 
 export type LogoProps = {
   className?: string;

@@ -1,7 +1,7 @@
 import { BaseSyntheticEvent } from 'react';
 import { FunctionalComponent, h } from 'preact';
 import { useFieldArray, useForm } from 'react-hook-form';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { useContext } from 'preact/hooks';
 import { toast } from 'react-toastify';
 import { SettingsContext } from '../../../context/settings';

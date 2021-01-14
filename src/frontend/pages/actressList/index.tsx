@@ -1,11 +1,10 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { Pagination } from '../../../components/components/pagination';
 import { Container, Flex, Loading } from '../../../components';
 import { ActressCard, ActressCardGrid } from '../../../components/components/actressCard';
 import { usePagination } from '../../utils/usePagination';
 import { actressesCountQuery, actressesListQuery } from './queries/actressList.gql';
-import { BasePage } from '../../components/basePage';
 import { actressDetailRoute } from '../../utils/route';
 
 const pageLength = 24;
@@ -33,7 +32,7 @@ export const ActressesPage: FunctionalComponent = () => {
   );
 
   return (
-    <BasePage>
+    <Fragment>
       {loading ? (
         <Flex justify="center">
           <Loading color="white" />
@@ -55,6 +54,6 @@ export const ActressesPage: FunctionalComponent = () => {
           </Container>
         </Fragment>
       )}
-    </BasePage>
+    </Fragment>
   );
 };

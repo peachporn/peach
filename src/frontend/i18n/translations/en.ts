@@ -1,4 +1,6 @@
 export default {
+  RECENT_MOVIES: 'Recently added movies',
+  RANDOM_MOVIES: 'Random movies',
   SUCCESS: 'Success!',
   NAVIGATION_MOVIES: 'Movies',
   NAVIGATION_ACTRESSES: 'Actresses',

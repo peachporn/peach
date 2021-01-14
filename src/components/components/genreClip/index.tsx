@@ -1,6 +1,6 @@
 import { JSX, Fragment, FunctionalComponent, h, VNode } from 'preact';
+import logo from 'url:../../static/logo.png';
 import { Image } from '../image';
-import logo from '../../static/logo.png';
 
 export type GenreClipProps = {
   genre: GenreClipGenre;

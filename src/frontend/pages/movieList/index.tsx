@@ -1,12 +1,11 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { Pagination } from '../../../components/components/pagination';
 import { movieDetailRoute } from '../../utils/route';
 import { movieCountQuery, movieListQuery } from './queries/movieList.gql';
 import { Flex, Loading } from '../../../components';
 import { usePagination } from '../../utils/usePagination';
 import { MovieList, MovieListViewMovie } from './components/movieList';
-import { BasePage } from '../../components/basePage';
 
 const pageLength = 12;
 
@@ -40,7 +39,7 @@ export const MoviesPage: FunctionalComponent = () => {
   });
 
   return (
-    <BasePage>
+    <Fragment>
       {loading ? (
         <Flex justify="center">
           <Loading color="white" />
@@ -51,6 +50,6 @@ export const MoviesPage: FunctionalComponent = () => {
           <Pagination page={page} maxPage={maxPage} onNext={nextPage} onPrevious={previousPage} />
         </Fragment>
       )}
-    </BasePage>
+    </Fragment>
   );
 };

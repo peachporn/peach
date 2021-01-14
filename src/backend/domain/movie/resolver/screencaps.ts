@@ -1,18 +1,18 @@
 import { indexFromFilename, movieScreencaps } from '../../../../domain/screencaps';
-import { Resolver, Resolvers } from '../../../generated/resolver-types';
+import { Resolvers } from '../../../generated/resolver-types';
 import { nonNullish } from '../../../../utils/list';
 
-const resolveScreencaps: Resolver<Screencap[], Pick<Movie, 'id' | 'cover'>> = parent =>
-  movieScreencaps(parent.id)
+const resolveScreencaps = (movie: Pick<Movie, 'id' | 'cover'>): Promise<Screencap[]> =>
+  movieScreencaps(movie.id)
     .then(files =>
       nonNullish(
         files
           .map(file => {
             const index = indexFromFilename(file);
             return {
-              src: `/assets/screencaps/${parent.id}/${file}`,
+              src: `/assets/screencaps/${movie.id}/${file}`,
               index,
-              cover: parent.cover === index,
+              cover: movie.cover === index,
             };
           })
           .filter(s => s.index) as Screencap[],
@@ -23,8 +23,7 @@ const resolveScreencaps: Resolver<Screencap[], Pick<Movie, 'id' | 'cover'>> = pa
 export const screencapsResolvers: Resolvers = {
   Movie: {
     screencaps: resolveScreencaps,
-  },
-  MovieListMovie: {
-    screencaps: resolveScreencaps,
+    coverPicture: parent =>
+      resolveScreencaps(parent).then(screencaps => screencaps.find(s => s.cover)),
   },
 };

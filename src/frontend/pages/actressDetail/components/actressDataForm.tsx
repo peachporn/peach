@@ -1,6 +1,6 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useForm } from 'react-hook-form';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
 import {
   boobs,

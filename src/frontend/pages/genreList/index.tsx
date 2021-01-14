@@ -1,5 +1,5 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { Flex, GenreClip, GenreClipList, Headline2, Loading } from '../../../components';
 import { Text } from '../../../components/components/text';
 import { HeadBar } from '../../../components/components/headBar';
@@ -8,7 +8,6 @@ import { CreateGenreForm } from './components/createGenreForm';
 import { usePagination } from '../../utils/usePagination';
 import { genresCountQuery, genresListQuery } from './queries/genreList.gql';
 import { genreCategories } from '../../../domain/genre/fixtures';
-import { BasePage } from '../../components/basePage';
 
 const pageLength = 48;
 
@@ -35,7 +34,7 @@ export const GenresPage: FunctionalComponent = () => {
   );
 
   return (
-    <BasePage>
+    <Fragment>
       {loading ? (
         <Flex justify="center">
           <Loading color="white" />
@@ -63,6 +62,6 @@ export const GenresPage: FunctionalComponent = () => {
           <CreateGenreForm onSubmit={refetch} />
         </Fragment>
       )}
-    </BasePage>
+    </Fragment>
   );
 };

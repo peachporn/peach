@@ -1,6 +1,6 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useParams, useHistory, useLocation } from 'react-router-dom';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/client';
 import { useEffect, useState } from 'preact/hooks';
 import { toast } from 'react-toastify';
 import { i } from '../../i18n/i18n';
@@ -18,7 +18,6 @@ import {
 } from '../movieDetail/components/screencapStrip';
 import { ActressImageForm } from './components/actressImageForm';
 import { forceLength, shuffle } from '../../../utils/list';
-import { BasePage } from '../../components/basePage';
 import { ActressDetailHeader } from './components/actressDetailHeader';
 
 export type ActressDetailPageProps = {
@@ -76,7 +75,7 @@ export const ActressDetailPage: FunctionalComponent = () => {
   const actress = data?.actress;
 
   return (
-    <BasePage className="actress-detail-page">
+    <Fragment>
       {loading || !actress ? (
         <Flex justify="center">
           <Loading color="white" />
@@ -141,6 +140,6 @@ export const ActressDetailPage: FunctionalComponent = () => {
           </Container>
         </Fragment>
       )}
-    </BasePage>
+    </Fragment>
   );
 };

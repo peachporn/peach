@@ -1,5 +1,5 @@
 import { createContext, FunctionalComponent, h } from 'preact';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { settingsQuery } from './queries/settings.gql';
 
 const defaultSettings: Settings = {

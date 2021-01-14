@@ -16,6 +16,7 @@ export const movieTypeDefs = gql`
     path: String!
 
     screencaps: [Screencap!]!
+    coverPicture: Screencap
     cover: Int!
 
     genres: [GenreDefinition!]!
@@ -24,6 +25,5 @@ export const movieTypeDefs = gql`
 
   extend type Query {
     movie(id: Int!): Movie
-    randomMovie: Movie!
   }
 `;

@@ -1,4 +1,7 @@
 type Maybe<T> = T | undefined;
+type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 type Scalars = {
   ID: string;
@@ -185,6 +188,7 @@ type Movie = {
   metaData?: Maybe<MovieMetadata>;
   path: Scalars['String'];
   screencaps: Array<Screencap>;
+  coverPicture?: Maybe<Screencap>;
   cover: Scalars['Int'];
   genres: Array<GenreDefinition>;
   fetishes: Array<Genre>;
@@ -194,16 +198,6 @@ type MovieFromFileInput = {
   title: Scalars['String'];
   location: MovieLocation;
   actors?: Maybe<Scalars['Int']>;
-};
-
-type MovieListMovie = {
-  __typename?: 'MovieListMovie';
-  id: Scalars['Int'];
-  createdAt: Scalars['String'];
-  title: Scalars['String'];
-  url: Scalars['String'];
-  screencaps: Array<Screencap>;
-  cover: Scalars['Int'];
 };
 
 type MovieLocation = {
@@ -226,6 +220,8 @@ type MovieMetadata = {
 type MoviesFilter = {
   fetishes?: Maybe<Array<Scalars['Int']>>;
 };
+
+type MoviesSort = 'CREATED_AT_DESC' | 'RANDOM';
 
 type MovieUpdateInput = {
   cover?: Maybe<Scalars['Int']>;
@@ -364,9 +360,8 @@ type Query = {
   genresCount: Scalars['Int'];
   movie?: Maybe<Movie>;
   movieCount: Scalars['Int'];
-  movies: Array<MovieListMovie>;
+  movies: Array<Movie>;
   pathExists?: Maybe<Scalars['Boolean']>;
-  randomMovie: Movie;
   settings: Settings;
   setupStatus: SetupStatus;
   tasks: Array<Task>;
@@ -409,6 +404,7 @@ type QueryMoviesArgs = {
   limit?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
   filter?: Maybe<MoviesFilter>;
+  sort?: Maybe<MoviesSort>;
 };
 
 type QueryPathExistsArgs = {
@@ -475,25 +471,68 @@ type VolumeInput = {
   path: Scalars['String'];
 };
 
-type ScrapeActressMutationVariables = {
-  id: Scalars['Int'];
+type MovieCardFragment = {
+  __typename?: 'Movie';
+  id: number;
+  url: string;
+  title: string;
+  coverPicture?: Maybe<{ __typename?: 'Screencap'; src: string }>;
 };
+
+type SettingsQueryVariables = Exact<{ [key: string]: never }>;
+
+type SettingsQuery = {
+  __typename?: 'Query';
+  settings: {
+    __typename?: 'Settings';
+    language: Language;
+    inferMovieTitle: InferMovieTitle;
+    actressImagePath?: Maybe<string>;
+    genreImagePath?: Maybe<string>;
+    screencapPath?: Maybe<string>;
+    volumes: Array<{ __typename?: 'Volume'; name: string; path: string }>;
+  };
+};
+
+type PathExistsQueryVariables = Exact<{
+  path: Scalars['String'];
+}>;
+
+type PathExistsQuery = { __typename?: 'Query'; pathExists?: Maybe<boolean> };
+
+type TasksQueryVariables = Exact<{ [key: string]: never }>;
+
+type TasksQuery = {
+  __typename?: 'Query';
+  tasks: Array<{
+    __typename?: 'Task';
+    id: number;
+    status: TaskStatus;
+    statusMessage?: Maybe<string>;
+    category: string;
+    parameters?: Maybe<string>;
+  }>;
+};
+
+type ScrapeActressMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
 
 type ScrapeActressMutation = { __typename?: 'Mutation'; scrapeActress?: Maybe<boolean> };
 
-type UpdateActressMutationVariables = {
+type UpdateActressMutationVariables = Exact<{
   actressId: Scalars['Int'];
   data: ActressUpdateInput;
-};
+}>;
 
 type UpdateActressMutation = {
   __typename?: 'Mutation';
   updateActress?: Maybe<{ __typename?: 'Actress'; id: number }>;
 };
 
-type ActressQueryVariables = {
+type ActressQueryVariables = Exact<{
   id: Scalars['Int'];
-};
+}>;
 
 type ActressQuery = {
   __typename?: 'Query';
@@ -540,43 +579,43 @@ type ActressQuery = {
   }>;
 };
 
-type ActressesListQueryVariables = {
+type ActressesListQueryVariables = Exact<{
   limit: Scalars['Int'];
   skip: Scalars['Int'];
-};
+}>;
 
 type ActressesListQuery = {
   __typename?: 'Query';
   actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
 };
 
-type ActressesCountQueryVariables = {};
+type ActressesCountQueryVariables = Exact<{ [key: string]: never }>;
 
 type ActressesCountQuery = { __typename?: 'Query'; actressesCount: number };
 
-type DeleteGenreMutationVariables = {
+type DeleteGenreMutationVariables = Exact<{
   genreId: Scalars['Int'];
-};
+}>;
 
 type DeleteGenreMutation = {
   __typename?: 'Mutation';
   deleteGenre?: Maybe<{ __typename?: 'Genre'; id: number }>;
 };
 
-type UpdateGenreMutationVariables = {
+type UpdateGenreMutationVariables = Exact<{
   genreId: Scalars['Int'];
   data: UpdateGenreInput;
-};
+}>;
 
 type UpdateGenreMutation = {
   __typename?: 'Mutation';
   updateGenre?: Maybe<{ __typename?: 'Genre'; id: number }>;
 };
 
-type AddSubgenreMutationVariables = {
+type AddSubgenreMutationVariables = Exact<{
   parentId: Scalars['Int'];
   childId: Scalars['Int'];
-};
+}>;
 
 type AddSubgenreMutation = {
   __typename?: 'Mutation';
@@ -589,19 +628,19 @@ type AddSubgenreMutation = {
   }>;
 };
 
-type RemoveSubgenreMutationVariables = {
+type RemoveSubgenreMutationVariables = Exact<{
   parentId: Scalars['Int'];
   childId: Scalars['Int'];
-};
+}>;
 
 type RemoveSubgenreMutation = {
   __typename?: 'Mutation';
   removeSubgenre?: Maybe<{ __typename?: 'Genre'; id: number }>;
 };
 
-type GenreQueryVariables = {
+type GenreQueryVariables = Exact<{
   id: Scalars['Int'];
-};
+}>;
 
 type GenreQuery = {
   __typename?: 'Query';
@@ -623,19 +662,19 @@ type GenreQuery = {
   }>;
 };
 
-type CreateGenreMutationVariables = {
+type CreateGenreMutationVariables = Exact<{
   data: GenreCreateInput;
-};
+}>;
 
 type CreateGenreMutation = {
   __typename?: 'Mutation';
   createGenre?: Maybe<{ __typename?: 'Genre'; id: number; name: string }>;
 };
 
-type GenresListQueryVariables = {
+type GenresListQueryVariables = Exact<{
   limit: Scalars['Int'];
   skip: Scalars['Int'];
-};
+}>;
 
 type GenresListQuery = {
   __typename?: 'Query';
@@ -648,54 +687,58 @@ type GenresListQuery = {
   }>;
 };
 
-type GenresCountQueryVariables = {};
+type GenresCountQueryVariables = Exact<{ [key: string]: never }>;
 
 type GenresCountQuery = { __typename?: 'Query'; genresCount: number };
 
-type RandomMovieQueryVariables = {};
+type RandomMoviesQueryVariables = Exact<{
+  limit?: Maybe<Scalars['Int']>;
+}>;
 
-type RandomMovieQuery = {
+type RandomMoviesQuery = {
   __typename?: 'Query';
-  randomMovie: {
-    __typename?: 'Movie';
-    id: number;
-    title: string;
-    screencaps: Array<{ __typename?: 'Screencap'; src: string; cover: boolean; index: number }>;
-  };
+  movies: Array<{ __typename?: 'Movie' } & MovieCardFragment>;
 };
 
-type CreateActressMutationVariables = {
-  name: Scalars['String'];
+type RecentMoviesQueryVariables = Exact<{ [key: string]: never }>;
+
+type RecentMoviesQuery = {
+  __typename?: 'Query';
+  movies: Array<{ __typename?: 'Movie' } & MovieCardFragment>;
 };
+
+type CreateActressMutationVariables = Exact<{
+  name: Scalars['String'];
+}>;
 
 type CreateActressMutation = {
   __typename?: 'Mutation';
   createActress?: Maybe<{ __typename?: 'Actress'; id: number; name: string }>;
 };
 
-type DeleteMovieMutationVariables = {
+type DeleteMovieMutationVariables = Exact<{
   movieId: Scalars['Int'];
-};
+}>;
 
 type DeleteMovieMutation = {
   __typename?: 'Mutation';
   deleteMovie?: Maybe<{ __typename?: 'Movie'; id: number }>;
 };
 
-type UpdateGenreDefinitionsMutationVariables = {
+type UpdateGenreDefinitionsMutationVariables = Exact<{
   movieId: Scalars['Int'];
-  genreDefinitions: Array<GenreDefinitionInput>;
-};
+  genreDefinitions: Array<GenreDefinitionInput> | GenreDefinitionInput;
+}>;
 
 type UpdateGenreDefinitionsMutation = {
   __typename?: 'Mutation';
   updateGenreDefinitions?: Maybe<{ __typename?: 'Movie'; id: number }>;
 };
 
-type UpdateCoverMutationVariables = {
+type UpdateCoverMutationVariables = Exact<{
   movieId: Scalars['Int'];
   cover: Scalars['Int'];
-};
+}>;
 
 type UpdateCoverMutation = {
   __typename?: 'Mutation';
@@ -705,20 +748,20 @@ type UpdateCoverMutation = {
   }>;
 };
 
-type UpdateTitleMutationVariables = {
+type UpdateTitleMutationVariables = Exact<{
   movieId: Scalars['Int'];
   title: Scalars['String'];
-};
+}>;
 
 type UpdateTitleMutation = {
   __typename?: 'Mutation';
   updateMovie?: Maybe<{ __typename?: 'Movie'; title: string }>;
 };
 
-type AddActressToMovieMutationVariables = {
+type AddActressToMovieMutationVariables = Exact<{
   movieId: Scalars['Int'];
   actressId: Scalars['Int'];
-};
+}>;
 
 type AddActressToMovieMutation = {
   __typename?: 'Mutation';
@@ -728,10 +771,10 @@ type AddActressToMovieMutation = {
   }>;
 };
 
-type RemoveActressFromMovieMutationVariables = {
+type RemoveActressFromMovieMutationVariables = Exact<{
   movieId: Scalars['Int'];
   actressId: Scalars['Int'];
-};
+}>;
 
 type RemoveActressFromMovieMutation = {
   __typename?: 'Mutation';
@@ -741,10 +784,10 @@ type RemoveActressFromMovieMutation = {
   }>;
 };
 
-type SetMovieFetishesMutationVariables = {
+type SetMovieFetishesMutationVariables = Exact<{
   movieId: Scalars['Int'];
-  genreIds: Array<Scalars['Int']>;
-};
+  genreIds: Array<Scalars['Int']> | Scalars['Int'];
+}>;
 
 type SetMovieFetishesMutation = {
   __typename?: 'Mutation';
@@ -754,19 +797,19 @@ type SetMovieFetishesMutation = {
   }>;
 };
 
-type FindActressQueryVariables = {
+type FindActressQueryVariables = Exact<{
   name: Scalars['String'];
-};
+}>;
 
 type FindActressQuery = {
   __typename?: 'Query';
   actresses: Array<{ __typename?: 'Actress'; id: number; name: string; picture?: Maybe<string> }>;
 };
 
-type FindGenreQueryVariables = {
+type FindGenreQueryVariables = Exact<{
   name: Scalars['String'];
   fetish?: Maybe<Scalars['Boolean']>;
-};
+}>;
 
 type FindGenreQuery = {
   __typename?: 'Query';
@@ -782,9 +825,9 @@ type FindGenreQuery = {
   }>;
 };
 
-type MovieQueryVariables = {
+type MovieQueryVariables = Exact<{
   id: Scalars['Int'];
-};
+}>;
 
 type MovieQuery = {
   __typename?: 'Query';
@@ -839,73 +882,73 @@ type MovieDetailFragment = {
   fetishes: Array<{ __typename?: 'Genre'; id: number; name: string; picture: string }>;
 };
 
-type MovieListQueryVariables = {
+type MovieListQueryVariables = Exact<{
   limit: Scalars['Int'];
   skip: Scalars['Int'];
   filter?: Maybe<MoviesFilter>;
-};
+}>;
 
 type MovieListQuery = {
   __typename?: 'Query';
   movies: Array<{
-    __typename?: 'MovieListMovie';
+    __typename?: 'Movie';
     id: number;
     title: string;
     screencaps: Array<{ __typename?: 'Screencap'; src: string; index: number; cover: boolean }>;
   }>;
 };
 
-type MovieCountQueryVariables = {};
+type MovieCountQueryVariables = Exact<{ [key: string]: never }>;
 
 type MovieCountQuery = { __typename?: 'Query'; movieCount: number };
 
-type SaveVolumesMutationVariables = {
+type SaveVolumesMutationVariables = Exact<{
   input: SaveVolumesInput;
-};
+}>;
 
 type SaveVolumesMutation = {
   __typename?: 'Mutation';
   saveVolumes: Array<{ __typename?: 'Volume'; name: string; path: string }>;
 };
 
-type ScanLibraryMutationVariables = {};
+type ScanLibraryMutationVariables = Exact<{ [key: string]: never }>;
 
 type ScanLibraryMutation = { __typename?: 'Mutation'; scanLibrary?: Maybe<boolean> };
 
-type TakeAllScreencapsMutationVariables = {};
+type TakeAllScreencapsMutationVariables = Exact<{ [key: string]: never }>;
 
 type TakeAllScreencapsMutation = { __typename?: 'Mutation'; takeAllScreencaps?: Maybe<boolean> };
 
-type RestartTaskMutationVariables = {
+type RestartTaskMutationVariables = Exact<{
   taskId: Scalars['Int'];
-};
+}>;
 
 type RestartTaskMutation = {
   __typename?: 'Mutation';
   restartTask?: Maybe<{ __typename?: 'Task'; id: number }>;
 };
 
-type RestartTasksMutationVariables = {
-  taskIds: Array<Scalars['Int']>;
-};
+type RestartTasksMutationVariables = Exact<{
+  taskIds: Array<Scalars['Int']> | Scalars['Int'];
+}>;
 
 type RestartTasksMutation = { __typename?: 'Mutation'; restartTasks: number };
 
-type CancelTaskMutationVariables = {
+type CancelTaskMutationVariables = Exact<{
   taskId: Scalars['Int'];
-};
+}>;
 
 type CancelTaskMutation = { __typename?: 'Mutation'; cancelTask?: Maybe<boolean> };
 
-type CancelTasksMutationVariables = {
-  taskIds: Array<Scalars['Int']>;
-};
+type CancelTasksMutationVariables = Exact<{
+  taskIds: Array<Scalars['Int']> | Scalars['Int'];
+}>;
 
 type CancelTasksMutation = { __typename?: 'Mutation'; cancelTasks: number };
 
-type UpdateSettingsMutationVariables = {
+type UpdateSettingsMutationVariables = Exact<{
   data: UpdateSettingsInput;
-};
+}>;
 
 type UpdateSettingsMutation = {
   __typename?: 'Mutation';
@@ -919,41 +962,6 @@ type UpdateSettingsMutation = {
   };
 };
 
-type SettingsQueryVariables = {};
-
-type SettingsQuery = {
-  __typename?: 'Query';
-  settings: {
-    __typename?: 'Settings';
-    language: Language;
-    inferMovieTitle: InferMovieTitle;
-    actressImagePath?: Maybe<string>;
-    genreImagePath?: Maybe<string>;
-    screencapPath?: Maybe<string>;
-    volumes: Array<{ __typename?: 'Volume'; name: string; path: string }>;
-  };
-};
-
-type PathExistsQueryVariables = {
-  path: Scalars['String'];
-};
-
-type PathExistsQuery = { __typename?: 'Query'; pathExists?: Maybe<boolean> };
-
-type TasksQueryVariables = {};
-
-type TasksQuery = {
-  __typename?: 'Query';
-  tasks: Array<{
-    __typename?: 'Task';
-    id: number;
-    status: TaskStatus;
-    statusMessage?: Maybe<string>;
-    category: string;
-    parameters?: Maybe<string>;
-  }>;
-};
-
-type SetupStatusQueryVariables = {};
+type SetupStatusQueryVariables = Exact<{ [key: string]: never }>;
 
 type SetupStatusQuery = { __typename?: 'Query'; setupStatus: SetupStatus };

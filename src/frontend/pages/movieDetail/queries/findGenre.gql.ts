@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import gql from 'graphql-tag';
 
 export const findGenreQuery = gql`
   query FindGenre($name: String!, $fetish: Boolean) {

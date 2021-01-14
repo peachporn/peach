@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import gql from 'graphql-tag';
 
 export const updateGenreDefinitionsMutation = gql`
   mutation UpdateGenreDefinitions($movieId: Int!, $genreDefinitions: [GenreDefinitionInput!]!) {

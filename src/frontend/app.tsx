@@ -1,13 +1,11 @@
 import { h, render } from 'preact';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from '@apollo/client';
 import { ToastContainer } from '../components';
 import { Homepage } from './pages/home';
 import { client } from './apollo-client';
-import { SetupChecker } from './components/setupChecker';
 import { SettingsPage } from './pages/settings';
 
-import '../components/index.styl';
 import { SettingsProvider } from './context/settings';
 import { MovieDetailPage } from './pages/movieDetail';
 import { ActressDetailPage } from './pages/actressDetail';
@@ -15,6 +13,8 @@ import { MoviesPage } from './pages/movieList';
 import { ActressesPage } from './pages/actressList';
 import { GenresPage } from './pages/genreList';
 import { GenreDetailPage } from './pages/genreDetail';
+
+import '../components/index.styl';
 
 const App = (
   <ApolloProvider client={client}>
@@ -53,7 +53,6 @@ const App = (
           </Route>
         </Switch>
         <ToastContainer position="bottom-right" newestOnTop />
-        <SetupChecker />
       </Router>
     </SettingsProvider>
   </ApolloProvider>

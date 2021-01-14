@@ -5,9 +5,9 @@ import { transformMetadata } from './metadata';
 
 type MovieWithOptionalMetadataAndVolume = Omit<
   Prisma.MovieGetPayload<{
-    include: { metadata: true; volume: true };
+    include: { metadata: true; volume: true; actresses: true; fetishes: true };
   }>,
-  'metadata' | 'volume' | 'actresses'
+  'metadata' | 'volume' | 'actresses' | 'fetishes'
 > &
   Partial<
     Pick<

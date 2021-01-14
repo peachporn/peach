@@ -1,5 +1,5 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/client';
 import { toast } from 'react-toastify';
 import { takeAllScreencapsMutation } from '../mutations/takeScreencaps.gql';
 import { scanLibraryMutation } from '../mutations/scanLibrary.gql';
@@ -22,7 +22,7 @@ import {
   TaskListEntry,
 } from './taskList';
 import { i } from '../../../i18n/i18n';
-import { tasksQuery } from '../queries/settings.gql';
+import { tasksQuery } from '../../../context/settings/queries/settings.gql';
 
 const TaskStatusDisplay: FunctionalComponent<{ status: TaskStatus }> = ({ status }) => {
   if (status === 'ERROR') {

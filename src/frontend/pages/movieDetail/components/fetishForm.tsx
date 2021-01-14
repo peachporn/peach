@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from 'preact';
 import { useForm } from 'react-hook-form';
-import { useMutation, useQuery } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/client';
 import { uniq } from 'ramda';
 import { setMovieFetishesMutation } from '../mutations/updateMovie.gql';
 import { Input } from '../../../../components';

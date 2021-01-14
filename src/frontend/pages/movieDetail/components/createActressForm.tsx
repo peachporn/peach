@@ -1,5 +1,5 @@
 import { FunctionalComponent, h } from 'preact';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { toast } from 'react-toastify';
 import { Button } from '../../../../components';
 import { createActressMutation } from '../mutations/createActress.gql';

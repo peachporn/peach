@@ -1,6 +1,6 @@
 import { FunctionalComponent, h } from 'preact';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { toast } from 'react-toastify';
 import { i } from '../i18n/i18n';
 import { settingsRoute } from '../utils/route';

@@ -2,24 +2,14 @@ import { h, FunctionalComponent } from 'preact';
 import { NavLink, Link } from 'react-router-dom';
 
 import { useState } from 'preact/hooks';
-import { Icon } from '../icon';
-import { Logo } from '../logo';
-
-export type RouteDefinition = {
-  url: string;
-  label?: string;
-  icon?: Icon;
-};
-
-const NavigationLink: FunctionalComponent<RouteDefinition> = ({ url, label, icon }) => (
-  <NavLink className="navigation__link" to={url}>
-    {icon ? <Icon icon={icon} /> : null}
-    {label || null}
-  </NavLink>
-);
+import { Icon, Logo } from "../../components";
 
 export type NavigationProps = {
-  links: RouteDefinition[];
+  links: {
+    url: string;
+    label?: string;
+    icon?: Icon;
+  }[];
 };
 
 export const Navigation: FunctionalComponent<NavigationProps> = ({ links }) => {
@@ -44,7 +34,10 @@ export const Navigation: FunctionalComponent<NavigationProps> = ({ links }) => {
         <Logo className="navigation__logo" />
       </Link>
       {links.map(({ url, icon, label }) => (
-        <NavigationLink url={url} icon={icon} label={label} />
+        <NavLink className="navigation__link" to={url}>
+          {icon ? <Icon icon={icon} /> : null}
+          {label || null}
+        </NavLink>
       ))}
     </nav>
   );

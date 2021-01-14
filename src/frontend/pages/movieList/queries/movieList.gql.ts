@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import gql from 'graphql-tag';
 
 export const movieListQuery = gql`
   query movieList($limit: Int!, $skip: Int!, $filter: MoviesFilter) {

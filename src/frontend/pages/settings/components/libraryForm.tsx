@@ -2,7 +2,7 @@ import { BaseSyntheticEvent } from 'react';
 import { FunctionalComponent, h } from 'preact';
 import { useForm } from 'react-hook-form';
 import { ApolloClient } from 'apollo-boost';
-import { useApolloClient, useMutation } from '@apollo/react-hooks';
+import { useApolloClient, useMutation } from '@apollo/client';
 import { useContext } from 'preact/hooks';
 import { toast } from 'react-toastify';
 import {
@@ -19,7 +19,7 @@ import { i } from '../../../i18n/i18n';
 import { SettingsContext } from '../../../context/settings';
 import { isTouched } from '../../../utils/form';
 import { updateSettingsMutation } from '../mutations/updateSettings.gql';
-import { pathExistsQuery } from '../queries/settings.gql';
+import { pathExistsQuery } from '../../../context/settings/queries/settings.gql';
 
 type LibraryFormData = {
   inferMovieTitle: InferMovieTitle;

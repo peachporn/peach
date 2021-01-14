@@ -1,6 +1,6 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { useRef } from 'preact/hooks';
 import { TitleForm } from './components/titleForm';
 import { AddActressForm } from './components/addActressForm';
@@ -11,7 +11,6 @@ import { Video, Container, Flex, Loading } from '../../../components';
 import { PageIntro } from '../../../components/components/pageIntro';
 import { ScreencapStripForm } from './components/screencapStripForm';
 import { MovieDetailActions } from './components/movieDetailActions';
-import { BasePage } from '../../components/basePage';
 import { GenreForm } from './components/genreForm';
 
 export type MovieDetailPageProps = {
@@ -34,7 +33,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
   const movie = data?.movie;
 
   return (
-    <BasePage className="movie-detail-page">
+    <Fragment>
       {loading || !movie ? (
         <Flex justify="center">
           <Loading color="white" />
@@ -61,6 +60,6 @@ export const MovieDetailPage: FunctionalComponent = () => {
           </Container>
         </Fragment>
       )}
-    </BasePage>
+    </Fragment>
   );
 };

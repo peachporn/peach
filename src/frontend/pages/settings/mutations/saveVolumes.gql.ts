@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import gql from 'graphql-tag';
 
 export const saveVolumesMutation = gql`
   mutation SaveVolumes($input: SaveVolumesInput!) {

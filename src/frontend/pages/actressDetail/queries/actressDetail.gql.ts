@@ -1,4 +1,4 @@
-import { gql } from 'apollo-boost';
+import gql from 'graphql-tag';
 
 export const actressDetailQuery = gql`
   query actress($id: Int!) {

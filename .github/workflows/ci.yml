@@ -36,11 +36,8 @@ jobs:
       - name: Install
         run: yarn
 
-      - name: Generate prisma client
-        run: yarn generate:prisma
-
-      - name: Generate graphql types
-        run: yarn generate:types
+      - name: Generate graphql types and prisma client
+        run: yarn generate
 
       - name: Compile
         run: yarn tsc

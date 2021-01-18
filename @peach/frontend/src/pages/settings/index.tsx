@@ -1,5 +1,6 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useContext } from 'preact/hooks';
+import { useHistory } from 'react-router-dom';
 import { GeneralSettingsForm } from './components/generalSettingsForm';
 import { LibraryForm } from './components/libraryForm';
 import { i } from '../../i18n/i18n';
@@ -10,6 +11,7 @@ import { isTouched } from '../../utils/form';
 import { UIForm } from './components/uiForm';
 
 export const SettingsPage: FunctionalComponent = () => {
+  const history = useHistory();
   const {
     form: {
       formState: { dirtyFields },
@@ -20,7 +22,16 @@ export const SettingsPage: FunctionalComponent = () => {
 
   return (
     <Fragment>
-      <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md">{i('SETTINGS')}</h1>
+      <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md">
+        <Icon
+          className="text-white w-8 focus:outline-none"
+          icon="arrow_backward"
+          onClick={() => {
+            history.goBack();
+          }}
+        />
+        {i('SETTINGS')}
+      </h1>
       <section className="bg-white p-8 min-h-screen shadow-lg">
         <GeneralSettingsForm />
         <UIForm />

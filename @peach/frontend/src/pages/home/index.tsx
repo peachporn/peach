@@ -7,6 +7,8 @@ import { homepageQuery } from './queries/homepage.gql';
 import { i } from '../../i18n/i18n';
 import { Slider, SliderItem } from '../../components/slider';
 import { MovieCard } from '../../components/movieCard';
+import { NoVolumesHint } from './components/noVolumesHint';
+import { Icon } from '../../components/icon';
 import { settingsRoute } from '../../utils/route';
 
 export const Homepage: FunctionalComponent = () => {
@@ -20,19 +22,13 @@ export const Homepage: FunctionalComponent = () => {
       <div className="pt-24 pb-8 min-h-screen/2">
         <img className="m-auto rounded-full shadow-lg" alt="Peach Logo" src="/static/logo.png" />
         <h1 className="text-center m-auto text-white font-display text-5xl">Peach</h1>
+        <Link to={settingsRoute}>
+          <Icon className="text-white absolute right-3 top-3" icon="settings" />
+        </Link>
       </div>
       <div className="bg-white px-8 py-8 shadow-lg">
         {!hasMovies ? (
-          <Fragment>
-            <h3 className="text-center text-lg">{i('HOMEPAGE_NO_MOVIES')}</h3>
-            <span>
-              {i('HOMEPAGE_GO_TO_SETTINGS1')}
-              <Link className="text-pink" to={settingsRoute}>
-                {i('HOMEPAGE_SETTINGS_PAGE')}
-              </Link>
-              {i('HOMEPAGE_GO_TO_SETTINGS2')}
-            </span>
-          </Fragment>
+          <NoVolumesHint />
         ) : (
           <Fragment>
             <h2 className="text-xl mb-2 mt-4">{i('RECENT_MOVIES')}</h2>

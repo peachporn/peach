@@ -17,7 +17,7 @@ export const LibraryForm: FunctionalComponent = () => {
       <div className="grid grid-cols-2 items-center text-xs">
         <span className="text-2xs col-span-2">{i('SETTINGS_INFERMOVIETITLE')}</span>
         <select
-          className="block bg-white py-1 col-span-2 border-b border-gray py-1 mb-4"
+          className="block bg-white col-span-2 input mb-4"
           name="inferMovieTitle"
           ref={register}
         >
@@ -26,9 +26,7 @@ export const LibraryForm: FunctionalComponent = () => {
         </select>
         <span className="text-2xs col-span-2">{i('SETTINGS_SCREENCAPPATH')}</span>
         <input
-          className={`col-span-2 py-1 border-b border-gray mb-4 ${
-            errors.screencapPath ? 'border-red' : ''
-          }`}
+          className={`col-span-2 input mb-4 ${errors.screencapPath ? 'border-red' : ''}`}
           name="screencapPath"
           ref={register({
             validate: validatePathExists,
@@ -36,9 +34,7 @@ export const LibraryForm: FunctionalComponent = () => {
         />
         <span className="text-2xs col-span-2">{i('SETTINGS_ACTRESSIMAGEPATH')}</span>
         <input
-          className={`col-span-2 py-1 border-b border-gray mb-4 ${
-            errors.actressImagePath ? 'border-red' : ''
-          }`}
+          className={`col-span-2 input mb-4 ${errors.actressImagePath ? 'border-red' : ''}`}
           name="actressImagePath"
           ref={register({
             validate: validatePathExists,
@@ -46,9 +42,7 @@ export const LibraryForm: FunctionalComponent = () => {
         />
         <span className="text-2xs col-span-2">{i('SETTINGS_GENREIMAGEPATH')}</span>
         <input
-          className={`col-span-2 py-1 border-b border-gray mb-4 ${
-            errors.genreImagePath ? 'border-red' : ''
-          }`}
+          className={`col-span-2 input mb-4 ${errors.genreImagePath ? 'border-red' : ''}`}
           name="genreImagePath"
           ref={register({
             validate: validatePathExists,

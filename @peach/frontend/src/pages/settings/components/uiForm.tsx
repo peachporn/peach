@@ -31,7 +31,7 @@ export const UIForm: FunctionalComponent = () => {
       <div className="grid grid-cols-2 items-center text-xs">
         <span>{i('SETTINGS_PINNEDFETISHES')}</span>
         <input
-          className="border-b border-gray py-1"
+          className="input"
           placeholder={i('SETTINGS_PINNEDFETISHES_PLACEHOLDER')}
           onKeyUp={event => setGenreName((event.target as HTMLInputElement)?.value)}
         />

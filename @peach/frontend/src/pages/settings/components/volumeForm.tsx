@@ -25,7 +25,7 @@ export const VolumeForm: FunctionalComponent = () => {
           <Fragment>
             <input
               key={volume.name}
-              className="border-b border-gray py-1"
+              className="input"
               placeholder="Name"
               name={`volumes[${index}].name`}
               value={volume.name}
@@ -33,7 +33,7 @@ export const VolumeForm: FunctionalComponent = () => {
             />
             <input
               key={volume.name}
-              className="border-b border-gray py-1"
+              className="input"
               placeholder="Path"
               name={`volumes[${index}].path`}
               value={volume.path}

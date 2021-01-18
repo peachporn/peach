@@ -17,6 +17,10 @@
     .input {
         @apply border-b border-gray-200 py-1 focus:border-pink focus:outline-none
     }
+
+    .nav-link.active {
+        @apply text-pink;
+    }
 }
 
 @layer utilities {

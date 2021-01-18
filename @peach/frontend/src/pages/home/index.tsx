@@ -18,7 +18,7 @@ export const Homepage: FunctionalComponent = () => {
   const hasMovies = data?.recentMovies.length || data?.randomMovies.length;
 
   return (
-    <Fragment>
+    <main className="pb-12">
       <div className="pt-24 pb-8 min-h-screen/2">
         <img className="m-auto rounded-full shadow-lg" alt="Peach Logo" src="/static/logo.png" />
         <h1 className="text-center m-auto text-white font-display text-5xl">Peach</h1>
@@ -61,6 +61,6 @@ export const Homepage: FunctionalComponent = () => {
           alt={movie.title}
         />
       )}
-    </Fragment>
+    </main>
   );
 };

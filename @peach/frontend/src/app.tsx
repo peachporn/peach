@@ -6,6 +6,7 @@ import { client } from './apollo-client.js';
 import { SettingsPage } from './pages/settings';
 import { SettingsProvider } from './context/settings';
 import { GenresPage } from './pages/genreList';
+import { MobileNavigation } from './components/mobileNavigation';
 /*
 import { SettingsPage } from './pages/settings';
 import { SettingsProvider } from './context/settings';
@@ -70,6 +71,7 @@ const App = (
             <Homepage />
           </Route>
         </Switch>
+        <MobileNavigation />
       </Router>
     </SettingsProvider>
   </ApolloProvider>

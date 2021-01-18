@@ -5,6 +5,7 @@ import { usePagination } from '../../utils/usePagination';
 import { genresCountQuery, genresListQuery } from './queries/genreList.gql';
 import { CreateGenreForm } from './components/createGenreForm';
 import { genreCategories } from '../../domain/genre';
+import { i } from '../../i18n/i18n';
 
 const pageLength = 48;
 
@@ -31,23 +32,25 @@ export const GenresPage: FunctionalComponent = () => {
   );
 
   return (
-    <Fragment>
-      {loading ? (
-        'loading...'
-      ) : (
-        <Fragment>
-          <h1>Genres</h1>
-          {genreCategories.map(c => (
-            <Fragment>
-              <h2>{c}</h2>
-              <div className="flex">
-                {data?.genres.filter(g => g.category === c).map(g => g.name)}
-              </div>
-            </Fragment>
-          ))}
-          <CreateGenreForm onSubmit={refetch} />
-        </Fragment>
-      )}
-    </Fragment>
+    <main className="pb-12">
+      <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md">
+        {i('NAVIGATION_GENRES')}
+      </h1>
+      <section className="bg-white p-8 min-h-screen shadow-lg">
+        {loading
+          ? 'Loading...'
+          : genreCategories.map(c => {
+              const genresForCategory = data?.genres.filter(g => g.category === c).map(g => g.name);
+
+              return genresForCategory?.length ? (
+                <Fragment>
+                  <h2>{c}</h2>
+                  <div className="flex">{}</div>
+                </Fragment>
+              ) : null;
+            })}
+      </section>
+      <CreateGenreForm onSubmit={refetch} />
+    </main>
   );
 };

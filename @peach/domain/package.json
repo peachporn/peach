@@ -1,0 +1,17 @@
+{
+  "name": "@peach/domain",
+  "version": "3.0.0-alpha",
+  "repository": "https://github.com/peachporn/peach.git",
+  "author": "GalateaPolymorph <galateapolymorph@gmail.com>",
+  "license": "GPL-3.0",
+  "main": "./src/index.ts",
+  "private": true,
+  "scripts": {
+    "generate": "echo 'Nothing to do...'"
+  },
+  "dependencies": {
+    "@peach/types": "3.0.0-alpha",
+    "@peach/utils": "3.0.0-alpha",
+    "@prisma/client": "^2.14.0"
+  }
+}

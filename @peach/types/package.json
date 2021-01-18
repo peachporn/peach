@@ -1,0 +1,12 @@
+{
+  "name": "@peach/types",
+  "version": "3.0.0-alpha",
+  "repository": "https://github.com/peachporn/peach.git",
+  "author": "GalateaPolymorph <galateapolymorph@gmail.com>",
+  "license": "GPL-3.0",
+  "main": "src/generated.ts",
+  "private": true,
+  "scripts": {
+    "generate": "graphql-codegen"
+  }
+}

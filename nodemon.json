@@ -1,0 +1,8 @@
+{
+  "watch": [
+    "@peach/frontend/src",
+    "@peach/backend/src"
+  ],
+  "ext": "gql.ts",
+  "exec": "yarn generate:types"
+}

@@ -1,0 +1,25 @@
+overwrite: true
+schema: '../backend/src/domain/**/schema/*.gql.ts'
+documents:
+  - '../frontend/src/queries/*.gql.ts'
+  - '../frontend/src/context/**/queries/*.gql.ts'
+  - '../frontend/src/context/**/mutations/*.gql.ts'
+  - '../frontend/src/context/**/fragments/*.gql.ts'
+  - '../frontend/src/pages/**/mutations/*.gql.ts'
+  - '../frontend/src/pages/**/queries/*.gql.ts'
+  - '../frontend/src/components/**/*.gql.ts'
+generates:
+  src/generated.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+    config:
+      # general
+      maybeValue: T | undefined
+
+      # typescript
+      enumsAsTypes: true
+
+      # typescript-operations
+      preResolveTypes: true
+      exportFragmentSpreadSubTypes: true

@@ -36,6 +36,7 @@ const eslintOptions = {
     // Remove rules requiring type information to improve eslint execution speed
     '@typescript-eslint/no-implied-eval': 0,
     '@typescript-eslint/no-throw-literal': 0,
+    '@typescript-eslint/dot-notation': 0,
 
     // Remove React-specific rules
     'react/prop-types': 0,

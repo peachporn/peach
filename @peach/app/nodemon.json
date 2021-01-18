@@ -1,0 +1,13 @@
+{
+  "watch": [
+    "../app/src",
+    "../backend/src",
+    "../domain/src",
+    "../scrapers/src",
+    "../tasks/src",
+    "../types/src",
+    "../utils/src"
+  ],
+  "ext": "ts,tsx",
+  "exec": "yarn build"
+}

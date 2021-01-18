@@ -91,6 +91,7 @@ model Settings {
   actressImagePath   String?
   genreImagePath     String?
   inferMovieTitle    String @default("FILENAME")
+  pinnedFetishes     Genre[]
 }
 
 model Task {
@@ -124,4 +125,7 @@ model Genre {
   linkableChildren    Genre[] @relation("Subgenre", references: [id])
 
   movies              Movie[] @relation(references: [id])
+
+  settings            Settings?  @relation(fields: [settingsId], references: [id])
+  settingsId          Int?
 }

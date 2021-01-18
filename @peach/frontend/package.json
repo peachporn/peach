@@ -1,0 +1,35 @@
+{
+  "name": "@peach/frontend",
+  "version": "3.0.0-alpha",
+  "repository": "https://github.com/peachporn/peach.git",
+  "author": "GalateaPolymorph <galateapolymorph@gmail.com>",
+  "license": "GPL-3.0",
+  "main": "src/index.ts",
+  "private": true,
+  "scripts": {
+    "watch": "snowpack build --watch"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.3.7",
+    "@peach/types": "3.0.0-alpha",
+    "@seznam/compose-react-refs": "^1.0.5",
+    "autoprefixer": "^10.2.1",
+    "graphql-tag": "^2.11.0",
+    "preact": "^10.5.10",
+    "ramda": "^0.27.1",
+    "react-hook-form": "^6.14.1",
+    "react-router-dom": "^5.2.0",
+    "react-toastify": "^6.2.0",
+    "tailwindcss": "^2.0.2"
+  },
+  "devDependencies": {
+    "@snowpack/plugin-postcss": "^1.1.0",
+    "@snowpack/plugin-run-script": "^2.3.0",
+    "@snowpack/plugin-typescript": "^1.2.1",
+    "@types/ramda": "^0.27.34",
+    "@types/react-router-dom": "^5.1.7",
+    "postcss": "^8.2.4",
+    "postcss-cli": "^8.3.1",
+    "snowpack": "^3.0.11"
+  }
+}

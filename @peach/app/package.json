@@ -1,0 +1,32 @@
+{
+  "name": "@peach/app",
+  "version": "3.0.0-alpha",
+  "repository": "https://github.com/peachporn/peach.git",
+  "author": "GalateaPolymorph <galateapolymorph@gmail.com>",
+  "license": "GPL-3.0",
+  "private": true,
+  "scripts": {
+    "generate": "echo 'Nothing to do...'",
+    "build": "node build.js",
+    "watch": "nodemon --config nodemon.json"
+  },
+  "dependencies": {
+    "@peach/backend": "3.0.0-alpha",
+    "@peach/domain": "3.0.0-alpha",
+    "@peach/tasks": "3.0.0-alpha",
+    "@peach/utils": "3.0.0-alpha",
+    "apollo-server-express": "^2.19.2",
+    "body-parser": "^1.19.0",
+    "cron": "^1.8.2",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "which": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/cron": "^1.7.2",
+    "@types/express-fileupload": "^1.1.6",
+    "@types/which": "^2.0.0",
+    "esbuild": "^0.8.32",
+    "nodemon": "^2.0.7"
+  }
+}

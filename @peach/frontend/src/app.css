@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --main-gradient: linear-gradient(-70deg, theme('colors.pink.darker'), theme('colors.pink.DEFAULT'));
+}
+
+
+@layer base {
+    body {
+        background: var(--main-gradient);
+    }
+}
+
+@layer utilities {
+    .filter-grayscale {
+        filter: grayscale(1);
+    }
+
+    .blend-multiply {
+        mix-blend-mode: multiply;
+    }
+
+    .-z-1 {
+        z-index: -1;
+    }
+
+    .min-h-screen\/2 {
+        min-height: 50vh;
+    }
+
+    .scroll-snap {
+        scroll-snap-type: x mandatory;
+    }
+
+    .snap-align-start {
+        scroll-snap-align: start;
+    }
+
+    .snap-align-start:last-child {
+        scroll-snap-align: none;
+    }
+
+    .scroll-px-8 {
+        scroll-padding-left: 2rem;
+        scroll-padding-right: 2rem;
+    }
+
+    .text-shadow-md {
+        text-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+    }
+}
+
+

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+cp node_modules/@prisma/cli/*-engine-* dist
+cp -R prisma/* dist
+cp prisma/.env.template dist/.env
+
+mkdir -p dist/node_modules/@prisma/cli
+cp -R node_modules/@prisma/cli dist/node_modules/@prisma

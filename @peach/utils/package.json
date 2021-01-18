@@ -1,0 +1,28 @@
+{
+  "name": "@peach/utils",
+  "version": "3.0.0-alpha",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "repository": "https://github.com/peachporn/peach.git",
+  "author": "GalateaPolymorph <galateapolymorph@gmail.com>",
+  "license": "GPL-3.0",
+  "private": true,
+  "scripts": {
+    "generate": "echo 'Nothing to do...'"
+  },
+  "dependencies": {
+    "@esri/arcgis-rest-geocoding": "^2.25.0",
+    "@esri/arcgis-rest-request": "^2.25.0",
+    "@prisma/client": "^2.14.0",
+    "node-fetch": "^2.6.1",
+    "pino": "^6.10.0",
+    "pino-pretty": "^4.3.0",
+    "ramda": "^0.27.1",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "@types/pino": "^6.3.5",
+    "@types/ramda": "^0.27.34",
+    "@types/request": "^2.48.5"
+  }
+}

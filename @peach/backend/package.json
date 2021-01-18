@@ -1,0 +1,23 @@
+{
+  "name": "@peach/backend",
+  "version": "3.0.0-alpha",
+  "repository": "https://github.com/peachporn/peach.git",
+  "author": "GalateaPolymorph <galateapolymorph@gmail.com>",
+  "license": "GPL-3.0",
+  "main": "src/index.ts",
+  "private": true,
+  "scripts": {
+    "generate": "graphql-codegen"
+  },
+  "dependencies": {
+    "@peach/domain": "3.0.0-alpha",
+    "@peach/tasks": "3.0.0-alpha",
+    "@peach/types": "3.0.0-alpha",
+    "@peach/utils": "3.0.0-alpha",
+    "apollo-server": "^2.19.2",
+    "ramda": "^0.27.1"
+  },
+  "devDependencies": {
+    "@types/ramda": "^0.27.34"
+  }
+}

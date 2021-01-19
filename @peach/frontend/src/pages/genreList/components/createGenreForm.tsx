@@ -3,12 +3,15 @@ import { useState } from 'preact/hooks';
 import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import { CreateGenreMutation, CreateGenreMutationVariables, GenreCategory } from '@peach/types';
+import { omit } from 'ramda';
 import { createGenreMutation } from '../mutations/createGenre.gql';
 import { i } from '../../../i18n/i18n';
 import { Icon } from '../../../components/icon';
 import { colorCodeKinkiness, genreCategories } from '../../../domain/genre';
 import { Modal } from '../../../components/modal';
 import { Checkbox } from '../../../components/checkbox';
+import { uploadGenreImage, uploadGenreImageFromUrl } from '../../../fetch/uploadImage';
+import { GenreImageFormFields } from './genreImageFormFields';
 
 type CreateGenreFormData = {
   name: string;
@@ -16,6 +19,8 @@ type CreateGenreFormData = {
   kinkiness: string;
   validAsRoot: boolean;
   validAsFetish: boolean;
+  image: FileList;
+  imageUrl: string;
 };
 
 export type CreateGenreFormProps = {
@@ -52,14 +57,24 @@ export const CreateGenreForm: FunctionalComponent<CreateGenreFormProps> = ({
     createGenre({
       variables: {
         data: {
-          ...data,
+          ...omit(['image', 'imageUrl'], data),
           kinkiness: parseInt(data.kinkiness, 10),
         },
       },
-    }).then(() => {
-      resetForm();
-      onSubmitCallback();
-    });
+    })
+      .then(({ data: createGenreData }) => {
+        const genreId = createGenreData?.createGenre?.id;
+        if (!genreId) return Promise.reject();
+        return data.image?.length
+          ? uploadGenreImage(genreId, data.image[0])
+          : data.imageUrl
+          ? uploadGenreImageFromUrl(genreId, data.imageUrl)
+          : Promise.resolve();
+      })
+      .then(() => {
+        resetForm();
+        onSubmitCallback();
+      });
 
   return (
     <Fragment>
@@ -73,7 +88,7 @@ export const CreateGenreForm: FunctionalComponent<CreateGenreFormProps> = ({
         <h2 className="text-3xl font-display text-glow text-pink mb-6">
           {i('CREATE_GENRE_FORM_HEADLINE')}
         </h2>
-        <div className="grid grid-cols-1 gap-2">
+        <div className="grid grid-cols-1 gap-5">
           <input
             className="input"
             name="name"
@@ -81,13 +96,13 @@ export const CreateGenreForm: FunctionalComponent<CreateGenreFormProps> = ({
             autoFocus
             ref={register({ required: true })}
           />
+
           <select className="bg-white input" name="category" ref={register}>
             {genreCategories.map(category => (
               <option value={category}>{category}</option>
             ))}
           </select>
 
-          <span className="text-sm text-gray-400 mt-2 -mb-2">{i('GENRE_KINKINESS')}</span>
           <div className="w-full grid grid-cols-1/3">
             <input
               type="range"
@@ -113,17 +128,21 @@ export const CreateGenreForm: FunctionalComponent<CreateGenreFormProps> = ({
             />
           </div>
 
-          <Checkbox
-            name="validAsRoot"
-            register={register}
-            label={<span>{i('GENRE_VALIDASROOT')}</span>}
-          />
+          <GenreImageFormFields register={register} />
 
-          <Checkbox
-            name="validAsFetish"
-            register={register}
-            label={<span>{i('GENRE_VALIDASFETISH')}</span>}
-          />
+          <div>
+            <Checkbox
+              name="validAsRoot"
+              register={register}
+              label={<span>{i('GENRE_VALIDASROOT')}</span>}
+            />
+
+            <Checkbox
+              name="validAsFetish"
+              register={register}
+              label={<span>{i('GENRE_VALIDASFETISH')}</span>}
+            />
+          </div>
         </div>
 
         <button

@@ -18,6 +18,7 @@ export type IconType =
   | 'language'
   | 'local_offer'
   | 'loyalty'
+  | 'keyboard_arrow_up'
   | 'more_vert'
   | 'movie'
   | 'person_pin'

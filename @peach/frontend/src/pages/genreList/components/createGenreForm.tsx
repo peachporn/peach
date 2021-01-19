@@ -12,6 +12,7 @@ import { Modal } from '../../../components/modal';
 import { Checkbox } from '../../../components/checkbox';
 import { uploadGenreImage, uploadGenreImageFromUrl } from '../../../fetch/uploadImage';
 import { GenreImageFormFields } from './genreImageFormFields';
+import { KinkinessSlider } from './kinkinessSlider';
 
 type CreateGenreFormData = {
   name: string;
@@ -103,30 +104,12 @@ export const CreateGenreForm: FunctionalComponent<CreateGenreFormProps> = ({
             ))}
           </select>
 
-          <div className="w-full grid grid-cols-1/3">
-            <input
-              type="range"
-              className="range-input text-pink"
-              min={0}
-              max={40}
-              name="kinkiness"
-              ref={register({
-                required: true,
-              })}
-            />
-            <input
-              onKeyUp={event => {
-                const { value } = event.target as HTMLInputElement;
-                if (value) {
-                  setValue('kinkiness', value);
-                }
-              }}
-              className={`text-4xl font-bold text-center text-${colorCodeKinkiness(
-                parseInt(kinkiness, 10),
-              )}`}
-              value={kinkiness}
-            />
-          </div>
+          <KinkinessSlider
+            kinkiness={parseInt(kinkiness, 10)}
+            register={register}
+            setValue={setValue}
+            className="w-full"
+          />
 
           <GenreImageFormFields register={register} />
 

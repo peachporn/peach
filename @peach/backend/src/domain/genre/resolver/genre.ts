@@ -27,6 +27,13 @@ export const applyGenreFilter = (
             : {
                 category: filter.category,
               }),
+          ...(!filter.minKinkiness
+            ? {}
+            : {
+                kinkiness: {
+                  gte: filter.minKinkiness,
+                },
+              }),
         },
       };
 

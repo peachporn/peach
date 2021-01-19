@@ -368,6 +368,7 @@ export type Genre = {
 export type GenreFilter = {
   name?: Maybe<Scalars['String']>;
   fetish?: Maybe<Scalars['Boolean']>;
+  minKinkiness?: Maybe<Scalars['Int']>;
   category?: Maybe<GenreCategory>;
 };
 
@@ -647,6 +648,7 @@ export type CreateGenreMutationVariables = Exact<{
 export type CreateGenreMutation = { __typename?: 'Mutation', createGenre?: Maybe<{ __typename?: 'Genre', id: number, name: string }> };
 
 export type GenresListQueryVariables = Exact<{
+  filter?: Maybe<GenreFilter>;
   limit: Scalars['Int'];
   skip: Scalars['Int'];
 }>;

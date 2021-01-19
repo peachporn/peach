@@ -122,6 +122,7 @@ export default {
   GENRE_VALIDASFETISH: 'Can be used as a fetish',
   GENRE_KINKINESS: 'Kink',
   GENRE_IMAGE: 'Thumbnail',
+  GENRE_FILTER_NAME: 'Name',
   SUBGENRES: 'Subgenres',
   SUBGENRE_FORM_HEADLINE: 'Add a subgenre',
   SUBGENRE_FORM_NORESULT: 'No genre found!',

@@ -17,10 +17,35 @@
     .input {
         @apply border-b border-gray-200 py-1 focus:border-pink focus:outline-none
     }
+    input.input {
+        @apply pl-1;
+    }
 
     .nav-link.active {
         @apply text-pink;
     }
+
+    .range-input {
+        -webkit-appearance: none;
+        @apply focus:outline-none;
+    }
+    .range-input::-webkit-slider-runnable-track {
+        border: 1px solid theme('colors.gray.400');
+        @apply rounded-full;
+    }
+
+    .range-input::-webkit-slider-thumb {
+        @apply rounded-full h-5 w-5 glow -my-1.5;
+        background: currentColor;
+        -webkit-appearance: none;
+    }
+
+    input[type=checkbox]:checked ~ .checkbox-indicator {
+        @apply glow ;
+        background: currentColor;
+        border-color: currentColor;
+    }
+
 }
 
 @layer utilities {
@@ -59,6 +84,14 @@
 
     .text-shadow-md {
         text-shadow: 0 3px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .glow {
+        box-shadow: 0 1px 4px theme('colors.pink.lightest'), 0 1px 8px theme('colors.pink.lightest');
+    }
+
+    .text-glow {
+        text-shadow: 0 1px 4px theme('colors.pink.lightest'), 0 1px 8px theme('colors.pink.lightest');
     }
 }
 

@@ -1,9 +1,3 @@
 {
   "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "outFile": "./dist/index.d.ts",
-    "noEmit": false,
-    "declaration": true,
-    "emitDeclarationOnly": true
-  }
 }

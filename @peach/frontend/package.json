@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.7",
+    "@peach/tasks": "3.0.0-alpha",
     "@peach/types": "3.0.0-alpha",
     "@seznam/compose-react-refs": "^1.0.5",
     "autoprefixer": "^10.2.1",

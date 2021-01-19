@@ -9,3 +9,14 @@ export const genreCategories: GenreCategory[] = [
   'Feature',
   'BodyPart',
 ];
+
+export const colorCodeKinkiness = (kinkiness: number) =>
+  kinkiness < 6
+    ? 'pink-lighter'
+    : kinkiness < 16
+    ? 'purple'
+    : kinkiness < 26
+    ? 'yellow'
+    : kinkiness < 36
+    ? 'pink'
+    : 'offBlack';

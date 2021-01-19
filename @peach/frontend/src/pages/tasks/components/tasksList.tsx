@@ -1,6 +1,19 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useMutation, useQuery } from '@apollo/client';
 import { toast } from 'react-toastify';
+import { TaskCategory, TaskStatusMessage } from '@peach/tasks';
+import {
+  CancelTaskMutation,
+  CancelTaskMutationVariables,
+  CancelTasksMutation,
+  CancelTasksMutationVariables,
+  RestartTaskMutation,
+  RestartTaskMutationVariables,
+  RestartTasksMutation,
+  RestartTasksMutationVariables,
+  TasksQuery,
+  TaskStatus,
+} from '@peach/types';
 import { takeAllScreencapsMutation } from '../mutations/takeScreencaps.gql';
 import { scanLibraryMutation } from '../mutations/scanLibrary.gql';
 import {
@@ -9,9 +22,7 @@ import {
   restartTaskMutation,
   restartTasksMutation,
 } from '../mutations/tasks.gql';
-import { TaskCategory, TaskStatusMessage } from '../../../../tasks/task/type';
 import { movieDetailRoute } from '../../../utils/route';
-import { Button, Flex, Headline2, Icon } from '../../../../components';
 import {
   TaskEntryCategory,
   TaskEntryControls,
@@ -22,7 +33,8 @@ import {
   TaskListEntry,
 } from './taskList';
 import { i } from '../../../i18n/i18n';
-import { tasksQuery } from '../../../context/settings/queries/settings.gql';
+import { tasksQuery } from '../queries/tasks.gql';
+import { Icon } from '../../../components/icon';
 
 const TaskStatusDisplay: FunctionalComponent<{ status: TaskStatus }> = ({ status }) => {
   if (status === 'ERROR') {
@@ -92,7 +104,7 @@ const TaskView: FunctionalComponent<{ task: TasksQuery['tasks'][number] }> = ({
       </TaskEntryStatus>
       {status === 'ERROR' ? (
         <TaskEntryControls>
-          <Button
+          <button
             onClick={() => {
               restartTask().then(() => {
                 toast.success(i('TASK_RESTART_SUCCESS'));
@@ -100,26 +112,24 @@ const TaskView: FunctionalComponent<{ task: TasksQuery['tasks'][number] }> = ({
             }}
           >
             {i('TASK_RESTART')}
-          </Button>
-          <Button
-            appearance="inverted"
+          </button>
+          <button
             onClick={() => {
               cancelTask();
             }}
           >
             {i('TASK_CANCEL')}
-          </Button>
+          </button>
         </TaskEntryControls>
       ) : status === 'PENDING' ? (
         <TaskEntryControls>
-          <Button
-            appearance="inverted"
+          <button
             onClick={() => {
               cancelTask();
             }}
           >
             {i('TASK_CANCEL')}
-          </Button>
+          </button>
         </TaskEntryControls>
       ) : null}
       {status !== 'ERROR' ? null : (
@@ -134,9 +144,8 @@ const TaskControls: FunctionalComponent = () => {
   const [scanLibrary] = useMutation(scanLibraryMutation);
 
   return (
-    <Flex justify="end">
-      <Button
-        appearance="inverted"
+    <div className="flex justify-end">
+      <button
         onClick={() =>
           scanLibrary().then(() => {
             toast.success(i('LIBRARY_SCAN_STARTED'));
@@ -144,9 +153,8 @@ const TaskControls: FunctionalComponent = () => {
         }
       >
         {i('SETTINGS_SCAN_LIBRARY')}
-      </Button>
-      <Button
-        appearance="inverted"
+      </button>
+      <button
         onClick={() =>
           takeAllScreencaps().then(() => {
             toast.success(i('SCREENCAPPING_STARTED'));
@@ -154,8 +162,8 @@ const TaskControls: FunctionalComponent = () => {
         }
       >
         {i('SETTINGS_TAKE_SCREENCAPS')}
-      </Button>
-    </Flex>
+      </button>
+    </div>
   );
 };
 
@@ -184,31 +192,26 @@ export const TasksList: FunctionalComponent = () => {
 
   return loading || !data ? null : (
     <div>
-      <Headline2>
-        <Flex justify="space-between">
-          <div>
-            <Button
-              onClick={() => {
-                restartFailedTasks().then(() => {
-                  toast.success(i('TASKS_RESTART_SUCCESS'));
-                });
-              }}
-            >
-              {i('SETTINGS_RESTART_FAILED')}
-            </Button>
-            <Button
-              appearance="inverted"
-              onClick={() => {
-                cancelFailedTasks().then(() => {
-                  toast.success(i('TASKS_CANCEL_SUCCESS'));
-                });
-              }}
-            >
-              {i('SETTINGS_CANCEL_FAILED')}
-            </Button>
-          </div>
-        </Flex>
-      </Headline2>
+      <h2>
+        <button
+          onClick={() => {
+            restartFailedTasks().then(() => {
+              toast.success(i('TASKS_RESTART_SUCCESS'));
+            });
+          }}
+        >
+          {i('SETTINGS_RESTART_FAILED')}
+        </button>
+        <button
+          onClick={() => {
+            cancelFailedTasks().then(() => {
+              toast.success(i('TASKS_CANCEL_SUCCESS'));
+            });
+          }}
+        >
+          {i('SETTINGS_CANCEL_FAILED')}
+        </button>
+      </h2>
       <TaskList>
         {data.tasks.map(task => (
           <TaskView task={task} />

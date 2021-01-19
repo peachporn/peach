@@ -4,6 +4,7 @@ export const movieTypeDefs = gql`
   type Movie {
     id: Int!
     createdAt: String!
+    videoUrl: String!
 
     title: String!
     actresses: [Actress!]!

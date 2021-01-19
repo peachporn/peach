@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { fetishBubbleFragment } from '../../../components/fetishBubble/fetishBubbleFragment.gql';
 
 export const settingsFragment = gql`
   fragment Settings on Settings {
@@ -13,7 +14,9 @@ export const settingsFragment = gql`
       path
     }
     pinnedFetishes {
-      id
+      ...FetishBubble
     }
   }
+
+  ${fetishBubbleFragment}
 `;

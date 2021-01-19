@@ -10,7 +10,7 @@ export * from './components/select';
 export * from './components/table';
 export * from './components/flex';
 export * from './components/loading';
-export * from './components/video';
+export * from './components/video/video';
 export * from './components/backdrop';
 export * from './components/genreClip';
 

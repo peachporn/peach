@@ -2,16 +2,17 @@ import { Fragment, FunctionalComponent, h } from 'preact';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { useRef } from 'preact/hooks';
+import { MovieQuery, MovieQueryVariables } from '@peach/types';
 import { TitleForm } from './components/titleForm';
 import { AddActressForm } from './components/addActressForm';
 import { MovieMetadataTable } from './components/metadataTable';
 import { movieDetailQuery } from './queries/movieDetail.gql';
 import { FetishForm } from './components/fetishForm';
-import { Video, Container, Flex, Loading } from '../../../components';
-import { PageIntro } from '../../../components/components/pageIntro';
 import { ScreencapStripForm } from './components/screencapStripForm';
 import { MovieDetailActions } from './components/movieDetailActions';
 import { GenreForm } from './components/genreForm';
+import { Video } from '../../components/video';
+import { Loading } from '../../components/loading';
 
 export type MovieDetailPageProps = {
   movieId: string;
@@ -35,16 +36,14 @@ export const MovieDetailPage: FunctionalComponent = () => {
   return (
     <Fragment>
       {loading || !movie ? (
-        <Flex justify="center">
-          <Loading color="white" />
-        </Flex>
+        <Loading />
       ) : (
         <Fragment>
-          <PageIntro>
-            <Video ref={videoRef} src={{ 'video/mp4': movie.url }} />
+          <div>
+            <Video ref={videoRef} src={{ 'video/mp4': movie.videoUrl }} />
             <GenreForm movie={movie} video={videoRef} />
-          </PageIntro>
-          <Container background="white">
+          </div>
+          <div>
             <TitleForm movie={movie} />
             <FetishForm movie={movie} />
             <AddActressForm movieId={movie.id} actresses={movie.actresses} />
@@ -57,7 +56,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
               />
             )}
             <MovieDetailActions movie={movie} />
-          </Container>
+          </div>
         </Fragment>
       )}
     </Fragment>

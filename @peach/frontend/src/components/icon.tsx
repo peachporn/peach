@@ -31,7 +31,12 @@ export type IconProps = {
 };
 
 export const Icon: FunctionalComponent<IconProps> = ({ className, icon, onClick }) => (
-  <i tabIndex={0} role="button" className={`material-icons ${className}`} onClick={onClick}>
+  <i
+    tabIndex={0}
+    role="button"
+    className={`material-icons-round ${className || ''}`}
+    onClick={onClick}
+  >
     {icon}
   </i>
 );

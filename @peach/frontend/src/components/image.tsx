@@ -6,10 +6,11 @@ import logo from '../static/logo.png';
 
 export type ImageProps = {
   className?: string;
-  src: string;
+  src?: string;
   alt: string;
   placeholder?: string;
 };
+
 export const Image: FunctionalComponent<ImageProps> = ({
   className,
   src,

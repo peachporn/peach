@@ -23,6 +23,7 @@ export const transformMovie = (movie: MovieWithOptionalMetadataAndVolume): Movie
   id: movie.id,
   createdAt: movie.createdAt.toString(),
   title: movie.title,
+  videoUrl: '',
 
   actresses: (movie.actresses || []).map(fromDBActress),
   actors: movie.actors,

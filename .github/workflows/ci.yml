@@ -40,7 +40,7 @@ jobs:
         run: yarn generate
 
       - name: Compile
-        run: yarn tsc
+        run: yarn typecheck
 
       - name: Lint
         run: yarn lint

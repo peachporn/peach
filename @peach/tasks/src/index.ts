@@ -1,5 +1,5 @@
 export { runTasks } from './task/run';
-export { Task } from './task/type';
+export { Task, TaskStatusMessage, TaskCategory } from './task/type';
 export { cleanupRunningTasks } from './task/cleanup';
 
 export * from './actress-data';

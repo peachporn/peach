@@ -11,6 +11,7 @@ export const movieDetailQuery = gql`
     id
     title
     path
+    videoUrl
     screencaps {
       src
       cover

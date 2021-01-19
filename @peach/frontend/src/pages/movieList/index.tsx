@@ -1,11 +1,11 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
-import { Pagination } from '../../../components/components/pagination';
+import { MovieCountQuery, MovieListQuery, MovieListQueryVariables } from '@peach/types';
 import { movieDetailRoute } from '../../utils/route';
 import { movieCountQuery, movieListQuery } from './queries/movieList.gql';
-import { Flex, Loading } from '../../../components';
 import { usePagination } from '../../utils/usePagination';
 import { MovieList, MovieListViewMovie } from './components/movieList';
+import { Flex, Loading } from '../../../../components/src';
 
 const pageLength = 12;
 
@@ -22,7 +22,7 @@ export const MoviesPage: FunctionalComponent = () => {
     return <Loading color="white" />;
   }
 
-  const { limit, skip, maxPage, page, previousPage, nextPage } = usePagination({
+  const { limit, skip } = usePagination({
     pageLength,
     maxItems: count.data.movieCount,
   });
@@ -47,7 +47,6 @@ export const MoviesPage: FunctionalComponent = () => {
       ) : (
         <Fragment>
           <MovieList movies={(data?.movies || []).map(transformMovie)} />
-          <Pagination page={page} maxPage={maxPage} onNext={nextPage} onPrevious={previousPage} />
         </Fragment>
       )}
     </Fragment>

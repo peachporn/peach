@@ -3,19 +3,28 @@ import { useState } from 'preact/hooks';
 import { useQuery, useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { BubbleButton } from '../../../../components/components/bubbleButton';
-import { Headline2, Icon, Input, Loading } from '../../../../components';
+import {
+  Actress,
+  AddActressToMovieMutation,
+  AddActressToMovieMutationVariables,
+  FindActressQuery,
+  FindActressQueryVariables,
+  Movie,
+  RemoveActressFromMovieMutation,
+  RemoveActressFromMovieMutationVariables,
+} from '@peach/types';
 import { i } from '../../../i18n/i18n';
 import {
   addActressToMovieMutation,
   removeActressFromMovieMutation,
 } from '../mutations/updateMovie.gql';
 import { findActressQuery } from '../queries/findActress.gql';
-import { CreateActressForm } from './createActressForm';
-import { ActressCard, ActressCardList } from '../../../../components/components/actressCard';
-import { Modal } from '../../../../components/components/modal';
-import { NoResult } from '../../../../components/components/noResult';
 import { actressDetailRoute } from '../../../utils/route';
+import { Headline2 } from '../../../../../components/src';
+import { Loading } from '../../../components/loading';
+import { Icon } from '../../../components/icon';
+import { Modal } from '../../../components/modal';
+import { ActressCard } from '../../../components/actressCard';
 
 export type AddActressFormProps = {
   movieId: Movie['id'];
@@ -95,55 +104,50 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
 
   const focusFirstActress = () => {
     if (fetchedActressesWithoutExisting.length === 1) {
-      setValue('name', fetchedActressesWithoutExisting[1]);
+      setValue('id', fetchedActressesWithoutExisting[1]);
     }
   };
 
   return (
     <div className="add-actress-form">
-      <ActressCardList>
-        {actrs.map(actress => (
-          <ActressCard
-            name={actress.name}
-            imageUrl={actress.picture}
-            url={actressDetailRoute(actress.id)}
-            buttonSlot={
-              <Icon
-                onClick={e => {
-                  e.preventDefault();
-                  removeActressSubmit(actress.id);
-                }}
-                icon="close"
-              />
-            }
-          />
-        ))}
-        <BubbleButton label="+" onClick={open} />
-      </ActressCardList>
-      <Modal visible={formVisible} setVisible={setFormVisible} appearance="slit">
+      {actrs.map(actress => (
+        <ActressCard
+          name={actress.name}
+          imageUrl={actress.picture}
+          url={actressDetailRoute(actress.id)}
+          buttonSlot={
+            <Icon
+              onClick={e => {
+                e.preventDefault();
+                removeActressSubmit(actress.id);
+              }}
+              icon="close"
+            />
+          }
+        />
+      ))}
+      <button onClick={open}>+</button>
+      <Modal visible={formVisible} setVisible={setFormVisible}>
         <Headline2>{i('ACTRESS_FORM_HEADLINE')}</Headline2>
-        <Input
-          appearance="wide"
+        <input
           name="name"
           placeholder="Name"
           autoFocus
           onKeyUp={event => {
-            setName(event.target.value);
+            if (event.key === 'Enter') {
+              focusFirstActress();
+              return;
+            }
+            setName((event.target as HTMLInputElement)?.value);
           }}
-          onEnter={focusFirstActress}
         />
         {loading && !data ? (
-          <Loading color="peach" />
+          <Loading />
         ) : !fetchedActressesWithoutExisting.length && name.trim() ? (
-          <NoResult
-            message={i('ACTRESS_FORM_NORESULT')}
-            interactionSlot={
-              <CreateActressForm name={name} onSubmit={({ id }) => addActressSubmit(id)} />
-            }
-          />
+          <Fragment>Nothing here...</Fragment>
         ) : (
           <Fragment>
-            <ActressCardList>
+            <div>
               {fetchedActressesWithoutExisting.map(actress => (
                 <ActressCard
                   focus={`${getValues().id}` === `${actress.id.toString()}`}
@@ -156,11 +160,12 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
                         return Promise.resolve();
                       }
                       return addActressSubmit(parseInt(`${formData.id}`, 10));
+                      // @ts-ignore
                     })(event);
                   }}
                 />
               ))}
-            </ActressCardList>
+            </div>
             <input type="hidden" ref={register} name="id" />
           </Fragment>
         )}

@@ -1,13 +1,12 @@
 import { Fragment, FunctionalComponent, h, VNode } from 'preact';
-import logo from '../../static/logo.png';
-import { Image } from '../image';
+import { Image } from './image';
 
 export type ActressCardProps = {
   name: string;
   className?: string;
   imageUrl?: string;
   url?: string;
-  onClick?: OnEvent;
+  onClick?: (e: Event) => void;
   focus?: boolean;
   shadow?: boolean;
   buttonSlot?: VNode;
@@ -31,14 +30,21 @@ export const ActressCard: FunctionalComponent<ActressCardProps> = ({
 
   const children = (
     <Fragment>
-      <Image src={imageUrl || logo} alt={name} placeholder={logo} />
+      <Image src={imageUrl} alt={name} />
       {noName ? null : <span>{name}</span>}
       <div className="actress-card__button-slot">{buttonSlot || null}</div>
     </Fragment>
   );
 
   return url ? (
-    <a href={url} onClick={onClick || (() => {})} className={className}>
+    <a
+      href={url}
+      onClick={e => {
+        if (!onClick) return;
+        onClick(e);
+      }}
+      className={className}
+    >
       {children}
     </a>
   ) : (

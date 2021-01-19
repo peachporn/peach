@@ -2,6 +2,7 @@ import { Fragment, FunctionalComponent, h } from 'preact';
 import { useContext, useState } from 'preact/hooks';
 import { useQuery } from '@apollo/client';
 import { FetishesQuery, FetishesQueryVariables } from '@peach/types';
+import uniqBy from 'ramda/es/uniqBy';
 import { SettingsContext } from '../../../context/settings';
 import { i } from '../../../i18n/i18n';
 import { fetishesQuery } from '../queries/fetishes.gql';
@@ -37,7 +38,7 @@ export const UIForm: FunctionalComponent = () => {
         />
         <input className="hidden" name="pinnedFetishes" ref={register} />
         <div className="grid grid-cols-5 mt-2 col-span-2 h-20">
-          {(data?.genres || []).map(g => (
+          {uniqBy(g => g.id, [...pinnedFetishes, ...(data?.genres || [])]).map(g => (
             <FetishBubble
               className={selectedPinnedFetishes.includes(g.id) ? '' : 'opacity-70'}
               onClick={() => {

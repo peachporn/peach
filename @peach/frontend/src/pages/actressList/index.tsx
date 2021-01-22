@@ -1,30 +1,34 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
+import { FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
-import { Pagination } from '../../../components/components/pagination';
-import { Container, Flex, Loading } from '../../../components';
-import { ActressCard, ActressCardGrid } from '../../../components/components/actressCard';
+import { ActressesCountQuery, ActressesListQuery, ActressesListQueryVariables } from '@peach/types';
+import { useContext } from 'preact/hooks';
 import { usePagination } from '../../utils/usePagination';
-import { actressesCountQuery, actressesListQuery } from './queries/actressList.gql';
-import { actressDetailRoute } from '../../utils/route';
+import { actressesCountQuery, actressesListQuery } from './queries/actressesList.gql';
+import { i } from '../../i18n/i18n';
+import { Loading } from '../../components/loading';
+import { ActressFilterContext, ActressFilterProvider } from './context/actressFilter';
+import { ActressFilter } from './components/actressFilter';
 
-const pageLength = 24;
+const pageLength = 48;
 
-export const ActressesPage: FunctionalComponent = () => {
+const ActressesPageComponent: FunctionalComponent = () => {
+  const { filter } = useContext(ActressFilterContext);
   const count = useQuery<ActressesCountQuery>(actressesCountQuery);
 
   if (count.loading || count.error || !count.data) {
-    return <Loading color="white" />;
+    return <span>loading</span>;
   }
 
-  const { limit, skip, page, maxPage, nextPage, previousPage } = usePagination({
-    pageLength,
+  const { limit, skip } = usePagination({
+    pageLength: count.data.actressesCount,
     maxItems: count.data.actressesCount,
   });
 
-  const { loading, data } = useQuery<ActressesListQuery, ActressesListQueryVariables>(
+  const { refetch, loading, data } = useQuery<ActressesListQuery, ActressesListQueryVariables>(
     actressesListQuery,
     {
       variables: {
+        filter,
         limit,
         skip,
       },
@@ -32,28 +36,24 @@ export const ActressesPage: FunctionalComponent = () => {
   );
 
   return (
-    <Fragment>
-      {loading ? (
-        <Flex justify="center">
-          <Loading color="white" />
-        </Flex>
-      ) : (
-        <Fragment>
-          <Pagination page={page} maxPage={maxPage} onNext={nextPage} onPrevious={previousPage} />
-          <Container>
-            <ActressCardGrid>
-              {(data?.actresses || []).map(actress => (
-                <ActressCard
-                  url={actressDetailRoute(actress.id)}
-                  name={actress.name}
-                  imageUrl={actress.picture}
-                  key={actress.name}
-                />
-              ))}
-            </ActressCardGrid>
-          </Container>
-        </Fragment>
-      )}
-    </Fragment>
+    <main className="pb-12">
+      <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md">
+        {i('NAVIGATION_ACTRESSES')}
+      </h1>
+      <section className="bg-white p-8 min-h-screen shadow-lg">
+        <ActressFilter />
+        {loading ? (
+          <Loading />
+        ) : (
+          <div className="grid grid-cols-2">{(data?.actresses || []).map(a => a.name)}</div>
+        )}
+      </section>
+    </main>
   );
 };
+
+export const ActressesPage = () => (
+  <ActressFilterProvider>
+    <ActressesPageComponent />
+  </ActressFilterProvider>
+);

@@ -23,7 +23,7 @@ export const UIForm: FunctionalComponent = () => {
   const [genreName, setGenreName] = useState<string>('');
 
   const { data } = useQuery<FetishesQuery, FetishesQueryVariables>(fetishesQuery, {
-    variables: { name: genreName, limit: 5 - selectedPinnedFetishes.length },
+    variables: { name: genreName, limit: 5 - pinnedFetishes.length },
   });
 
   return (

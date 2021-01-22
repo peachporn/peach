@@ -7,6 +7,7 @@ import { SettingsPage } from './pages/settings';
 import { SettingsProvider } from './context/settings';
 import { GenresPage } from './pages/genreList';
 import { MobileNavigation } from './components/mobileNavigation';
+import { ActressesPage } from './pages/actressList';
 /*
 import { SettingsPage } from './pages/settings';
 import { SettingsProvider } from './context/settings';
@@ -33,9 +34,6 @@ const App = (
           <Route path="/tasks">
             <TasksPage />
           </Route>
-          <Route exact path="/actresses">
-            <ActressesPage />
-          </Route>
           <Route exact path="/actresses/:actressId">
             <ActressDetailPage />
           </Route>
@@ -61,6 +59,9 @@ const App = (
     <SettingsProvider>
       <Router>
         <Switch>
+          <Route exact path="/actresses">
+            <ActressesPage />
+          </Route>
           <Route path="/settings">
             <SettingsPage />
           </Route>

@@ -83,6 +83,7 @@ export default {
   ACTRESS_FORM_NORESULT: 'No actress found!',
   ACTRESS_CREATE_BUTTON: 'Create her!',
   ACTRESS_CREATE_SUCCESS: 'Actress created successfully!',
+  ACTRESS_FILTER_NAME: 'Name',
   ACTRESS_YEARS_OLD: ' years old',
   ACTRESS_STARTED: 'Started porn in ',
   ACTRESS_BORN: 'Born on ',

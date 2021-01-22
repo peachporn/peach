@@ -590,6 +590,7 @@ export type ActressQueryVariables = Exact<{
 export type ActressQuery = { __typename?: 'Query', actress?: Maybe<{ __typename?: 'Actress', id: number, name: string, picture?: Maybe<string>, aliases: Array<string>, haircolor?: Maybe<Haircolor>, eyecolor?: Maybe<Eyecolor>, ethnicity?: Maybe<Ethnicity>, dateOfBirth?: Maybe<string>, dateOfCareerstart?: Maybe<string>, dateOfRetirement?: Maybe<string>, dateOfDeath?: Maybe<string>, inBusiness?: Maybe<boolean>, country?: Maybe<string>, province?: Maybe<string>, city?: Maybe<string>, boobs?: Maybe<Boobs>, piercings?: Maybe<string>, tattoos?: Maybe<string>, height?: Maybe<number>, weight?: Maybe<number>, cupsize?: Maybe<Cupsize>, socialMediaLinks?: Maybe<Array<Maybe<string>>>, officialWebsite?: Maybe<string>, location?: Maybe<{ __typename?: 'GeoLocation', latitude: number, longitude: number }>, measurements?: Maybe<{ __typename?: 'Measurements', bust: number, hips: number, waist: number }>, movies?: Maybe<Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean }> }>> }> };
 
 export type ActressesListQueryVariables = Exact<{
+  filter?: Maybe<ActressFilter>;
   limit: Scalars['Int'];
   skip: Scalars['Int'];
 }>;

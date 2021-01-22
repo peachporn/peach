@@ -14,10 +14,6 @@ import {
   RemoveActressFromMovieMutationVariables,
 } from '@peach/types';
 import { i } from '../../../i18n/i18n';
-import {
-  addActressToMovieMutation,
-  removeActressFromMovieMutation,
-} from '../mutations/updateMovie.gql';
 import { findActressQuery } from '../queries/findActress.gql';
 import { actressDetailRoute } from '../../../utils/route';
 import { Headline2 } from '../../../../../components/src';
@@ -27,8 +23,7 @@ import { Modal } from '../../../components/modal';
 import { ActressCard } from '../../../components/actressCard';
 
 export type AddActressFormProps = {
-  movieId: Movie['id'];
-  actresses: ActressCardActress[];
+  existingActresses: ActressCardActress[];
 };
 
 type AddActressFormData = {
@@ -38,8 +33,7 @@ type AddActressFormData = {
 type ActressCardActress = Pick<Actress, 'id' | 'name' | 'picture'>;
 
 export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
-  actresses,
-  movieId,
+  existingActresses = [],
 }) => {
   const [formVisible, setFormVisible] = useState(false);
   const open = () => setFormVisible(true);

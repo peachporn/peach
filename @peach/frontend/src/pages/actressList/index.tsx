@@ -9,6 +9,7 @@ import { Loading } from '../../components/loading';
 import { ActressFilterContext, ActressFilterProvider } from './context/actressFilter';
 import { ActressFilter } from './components/actressFilter';
 import { CreateActressForm } from './components/createActressForm';
+import { ActressCard } from '../../components/actressCard';
 
 const pageLength = 48;
 
@@ -46,7 +47,11 @@ const ActressesPageComponent: FunctionalComponent = () => {
         {loading ? (
           <Loading />
         ) : (
-          <div className="grid grid-cols-2">{(data?.actresses || []).map(a => a.name)}</div>
+          <div className="grid grid-cols-2 gap-4">
+            {(data?.actresses || []).map(a => (
+              <ActressCard actress={a} />
+            ))}
+          </div>
         )}
       </section>
       <CreateActressForm onSubmit={count.refetch} />

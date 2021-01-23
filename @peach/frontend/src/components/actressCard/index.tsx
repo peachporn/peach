@@ -1,38 +1,29 @@
-import { Fragment, FunctionalComponent, h, VNode } from 'preact';
-import { Image } from '../image';
+import { Fragment, FunctionalComponent, h } from 'preact';
+import { ActressCardFragment } from '@peach/types';
 
 export type ActressCardProps = {
-  name: string;
-  className?: string;
-  imageUrl?: string;
+  actress: ActressCardFragment;
   url?: string;
+  className?: string;
   onClick?: (e: Event) => void;
-  focus?: boolean;
-  shadow?: boolean;
-  buttonSlot?: VNode;
-  noName?: boolean;
 };
 
 export const ActressCard: FunctionalComponent<ActressCardProps> = ({
-  name,
+  actress,
   className: classNameProp,
-  imageUrl,
-  focus = false,
   onClick,
-  shadow,
   url,
-  buttonSlot,
-  noName,
 }) => {
-  const className = `actress-card ${focus ? 'actress-card--focus' : ''} ${
-    shadow ? 'actress-card--shadow' : ''
-  } ${classNameProp || ''}`.trim();
+  const className = `w-full rounded shadow flex flex-col focus:outline-none ${classNameProp || ''}`;
 
   const children = (
     <Fragment>
-      <Image src={imageUrl} alt={name} />
-      {noName ? null : <span>{name}</span>}
-      <div className="actress-card__button-slot">{buttonSlot || null}</div>
+      <img
+        className="h-56 object-cover w-full rounded-t"
+        src={actress.picture}
+        alt={actress.name}
+      />
+      <span className="bg-white p-2">{actress.name}</span>
     </Fragment>
   );
 

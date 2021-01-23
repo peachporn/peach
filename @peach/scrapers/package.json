@@ -12,6 +12,7 @@
   "dependencies": {
     "@peach/domain": "3.0.0-alpha",
     "@peach/types": "3.0.0-alpha",
+    "@peach/utils": "3.0.0-alpha",
     "cheerio": "^1.0.0-rc.5",
     "node-fetch": "^2.6.1",
     "ramda": "^0.27.1",

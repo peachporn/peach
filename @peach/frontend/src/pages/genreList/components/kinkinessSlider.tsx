@@ -17,7 +17,7 @@ export const KinkinessSlider: FunctionalComponent<KinkinessSliderProps> = ({
   setKinkiness,
   className,
 }) => (
-  <div className={`grid grid-cols-1/3 ${className || ''}`}>
+  <div className={`grid grid-cols-3/1 ${className || ''}`}>
     <input
       type="range"
       className="range-input text-pink"

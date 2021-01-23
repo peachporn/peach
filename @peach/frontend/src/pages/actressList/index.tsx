@@ -8,6 +8,7 @@ import { i } from '../../i18n/i18n';
 import { Loading } from '../../components/loading';
 import { ActressFilterContext, ActressFilterProvider } from './context/actressFilter';
 import { ActressFilter } from './components/actressFilter';
+import { CreateActressForm } from './components/createActressForm';
 
 const pageLength = 48;
 
@@ -48,6 +49,7 @@ const ActressesPageComponent: FunctionalComponent = () => {
           <div className="grid grid-cols-2">{(data?.actresses || []).map(a => a.name)}</div>
         )}
       </section>
+      <CreateActressForm onSubmit={count.refetch} />
     </main>
   );
 };

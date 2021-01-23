@@ -5,7 +5,6 @@ export * from './env';
 export * from './exec';
 export * from './fs';
 export * from './list';
-export * from './location';
 export * from './logging';
 export * from './prisma';
 export * from './promise';

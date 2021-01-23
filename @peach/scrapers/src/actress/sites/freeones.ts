@@ -3,6 +3,7 @@ import { isCupsize, isEthnicity, isEyecolor, isHaircolor } from '@peach/domain';
 import { Ethnicity, Eyecolor, Haircolor } from '@peach/types';
 import { ActressScraper } from '../type';
 import { filter, regex } from '../transformers';
+import { inchToCm } from '../utils/units';
 
 export const FreeonesScraper: ActressScraper = {
   nameToUrl: name => `https://www.freeones.com/${slugify(name)}/profile`,
@@ -35,13 +36,13 @@ export const FreeonesScraper: ActressScraper = {
     },
     dateOfBirth: {
       selector:
-        '#search-result > section > div.d-md-flex.flex-md-row.large-items > div.profile-meta-item.large-meta-item.flex-basis-30.block-shadow > div > p.mb-1.font-size-md.font-weight-base > a',
+        '#search-result > section > div.d-md-flex.flex-md-row.large-items > div.profile-meta-item.large-meta-item.flex-basis-30.block-shadow > div > p.mb-1.font-weight-base > a',
       type: 'href',
       transform: regex(/(\d{4}-\d{2}-\d{2})/, x => new Date(Date.parse(x)).toISOString()),
     },
     dateOfCareerstart: {
       selector:
-        'body > div.height-container.flex-m-row.d-m-flex > div.right-container.flex-m-column.d-m-flex.flex-1 > main > div.d-lg-flex.flex-lg-row > div.d-block.d-lg-flex.flex-lg-column.w-lg-30.pr-2.pr-md-3.sidebar-right.sidebar-right-wide > div > div.flex-1.mb-4.mb-md-0 > div.timeline-horizontal.mb-3 > div.d-flex.justify-content-between.font-size-md.align-items-center.mb-2 > p:nth-child(1)',
+        'body > div.flex-footer-wrapper > div > div.right-container.flex-m-column.d-m-flex.flex-1 > main > div.d-lg-flex.flex-1.flex-1--ie11.flex-lg-row > div.d-block.d-lg-flex.flex-lg-column.w-lg-30.pr-2.pr-lg-3.sidebar-right.sidebar-right-wide > div > div.flex-1.mb-4.mb-md-0 > div.timeline-horizontal.mb-3 > div.d-flex.justify-content-between.font-size-md.align-items-center.mb-2 > p:nth-child(1)',
       type: 'text',
       transform: x => new Date(`${x}-01-01`).toISOString(),
     },
@@ -87,10 +88,12 @@ export const FreeonesScraper: ActressScraper = {
     piercings: {
       selector: '[data-test="p_has_piercings"]',
       type: 'text',
+      transform: x => (x && x.trim() === 'Unknown' ? undefined : x.trim()),
     },
     tattoos: {
       selector: '[data-test="p_has_tattoos"]',
       type: 'text',
+      transform: x => (x && x.trim() === 'Unknown' ? undefined : x.trim()),
     },
     height: {
       selector: '[data-test="link_height"]',
@@ -113,9 +116,9 @@ export const FreeonesScraper: ActressScraper = {
         }
 
         return {
-          bust: parse(matches[1] || undefined),
-          waist: parse(matches[2] || undefined),
-          hips: parse(matches[3] || undefined),
+          bust: inchToCm(parse(matches[1] || undefined)),
+          waist: inchToCm(parse(matches[2] || undefined)),
+          hips: inchToCm(parse(matches[3] || undefined)),
         };
       },
     },
@@ -126,12 +129,13 @@ export const FreeonesScraper: ActressScraper = {
       transform: regex(/\d{2}(.)/, x => (isCupsize(x) ? x : undefined)),
     },
     socialMediaLinks: {
-      selector:
-        '#search-result > section > div.d-md-flex.flex-md-row.large-items > div.flex-1 > div.d-md-flex > div.profile-meta-item.social-meta.block-shadow > div',
-      type: 'text',
+      selector: '.social-meta',
+      type: 'html',
       transform: x => {
         const matches = x.match(/href="(.*?)"/);
-        return !matches ? undefined : matches.map(m => m.replace('"', '').replace('href=', ''));
+        return !matches
+          ? undefined
+          : matches.slice(1).map(m => m.replace('"', '').replace('href=', ''));
       },
     },
     officialWebsite: {
@@ -140,7 +144,7 @@ export const FreeonesScraper: ActressScraper = {
       type: 'href',
     },
     picture: {
-      selector: '.profile-image-container img',
+      selector: '.dashboard-image-large img',
       type: 'src',
       transform: x => x.replace('/teaser/', '/big/'),
     },

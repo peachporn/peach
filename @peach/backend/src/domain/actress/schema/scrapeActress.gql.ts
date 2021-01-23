@@ -1,13 +1,7 @@
 import { gql } from 'apollo-server';
 
-export const createActressTypeDefs = gql`
-  input MesaurementsInput {
-    bust: Int!
-    waist: Int!
-    hips: Int!
-  }
-
-  input CreateActressInput {
+export const scrapeActressTypeDefs = gql`
+  type ActressScrapeResult {
     name: String!
     aliases: [String!]
 
@@ -23,6 +17,7 @@ export const createActressTypeDefs = gql`
     country: String
     province: String
     city: String
+    location: GeoLocation
 
     boobs: Boobs
 
@@ -31,7 +26,7 @@ export const createActressTypeDefs = gql`
 
     height: Int
     weight: Int
-    measurements: MeasurementsInput
+    measurements: Measurements
     cupsize: Cupsize
 
     socialMediaLinks: [String]
@@ -40,7 +35,7 @@ export const createActressTypeDefs = gql`
     picture: String
   }
 
-  extend type Mutation {
-    createActress(input: CreateActressInput!): Actress
+  extend type Query {
+    scrapeActress(name: String!): ActressScrapeResult
   }
 `;

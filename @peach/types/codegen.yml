@@ -6,6 +6,7 @@ documents:
   - '../frontend/src/context/**/mutations/*.gql.ts'
   - '../frontend/src/context/**/fragments/*.gql.ts'
   - '../frontend/src/pages/**/mutations/*.gql.ts'
+  - '../frontend/src/pages/**/fragments/*.gql.ts'
   - '../frontend/src/pages/**/queries/*.gql.ts'
   - '../frontend/src/components/**/*.gql.ts'
 generates:

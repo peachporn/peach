@@ -9,6 +9,7 @@ type Extractor = (element: Cheerio) => string | undefined;
 
 const extractors = new Map<ExtractType, Extractor>();
 extractors.set('text', e => e.text());
+extractors.set('html', e => e.html() || undefined);
 extractors.set('href', e => e.attr('href'));
 extractors.set('src', e => e.attr('src'));
 
@@ -35,11 +36,11 @@ const scrapeField = (
   };
 };
 
-export const scrape = (scraper: ActressScraper) => (name: string) =>
+export const scrape = (scraper: ActressScraper) => (name: string): Promise<ScrapedActress> =>
   html(scraper.nameToUrl(name))
     .then($ =>
       Object.entries(scraper.fields).map(([field, fieldScraper]) =>
         scrapeField($, field, fieldScraper),
       ),
     )
-    .then(scrapedFields => scrapedFields.reduce(mergeDeepLeft) as Partial<ScrapedActress>);
+    .then(scrapedFields => scrapedFields.reduce(mergeDeepLeft) as ScrapedActress);

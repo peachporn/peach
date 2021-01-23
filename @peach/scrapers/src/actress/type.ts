@@ -1,8 +1,8 @@
-import { Actress } from '@peach/types';
+import { ActressScrapeResult } from '@peach/types';
 
-export type ScrapedActress = Partial<Actress>;
+export type ScrapedActress = Omit<Partial<ActressScrapeResult>, '__typename'>;
 
-export type ExtractType = 'text' | 'href' | 'src';
+export type ExtractType = 'text' | 'href' | 'src' | 'html';
 
 export type ActressFieldScraper<K extends keyof ScrapedActress = keyof ScrapedActress> = {
   selector: string;

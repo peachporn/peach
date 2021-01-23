@@ -8,8 +8,20 @@ module.exports = {
           '0%': { transform: 'translateY(10%)', opacity: '0' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
+        squish: {
+          '0%': {
+            transform: 'translate3d(0, -50%, 0) scaleY(1);',
+          },
+          '95%': {
+            transform: 'translate3d(0, 0, 0) scaleY(1);',
+          },
+          '100%': {
+            transform: 'translate3d(0, 5%, 0) scaleY(0.9) scaleX(1.2);',
+          },
+        },
       },
       animation: {
+        squish: 'squish .7s cubic-bezier(.5, .05, 1, .5) infinite alternate',
         fadeSlide: 'fadeSlide .3s ease forwards',
       },
       fontSize: {
@@ -37,7 +49,8 @@ module.exports = {
         '-md': '0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
       },
       gridTemplateColumns: {
-        '1/3': 'minmax(0, 3fr) minmax(0, 1fr)',
+        '3/1': 'minmax(0, 3fr) minmax(0, 1fr)',
+        '1/2': 'minmax(0, 1fr) minmax(0, 2fr)',
       },
     },
     fontFamily: {

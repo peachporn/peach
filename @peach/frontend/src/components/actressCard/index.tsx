@@ -1,5 +1,5 @@
 import { Fragment, FunctionalComponent, h, VNode } from 'preact';
-import { Image } from './image';
+import { Image } from '../image';
 
 export type ActressCardProps = {
   name: string;

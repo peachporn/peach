@@ -115,6 +115,7 @@ export type Query = {
   movieCount: Scalars['Int'];
   movies: Array<Movie>;
   pathExists?: Maybe<Scalars['Boolean']>;
+  scrapeActress?: Maybe<ActressScrapeResult>;
   settings: Settings;
   setupStatus: SetupStatus;
   tasks: Array<Task>;
@@ -172,8 +173,40 @@ export type QueryPathExistsArgs = {
   path: Scalars['String'];
 };
 
-export type ActressCreateInput = {
+
+export type QueryScrapeActressArgs = {
   name: Scalars['String'];
+};
+
+export type MesaurementsInput = {
+  bust: Scalars['Int'];
+  waist: Scalars['Int'];
+  hips: Scalars['Int'];
+};
+
+export type CreateActressInput = {
+  name: Scalars['String'];
+  aliases?: Maybe<Array<Scalars['String']>>;
+  haircolor?: Maybe<Haircolor>;
+  eyecolor?: Maybe<Eyecolor>;
+  ethnicity?: Maybe<Ethnicity>;
+  dateOfBirth?: Maybe<Scalars['String']>;
+  dateOfCareerstart?: Maybe<Scalars['String']>;
+  dateOfRetirement?: Maybe<Scalars['String']>;
+  dateOfDeath?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  province?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  boobs?: Maybe<Boobs>;
+  piercings?: Maybe<Scalars['String']>;
+  tattoos?: Maybe<Scalars['String']>;
+  height?: Maybe<Scalars['Int']>;
+  weight?: Maybe<Scalars['Int']>;
+  measurements?: Maybe<MeasurementsInput>;
+  cupsize?: Maybe<Cupsize>;
+  socialMediaLinks?: Maybe<Array<Maybe<Scalars['String']>>>;
+  officialWebsite?: Maybe<Scalars['String']>;
+  picture?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -192,7 +225,6 @@ export type Mutation = {
   restartTask?: Maybe<Task>;
   restartTasks: Scalars['Int'];
   scanLibrary?: Maybe<Scalars['Boolean']>;
-  scrapeActress?: Maybe<Scalars['Boolean']>;
   setMovieFetishes?: Maybe<Movie>;
   takeAllScreencaps?: Maybe<Scalars['Boolean']>;
   updateActress?: Maybe<Actress>;
@@ -226,7 +258,7 @@ export type MutationCancelTasksArgs = {
 
 
 export type MutationCreateActressArgs = {
-  actress: ActressCreateInput;
+  input: CreateActressInput;
 };
 
 
@@ -272,11 +304,6 @@ export type MutationRestartTasksArgs = {
 };
 
 
-export type MutationScrapeActressArgs = {
-  id: Scalars['Int'];
-};
-
-
 export type MutationSetMovieFetishesArgs = {
   movieId: Scalars['Int'];
   genreIds: Array<Scalars['Int']>;
@@ -309,6 +336,33 @@ export type MutationUpdateMovieArgs = {
 
 export type MutationUpdateSettingsArgs = {
   data: UpdateSettingsInput;
+};
+
+export type ActressScrapeResult = {
+  __typename?: 'ActressScrapeResult';
+  name: Scalars['String'];
+  aliases?: Maybe<Array<Scalars['String']>>;
+  haircolor?: Maybe<Haircolor>;
+  eyecolor?: Maybe<Eyecolor>;
+  ethnicity?: Maybe<Ethnicity>;
+  dateOfBirth?: Maybe<Scalars['String']>;
+  dateOfCareerstart?: Maybe<Scalars['String']>;
+  dateOfRetirement?: Maybe<Scalars['String']>;
+  dateOfDeath?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  province?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  location?: Maybe<GeoLocation>;
+  boobs?: Maybe<Boobs>;
+  piercings?: Maybe<Scalars['String']>;
+  tattoos?: Maybe<Scalars['String']>;
+  height?: Maybe<Scalars['Int']>;
+  weight?: Maybe<Scalars['Int']>;
+  measurements?: Maybe<Measurements>;
+  cupsize?: Maybe<Cupsize>;
+  socialMediaLinks?: Maybe<Array<Maybe<Scalars['String']>>>;
+  officialWebsite?: Maybe<Scalars['String']>;
+  picture?: Maybe<Scalars['String']>;
 };
 
 export type ActressUpdateInput = {
@@ -531,6 +585,8 @@ export type Task = {
   statusMessage?: Maybe<Scalars['String']>;
 };
 
+export type ActressCardFragment = { __typename?: 'Actress', id: number, name: string, picture?: Maybe<string> };
+
 export type FetishBubbleFragment = { __typename?: 'Genre', id: number, name: string, picture: string };
 
 export type GenreCardFragment = { __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, kinkiness: number };
@@ -567,13 +623,6 @@ export type SettingsFragment = { __typename?: 'Settings', id: number, language: 
     & FetishBubbleFragment
   )> };
 
-export type ScrapeActressMutationVariables = Exact<{
-  id: Scalars['Int'];
-}>;
-
-
-export type ScrapeActressMutation = { __typename?: 'Mutation', scrapeActress?: Maybe<boolean> };
-
 export type UpdateActressMutationVariables = Exact<{
   actressId: Scalars['Int'];
   data: ActressUpdateInput;
@@ -589,6 +638,15 @@ export type ActressQueryVariables = Exact<{
 
 export type ActressQuery = { __typename?: 'Query', actress?: Maybe<{ __typename?: 'Actress', id: number, name: string, picture?: Maybe<string>, aliases: Array<string>, haircolor?: Maybe<Haircolor>, eyecolor?: Maybe<Eyecolor>, ethnicity?: Maybe<Ethnicity>, dateOfBirth?: Maybe<string>, dateOfCareerstart?: Maybe<string>, dateOfRetirement?: Maybe<string>, dateOfDeath?: Maybe<string>, inBusiness?: Maybe<boolean>, country?: Maybe<string>, province?: Maybe<string>, city?: Maybe<string>, boobs?: Maybe<Boobs>, piercings?: Maybe<string>, tattoos?: Maybe<string>, height?: Maybe<number>, weight?: Maybe<number>, cupsize?: Maybe<Cupsize>, socialMediaLinks?: Maybe<Array<Maybe<string>>>, officialWebsite?: Maybe<string>, location?: Maybe<{ __typename?: 'GeoLocation', latitude: number, longitude: number }>, measurements?: Maybe<{ __typename?: 'Measurements', bust: number, hips: number, waist: number }>, movies?: Maybe<Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean }> }>> }> };
 
+export type ActressScrapeResultFragment = { __typename?: 'ActressScrapeResult', name: string, aliases?: Maybe<Array<string>>, picture?: Maybe<string>, haircolor?: Maybe<Haircolor>, eyecolor?: Maybe<Eyecolor>, ethnicity?: Maybe<Ethnicity>, cupsize?: Maybe<Cupsize>, boobs?: Maybe<Boobs>, height?: Maybe<number>, weight?: Maybe<number>, dateOfBirth?: Maybe<string>, dateOfCareerstart?: Maybe<string>, dateOfRetirement?: Maybe<string>, dateOfDeath?: Maybe<string>, country?: Maybe<string>, province?: Maybe<string>, city?: Maybe<string>, piercings?: Maybe<string>, tattoos?: Maybe<string>, socialMediaLinks?: Maybe<Array<Maybe<string>>>, officialWebsite?: Maybe<string>, measurements?: Maybe<{ __typename?: 'Measurements', bust: number, waist: number, hips: number }> };
+
+export type CreateActressMutationVariables = Exact<{
+  input: CreateActressInput;
+}>;
+
+
+export type CreateActressMutation = { __typename?: 'Mutation', createActress?: Maybe<{ __typename?: 'Actress', id: number }> };
+
 export type ActressesListQueryVariables = Exact<{
   filter?: Maybe<ActressFilter>;
   limit: Scalars['Int'];
@@ -596,12 +654,25 @@ export type ActressesListQueryVariables = Exact<{
 }>;
 
 
-export type ActressesListQuery = { __typename?: 'Query', actresses: Array<{ __typename?: 'Actress', id: number, name: string, picture?: Maybe<string> }> };
+export type ActressesListQuery = { __typename?: 'Query', actresses: Array<(
+    { __typename?: 'Actress' }
+    & ActressCardFragment
+  )> };
 
 export type ActressesCountQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ActressesCountQuery = { __typename?: 'Query', actressesCount: number };
+
+export type ScrapeActressQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type ScrapeActressQuery = { __typename?: 'Query', scrapeActress?: Maybe<(
+    { __typename?: 'ActressScrapeResult' }
+    & ActressScrapeResultFragment
+  )> };
 
 export type DeleteGenreMutationVariables = Exact<{
   genreId: Scalars['Int'];
@@ -675,13 +746,6 @@ export type HomepageQuery = { __typename?: 'Query', randomMovies: Array<(
     { __typename?: 'Movie' }
     & MovieCardFragment
   )>, settings: { __typename?: 'Settings', id: number, pinnedFetishes: Array<{ __typename?: 'Genre', name: string }> } };
-
-export type CreateActressMutationVariables = Exact<{
-  name: Scalars['String'];
-}>;
-
-
-export type CreateActressMutation = { __typename?: 'Mutation', createActress?: Maybe<{ __typename?: 'Actress', id: number, name: string }> };
 
 export type DeleteMovieMutationVariables = Exact<{
   movieId: Scalars['Int'];

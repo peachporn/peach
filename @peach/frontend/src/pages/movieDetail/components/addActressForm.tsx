@@ -20,7 +20,7 @@ import { Headline2 } from '../../../../../components/src';
 import { Loading } from '../../../components/loading';
 import { Icon } from '../../../components/icon';
 import { Modal } from '../../../components/modal';
-import { ActressCard } from '../../../components/actressCard';
+import { Index } from '../../../components/actressCard/actressCard';
 
 export type AddActressFormProps = {
   existingActresses: ActressCardActress[];
@@ -105,7 +105,7 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
   return (
     <div className="add-actress-form">
       {actrs.map(actress => (
-        <ActressCard
+        <Index
           name={actress.name}
           imageUrl={actress.picture}
           url={actressDetailRoute(actress.id)}
@@ -143,7 +143,7 @@ export const AddActressForm: FunctionalComponent<AddActressFormProps> = ({
           <Fragment>
             <div>
               {fetchedActressesWithoutExisting.map(actress => (
-                <ActressCard
+                <Index
                   focus={`${getValues().id}` === `${actress.id.toString()}`}
                   name={actress.name}
                   imageUrl={actress.picture}

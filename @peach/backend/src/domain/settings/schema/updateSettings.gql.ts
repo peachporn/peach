@@ -9,9 +9,7 @@ export const updateSettingsTypeDefs = gql`
   input UpdateSettingsInput {
     language: Language
     inferMovieTitle: InferMovieTitle
-    actressImagePath: String
-    genreImagePath: String
-    screencapPath: String
+    libraryPath: String
     pinnedFetishes: [Int!]
     volumes: [VolumeInput!]!
   }

@@ -74,8 +74,10 @@ model Movie {
   fetishes    Genre[]
 
   actors      Int @default(0)
-  // website     Website
   cover       Int @default(3)
+
+  website     Website @relation(fields: [websiteId], references: [id])
+  websiteId   Int
 
   path        String
   volume      Volume @relation(fields: [volumeId], references: [id])
@@ -87,9 +89,7 @@ model Movie {
 model Settings {
   id                 Int @id @default(autoincrement())
   language           String
-  screencapPath      String?
-  actressImagePath   String?
-  genreImagePath     String?
+  libraryPath        String
   inferMovieTitle    String @default("FILENAME")
   pinnedFetishes     Genre[]
 }
@@ -128,4 +128,13 @@ model Genre {
 
   settings            Settings?  @relation(fields: [settingsId], references: [id])
   settingsId          Int?
+}
+
+model Website {
+  id       Int @id @default(autoincrement())
+  name     String @unique
+  url      String
+  fetish   Genre? @relation(references: [id])
+
+  movies   Movie[]
 }

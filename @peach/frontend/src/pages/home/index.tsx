@@ -18,7 +18,7 @@ export const Homepage: FunctionalComponent = () => {
   const hasMovies = data?.recentMovies.length || data?.randomMovies.length;
 
   return (
-    <main className="pb-12">
+    <main className="pb-12 min-h-screen">
       <div className="pt-24 pb-8 min-h-screen/2">
         <img className="m-auto rounded-full shadow-lg" alt="Peach Logo" src="/static/logo.png" />
         <h1 className="text-center m-auto text-white font-display text-5xl">Peach</h1>

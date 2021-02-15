@@ -18,9 +18,7 @@ export const transformSettings = (
   language: (settings.language && languageMap[settings.language]) || 'EN',
   inferMovieTitle:
     (settings.inferMovieTitle && inferMovieTitleMap[settings.inferMovieTitle]) || 'FILENAME',
-  screencapPath: settings.screencapPath || undefined,
-  actressImagePath: settings.actressImagePath || undefined,
-  genreImagePath: settings.genreImagePath || undefined,
+  libraryPath: settings.libraryPath || undefined,
   pinnedFetishes: (settings.pinnedFetishes || []).map(transformBaseGenre),
   volumes: [],
 });

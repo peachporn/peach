@@ -17,9 +17,7 @@ import { updateSettingsMutation } from './mutations/updateSettings.gql';
 type SettingsFormData = {
   language: Language;
   inferMovieTitle: InferMovieTitle;
-  screencapPath: string;
-  actressImagePath: string;
-  genreImagePath: string;
+  libraryPath: string;
   pinnedFetishes: string;
   volumes: Volume[];
 };
@@ -36,9 +34,7 @@ const defaultSettingsContext: SettingsContextType = {
     id: 0,
     language: 'EN',
     inferMovieTitle: 'FILENAME',
-    actressImagePath: '',
-    genreImagePath: '',
-    screencapPath: '',
+    libraryPath: '',
     volumes: [],
     pinnedFetishes: [],
   },
@@ -79,6 +75,7 @@ export const SettingsProvider: FunctionalComponent = ({ children }) => {
       variables: {
         data: {
           ...formData,
+          volumes: formData.volumes || [],
           pinnedFetishes,
         },
       },

@@ -19,9 +19,7 @@ export const settingsTypeDefs = gql`
     id: Int!
     language: Language!
     inferMovieTitle: InferMovieTitle!
-    actressImagePath: String
-    genreImagePath: String
-    screencapPath: String
+    libraryPath: String
     volumes: [Volume!]!
     pinnedFetishes: [Genre!]!
   }

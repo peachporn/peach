@@ -119,6 +119,9 @@ export type Query = {
   settings: Settings;
   setupStatus: SetupStatus;
   tasks: Array<Task>;
+  website?: Maybe<Website>;
+  websites: Array<Website>;
+  websitesCount: Scalars['Int'];
 };
 
 
@@ -178,6 +181,23 @@ export type QueryScrapeActressArgs = {
   name: Scalars['String'];
 };
 
+
+export type QueryWebsiteArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type QueryWebsitesArgs = {
+  filter?: Maybe<WebsiteFilter>;
+  limit?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryWebsitesCountArgs = {
+  filter?: Maybe<WebsiteFilter>;
+};
+
 export type MesaurementsInput = {
   bust: Scalars['Int'];
   waist: Scalars['Int'];
@@ -218,6 +238,7 @@ export type Mutation = {
   createActress?: Maybe<Actress>;
   createGenre?: Maybe<Genre>;
   createMovieFromFile: Movie;
+  createWebsite?: Maybe<Website>;
   deleteGenre?: Maybe<Genre>;
   deleteMovie?: Maybe<Movie>;
   removeActressFromMovie?: Maybe<Movie>;
@@ -269,6 +290,11 @@ export type MutationCreateGenreArgs = {
 
 export type MutationCreateMovieFromFileArgs = {
   input: MovieFromFileInput;
+};
+
+
+export type MutationCreateWebsiteArgs = {
+  input: CreateWebsiteInput;
 };
 
 
@@ -545,16 +571,15 @@ export type Settings = {
   id: Scalars['Int'];
   language: Language;
   inferMovieTitle: InferMovieTitle;
-  actressImagePath?: Maybe<Scalars['String']>;
-  genreImagePath?: Maybe<Scalars['String']>;
-  screencapPath?: Maybe<Scalars['String']>;
+  libraryPath?: Maybe<Scalars['String']>;
   volumes: Array<Volume>;
   pinnedFetishes: Array<Genre>;
 };
 
 export type SetupStatus = 
   | 'Complete'
-  | 'NoVolumes';
+  | 'NoVolumes'
+  | 'NoLibraryPath';
 
 export type VolumeInput = {
   name: Scalars['String'];
@@ -564,9 +589,7 @@ export type VolumeInput = {
 export type UpdateSettingsInput = {
   language?: Maybe<Language>;
   inferMovieTitle?: Maybe<InferMovieTitle>;
-  actressImagePath?: Maybe<Scalars['String']>;
-  genreImagePath?: Maybe<Scalars['String']>;
-  screencapPath?: Maybe<Scalars['String']>;
+  libraryPath?: Maybe<Scalars['String']>;
   pinnedFetishes?: Maybe<Array<Scalars['Int']>>;
   volumes: Array<VolumeInput>;
 };
@@ -583,6 +606,27 @@ export type Task = {
   status: TaskStatus;
   parameters?: Maybe<Scalars['String']>;
   statusMessage?: Maybe<Scalars['String']>;
+};
+
+export type CreateWebsiteInput = {
+  name: Scalars['String'];
+  url: Scalars['String'];
+  picture: Scalars['String'];
+  fetish?: Maybe<Scalars['Int']>;
+};
+
+export type Website = {
+  __typename?: 'Website';
+  id: Scalars['Int'];
+  name: Scalars['String'];
+  picture?: Maybe<Scalars['String']>;
+  url: Scalars['String'];
+  fetish?: Maybe<Genre>;
+  movies: Array<Movie>;
+};
+
+export type WebsiteFilter = {
+  name?: Maybe<Scalars['String']>;
 };
 
 export type ActressCardFragment = { __typename?: 'Actress', id: number, name: string, picture?: Maybe<string> };
@@ -618,7 +662,7 @@ export type PathExistsQueryVariables = Exact<{
 
 export type PathExistsQuery = { __typename?: 'Query', pathExists?: Maybe<boolean> };
 
-export type SettingsFragment = { __typename?: 'Settings', id: number, language: Language, inferMovieTitle: InferMovieTitle, actressImagePath?: Maybe<string>, genreImagePath?: Maybe<string>, screencapPath?: Maybe<string>, volumes: Array<{ __typename?: 'Volume', name: string, path: string }>, pinnedFetishes: Array<(
+export type SettingsFragment = { __typename?: 'Settings', id: number, language: Language, inferMovieTitle: InferMovieTitle, libraryPath?: Maybe<string>, volumes: Array<{ __typename?: 'Volume', name: string, path: string }>, pinnedFetishes: Array<(
     { __typename?: 'Genre' }
     & FetishBubbleFragment
   )> };

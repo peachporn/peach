@@ -1,6 +1,6 @@
 import path from 'path';
 import { promises } from 'fs';
-import { prisma } from '@peach/utils';
+import { getScreencapPath } from '../settings';
 
 const { readdir } = promises;
 
@@ -8,9 +8,7 @@ export const NUMBER_OF_SCREENCAPS = 5;
 export const DEFAULT_COVER_SCREENCAP_INDEX = 3;
 
 export const movieScreencapPath = async (movie: { id: number }) => {
-  const screencapsPath = await prisma.settings
-    .findMany()
-    .then(settings => (settings.length ? settings[0].screencapPath : null));
+  const screencapsPath = await getScreencapPath();
 
   if (!screencapsPath) {
     throw new Error('No screencap path configured!');

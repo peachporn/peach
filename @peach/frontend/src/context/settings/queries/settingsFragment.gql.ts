@@ -6,9 +6,7 @@ export const settingsFragment = gql`
     id
     language
     inferMovieTitle
-    actressImagePath
-    genreImagePath
-    screencapPath
+    libraryPath
     volumes {
       name
       path

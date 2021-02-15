@@ -24,26 +24,10 @@ export const LibraryForm: FunctionalComponent = () => {
           <option value="FOLDER">{i('SETTINGS_INFERMOVIETITLE_FOLDER')}</option>
           <option value="FILENAME">{i('SETTINGS_INFERMOVIETITLE_FILENAME')}</option>
         </select>
-        <span className="text-2xs col-span-2">{i('SETTINGS_SCREENCAPPATH')}</span>
+        <span className="text-2xs col-span-2">{i('SETTINGS_LIBRARYPATH')}</span>
         <input
-          className={`col-span-2 input mb-4 ${errors.screencapPath ? 'border-red' : ''}`}
-          name="screencapPath"
-          ref={register({
-            validate: validatePathExists,
-          })}
-        />
-        <span className="text-2xs col-span-2">{i('SETTINGS_ACTRESSIMAGEPATH')}</span>
-        <input
-          className={`col-span-2 input mb-4 ${errors.actressImagePath ? 'border-red' : ''}`}
-          name="actressImagePath"
-          ref={register({
-            validate: validatePathExists,
-          })}
-        />
-        <span className="text-2xs col-span-2">{i('SETTINGS_GENREIMAGEPATH')}</span>
-        <input
-          className={`col-span-2 input mb-4 ${errors.genreImagePath ? 'border-red' : ''}`}
-          name="genreImagePath"
+          className={`col-span-2 input mb-4 ${errors.libraryPath ? 'border-red' : ''}`}
+          name="libraryPath"
           ref={register({
             validate: validatePathExists,
           })}

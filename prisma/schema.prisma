@@ -76,8 +76,8 @@ model Movie {
   actors      Int @default(0)
   cover       Int @default(3)
 
-  website     Website @relation(fields: [websiteId], references: [id])
-  websiteId   Int
+  website     Website? @relation(fields: [websiteId], references: [id])
+  websiteId   Int?
 
   path        String
   volume      Volume @relation(fields: [volumeId], references: [id])

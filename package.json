@@ -26,7 +26,7 @@
     "generate:types:backend": "yarn workspace @peach/backend run generate",
     "generate:types:types": "yarn workspace @peach/types run generate",
     "typecheck": "yarn workspaces run tsc",
-    "migrations:save": "prisma migrate dev --preview-feature",
+    "migrations:save": "DATABASE_URL=file:./database.db prisma migrate dev --preview-feature",
     "studio": "cd dist; DATABASE_URL=file:./database.db prisma studio --port 5555"
   },
   "workspaces": [

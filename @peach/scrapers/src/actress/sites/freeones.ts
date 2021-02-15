@@ -132,10 +132,8 @@ export const FreeonesScraper: ActressScraper = {
       selector: '.social-meta',
       type: 'html',
       transform: x => {
-        const matches = x.match(/href="(.*?)"/);
-        return !matches
-          ? undefined
-          : matches.slice(1).map(m => m.replace('"', '').replace('href=', ''));
+        const matches = x.match(/ href="(.*?)"/g);
+        return !matches ? undefined : matches.map(m => m.replaceAll('"', '').replace(' href=', ''));
       },
     },
     officialWebsite: {

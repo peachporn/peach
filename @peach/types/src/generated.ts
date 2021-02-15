@@ -611,7 +611,6 @@ export type Task = {
 export type CreateWebsiteInput = {
   name: Scalars['String'];
   url: Scalars['String'];
-  picture: Scalars['String'];
   fetish?: Maybe<Scalars['Int']>;
 };
 
@@ -940,6 +939,38 @@ export type TasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type TasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: number, status: TaskStatus, statusMessage?: Maybe<string>, category: string, parameters?: Maybe<string> }> };
+
+export type CreateWebsiteMutationVariables = Exact<{
+  data: CreateWebsiteInput;
+}>;
+
+
+export type CreateWebsiteMutation = { __typename?: 'Mutation', createWebsite?: Maybe<{ __typename?: 'Website', id: number, name: string }> };
+
+export type WebsiteFetishesQueryVariables = Exact<{
+  name: Scalars['String'];
+  limit: Scalars['Int'];
+}>;
+
+
+export type WebsiteFetishesQuery = { __typename?: 'Query', genres: Array<(
+    { __typename?: 'Genre' }
+    & FetishBubbleFragment
+  )> };
+
+export type WebsitesListQueryVariables = Exact<{
+  filter?: Maybe<WebsiteFilter>;
+  limit: Scalars['Int'];
+  skip: Scalars['Int'];
+}>;
+
+
+export type WebsitesListQuery = { __typename?: 'Query', websites: Array<{ __typename?: 'Website', name: string, picture?: Maybe<string> }> };
+
+export type WebsitesCountQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type WebsitesCountQuery = { __typename?: 'Query', websitesCount: number };
 
 export type SetupStatusQueryVariables = Exact<{ [key: string]: never; }>;
 

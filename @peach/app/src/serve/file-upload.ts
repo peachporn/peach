@@ -1,6 +1,6 @@
 import { Application } from 'express';
 import fileUpload, { UploadedFile } from 'express-fileupload';
-import { getActressImagePath, getGenreImagePath } from '@peach/domain';
+import { getActressImagePath, getGenreImagePath, getWebsiteImagePath } from '@peach/domain';
 import { downloadImage, prisma } from '@peach/utils';
 
 const saveImageFromFile = async (file: UploadedFile | UploadedFile[], path: string) => {
@@ -94,6 +94,49 @@ export const applyFileUploadMiddleware = (app: Application) => {
     }
 
     const path = `${genreImagePath}/${genreId}.jpg`;
+
+    const save = file
+      ? saveImageFromFile(file, path)
+      : url
+      ? downloadImage(url, path)
+      : Promise.reject();
+
+    return save
+      .then(() => {
+        res.status(200);
+        res.send('Success!');
+      })
+      .catch((e: Error) => {
+        res.status(500);
+        res.send(e);
+      });
+  });
+
+  app.post('/upload/website/:websiteId', async (req, res) => {
+    const { websiteId } = req.params;
+    const file = req.files && req.files.websiteImage;
+    const url = req.body && req.body.websiteImageUrl;
+
+    if (!websiteId) {
+      res.status(400);
+      return res.send('No website id given!');
+    }
+
+    const website = await prisma.website.findUnique({ where: { id: parseInt(websiteId, 10) } });
+
+    if (!website) {
+      res.status(400);
+      return res.send(`No website with id ${websiteId} found!`);
+    }
+
+    const websiteImagePath = await getWebsiteImagePath();
+
+    if (!websiteImagePath) {
+      res.status(400);
+      return res.send('No website image path configured!');
+    }
+
+    const path = `${websiteImagePath}${websiteId}.png`;
 
     const save = file
       ? saveImageFromFile(file, path)

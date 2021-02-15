@@ -22,7 +22,7 @@ const applyWebsiteFilter = (
 
 export const websiteResolvers: Resolvers = {
   Website: {
-    picture: parent => `/assets/website/${parent.id}.jpg`,
+    picture: parent => `/assets/website/${parent.id}.png`,
   },
   Query: {
     website: async (_parent, { id }, { prisma }) =>

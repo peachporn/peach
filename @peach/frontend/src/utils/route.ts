@@ -20,6 +20,11 @@ export const genreEditRoute = (genreId: number) => `${genresRoute}/${genreId}/ed
 export const isGenreEditRoute = (route: string) => route.match(/genres\/.*\/edit/g);
 export const genreUploadImageRoute = (id: number) => `/upload/genre/${id}`;
 
+export const websiteDetailRoute = (websiteId: number) => `${websitesRoute}/${websiteId}`;
+export const websiteEditRoute = (websiteId: number) => `${websitesRoute}/${websiteId}/edit`;
+export const isWebsiteEditRoute = (route: string) => route.match(/websites\/.*\/edit/g);
+export const websiteUploadImageRoute = (id: number) => `/upload/website/${id}`;
+
 export const routes = [
   {
     url: moviesRoute,

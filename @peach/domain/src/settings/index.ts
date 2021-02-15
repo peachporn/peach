@@ -17,6 +17,6 @@ export const getScreencapPath = () => settings().then(s => s && `${s.libraryPath
 
 export const getActressImagePath = () => settings().then(s => s && `${s.libraryPath}/actresses/`);
 
-export const getWebsitesImagePath = () => settings().then(s => s && `${s.libraryPath}/websites/`);
+export const getWebsiteImagePath = () => settings().then(s => s && `${s.libraryPath}/websites/`);
 
 export const getGenreImagePath = () => settings().then(s => s && `${s.libraryPath}/genres/`);

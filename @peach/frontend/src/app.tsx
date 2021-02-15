@@ -8,6 +8,7 @@ import { SettingsProvider } from './context/settings';
 import { GenresPage } from './pages/genreList';
 import { MobileNavigation } from './components/mobileNavigation';
 import { ActressesPage } from './pages/actressList';
+import { WebsitesPage } from './pages/websiteList';
 /*
 import { SettingsPage } from './pages/settings';
 import { SettingsProvider } from './context/settings';
@@ -67,6 +68,9 @@ const App = (
           </Route>
           <Route exact path="/genres">
             <GenresPage />
+          </Route>
+          <Route exact path="/websites">
+            <WebsitesPage />
           </Route>
           <Route path="/">
             <Homepage />

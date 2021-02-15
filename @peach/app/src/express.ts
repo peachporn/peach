@@ -11,6 +11,7 @@ import { serveMovies } from './serve/movies';
 import { serveActressImages } from './serve/actress-images';
 import { applyFileUploadMiddleware } from './serve/file-upload';
 import { serveGenreImages } from './serve/genre-images';
+import { serveWebsiteImages } from './serve/website-images';
 
 const topLevelRoutes = ['/movies', '/actresses', '/websites', '/genres', '/settings', '/tasks'];
 
@@ -44,6 +45,7 @@ export const startServer = () => {
 
   app.get('/assets/actress/:actressId*', serveActressImages);
   app.get('/assets/genre/:genreId*', serveGenreImages);
+  app.get('/assets/website/:websiteId*', serveWebsiteImages);
   app.get('/assets/screencaps/:movieId*', serveScreencaps);
   app.get('/assets/movie/:movieId', serveMovies);
   app.use('/assets', express.static(frontendDistPath));

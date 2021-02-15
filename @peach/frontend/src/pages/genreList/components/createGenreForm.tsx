@@ -7,7 +7,7 @@ import { omit } from 'ramda';
 import { createGenreMutation } from '../mutations/createGenre.gql';
 import { i } from '../../../i18n/i18n';
 import { Icon } from '../../../components/icon';
-import { colorCodeKinkiness, genreCategories } from '../../../domain/genre';
+import { genreCategories } from '../../../domain/genre';
 import { Modal } from '../../../components/modal';
 import { Checkbox } from '../../../components/checkbox';
 import { uploadGenreImage, uploadGenreImageFromUrl } from '../../../fetch/uploadImage';

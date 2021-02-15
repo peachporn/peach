@@ -4,7 +4,6 @@ export const createWebsiteTypeDefs = gql`
   input CreateWebsiteInput {
     name: String!
     url: String!
-    picture: String!
     fetish: Int
   }
 

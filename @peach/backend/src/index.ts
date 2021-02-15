@@ -5,10 +5,12 @@ import { genreDomainResolvers, genreDomainTypeDefs } from './domain/genre';
 import { movieDomainResolvers, movieDomainTypeDefs } from './domain/movie';
 import { settingsDomainResolvers, settingsDomainTypeDefs } from './domain/settings';
 import { tasksDomainResolvers, tasksDomainTypeDefs } from './domain/tasks';
+import { websiteDomainResolvers, websiteDomainTypeDefs } from './domain/website';
 
 const resolvers = [
   ...actressDomainResolvers,
   ...genreDomainResolvers,
+  ...websiteDomainResolvers,
   ...movieDomainResolvers,
   ...settingsDomainResolvers,
   ...tasksDomainResolvers,
@@ -17,6 +19,7 @@ const resolvers = [
 const typeDefs = [
   ...actressDomainTypeDefs,
   ...genreDomainTypeDefs,
+  ...websiteDomainTypeDefs,
   ...movieDomainTypeDefs,
   ...settingsDomainTypeDefs,
   ...tasksDomainTypeDefs,

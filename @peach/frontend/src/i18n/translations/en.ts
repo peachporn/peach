@@ -162,4 +162,8 @@ export default {
   ACTION_PRACTICE_ADD_CHILD: '{{parent}} - {{genre}}',
   ACTION_BODYPART_ADD_CHILD: '{{parent}} - {{genre}}',
   UNKNOWN: 'Unknown',
+  WEBSITE_NAME: 'Name',
+  WEBSITE_URL: 'URL',
+  WEBSITE_FILTER_NAME: 'Name',
+  CREATE_WEBSITE_FORM_HEADLINE: 'New Website',
 } as const;

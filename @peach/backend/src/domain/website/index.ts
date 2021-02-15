@@ -1,23 +1,9 @@
-import { actressTypeDefs } from './schema/actress.gql';
-import { updateActressTypeDefs } from './schema/updateActress.gql';
-import { createActressTypeDefs } from './schema/createActress.gql';
-import { scrapeActressTypeDefs } from './schema/scrapeActress.gql';
+import { websiteTypeDefs } from './schema/website.gql';
+import { createWebsiteTypeDefs } from './schema/createWebsite.gql';
 
-import { actressResolvers } from './resolver/actress';
-import { createActressResolvers } from './resolver/createActress';
-import { updateActressResolvers } from './resolver/updateActress';
-import { scrapeActressResolvers } from './resolver/scrapeActress';
+import { websiteResolvers } from './resolver/website';
+import { createWebsiteResolvers } from './resolver/createWebsite';
 
-export const actressDomainTypeDefs = [
-  actressTypeDefs,
-  updateActressTypeDefs,
-  createActressTypeDefs,
-  scrapeActressTypeDefs,
-];
+export const websiteDomainTypeDefs = [websiteTypeDefs, createWebsiteTypeDefs];
 
-export const actressDomainResolvers = [
-  actressResolvers,
-  createActressResolvers,
-  updateActressResolvers,
-  scrapeActressResolvers,
-];
+export const websiteDomainResolvers = [websiteResolvers, createWebsiteResolvers];

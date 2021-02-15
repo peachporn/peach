@@ -1,11 +1,18 @@
-import { actressUploadImageRoute, genreUploadImageRoute } from '../utils/route';
+import {
+  actressUploadImageRoute,
+  genreUploadImageRoute,
+  websiteUploadImageRoute,
+} from '../utils/route';
 
-export const uploadActressImage = (actressId: Actress['id'], file: File) => {
+const uploadImage = (formKey: string, uploadImageRouteFn: (id: number) => string) => (
+  id: number,
+  file: File,
+) => {
   const formData = new FormData();
 
-  formData.append('actressImage', file);
+  formData.append(formKey, file);
 
-  return fetch(actressUploadImageRoute(actressId), {
+  return fetch(uploadImageRouteFn(id), {
     method: 'POST',
     body: formData,
   }).then(res => {
@@ -18,14 +25,21 @@ export const uploadActressImage = (actressId: Actress['id'], file: File) => {
   });
 };
 
-export const uploadActressImageFromUrl = (actressId: Actress['id'], url: string) =>
-  fetch(actressUploadImageRoute(actressId), {
+export const uploadActressImage = uploadImage('actressImage', actressUploadImageRoute);
+export const uploadGenreImage = uploadImage('genreImage', genreUploadImageRoute);
+export const uploadWebsiteImage = uploadImage('websiteImage', genreUploadImageRoute);
+
+const uploadImageFromUrl = (formKey: string, uploadImageRouteFn: (id: number) => string) => (
+  id: number,
+  url: string,
+) =>
+  fetch(uploadImageRouteFn(id), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      actressImageUrl: url,
+      [formKey]: url,
     }),
   }).then(res => {
     if (!res.ok) {
@@ -36,38 +50,12 @@ export const uploadActressImageFromUrl = (actressId: Actress['id'], url: string)
     return undefined;
   });
 
-export const uploadGenreImage = (genreId: Genre['id'], file: File) => {
-  const formData = new FormData();
-
-  formData.append('genreImage', file);
-
-  return fetch(genreUploadImageRoute(genreId), {
-    method: 'POST',
-    body: formData,
-  }).then(res => {
-    if (!res.ok) {
-      return res.text().then(t => {
-        throw new Error(t);
-      });
-    }
-    return undefined;
-  });
-};
-
-export const uploadGenreImageFromUrl = (genreId: Genre['id'], url: string) =>
-  fetch(genreUploadImageRoute(genreId), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      genreImageUrl: url,
-    }),
-  }).then(res => {
-    if (!res.ok) {
-      return res.text().then(t => {
-        throw new Error(t);
-      });
-    }
-    return undefined;
-  });
+export const uploadActressImageFromUrl = uploadImageFromUrl(
+  'actressImageUrl',
+  actressUploadImageRoute,
+);
+export const uploadGenreImageFromUrl = uploadImageFromUrl('genreImageUrl', genreUploadImageRoute);
+export const uploadWebsiteImageFromUrl = uploadImageFromUrl(
+  'websiteImageUrl',
+  websiteUploadImageRoute,
+);

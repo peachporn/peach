@@ -5,6 +5,7 @@ import {
   genresRoute,
   moviesRoute,
   settingsRoute,
+  tasksRoute,
   websitesRoute,
 } from '../utils/route';
 import { Icon } from './icon';

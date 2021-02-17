@@ -1,10 +1,22 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
+import { FunctionalComponent, h } from 'preact';
+import { Link } from 'react-router-dom';
 import { i } from '../../i18n/i18n';
 import { TasksList } from './components/tasksList';
+import { settingsRoute } from '../../utils/route';
+import { Icon } from '../../components/icon';
+import { TaskLauncher } from './components/taskLauncher';
 
 export const TasksPage: FunctionalComponent = () => (
-  <Fragment>
-    <h1 className="font-display text-xl">{i('TASKS')}</h1>
-    <TasksList />
-  </Fragment>
+  <main className="pb-12">
+    <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md flex justify-between pr-4">
+      {i('TASKS')}
+      <Link to={settingsRoute} className="text-white">
+        <Icon icon="settings" />
+      </Link>
+    </h1>
+    <section className="bg-white p-8 min-h-screen shadow-lg">
+      <TaskLauncher />
+      <TasksList />
+    </section>
+  </main>
 );

@@ -1,169 +1,57 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
-import { useMutation, useQuery } from '@apollo/client';
-import { toast } from 'react-toastify';
-import { TaskCategory, TaskStatusMessage } from '@peach/tasks';
-import {
-  CancelTaskMutation,
-  CancelTaskMutationVariables,
-  CancelTasksMutation,
-  CancelTasksMutationVariables,
-  RestartTaskMutation,
-  RestartTaskMutationVariables,
-  RestartTasksMutation,
-  RestartTasksMutationVariables,
-  TasksQuery,
-  TaskStatus,
-} from '@peach/types';
-import { takeAllScreencapsMutation } from '../mutations/takeScreencaps.gql';
-import { scanLibraryMutation } from '../mutations/scanLibrary.gql';
-import {
-  cancelTaskMutation,
-  cancelTasksMutation,
-  restartTaskMutation,
-  restartTasksMutation,
-} from '../mutations/tasks.gql';
-import { movieDetailRoute } from '../../../utils/route';
-import {
-  TaskEntryCategory,
-  TaskEntryControls,
-  TaskEntryDetails,
-  TaskEntryParameters,
-  TaskEntryStatus,
-  TaskList,
-  TaskListEntry,
-} from './taskList';
+import { useQuery } from '@apollo/client';
+import { TaskCategory } from '@peach/tasks';
+import { TaskFragment, TasksQuery, TaskStatus } from '@peach/types';
+import { groupBy } from 'ramda';
 import { i } from '../../../i18n/i18n';
 import { tasksQuery } from '../queries/tasks.gql';
+import { TaskControls } from './taskControls';
+import { TaskStatusMessages } from './taskStatusMessages';
 import { Icon } from '../../../components/icon';
 
-const TaskStatusDisplay: FunctionalComponent<{ status: TaskStatus }> = ({ status }) => {
-  if (status === 'ERROR') {
-    return (
-      <Fragment>
-        <Icon icon="error" />
-        {i('TASK_ERROR')}
-      </Fragment>
-    );
-  }
-  if (status === 'RUNNING') {
-    return (
-      <Fragment>
-        <Icon icon="settings" />
-        {i('TASK_RUNNING')}
-      </Fragment>
-    );
-  }
-  if (status === 'PENDING') {
-    return (
-      <Fragment>
-        <Icon icon="access_alarm" />
-        {i('TASK_PENDING')}
-      </Fragment>
-    );
-  }
-
-  return null;
+type TaskViewProps = {
+  taskGroups: [TaskStatus, [TaskCategory, TaskFragment[]][]][];
 };
 
-const TaskView: FunctionalComponent<{ task: TasksQuery['tasks'][number] }> = ({
-  task: { id, category, parameters, status, statusMessage },
-}) => {
-  const [restartTask] = useMutation<RestartTaskMutation, RestartTaskMutationVariables>(
-    restartTaskMutation,
-    {
-      variables: {
-        taskId: id,
-      },
-    },
-  );
-  const [cancelTask] = useMutation<CancelTaskMutation, CancelTaskMutationVariables>(
-    cancelTaskMutation,
-    {
-      variables: {
-        taskId: id,
-      },
-    },
-  );
-  const params = JSON.parse(parameters || '{}');
+const TaskView: FunctionalComponent<TaskViewProps> = ({ taskGroups }) => {
+  console.log(taskGroups);
 
   return (
-    <TaskListEntry>
-      <TaskEntryCategory>
-        {i(category as TaskCategory)}
-        {category === 'TAKE_SCREENCAP' ? ` - ${params.index}` : ''}
-      </TaskEntryCategory>
-      <TaskEntryParameters>
-        {['ENQUEUE_SCREENCAPS', 'TAKE_SCREENCAP'].includes(category) &&
-        params?.movie?.title &&
-        params?.movie?.id ? (
-          <a href={movieDetailRoute(params.movie.id)}>{params.movie.title}</a>
-        ) : null}
-      </TaskEntryParameters>
-      <TaskEntryStatus>
-        <TaskStatusDisplay status={status} />
-      </TaskEntryStatus>
-      {status === 'ERROR' ? (
-        <TaskEntryControls>
-          <button
-            onClick={() => {
-              restartTask().then(() => {
-                toast.success(i('TASK_RESTART_SUCCESS'));
-              });
-            }}
-          >
-            {i('TASK_RESTART')}
-          </button>
-          <button
-            onClick={() => {
-              cancelTask();
-            }}
-          >
-            {i('TASK_CANCEL')}
-          </button>
-        </TaskEntryControls>
-      ) : status === 'PENDING' ? (
-        <TaskEntryControls>
-          <button
-            onClick={() => {
-              cancelTask();
-            }}
-          >
-            {i('TASK_CANCEL')}
-          </button>
-        </TaskEntryControls>
-      ) : null}
-      {status !== 'ERROR' ? null : (
-        <TaskEntryDetails>{i(statusMessage as TaskStatusMessage)}</TaskEntryDetails>
+    <Fragment>
+      {taskGroups.flatMap(([status, categories]) =>
+        categories.map(([category, tasks]) => (
+          <div className="py-2 border-b border-gray-200">
+            <h3 className="text-lg mb-1">{i(category as TaskCategory)}</h3>
+            {status === 'RUNNING' ? (
+              <Fragment>
+                <div className="meter w-full relative h-6">
+                  <span className="bg-pink rounded-lg" />
+                  <p className="absolute top-0 text-white font-bold right-4">{tasks.length}</p>
+                </div>
+                <p className="pt-2 pb-1">
+                  <TaskStatusMessages tasks={tasks} />
+                </p>
+              </Fragment>
+            ) : status === 'PENDING' ? (
+              <Fragment>
+                <div className="meter no-move w-full relative h-6">
+                  <span className="bg-gray-200 rounded-lg" />
+                  <p className="absolute top-0 text-pink font-bold right-4">{tasks.length}</p>
+                </div>
+                <p className="pt-2 pb-1">
+                  <TaskStatusMessages tasks={tasks} />
+                </p>
+              </Fragment>
+            ) : (
+              <div className="flex items-center">
+                <Icon className="mr-2" icon="warning" />
+                {tasks.map(t => t.statusMessage).join('\n')}
+              </div>
+            )}
+          </div>
+        )),
       )}
-    </TaskListEntry>
-  );
-};
-
-const TaskControls: FunctionalComponent = () => {
-  const [takeAllScreencaps] = useMutation(takeAllScreencapsMutation);
-  const [scanLibrary] = useMutation(scanLibraryMutation);
-
-  return (
-    <div className="flex justify-end">
-      <button
-        onClick={() =>
-          scanLibrary().then(() => {
-            toast.success(i('LIBRARY_SCAN_STARTED'));
-          })
-        }
-      >
-        {i('SETTINGS_SCAN_LIBRARY')}
-      </button>
-      <button
-        onClick={() =>
-          takeAllScreencaps().then(() => {
-            toast.success(i('SCREENCAPPING_STARTED'));
-          })
-        }
-      >
-        {i('SETTINGS_TAKE_SCREENCAPS')}
-      </button>
-    </div>
+    </Fragment>
   );
 };
 
@@ -171,54 +59,32 @@ export const TasksList: FunctionalComponent = () => {
   const { data, loading } = useQuery<TasksQuery>(tasksQuery, {
     pollInterval: 1000,
   });
-
-  const [restartFailedTasks] = useMutation<RestartTasksMutation, RestartTasksMutationVariables>(
-    restartTasksMutation,
-    {
-      variables: {
-        taskIds: (data?.tasks || []).filter(task => task.status === 'ERROR').map(task => task.id),
-      },
-    },
-  );
-
-  const [cancelFailedTasks] = useMutation<CancelTasksMutation, CancelTasksMutationVariables>(
-    cancelTasksMutation,
-    {
-      variables: {
-        taskIds: (data?.tasks || []).filter(task => task.status === 'ERROR').map(task => task.id),
-      },
-    },
-  );
+  console.log(data?.tasks);
 
   return loading || !data ? null : (
     <div>
-      <h2>
-        <button
-          onClick={() => {
-            restartFailedTasks().then(() => {
-              toast.success(i('TASKS_RESTART_SUCCESS'));
-            });
-          }}
-        >
-          {i('SETTINGS_RESTART_FAILED')}
-        </button>
-        <button
-          onClick={() => {
-            cancelFailedTasks().then(() => {
-              toast.success(i('TASKS_CANCEL_SUCCESS'));
-            });
-          }}
-        >
-          {i('SETTINGS_CANCEL_FAILED')}
-        </button>
+      <h2 className="flex justify-between items-end border-b border-gray-200 pb-2">
+        <span className="text-lg">{i('TASK_RUNNING')}</span>
+        <TaskControls tasks={data?.tasks} />
       </h2>
-      <TaskList>
-        {data.tasks.map(task => (
-          <TaskView task={task} />
-        ))}
-        {data.tasks.length === 0 ? <span>No tasks running!</span> : null}
-      </TaskList>
-      <TaskControls />
+      <div>
+        <TaskView
+          taskGroups={Object.entries(
+            groupBy(task => task.status, data.tasks),
+          ).map(([status, tasks]) => [
+            status as TaskStatus,
+            Object.entries(groupBy(task => task.category, tasks)).map(([category, task]) => [
+              category as TaskCategory,
+              task,
+            ]),
+          ])}
+        />
+        {data.tasks.length === 0 ? (
+          <span className="block w-full text-center text-lg text-gray-300 py-5">
+            {i('TASKS_NONE')}
+          </span>
+        ) : null}
+      </div>
     </div>
   );
 };

@@ -897,6 +897,8 @@ export type FetishesQuery = { __typename?: 'Query', genres: Array<(
     & FetishBubbleFragment
   )> };
 
+export type TaskFragment = { __typename?: 'Task', id: number, status: TaskStatus, statusMessage?: Maybe<string>, category: string, parameters?: Maybe<string> };
+
 export type ScanLibraryMutationVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -938,7 +940,10 @@ export type CancelTasksMutation = { __typename?: 'Mutation', cancelTasks: number
 export type TasksQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TasksQuery = { __typename?: 'Query', tasks: Array<{ __typename?: 'Task', id: number, status: TaskStatus, statusMessage?: Maybe<string>, category: string, parameters?: Maybe<string> }> };
+export type TasksQuery = { __typename?: 'Query', tasks: Array<(
+    { __typename?: 'Task' }
+    & TaskFragment
+  )> };
 
 export type CreateWebsiteMutationVariables = Exact<{
   data: CreateWebsiteInput;

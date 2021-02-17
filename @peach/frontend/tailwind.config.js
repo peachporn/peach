@@ -58,6 +58,11 @@ module.exports = {
       sans: 'Gudea,serif',
     },
   },
-  variants: {},
+  variants: {
+    extend: {
+      backgroundColor: ['active'],
+      textColor: ['active'],
+    },
+  },
   plugins: [],
 };

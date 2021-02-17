@@ -23,7 +23,11 @@ export type IconType =
   | 'movie'
   | 'person_pin'
   | 'search'
-  | 'settings';
+  | 'settings'
+  | 'restart_alt'
+  | 'task_alt'
+  | 'play_arrow'
+  | 'warning';
 
 export type IconProps = {
   icon: IconType;

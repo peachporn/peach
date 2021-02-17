@@ -6,6 +6,10 @@
   --main-gradient: linear-gradient(-70deg, theme('colors.pink.darker'), theme('colors.pink.DEFAULT'));
 }
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 
 @layer base {
     body {
@@ -44,6 +48,51 @@
         @apply glow ;
         background: currentColor;
         border-color: currentColor;
+    }
+
+
+    .meter {
+        box-sizing: content-box;
+        height: 20px;
+        position: relative;
+    }
+    .meter > span {
+        display: block;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+    }
+    .meter:not(.no-move) > span:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-image: linear-gradient(
+                -45deg,
+                rgba(255, 255, 255, 0.2) 25%,
+                transparent 25%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.2) 75%,
+                transparent 75%,
+                transparent
+        );
+        z-index: 1;
+        background-size: 50px 50px;
+        animation: meterMove 2s linear infinite;
+        overflow: hidden;
+    }
+
+
+    @keyframes meterMove {
+        0% {
+            background-position: 0 0;
+        }
+        100% {
+            background-position: 50px 50px;
+        }
     }
 
 }

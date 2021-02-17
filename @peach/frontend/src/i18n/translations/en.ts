@@ -33,7 +33,7 @@ export default {
   TASKS_CANCEL_SUCCESS: 'Tasks cleaned up successfully!',
   TASK_CANCEL: 'Discard',
   TASK_ERROR: 'Error!',
-  TASK_RUNNING: 'Running',
+  TASK_RUNNING: 'Running Tasks',
   TASK_PENDING: 'Pending',
   SERVER_RESTARTED: 'Server restarted while running.',
   SETTINGS_LANGUAGE: 'Language',
@@ -166,4 +166,5 @@ export default {
   WEBSITE_URL: 'URL',
   WEBSITE_FILTER_NAME: 'Name',
   CREATE_WEBSITE_FORM_HEADLINE: 'New Website',
+  TASKS_NONE: 'Nothing to do!',
 } as const;

@@ -19,8 +19,7 @@ export type TaskCategory =
   | 'SCAN_LIBRARY'
   | 'SCRAPE_METADATA'
   | 'ENQUEUE_SCREENCAPS'
-  | 'TAKE_SCREENCAP'
-  | 'SCRAPE_ACTRESS';
+  | 'TAKE_SCREENCAP';
 export type TaskStatus = 'PENDING' | 'RUNNING' | 'ERROR';
 
 export type TaskDefinition<Parameters = {}> = Omit<

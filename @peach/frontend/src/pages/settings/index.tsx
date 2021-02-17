@@ -1,4 +1,5 @@
 import { FunctionalComponent, h } from 'preact';
+import { Link } from 'react-router-dom';
 import { useContext } from 'preact/hooks';
 import { GeneralSettingsForm } from './components/generalSettingsForm';
 import { LibraryForm } from './components/libraryForm';
@@ -8,6 +9,7 @@ import { SettingsContext } from '../../context/settings';
 import { Icon } from '../../components/icon';
 import { isTouched } from '../../utils/form';
 import { UIForm } from './components/uiForm';
+import { tasksRoute } from '../../utils/route';
 
 export const SettingsPage: FunctionalComponent = () => {
   const {
@@ -20,7 +22,12 @@ export const SettingsPage: FunctionalComponent = () => {
 
   return (
     <main className="pb-12">
-      <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md">{i('SETTINGS')}</h1>
+      <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md flex justify-between pr-4">
+        {i('SETTINGS')}
+        <Link to={tasksRoute} className="text-white">
+          <Icon icon="task_alt" />
+        </Link>
+      </h1>
       <section className="bg-white p-8 min-h-screen shadow-lg">
         <GeneralSettingsForm />
         <UIForm />

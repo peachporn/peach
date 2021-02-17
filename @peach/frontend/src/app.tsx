@@ -9,6 +9,7 @@ import { GenresPage } from './pages/genreList';
 import { MobileNavigation } from './components/mobileNavigation';
 import { ActressesPage } from './pages/actressList';
 import { WebsitesPage } from './pages/websiteList';
+import { TasksPage } from './pages/tasks';
 /*
 import { SettingsPage } from './pages/settings';
 import { SettingsProvider } from './context/settings';
@@ -65,6 +66,9 @@ const App = (
           </Route>
           <Route path="/settings">
             <SettingsPage />
+          </Route>
+          <Route path="/tasks">
+            <TasksPage />
           </Route>
           <Route exact path="/genres">
             <GenresPage />

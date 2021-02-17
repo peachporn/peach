@@ -1,13 +1,12 @@
 import gql from 'graphql-tag';
+import { taskFragment } from '../fragments/task.gql';
 
 export const tasksQuery = gql`
   query tasks {
     tasks {
-      id
-      status
-      statusMessage
-      category
-      parameters
+      ...Task
     }
   }
+
+  ${taskFragment}
 `;

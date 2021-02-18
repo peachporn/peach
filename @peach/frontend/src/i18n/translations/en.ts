@@ -33,7 +33,6 @@ export default {
   TASKS_CANCEL_SUCCESS: 'Tasks cleaned up successfully!',
   TASK_CANCEL: 'Discard',
   TASK_ERROR: 'Error!',
-  TASK_RUNNING: 'Running Tasks',
   TASK_PENDING: 'Pending',
   SERVER_RESTARTED: 'Server restarted while running.',
   SETTINGS_LANGUAGE: 'Language',

@@ -64,7 +64,13 @@ export const CreateActressForm: FunctionalComponent<CreateActressFormProps> = ({
     },
   });
 
-  const { register, handleSubmit, setValue, watch } = useForm<CreateActressFormData>();
+  const { register, handleSubmit, setValue, watch, reset } = useForm<CreateActressFormData>();
+
+  useEffect(() => {
+    if (!visible) {
+      reset();
+    }
+  }, [visible]);
 
   useEffect(() => {
     if (!data) return;

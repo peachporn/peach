@@ -63,8 +63,7 @@ export const TasksList: FunctionalComponent = () => {
 
   return loading || !data ? null : (
     <div>
-      <h2 className="flex justify-between items-end border-b border-gray-200 pb-2">
-        <span className="text-lg">{i('TASK_RUNNING')}</span>
+      <h2 className="flex justify-end items-end border-b border-gray-200 pb-2">
         <TaskControls tasks={data?.tasks} />
       </h2>
       <div>

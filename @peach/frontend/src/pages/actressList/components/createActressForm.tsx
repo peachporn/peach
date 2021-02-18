@@ -69,6 +69,7 @@ export const CreateActressForm: FunctionalComponent<CreateActressFormProps> = ({
   useEffect(() => {
     if (!visible) {
       reset();
+      setSearchName('');
     }
   }, [visible]);
 

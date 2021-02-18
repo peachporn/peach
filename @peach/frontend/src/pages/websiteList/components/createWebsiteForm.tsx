@@ -1,17 +1,14 @@
 import { FunctionalComponent, Fragment, h } from 'preact';
 import { useState } from 'preact/hooks';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useForm } from 'react-hook-form';
-import { omit } from 'ramda';
+import { head, omit } from 'ramda';
 import {
   CreateWebsiteMutation,
   CreateWebsiteMutationVariables,
   FetishesQuery,
   FetishesQueryVariables,
-  WebsiteFetishesQuery,
-  WebsiteFetishesQueryVariables,
 } from '@peach/types';
-import uniqBy from 'ramda/es/uniqBy';
 import { i } from '../../../i18n/i18n';
 import { Icon } from '../../../components/icon';
 import { Modal } from '../../../components/modal';
@@ -19,9 +16,9 @@ import { Checkbox } from '../../../components/checkbox';
 import { uploadWebsiteImage, uploadWebsiteImageFromUrl } from '../../../fetch/uploadImage';
 import { WebsiteImageFormFields } from './websiteImageFormFields';
 import { createWebsiteMutation } from '../mutations/createWebsite.gql';
-import { websiteFetishesQuery } from '../queries/websiteFetishes.gql';
 import { fetishesQuery } from '../../settings/queries/fetishes.gql';
 import { FetishBubble } from '../../../components/fetishBubble';
+import { GenreSearch } from '../../../components/genreSearch';
 
 type CreateWebsiteFormData = {
   name: string;
@@ -46,7 +43,6 @@ export const CreateWebsiteForm: FunctionalComponent<CreateWebsiteFormProps> = ({
   });
 
   const name = watch('name');
-  const fetish = watch('fetish');
   const isDisabled = !name;
 
   const [createWebsite] = useMutation<CreateWebsiteMutation, CreateWebsiteMutationVariables>(
@@ -81,15 +77,6 @@ export const CreateWebsiteForm: FunctionalComponent<CreateWebsiteFormProps> = ({
         onSubmitCallback();
       });
 
-  const [fetishName, setFetishName] = useState<string>('');
-  const { data } = useQuery<WebsiteFetishesQuery, WebsiteFetishesQueryVariables>(
-    websiteFetishesQuery,
-    {
-      variables: { name: fetishName, limit: 5 },
-      skip: fetishName.trim() === '',
-    },
-  );
-
   return (
     <Fragment>
       <button
@@ -121,23 +108,13 @@ export const CreateWebsiteForm: FunctionalComponent<CreateWebsiteFormProps> = ({
 
           <WebsiteImageFormFields register={register} />
 
-          <input
-            className="input"
-            placeholder={i('SETTINGS_PINNEDFETISHES_PLACEHOLDER')}
-            onKeyUp={event => setFetishName((event.target as HTMLInputElement)?.value)}
-          />
           <input className="hidden" name="fetish" ref={register} />
-          <div className="grid grid-cols-5 mt-2 h-20">
-            {uniqBy(g => g.id, data?.genres || []).map(g => (
-              <FetishBubble
-                className={fetish === `${g.id}` ? '' : 'opacity-70'}
-                onClick={() => {
-                  setValue('fetish', g.id, { shouldDirty: true });
-                }}
-                genre={g}
-              />
-            ))}
-          </div>
+          <GenreSearch
+            filterOverride={{ fetish: true }}
+            onChange={fetishIds => {
+              setValue('fetish', head(fetishIds) || '', { shouldDirty: true });
+            }}
+          />
         </div>
 
         <button

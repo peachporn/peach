@@ -1,17 +1,14 @@
 import gql from 'graphql-tag';
+import { movieCardFragment } from '../../../components/movieCard/movieCardFragment.gql';
 
 export const movieListQuery = gql`
-  query movieList($limit: Int!, $skip: Int!, $filter: MoviesFilter) {
+  query movieList($limit: Int!, $skip: Int!, $filter: MovieFilter) {
     movies(limit: $limit, skip: $skip, filter: $filter) {
-      id
-      title
-      screencaps {
-        src
-        index
-        cover
-      }
+      ...MovieCard
     }
   }
+
+  ${movieCardFragment}
 `;
 
 export const movieCountQuery = gql`

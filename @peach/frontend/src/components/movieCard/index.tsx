@@ -7,11 +7,16 @@ import { movieDetailRoute } from '../../utils/route';
 type MovieCardProps = {
   className?: string;
   movie: MovieCardFragment;
+  noWidth?: boolean;
 };
-export const MovieCard: FunctionalComponent<MovieCardProps> = ({ movie, className }) => (
+export const MovieCard: FunctionalComponent<MovieCardProps> = ({
+  movie,
+  className,
+  noWidth = false,
+}) => (
   <NavLink
     to={movieDetailRoute(movie.id)}
-    className={`block w-52 md:w-72 shadow-md rounded-md ${className}`}
+    className={`block ${noWidth ? '' : 'w-full'} shadow-md rounded-md ${className}`}
   >
     {movie.coverPicture?.src && (
       <img className="w-full rounded-t-md" src={movie.coverPicture?.src} alt={movie.title} />

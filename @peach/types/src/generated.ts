@@ -167,7 +167,7 @@ export type QueryMovieArgs = {
 export type QueryMoviesArgs = {
   limit?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
-  filter?: Maybe<MoviesFilter>;
+  filter?: Maybe<MovieFilter>;
   sort?: Maybe<MoviesSort>;
 };
 
@@ -493,7 +493,7 @@ export type GenreDefinitionInput = {
   genre: GenreLinkInput;
 };
 
-export type MoviesFilter = {
+export type MovieFilter = {
   fetishes?: Maybe<Array<Scalars['Int']>>;
 };
 
@@ -633,6 +633,17 @@ export type ActressCardFragment = { __typename?: 'Actress', id: number, name: st
 export type FetishBubbleFragment = { __typename?: 'Genre', id: number, name: string, picture: string };
 
 export type GenreCardFragment = { __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, kinkiness: number };
+
+export type GenreSearchQueryVariables = Exact<{
+  filter: GenreFilter;
+  limit: Scalars['Int'];
+}>;
+
+
+export type GenreSearchQuery = { __typename?: 'Query', genres: Array<(
+    { __typename?: 'Genre' }
+    & FetishBubbleFragment
+  )> };
 
 export type MovieCardFragment = { __typename?: 'Movie', id: number, title: string, coverPicture?: Maybe<{ __typename?: 'Screencap', src: string }> };
 
@@ -875,11 +886,14 @@ export type MovieDetailFragment = { __typename?: 'Movie', id: number, title: str
 export type MovieListQueryVariables = Exact<{
   limit: Scalars['Int'];
   skip: Scalars['Int'];
-  filter?: Maybe<MoviesFilter>;
+  filter?: Maybe<MovieFilter>;
 }>;
 
 
-export type MovieListQuery = { __typename?: 'Query', movies: Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, index: number, cover: boolean }> }> };
+export type MovieListQuery = { __typename?: 'Query', movies: Array<(
+    { __typename?: 'Movie' }
+    & MovieCardFragment
+  )> };
 
 export type MovieCountQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -951,17 +965,6 @@ export type CreateWebsiteMutationVariables = Exact<{
 
 
 export type CreateWebsiteMutation = { __typename?: 'Mutation', createWebsite?: Maybe<{ __typename?: 'Website', id: number, name: string }> };
-
-export type WebsiteFetishesQueryVariables = Exact<{
-  name: Scalars['String'];
-  limit: Scalars['Int'];
-}>;
-
-
-export type WebsiteFetishesQuery = { __typename?: 'Query', genres: Array<(
-    { __typename?: 'Genre' }
-    & FetishBubbleFragment
-  )> };
 
 export type WebsitesListQueryVariables = Exact<{
   filter?: Maybe<WebsiteFilter>;

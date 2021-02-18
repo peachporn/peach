@@ -36,7 +36,7 @@ export const Homepage: FunctionalComponent = () => {
               <Slider>
                 {(data?.recentMovies || []).map(m => (
                   <SliderItem>
-                    <MovieCard movie={m} />
+                    <MovieCard noWidth className="w-52 md:w-72" movie={m} />
                   </SliderItem>
                 ))}
               </Slider>
@@ -46,7 +46,7 @@ export const Homepage: FunctionalComponent = () => {
               <Slider>
                 {(data?.randomMovies || []).map(m => (
                   <SliderItem>
-                    <MovieCard movie={m} />
+                    <MovieCard noWidth className="w-52 md:w-72" movie={m} />
                   </SliderItem>
                 ))}
               </Slider>

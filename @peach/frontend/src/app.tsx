@@ -10,6 +10,7 @@ import { MobileNavigation } from './components/mobileNavigation';
 import { ActressesPage } from './pages/actressList';
 import { WebsitesPage } from './pages/websiteList';
 import { TasksPage } from './pages/tasks';
+import { MoviesPage } from './pages/movieList';
 /*
 import { SettingsPage } from './pages/settings';
 import { SettingsProvider } from './context/settings';
@@ -32,9 +33,6 @@ const App = (
           </Route>
           <Route exact path="/movies/:movieId">
             <MovieDetailPage />
-          </Route>
-          <Route path="/tasks">
-            <TasksPage />
           </Route>
           <Route exact path="/actresses/:actressId">
             <ActressDetailPage />
@@ -61,6 +59,9 @@ const App = (
     <SettingsProvider>
       <Router>
         <Switch>
+          <Route exact path="/movies">
+            <MoviesPage />
+          </Route>
           <Route exact path="/actresses">
             <ActressesPage />
           </Route>

@@ -1,25 +1,23 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
+import { FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
 import { MovieCountQuery, MovieListQuery, MovieListQueryVariables } from '@peach/types';
-import { movieDetailRoute } from '../../utils/route';
+import { useContext } from 'preact/hooks';
 import { movieCountQuery, movieListQuery } from './queries/movieList.gql';
 import { usePagination } from '../../utils/usePagination';
-import { MovieList, MovieListViewMovie } from './components/movieList';
-import { Flex, Loading } from '../../../../components/src';
+import { i } from '../../i18n/i18n';
+import { Loading } from '../../components/loading';
+import { MovieCard } from '../../components/movieCard';
+import { MovieFilterContext, MovieFilterProvider } from './context/movieFilter';
+import { MovieFilter } from './components/movieFilter';
 
 const pageLength = 12;
 
-const transformMovie = (movie: MovieListQuery['movies'][number]): MovieListViewMovie => ({
-  title: movie.title,
-  link: movieDetailRoute(movie.id),
-  screencaps: movie.screencaps,
-});
-
-export const MoviesPage: FunctionalComponent = () => {
+const MoviesPageComponent: FunctionalComponent = () => {
   const count = useQuery<MovieCountQuery>(movieCountQuery);
+  const { filter } = useContext(MovieFilterContext);
 
   if (count.loading || count.error || !count.data) {
-    return <Loading color="white" />;
+    return <Loading />;
   }
 
   const { limit, skip } = usePagination({
@@ -27,28 +25,37 @@ export const MoviesPage: FunctionalComponent = () => {
     maxItems: count.data.movieCount,
   });
 
-  const searchParams = new URLSearchParams(window.location?.search);
-  const fetish = parseInt(searchParams.get('fetish') || '0', 10);
-
   const { loading, data } = useQuery<MovieListQuery, MovieListQueryVariables>(movieListQuery, {
     variables: {
       limit,
       skip,
-      filter: fetish ? { fetishes: [fetish] } : undefined,
+      filter,
     },
   });
 
   return (
-    <Fragment>
-      {loading ? (
-        <Flex justify="center">
-          <Loading color="white" />
-        </Flex>
-      ) : (
-        <Fragment>
-          <MovieList movies={(data?.movies || []).map(transformMovie)} />
-        </Fragment>
-      )}
-    </Fragment>
+    <main className="pb-12">
+      <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md">
+        {i('NAVIGATION_MOVIES')}
+      </h1>
+      <section className="bg-white p-8 min-h-screen shadow-lg">
+        <MovieFilter />
+        {loading ? (
+          <Loading />
+        ) : (
+          <div className="grid grid-cols-1 gap-4">
+            {(data?.movies || []).map(m => (
+              <MovieCard movie={m} />
+            ))}
+          </div>
+        )}
+      </section>
+    </main>
   );
 };
+
+export const MoviesPage: FunctionalComponent = () => (
+  <MovieFilterProvider>
+    <MoviesPageComponent />
+  </MovieFilterProvider>
+);

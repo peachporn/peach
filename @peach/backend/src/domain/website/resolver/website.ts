@@ -37,9 +37,12 @@ export const websiteResolvers: Resolvers = {
       prisma.website
         .findMany({
           skip,
+          include: {
+            fetish: true,
+          },
           take: limit || 30,
           ...applyWebsiteFilter(filter),
         })
-        .then(websitees => websitees.map(transformWebsite)),
+        .then(websites => websites.map(transformWebsite)),
   },
 };

@@ -35,8 +35,7 @@ export const FreeonesScraper: ActressScraper = {
         x === 'Latin' ? 'Latina' : x === 'Black' ? 'Ebony' : filter<Ethnicity>(isEthnicity)(x),
     },
     dateOfBirth: {
-      selector:
-        '#search-result > section > div.d-md-flex.flex-md-row.large-items > div.profile-meta-item.large-meta-item.flex-basis-30.block-shadow > div > p.mb-1.font-weight-base > a',
+      selector: '.profile-meta-item p.mb-1.font-weight-base > a',
       type: 'href',
       transform: regex(/(\d{4}-\d{2}-\d{2})/, x => new Date(Date.parse(x)).toISOString()),
     },
@@ -47,14 +46,12 @@ export const FreeonesScraper: ActressScraper = {
       transform: x => new Date(`${x}-01-01`).toISOString(),
     },
     dateOfRetirement: {
-      selector:
-        'body > div.height-container.flex-m-row.d-m-flex > div.right-container.flex-m-column.d-m-flex.flex-1 > main > div.d-lg-flex.flex-lg-row > div.d-block.d-lg-flex.flex-lg-column.w-lg-30.pr-2.pr-md-3.sidebar-right.sidebar-right-wide > div > div.flex-1.mb-4.mb-md-0 > div.timeline-horizontal.mb-3 > div.d-flex.justify-content-between.font-size-md.align-items-center.mb-2 > p:nth-child(3)',
+      selector: '.timeline-horizontal > div:first-child > p:last-child',
       type: 'text',
       transform: x => (x === 'Now' ? undefined : new Date(`${x}-01-01`).toISOString()),
     },
     dateOfDeath: {
-      selector:
-        '#search-result > section > div.d-md-flex.flex-md-row.large-items > div.profile-meta-item.large-meta-item.flex-basis-30.block-shadow > div > p.mb-1.font-size-xs',
+      selector: '.profile-meta-item .hide-on-edit div:nth-child(2)',
       type: 'text',
       transform: x => {
         const matches = x.match(/Passed away on (?<date>.*) at/);
@@ -71,13 +68,11 @@ export const FreeonesScraper: ActressScraper = {
       transform: regex(/=(.*)$/, x => x),
     },
     province: {
-      selector:
-        '#search-result > section > div.d-md-flex.flex-md-row.large-items > div.profile-meta-item.large-meta-item.flex-basis-30.block-shadow > div > p:nth-child(3) > a:nth-child(3) > span',
+      selector: '.profile-meta-item .hide-on-edit p:last-child > a:nth-child(3) > span',
       type: 'text',
     },
     city: {
-      selector:
-        '#search-result > section > div.d-md-flex.flex-md-row.large-items > div.profile-meta-item.large-meta-item.flex-basis-30.block-shadow > div > p:nth-child(3) > a:nth-child(2) > span',
+      selector: '.profile-meta-item .hide-on-edit p:last-child > a:nth-child(2) > span',
       type: 'text',
     },
     boobs: {
@@ -123,8 +118,7 @@ export const FreeonesScraper: ActressScraper = {
       },
     },
     cupsize: {
-      selector:
-        '#search-result > section > div:nth-child(3) > dl > dd:nth-child(10) > span > a:nth-child(1) > span',
+      selector: '[data-test="p-measurements"]',
       type: 'text',
       transform: regex(/\d{2}(.)/, x => (isCupsize(x) ? x : undefined)),
     },

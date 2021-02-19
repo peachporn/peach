@@ -117,6 +117,10 @@ export default {
   ACTRESS_UPLOAD_SUCCESS: 'Actress image uploaded!',
   ACTRESS_SCRAPE: 'Scrape Data',
   ACTRESS_SCRAPE_STARTED: 'Actress scraping started!',
+  ACTRESS_STATUS: 'Status',
+  ACTRESS_STATUS_IN_BUSINESS: 'In business',
+  ACTRESS_STATUS_RETIRED: 'Retired',
+  ACTRESS_LOCATION: 'Location',
   CREATE_GENRE_FORM_HEADLINE: 'New genre',
   CREATE_GENRE_FORM_SUBMIT: 'Create',
   UPLOAD_IMAGE_URL: 'URL',
@@ -166,4 +170,6 @@ export default {
   WEBSITE_FILTER_NAME: 'Name',
   CREATE_WEBSITE_FORM_HEADLINE: 'New Website',
   TASKS_NONE: 'Nothing to do!',
+  CENTIMETER: 'cm',
+  KILOGRAM: 'kg',
 } as const;

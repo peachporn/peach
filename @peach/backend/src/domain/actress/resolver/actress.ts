@@ -1,6 +1,7 @@
 import { Prisma } from '@prisma/client';
 import { ActressFilter } from '@peach/types';
 import { isInBusiness } from '@peach/domain';
+import { diffYears } from '@peach/utils';
 import { transformActress } from '../transformer/actress';
 import { Resolvers } from '../../../generated/resolver-types';
 
@@ -25,6 +26,8 @@ export const actressResolvers: Resolvers = {
   Actress: {
     inBusiness: parent => isInBusiness(parent),
     picture: parent => `/assets/actress/${parent.id}.jpg`,
+    age: parent =>
+      !parent.dateOfBirth ? undefined : diffYears(new Date(), new Date(parent.dateOfBirth)),
   },
   Query: {
     actress: async (_parent, { id }, { prisma }) =>

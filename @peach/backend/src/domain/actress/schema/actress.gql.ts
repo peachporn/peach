@@ -75,6 +75,7 @@ export const actressTypeDefs = gql`
     dateOfCareerstart: String
     dateOfRetirement: String
     dateOfDeath: String
+    age: Int
 
     inBusiness: Boolean
 

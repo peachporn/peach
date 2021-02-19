@@ -2,6 +2,7 @@ import { FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
 import { ActressesCountQuery, ActressesListQuery, ActressesListQueryVariables } from '@peach/types';
 import { useContext } from 'preact/hooks';
+import { useHistory } from 'react-router-dom';
 import { usePagination } from '../../utils/usePagination';
 import { actressesCountQuery, actressesListQuery } from './queries/actressesList.gql';
 import { i } from '../../i18n/i18n';
@@ -10,10 +11,12 @@ import { ActressFilterContext, ActressFilterProvider } from './context/actressFi
 import { ActressFilter } from './components/actressFilter';
 import { CreateActressForm } from './components/createActressForm';
 import { ActressCard } from '../../components/actressCard';
+import { actressDetailRoute } from '../../utils/route';
 
 const pageLength = 48;
 
 const ActressesPageComponent: FunctionalComponent = () => {
+  const history = useHistory();
   const { filter } = useContext(ActressFilterContext);
   const count = useQuery<ActressesCountQuery>(actressesCountQuery);
 
@@ -48,8 +51,14 @@ const ActressesPageComponent: FunctionalComponent = () => {
           <Loading />
         ) : (
           <div className="grid grid-cols-2 gap-4">
-            {(data?.actresses || []).map(a => (
-              <ActressCard key={a.id} actress={a} />
+            {(data?.actresses || []).map(actress => (
+              <ActressCard
+                key={actress.id}
+                onClick={() => {
+                  history.push(actressDetailRoute(actress.id));
+                }}
+                actress={actress}
+              />
             ))}
           </div>
         )}

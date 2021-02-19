@@ -81,6 +81,7 @@ export type Actress = {
   dateOfCareerstart?: Maybe<Scalars['String']>;
   dateOfRetirement?: Maybe<Scalars['String']>;
   dateOfDeath?: Maybe<Scalars['String']>;
+  age?: Maybe<Scalars['Int']>;
   inBusiness?: Maybe<Scalars['Boolean']>;
   country?: Maybe<Scalars['String']>;
   province?: Maybe<Scalars['String']>;
@@ -325,7 +326,7 @@ export type MutationSetMovieFetishesArgs = {
 
 export type MutationUpdateActressArgs = {
   actressId: Scalars['Int'];
-  data: ActressUpdateInput;
+  data: UpdateActressInput;
 };
 
 
@@ -384,7 +385,7 @@ export type ActressScrapeResult = {
   picture?: Maybe<Scalars['String']>;
 };
 
-export type ActressUpdateInput = {
+export type UpdateActressInput = {
   name?: Maybe<Scalars['String']>;
   dateOfBirth?: Maybe<Scalars['String']>;
   dateOfCareerstart?: Maybe<Scalars['String']>;
@@ -686,20 +687,25 @@ export type SettingsFragment = { __typename?: 'Settings', id: number, language: 
     & FetishBubbleFragment
   )> };
 
+export type ActressDetailFragment = { __typename?: 'Actress', id: number, name: string, picture?: Maybe<string>, aliases: Array<string>, haircolor?: Maybe<Haircolor>, eyecolor?: Maybe<Eyecolor>, ethnicity?: Maybe<Ethnicity>, dateOfBirth?: Maybe<string>, dateOfCareerstart?: Maybe<string>, dateOfRetirement?: Maybe<string>, dateOfDeath?: Maybe<string>, age?: Maybe<number>, inBusiness?: Maybe<boolean>, country?: Maybe<string>, province?: Maybe<string>, city?: Maybe<string>, boobs?: Maybe<Boobs>, piercings?: Maybe<string>, tattoos?: Maybe<string>, height?: Maybe<number>, weight?: Maybe<number>, cupsize?: Maybe<Cupsize>, socialMediaLinks?: Maybe<Array<Maybe<string>>>, officialWebsite?: Maybe<string>, location?: Maybe<{ __typename?: 'GeoLocation', latitude: number, longitude: number }>, measurements?: Maybe<{ __typename?: 'Measurements', bust: number, hips: number, waist: number }>, movies?: Maybe<Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean }> }>> };
+
 export type UpdateActressMutationVariables = Exact<{
   actressId: Scalars['Int'];
-  data: ActressUpdateInput;
+  data: UpdateActressInput;
 }>;
 
 
 export type UpdateActressMutation = { __typename?: 'Mutation', updateActress?: Maybe<{ __typename?: 'Actress', id: number }> };
 
-export type ActressQueryVariables = Exact<{
+export type ActressDetailQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type ActressQuery = { __typename?: 'Query', actress?: Maybe<{ __typename?: 'Actress', id: number, name: string, picture?: Maybe<string>, aliases: Array<string>, haircolor?: Maybe<Haircolor>, eyecolor?: Maybe<Eyecolor>, ethnicity?: Maybe<Ethnicity>, dateOfBirth?: Maybe<string>, dateOfCareerstart?: Maybe<string>, dateOfRetirement?: Maybe<string>, dateOfDeath?: Maybe<string>, inBusiness?: Maybe<boolean>, country?: Maybe<string>, province?: Maybe<string>, city?: Maybe<string>, boobs?: Maybe<Boobs>, piercings?: Maybe<string>, tattoos?: Maybe<string>, height?: Maybe<number>, weight?: Maybe<number>, cupsize?: Maybe<Cupsize>, socialMediaLinks?: Maybe<Array<Maybe<string>>>, officialWebsite?: Maybe<string>, location?: Maybe<{ __typename?: 'GeoLocation', latitude: number, longitude: number }>, measurements?: Maybe<{ __typename?: 'Measurements', bust: number, hips: number, waist: number }>, movies?: Maybe<Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean }> }>> }> };
+export type ActressDetailQuery = { __typename?: 'Query', actress?: Maybe<(
+    { __typename?: 'Actress' }
+    & ActressDetailFragment
+  )> };
 
 export type ActressScrapeResultFragment = { __typename?: 'ActressScrapeResult', name: string, aliases?: Maybe<Array<string>>, picture?: Maybe<string>, haircolor?: Maybe<Haircolor>, eyecolor?: Maybe<Eyecolor>, ethnicity?: Maybe<Ethnicity>, cupsize?: Maybe<Cupsize>, boobs?: Maybe<Boobs>, height?: Maybe<number>, weight?: Maybe<number>, dateOfBirth?: Maybe<string>, dateOfCareerstart?: Maybe<string>, dateOfRetirement?: Maybe<string>, dateOfDeath?: Maybe<string>, country?: Maybe<string>, province?: Maybe<string>, city?: Maybe<string>, piercings?: Maybe<string>, tattoos?: Maybe<string>, socialMediaLinks?: Maybe<Array<Maybe<string>>>, officialWebsite?: Maybe<string>, measurements?: Maybe<{ __typename?: 'Measurements', bust: number, waist: number, hips: number }> };
 

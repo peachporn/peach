@@ -1,7 +1,6 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
-import { useMutation, useQuery } from '@apollo/client';
-import { useForm } from 'react-hook-form';
+import { useState } from 'preact/hooks';
+import { useMutation } from '@apollo/client';
 import {
   Boobs,
   CreateActressMutation,
@@ -12,139 +11,24 @@ import {
   Haircolor,
 } from '@peach/types';
 import { Modal } from '../../../components/modal';
-import { i } from '../../../i18n/i18n';
-import { scrapeActressQuery } from '../queries/scrapeActress.gql';
 import { Icon } from '../../../components/icon';
-import { ActressFormFields } from '../../../components/actressFormFields';
-import { formatDateForInput } from '../../../utils/date';
 import { createActressMutation } from '../mutations/createActress.gql';
-import { Loading } from '../../../components/loading';
+import { ActressForm, ActressFormValues } from '../../../components/actressForm';
 
 export type CreateActressFormProps = {
   onSubmit: () => void;
 };
 
-type CreateActressFormData = {
-  name: string;
-  picture: string;
-  aliases: string;
-  haircolor: string;
-  eyecolor: string;
-  ethnicity: string;
-  dateOfBirth: string;
-  dateOfCareerstart: string;
-  dateOfRetirement: string;
-  dateOfDeath: string;
-  city: string;
-  province: string;
-  country: string;
-  cupsize: string;
-  boobs: string;
-  measurements: {
-    bust: string;
-    waist: string;
-    hips: string;
-  };
-  height: string;
-  weight: string;
-  piercings: string;
-  tattoos: string;
-  officialWebsite: string;
-  socialMediaLinks: string;
-};
-
-export const CreateActressForm: FunctionalComponent<CreateActressFormProps> = ({ onSubmit }) => {
+export const CreateActressForm: FunctionalComponent<CreateActressFormProps> = ({
+  onSubmit: onSubmitCallback,
+}) => {
   const [visible, setVisible] = useState<boolean>(false);
-  const [searchName, setSearchName] = useState<string>('');
-
-  const { data, loading } = useQuery(scrapeActressQuery, {
-    skip: searchName === '',
-    variables: {
-      name: searchName,
-    },
-  });
-
-  const { register, handleSubmit, setValue, watch, reset } = useForm<CreateActressFormData>();
-
-  useEffect(() => {
-    if (!visible) {
-      reset();
-      setSearchName('');
-    }
-  }, [visible]);
-
-  useEffect(() => {
-    if (!data) return;
-    const {
-      scrapeActress: {
-        name,
-        picture,
-        aliases,
-        haircolor,
-        eyecolor,
-        ethnicity,
-        dateOfBirth,
-        dateOfCareerstart,
-        dateOfRetirement,
-        dateOfDeath,
-        city,
-        province,
-        country,
-        cupsize,
-        boobs,
-        measurements,
-        height,
-        weight,
-        piercings,
-        tattoos,
-        socialMediaLinks,
-        officialWebsite,
-      },
-    } = data;
-
-    setValue('name', name);
-    setValue('picture', picture);
-    setValue('aliases', aliases);
-    setValue('haircolor', haircolor);
-    setValue('eyecolor', eyecolor);
-    setValue('ethnicity', ethnicity);
-    if (dateOfBirth) {
-      setValue('dateOfBirth', formatDateForInput(dateOfBirth));
-    }
-    if (dateOfCareerstart) {
-      setValue('dateOfCareerstart', formatDateForInput(dateOfCareerstart));
-    }
-    if (dateOfRetirement) {
-      setValue('dateOfRetirement', formatDateForInput(dateOfRetirement));
-    }
-    if (dateOfDeath) {
-      setValue('dateOfDeath', formatDateForInput(dateOfDeath));
-    }
-    setValue('city', city);
-    setValue('province', province);
-    setValue('country', country);
-    setValue('cupsize', cupsize);
-    setValue('boobs', boobs);
-    if (measurements) {
-      setValue('measurements.bust', measurements.bust);
-      setValue('measurements.waist', measurements.waist);
-      setValue('measurements.hips', measurements.hips);
-    }
-    setValue('height', height);
-    setValue('weight', weight);
-    setValue('piercings', piercings);
-    setValue('tattoos', tattoos);
-    setValue('socialMediaLinks', socialMediaLinks.join('\n'));
-    setValue('officialWebsite', officialWebsite);
-  }, [data]);
-
-  const picture = watch('picture');
 
   const [createActress] = useMutation<CreateActressMutation, CreateActressMutationVariables>(
     createActressMutation,
   );
 
-  const submit = (formData: CreateActressFormData) => {
+  const onSubmit = (formData: ActressFormValues) =>
     createActress({
       variables: {
         input: {
@@ -183,13 +67,9 @@ export const CreateActressForm: FunctionalComponent<CreateActressFormProps> = ({
         },
       },
     }).then(() => {
-      if (onSubmit) {
-        onSubmit();
-      }
       setVisible(false);
-      setSearchName('');
+      onSubmitCallback();
     });
-  };
 
   return (
     <Fragment>
@@ -200,42 +80,12 @@ export const CreateActressForm: FunctionalComponent<CreateActressFormProps> = ({
         <Icon className="w-10 h-10 focus:outline-none text-3xl text-glow" icon="add" />
       </button>
       <Modal visible={visible} setVisible={setVisible}>
-        <div className="flex items-center">
-          {data ? null : (
-            <Fragment>
-              <Icon icon="search" />
-              <input
-                className="input w-full mr-8"
-                placeholder={i('ACTRESS_CREATE_PLACEHOLDER')}
-                value={searchName}
-                onKeyUp={e => {
-                  if (e.key === 'Enter') {
-                    setSearchName((e.target as HTMLInputElement).value);
-                  }
-                }}
-              />
-            </Fragment>
-          )}
-        </div>
-        {loading ? <Loading /> : null}
-        {!data ? null : (
-          // @ts-ignore
-          <form onSubmit={handleSubmit(submit)}>
-            <ActressFormFields className="my-3" register={register} picture={picture} />
-            <button className="bg-pink w-full text-white py-1 rounded-sm" type="submit">
-              <Icon icon="check" />
-            </button>
-            <button
-              className="bg-grey-200 w-full text-white py-1 rounded-sm"
-              onClick={() => {
-                setSearchName('');
-                setVisible(false);
-              }}
-            >
-              <Icon icon="clear" />
-            </button>
-          </form>
-        )}
+        <ActressForm
+          onSubmit={onSubmit}
+          onCancel={() => {
+            setVisible(false);
+          }}
+        />
       </Modal>
     </Fragment>
   );

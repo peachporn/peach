@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server';
 
 export const updateActressTypeDefs = gql`
-  input ActressUpdateInput {
+  input UpdateActressInput {
     name: String
     dateOfBirth: String
     dateOfCareerstart: String
@@ -26,6 +26,6 @@ export const updateActressTypeDefs = gql`
   }
 
   extend type Mutation {
-    updateActress(actressId: Int!, data: ActressUpdateInput!): Actress
+    updateActress(actressId: Int!, data: UpdateActressInput!): Actress
   }
 `;

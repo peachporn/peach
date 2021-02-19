@@ -13,6 +13,7 @@ import { TasksPage } from './pages/tasks';
 import { MoviesPage } from './pages/movieList';
 import { GenreDetailPage } from './pages/genreDetail';
 import { WebsiteDetailPage } from './pages/websiteDetail';
+import { ActressDetailPage } from './pages/actressDetail';
 /*
 import { SettingsPage } from './pages/settings';
 import { SettingsProvider } from './context/settings';
@@ -60,6 +61,9 @@ const App = (
         <Switch>
           <Route exact path="/movies">
             <MoviesPage />
+          </Route>
+          <Route exact path="/actresses/:actressId">
+            <ActressDetailPage />
           </Route>
           <Route exact path="/actresses">
             <ActressesPage />

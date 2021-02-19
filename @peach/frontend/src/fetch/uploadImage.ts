@@ -27,7 +27,7 @@ const uploadImage = (formKey: string, uploadImageRouteFn: (id: number) => string
 
 export const uploadActressImage = uploadImage('actressImage', actressUploadImageRoute);
 export const uploadGenreImage = uploadImage('genreImage', genreUploadImageRoute);
-export const uploadWebsiteImage = uploadImage('websiteImage', genreUploadImageRoute);
+export const uploadWebsiteImage = uploadImage('websiteImage', websiteUploadImageRoute);
 
 const uploadImageFromUrl = (formKey: string, uploadImageRouteFn: (id: number) => string) => (
   id: number,

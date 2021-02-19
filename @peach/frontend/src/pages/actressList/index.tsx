@@ -49,7 +49,7 @@ const ActressesPageComponent: FunctionalComponent = () => {
         ) : (
           <div className="grid grid-cols-2 gap-4">
             {(data?.actresses || []).map(a => (
-              <ActressCard actress={a} />
+              <ActressCard key={a.id} actress={a} />
             ))}
           </div>
         )}

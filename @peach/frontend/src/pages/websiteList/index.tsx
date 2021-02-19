@@ -1,7 +1,8 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
+import { FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
 import { WebsitesCountQuery, WebsitesListQuery, WebsitesListQueryVariables } from '@peach/types';
 import { useContext } from 'preact/hooks';
+import { useHistory } from 'react-router-dom';
 import { usePagination } from '../../utils/usePagination';
 import { websitesCountQuery, websitesListQuery } from './queries/websiteList.gql';
 import { CreateWebsiteForm } from './components/createWebsiteForm';
@@ -9,10 +10,13 @@ import { i } from '../../i18n/i18n';
 import { Loading } from '../../components/loading';
 import { WebsiteFilterContext, WebsiteFilterProvider } from './context/websiteFilter';
 import { WebsiteFilter } from './components/websiteFilter';
+import { WebsiteCard } from '../../components/websiteCard';
+import { websiteDetailRoute } from '../../utils/route';
 
 const pageLength = 48;
 
 const WebsitesPageComponent: FunctionalComponent = () => {
+  const history = useHistory();
   const { filter } = useContext(WebsiteFilterContext);
   const count = useQuery<WebsitesCountQuery>(websitesCountQuery);
 
@@ -46,12 +50,17 @@ const WebsitesPageComponent: FunctionalComponent = () => {
         {loading ? (
           <Loading />
         ) : (
-          (data?.websites || []).map(website => (
-            <Fragment>
-              {website.picture ? <img alt={website.name} src={website.picture} /> : null}
-              <span>{website.name}</span>
-            </Fragment>
-          ))
+          <div className="grid grid-cols-1 gap-4">
+            {(data?.websites || []).map(website => (
+              <WebsiteCard
+                key={website.id}
+                onClick={() => {
+                  history.push(websiteDetailRoute(website.id));
+                }}
+                website={website}
+              />
+            ))}
+          </div>
         )}
       </section>
       <CreateWebsiteForm onSubmit={count.refetch} />

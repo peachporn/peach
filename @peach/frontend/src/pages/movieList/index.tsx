@@ -44,8 +44,8 @@ const MoviesPageComponent: FunctionalComponent = () => {
           <Loading />
         ) : (
           <div className="grid grid-cols-1 gap-4">
-            {(data?.movies || []).map(m => (
-              <MovieCard movie={m} />
+            {(data?.movies || []).map(movie => (
+              <MovieCard key={movie.id} movie={movie} />
             ))}
           </div>
         )}

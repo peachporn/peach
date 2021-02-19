@@ -1,24 +1,17 @@
 import { FunctionalComponent, Fragment, h } from 'preact';
 import { useState } from 'preact/hooks';
 import { useMutation } from '@apollo/client';
-import { useForm } from 'react-hook-form';
-import { head, omit } from 'ramda';
 import {
   CreateWebsiteMutation,
   CreateWebsiteMutationVariables,
-  FetishesQuery,
-  FetishesQueryVariables,
+  WebsiteDetailFragment,
 } from '@peach/types';
-import { i } from '../../../i18n/i18n';
+import { omit } from 'ramda';
+import { WebsiteForm } from '../../../components/websiteForm';
+import { createWebsiteMutation } from '../mutations/createWebsite.gql';
+import { uploadWebsiteImage, uploadWebsiteImageFromUrl } from '../../../fetch/uploadImage';
 import { Icon } from '../../../components/icon';
 import { Modal } from '../../../components/modal';
-import { Checkbox } from '../../../components/checkbox';
-import { uploadWebsiteImage, uploadWebsiteImageFromUrl } from '../../../fetch/uploadImage';
-import { WebsiteImageFormFields } from './websiteImageFormFields';
-import { createWebsiteMutation } from '../mutations/createWebsite.gql';
-import { fetishesQuery } from '../../settings/queries/fetishes.gql';
-import { FetishBubble } from '../../../components/fetishBubble';
-import { GenreSearch } from '../../../components/genreSearch';
 
 type CreateWebsiteFormData = {
   name: string;
@@ -38,21 +31,9 @@ export const CreateWebsiteForm: FunctionalComponent<CreateWebsiteFormProps> = ({
   const [formVisible, setFormVisible] = useState(false);
   const open = () => setFormVisible(true);
 
-  const { reset, register, handleSubmit, watch, setValue } = useForm<CreateWebsiteFormData>({
-    reValidateMode: 'onBlur',
-  });
-
-  const name = watch('name');
-  const isDisabled = !name;
-
   const [createWebsite] = useMutation<CreateWebsiteMutation, CreateWebsiteMutationVariables>(
     createWebsiteMutation,
   );
-
-  const resetForm = () => {
-    setFormVisible(false);
-    reset();
-  };
 
   const onSubmit = (data: CreateWebsiteFormData) =>
     createWebsite({
@@ -73,7 +54,7 @@ export const CreateWebsiteForm: FunctionalComponent<CreateWebsiteFormProps> = ({
           : Promise.resolve();
       })
       .then(() => {
-        resetForm();
+        setFormVisible(false);
         onSubmitCallback();
       });
 
@@ -86,46 +67,7 @@ export const CreateWebsiteForm: FunctionalComponent<CreateWebsiteFormProps> = ({
         <Icon className="w-10 h-10 focus:outline-none text-3xl text-glow" icon="add" />
       </button>
       <Modal visible={formVisible} setVisible={setFormVisible}>
-        <h2 className="text-3xl font-display text-glow text-pink mb-6">
-          {i('CREATE_WEBSITE_FORM_HEADLINE')}
-        </h2>
-        <div className="grid grid-cols-1 gap-5">
-          <input
-            className="input"
-            name="name"
-            placeholder={i('WEBSITE_NAME')}
-            autoFocus
-            ref={register({ required: true })}
-          />
-
-          <input
-            className="input"
-            name="url"
-            placeholder={i('WEBSITE_URL')}
-            autoFocus
-            ref={register({ required: true })}
-          />
-
-          <WebsiteImageFormFields register={register} />
-
-          <input className="hidden" name="fetish" ref={register} />
-          <GenreSearch
-            filterOverride={{ fetish: true }}
-            onChange={fetishIds => {
-              setValue('fetish', head(fetishIds) || '', { shouldDirty: true });
-            }}
-          />
-        </div>
-
-        <button
-          className={`${
-            isDisabled ? 'bg-gray-200' : 'bg-pink'
-          } rounded-sm text-white py-1 px-3 w-full mt-4`}
-          disabled={isDisabled}
-          onClick={() => handleSubmit(onSubmit)()}
-        >
-          <Icon icon="check" />
-        </button>
+        <WebsiteForm onSubmit={onSubmit} />
       </Modal>
     </Fragment>
   );

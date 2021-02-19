@@ -23,6 +23,7 @@ export const GenreGridByCategory: FunctionalComponent<GenreGridByCategoryProps> 
             <div className="grid grid-cols-3 gap-2">
               {genresForCategory.map(g => (
                 <GenreCard
+                  key={g.id}
                   genre={g}
                   onClick={() => {
                     history.push(genreDetailRoute(g.id));

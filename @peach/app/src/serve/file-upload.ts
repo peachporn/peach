@@ -3,7 +3,11 @@ import fileUpload, { UploadedFile } from 'express-fileupload';
 import { getActressImagePath, getGenreImagePath, getWebsiteImagePath } from '@peach/domain';
 import { downloadImage, prisma } from '@peach/utils';
 
-const saveImageFromFile = async (file: UploadedFile | UploadedFile[], path: string) => {
+const saveImageFromFile = async (
+  file: UploadedFile | UploadedFile[],
+  path: string,
+  mimeTypes: string[] = ['image/jpeg'],
+) => {
   if (Array.isArray(file)) {
     throw new Error('Multiple files uploaded! Please upload only one file');
   }
@@ -12,7 +16,7 @@ const saveImageFromFile = async (file: UploadedFile | UploadedFile[], path: stri
     throw new Error('File size exceeded! Please upload a file smaller than 50 MB');
   }
 
-  if (file.mimetype !== 'image/jpeg') {
+  if (!mimeTypes.includes(file.mimetype)) {
     throw new Error('Only JPGs are supported!');
   }
 
@@ -139,7 +143,7 @@ export const applyFileUploadMiddleware = (app: Application) => {
     const path = `${websiteImagePath}${websiteId}.png`;
 
     const save = file
-      ? saveImageFromFile(file, path)
+      ? saveImageFromFile(file, path, ['image/png'])
       : url
       ? downloadImage(url, path)
       : Promise.reject();

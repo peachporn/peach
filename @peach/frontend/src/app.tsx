@@ -12,6 +12,7 @@ import { WebsitesPage } from './pages/websiteList';
 import { TasksPage } from './pages/tasks';
 import { MoviesPage } from './pages/movieList';
 import { GenreDetailPage } from './pages/genreDetail';
+import { WebsiteDetailPage } from './pages/websiteDetail';
 /*
 import { SettingsPage } from './pages/settings';
 import { SettingsProvider } from './context/settings';
@@ -74,6 +75,9 @@ const App = (
           </Route>
           <Route exact path="/genres">
             <GenresPage />
+          </Route>
+          <Route exact path="/websites/:websiteId">
+            <WebsiteDetailPage />
           </Route>
           <Route exact path="/websites">
             <WebsitesPage />

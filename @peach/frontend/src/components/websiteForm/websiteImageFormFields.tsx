@@ -1,7 +1,7 @@
 import { FunctionalComponent, h } from 'preact';
 import { UseFormMethods } from 'react-hook-form';
 import { useState } from 'preact/hooks';
-import { i } from '../../../i18n/i18n';
+import { i } from '../../i18n/i18n';
 
 type WebsiteImageFormFieldsProps = {
   register: UseFormMethods['register'];

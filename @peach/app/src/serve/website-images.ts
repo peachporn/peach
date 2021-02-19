@@ -10,14 +10,12 @@ export const serveWebsiteImages = async (req: Request, res: Response) => {
     res.status(404);
     return res.send();
   }
-
   const websiteImagePath = await getWebsiteImagePath();
 
   if (!websiteImagePath) {
     res.status(400);
     return res.send('No website image path configured!');
   }
-
   const s = createReadStream(path.join(websiteImagePath, requested));
 
   s.on('open', () => {

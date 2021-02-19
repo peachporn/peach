@@ -251,6 +251,7 @@ export type Mutation = {
   updateGenreDefinitions?: Maybe<Movie>;
   updateMovie?: Maybe<Movie>;
   updateSettings: Settings;
+  updateWebsite?: Maybe<Website>;
 };
 
 
@@ -348,6 +349,12 @@ export type MutationUpdateMovieArgs = {
 
 export type MutationUpdateSettingsArgs = {
   data: UpdateSettingsInput;
+};
+
+
+export type MutationUpdateWebsiteArgs = {
+  websiteId: Scalars['Int'];
+  data: UpdateWebsiteInput;
 };
 
 export type ActressScrapeResult = {
@@ -605,6 +612,12 @@ export type CreateWebsiteInput = {
   fetish?: Maybe<Scalars['Int']>;
 };
 
+export type UpdateWebsiteInput = {
+  name?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  fetish?: Maybe<Scalars['Int']>;
+};
+
 export type Website = {
   __typename?: 'Website';
   id: Scalars['Int'];
@@ -637,6 +650,11 @@ export type GenreSearchQuery = { __typename?: 'Query', genres: Array<(
   )> };
 
 export type MovieCardFragment = { __typename?: 'Movie', id: number, title: string, coverPicture?: Maybe<{ __typename?: 'Screencap', src: string }> };
+
+export type WebsiteCardFragment = { __typename?: 'Website', id: number, name: string, url: string, picture?: Maybe<string>, fetish?: Maybe<(
+    { __typename?: 'Genre' }
+    & FetishBubbleFragment
+  )> };
 
 export type UpdateSettingsMutationVariables = Exact<{
   data: UpdateSettingsInput;
@@ -942,6 +960,29 @@ export type TasksQuery = { __typename?: 'Query', tasks: Array<(
     & TaskFragment
   )> };
 
+export type WebsiteDetailFragment = { __typename?: 'Website', id: number, name: string, url: string, picture?: Maybe<string>, fetish?: Maybe<(
+    { __typename?: 'Genre' }
+    & GenreCardFragment
+  )>, movies: Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean }> }> };
+
+export type UpdateWebsiteMutationVariables = Exact<{
+  websiteId: Scalars['Int'];
+  data: UpdateWebsiteInput;
+}>;
+
+
+export type UpdateWebsiteMutation = { __typename?: 'Mutation', updateWebsite?: Maybe<{ __typename?: 'Website', id: number }> };
+
+export type WebsiteDetailQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type WebsiteDetailQuery = { __typename?: 'Query', website?: Maybe<(
+    { __typename?: 'Website' }
+    & WebsiteDetailFragment
+  )> };
+
 export type CreateWebsiteMutationVariables = Exact<{
   data: CreateWebsiteInput;
 }>;
@@ -956,7 +997,10 @@ export type WebsitesListQueryVariables = Exact<{
 }>;
 
 
-export type WebsitesListQuery = { __typename?: 'Query', websites: Array<{ __typename?: 'Website', name: string, picture?: Maybe<string> }> };
+export type WebsitesListQuery = { __typename?: 'Query', websites: Array<(
+    { __typename?: 'Website' }
+    & WebsiteCardFragment
+  )> };
 
 export type WebsitesCountQueryVariables = Exact<{ [key: string]: never; }>;
 

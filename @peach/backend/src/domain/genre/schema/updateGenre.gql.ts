@@ -5,13 +5,12 @@ export const updateGenreTypeDefs = gql`
     name: String
     category: GenreCategory
     validAsRoot: Boolean
+    validAsFetish: Boolean
     kinkiness: Int
+    linkableChildren: [Int!]
   }
 
   extend type Mutation {
     updateGenre(genreId: Int!, data: UpdateGenreInput!): Genre
-
-    addSubgenre(child: Int!, parent: Int!): Genre
-    removeSubgenre(child: Int!, parent: Int!): Genre
   }
 `;

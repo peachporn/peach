@@ -1,5 +1,5 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GenreDetailQuery, GenreDetailQueryVariables } from '@peach/types';
 import { genreDetailQuery } from './queries/genreDetail.gql';
@@ -9,6 +9,7 @@ import { Image } from '../../components/image';
 import { shuffle } from '../../utils/list';
 import { GenreCard } from '../../components/genreCard';
 import { i } from '../../i18n/i18n';
+import { EditGenreForm } from './components/editGenreForm';
 
 const screencapsForGenre = (genre: GenreDetailQuery['genre']) =>
   shuffle(
@@ -47,6 +48,7 @@ export type GenreDetailPageProps = {
 };
 
 export const GenreDetailPage: FunctionalComponent = () => {
+  const history = useHistory();
   const params = useParams<GenreDetailPageProps>();
   const genreId = parseInt(params.genreId, 10);
   if (!genreId) {
@@ -80,7 +82,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
           {genre?.name || ''}
         </h1>
       </div>
-      <section className="bg-white p-8 min-h-screen/2 shadow-lg">
+      <section className="bg-white p-8 min-h-screen/2 shadow-lg relative">
         {loading || !genre ? (
           <Loading />
         ) : (
@@ -100,13 +102,21 @@ export const GenreDetailPage: FunctionalComponent = () => {
             </div>
             {!genre.linkableChildren.length ? null : (
               <Fragment>
-                <h2 className="text-xl border-gray-200 border-b mt-8">{i('SUBGENRES')}</h2>
-                {genre.linkableChildren.map(g => (
-                  <GenreCard genre={g} />
-                ))}
+                <h2 className="text-lg border-gray-200 border-b mt-8">{i('SUBGENRES')}</h2>
+                <div className="grid grid-cols-4 pt-2 gap-2">
+                  {genre.linkableChildren.map(g => (
+                    <GenreCard genre={g} />
+                  ))}
+                </div>
               </Fragment>
             )}
             <div />
+            <EditGenreForm
+              genre={genre}
+              onSubmit={() => {
+                refetch();
+              }}
+            />
           </Fragment>
         )}
       </section>

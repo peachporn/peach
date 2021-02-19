@@ -1,65 +1,40 @@
 import { FunctionalComponent, Fragment, h } from 'preact';
 import { useState } from 'preact/hooks';
 import { useMutation } from '@apollo/client';
-import { useForm } from 'react-hook-form';
-import { CreateGenreMutation, CreateGenreMutationVariables, GenreCategory } from '@peach/types';
+import { CreateGenreMutation, CreateGenreMutationVariables } from '@peach/types';
 import { omit } from 'ramda';
-import { createGenreMutation } from '../mutations/createGenre.gql';
-import { i } from '../../../i18n/i18n';
 import { Icon } from '../../../components/icon';
-import { genreCategories } from '../../../domain/genre';
 import { Modal } from '../../../components/modal';
 import { Checkbox } from '../../../components/checkbox';
+import { GenreSearch } from '../../../components/genreSearch';
+import { createGenreMutation } from '../mutations/createGenre.gql';
 import { uploadGenreImage, uploadGenreImageFromUrl } from '../../../fetch/uploadImage';
-import { GenreImageFormFields } from './genreImageFormFields';
-import { KinkinessSlider } from './kinkinessSlider';
+import { GenreForm, GenreFormValues } from '../../../components/genreForm';
 
-type CreateGenreFormData = {
-  name: string;
-  category: GenreCategory;
-  kinkiness: string;
-  validAsRoot: boolean;
-  validAsFetish: boolean;
-  image: FileList;
-  imageUrl: string;
-};
-
-export type CreateGenreFormProps = {
+type CreateGenreFormProps = {
   onSubmit: () => void;
 };
 
 export const CreateGenreForm: FunctionalComponent<CreateGenreFormProps> = ({
   onSubmit: onSubmitCallback,
 }) => {
-  const [formVisible, setFormVisible] = useState(false);
-  const open = () => setFormVisible(true);
-
-  const { reset, register, handleSubmit, watch, setValue } = useForm<CreateGenreFormData>({
-    reValidateMode: 'onBlur',
-    defaultValues: {
-      kinkiness: '10',
-    },
-  });
-
-  const kinkiness = watch('kinkiness');
-  const name = watch('name');
-  const isDisabled = !name;
+  const [visible, setVisible] = useState(false);
+  const open = () => setVisible(true);
 
   const [createGenre] = useMutation<CreateGenreMutation, CreateGenreMutationVariables>(
     createGenreMutation,
   );
 
-  const resetForm = () => {
-    setFormVisible(false);
-    reset();
-  };
-
-  const onSubmit = (data: CreateGenreFormData) =>
+  const onSubmit = (data: GenreFormValues) =>
     createGenre({
       variables: {
         data: {
           ...omit(['image', 'imageUrl'], data),
           kinkiness: parseInt(data.kinkiness, 10),
+          linkableChildren: data.linkableChildren
+            .split(',')
+            .map(id => parseInt(id, 10))
+            .filter(Boolean),
         },
       },
     })
@@ -73,7 +48,7 @@ export const CreateGenreForm: FunctionalComponent<CreateGenreFormProps> = ({
           : Promise.resolve();
       })
       .then(() => {
-        resetForm();
+        setVisible(false);
         onSubmitCallback();
       });
 
@@ -85,58 +60,8 @@ export const CreateGenreForm: FunctionalComponent<CreateGenreFormProps> = ({
       >
         <Icon className="w-10 h-10 focus:outline-none text-3xl text-glow" icon="add" />
       </button>
-      <Modal visible={formVisible} setVisible={setFormVisible}>
-        <h2 className="text-3xl font-display text-glow text-pink mb-6">
-          {i('CREATE_GENRE_FORM_HEADLINE')}
-        </h2>
-        <div className="grid grid-cols-1 gap-5">
-          <input
-            className="input"
-            name="name"
-            placeholder="Name"
-            autoFocus
-            ref={register({ required: true })}
-          />
-
-          <select className="bg-white input" name="category" ref={register}>
-            {genreCategories.map(category => (
-              <option value={category}>{category}</option>
-            ))}
-          </select>
-
-          <KinkinessSlider
-            kinkiness={parseInt(kinkiness, 10)}
-            register={register}
-            setValue={setValue}
-            className="w-full"
-          />
-
-          <GenreImageFormFields register={register} />
-
-          <div>
-            <Checkbox
-              name="validAsRoot"
-              register={register}
-              label={<span>{i('GENRE_VALIDASROOT')}</span>}
-            />
-
-            <Checkbox
-              name="validAsFetish"
-              register={register}
-              label={<span>{i('GENRE_VALIDASFETISH')}</span>}
-            />
-          </div>
-        </div>
-
-        <button
-          className={`${
-            isDisabled ? 'bg-gray-200' : 'bg-pink'
-          } rounded-sm text-white py-1 px-3 w-full mt-4`}
-          disabled={isDisabled}
-          onClick={() => handleSubmit(onSubmit)()}
-        >
-          <Icon icon="check" />
-        </button>
+      <Modal visible={visible} setVisible={setVisible}>
+        <GenreForm onSubmit={onSubmit} />
       </Modal>
     </Fragment>
   );

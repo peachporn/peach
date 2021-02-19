@@ -130,7 +130,7 @@ export default {
   GENRE_KINKINESS: 'Kink',
   GENRE_IMAGE: 'Thumbnail',
   GENRE_FILTER_NAME: 'Name',
-  SUBGENRES: 'Subgenres',
+  SUBGENRES: 'Child genres',
   SUBGENRE_FORM_HEADLINE: 'Add a subgenre',
   SUBGENRE_FORM_NORESULT: 'No genre found!',
   SOFTCORE: 'Softcore',

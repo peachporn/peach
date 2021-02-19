@@ -7,6 +7,7 @@ export const createGenreTypeDefs = gql`
     kinkiness: Int!
     validAsRoot: Boolean!
     validAsFetish: Boolean!
+    linkableChildren: [Int!]
   }
 
   extend type Mutation {

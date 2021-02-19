@@ -26,6 +26,7 @@ export const genreDetailFragment = gql`
     }
 
     validAsRoot
+    validAsFetish
     linkableChildren {
       ...GenreCard
     }

@@ -2,6 +2,7 @@ import { Prisma } from '@peach/utils';
 import { GenreFilter } from '@peach/types';
 import { transformGenre } from '../transformer/genre';
 import { Resolvers } from '../../../generated/resolver-types';
+import { transformMovie } from '../../movie/transformer/movie';
 
 export const applyGenreFilter = (
   filter: GenreFilter | undefined,
@@ -40,6 +41,30 @@ export const applyGenreFilter = (
 export const genreResolvers: Resolvers = {
   Genre: {
     picture: parent => `/assets/genre/${parent.id}.jpg`,
+    fetishMovies: (parent, _args, { prisma }) =>
+      prisma.movie
+        .findMany({
+          where: {
+            fetishes: {
+              some: {
+                id: parent.id,
+              },
+            },
+          },
+        })
+        .then(movies => movies.map(transformMovie)),
+    movies: (parent, _args, { prisma }) =>
+      prisma.movie
+        .findMany({
+          where: {
+            genres: {
+              some: {
+                id: parent.id,
+              },
+            },
+          },
+        })
+        .then(movies => movies.map(transformMovie)),
   },
   Query: {
     genre: async (_parent, { id }, { prisma }) =>

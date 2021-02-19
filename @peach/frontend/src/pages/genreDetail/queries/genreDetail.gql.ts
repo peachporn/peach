@@ -1,21 +1,12 @@
 import gql from 'graphql-tag';
+import { genreDetailFragment } from '../fragments/genreDetail.gql';
 
 export const genreDetailQuery = gql`
-  query Genre($id: Int!) {
+  query GenreDetail($id: Int!) {
     genre(id: $id) {
-      id
-      name
-      category
-      kinkiness
-      picture
-
-      validAsRoot
-      linkableChildren {
-        id
-        name
-        category
-        picture
-      }
+      ...GenreDetail
     }
   }
+
+  ${genreDetailFragment}
 `;

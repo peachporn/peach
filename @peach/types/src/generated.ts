@@ -443,6 +443,8 @@ export type Genre = {
   validAsFetish: Scalars['Boolean'];
   linkableParents: Array<Genre>;
   linkableChildren: Array<Genre>;
+  fetishMovies?: Maybe<Array<Movie>>;
+  movies?: Maybe<Array<Movie>>;
 };
 
 export type GenreFilter = {
@@ -728,6 +730,11 @@ export type ScrapeActressQuery = { __typename?: 'Query', scrapeActress?: Maybe<(
     & ActressScrapeResultFragment
   )> };
 
+export type GenreDetailFragment = { __typename?: 'Genre', id: number, name: string, category: GenreCategory, kinkiness: number, picture: string, validAsRoot: boolean, fetishMovies?: Maybe<Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean }> }>>, movies?: Maybe<Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean }> }>>, linkableChildren: Array<(
+    { __typename?: 'Genre' }
+    & GenreCardFragment
+  )> };
+
 export type DeleteGenreMutationVariables = Exact<{
   genreId: Scalars['Int'];
 }>;
@@ -759,12 +766,22 @@ export type RemoveSubgenreMutationVariables = Exact<{
 
 export type RemoveSubgenreMutation = { __typename?: 'Mutation', removeSubgenre?: Maybe<{ __typename?: 'Genre', id: number }> };
 
-export type GenreQueryVariables = Exact<{
+export type GenreDetailQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type GenreQuery = { __typename?: 'Query', genre?: Maybe<{ __typename?: 'Genre', id: number, name: string, category: GenreCategory, kinkiness: number, picture: string, validAsRoot: boolean, linkableChildren: Array<{ __typename?: 'Genre', id: number, name: string, category: GenreCategory, picture: string }> }> };
+export type GenreDetailQuery = { __typename?: 'Query', genre?: Maybe<(
+    { __typename?: 'Genre' }
+    & GenreDetailFragment
+  )> };
+
+export type GenreEditQueryVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+
+export type GenreEditQuery = { __typename?: 'Query', genre?: Maybe<{ __typename?: 'Genre', id: number, name: string, category: GenreCategory, kinkiness: number, picture: string, validAsRoot: boolean, linkableChildren: Array<{ __typename?: 'Genre', id: number, name: string, category: GenreCategory, picture: string }> }> };
 
 export type CreateGenreMutationVariables = Exact<{
   data: GenreCreateInput;

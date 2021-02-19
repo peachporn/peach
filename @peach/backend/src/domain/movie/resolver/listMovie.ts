@@ -1,11 +1,11 @@
 import { without } from 'ramda';
 import { Prisma, Movie as DBMovie } from '@peach/utils';
-import { MoviesFilter } from '@peach/types';
+import { MovieFilter } from '@peach/types';
 import { Resolvers } from '../../../generated/resolver-types';
 import { transformMovie } from '../transformer/movie';
 
 export const applyMovieFilter = (
-  filter: MoviesFilter | undefined,
+  filter: MovieFilter | undefined,
 ): Pick<Prisma.FindManyMovieArgs, 'where'> =>
   !filter
     ? {}

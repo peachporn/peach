@@ -1,107 +1,115 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
-import { useParams, useHistory, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { useState } from 'preact/hooks';
-import { AddSubgenreForm } from './components/addSubgenreForm';
+import { GenreDetailQuery, GenreDetailQueryVariables } from '@peach/types';
 import { genreDetailQuery } from './queries/genreDetail.gql';
-import { Button, Container, Flex, Headline1, Loading } from '../../../components';
-import { Image } from '../../../components/components/image';
-import { Text } from '../../../components/components/text';
+import { Loading } from '../../components/loading';
+import { colorCodeKinkiness } from '../../domain/genre';
+import { Image } from '../../components/image';
+import { shuffle } from '../../utils/list';
+import { GenreCard } from '../../components/genreCard';
 import { i } from '../../i18n/i18n';
-import { GenreDataForm } from './components/genreDataForm';
-import { genreDetailRoute, genreEditRoute, isGenreEditRoute } from '../../utils/route';
-import { GenreDeleteButton } from './components/genreDeleteButton';
-import { GenreImageForm } from './components/genreImageForm';
-import { PageIntro } from '../../../components/components/pageIntro';
-import { ScreencapGrid } from '../movieDetail/components/screencapStrip';
-import { KinkScore } from '../../../components/components/kinkScore';
+
+const screencapsForGenre = (genre: GenreDetailQuery['genre']) =>
+  shuffle(
+    [
+      ...(genre?.fetishMovies || []).map(m => ({
+        movie: m,
+        screencap: m.screencaps.find(s => s.cover),
+      })),
+      ...(genre?.movies || []).map(m => ({
+        movie: m,
+        screencap: m.screencaps.find(s => s.cover),
+      })),
+      ...(genre?.fetishMovies || []).flatMap(m =>
+        m.screencaps
+          .filter(s => !s.cover)
+          .map(s => ({
+            movie: m,
+            screencap: s,
+          })),
+      ),
+      ...(genre?.movies || []).flatMap(m =>
+        m.screencaps
+          .filter(s => !s.cover)
+          .map(s => ({
+            movie: m,
+            screencap: s,
+          })),
+      ),
+    ]
+      .filter(Boolean)
+      .slice(0, 6),
+  );
 
 export type GenreDetailPageProps = {
   genreId: string;
 };
 
 export const GenreDetailPage: FunctionalComponent = () => {
-  const history = useHistory();
-  const location = useLocation();
   const params = useParams<GenreDetailPageProps>();
-  const [editingData, setEditingData_] = useState<boolean>(!!isGenreEditRoute(location.pathname));
-
   const genreId = parseInt(params.genreId, 10);
   if (!genreId) {
     return null;
   }
 
-  const setEditingData = (x: boolean) => {
-    setEditingData_(x);
-    if (x) {
-      history.push(genreEditRoute(genreId));
-    } else {
-      history.push(genreDetailRoute(genreId));
-    }
-  };
-
-  const { loading, data, refetch } = useQuery<GenreQuery, GenreQueryVariables>(genreDetailQuery, {
-    variables: {
-      id: genreId,
+  const { loading, data, refetch } = useQuery<GenreDetailQuery, GenreDetailQueryVariables>(
+    genreDetailQuery,
+    {
+      variables: {
+        id: genreId,
+      },
     },
-  });
+  );
 
   const genre = data?.genre;
 
   return (
-    <Fragment>
-      {loading || !genre ? (
-        <Flex justify="center">
-          <Loading color="white" />
-        </Flex>
-      ) : (
-        <Fragment>
-          <PageIntro>
-            <ScreencapGrid />
-          </PageIntro>
-          <Container background="white">
-            <div className="genre-detail__left-bar">
-              {!editingData && (
-                <Fragment>
-                  <Image className="genre-detail__card" alt={genre.name} src={genre.picture} />
-                  <Button
-                    onClick={() => {
-                      setEditingData(true);
-                    }}
-                  >
-                    {i('EDIT')}
-                  </Button>
-                  <GenreDeleteButton genre={genre} />
-                </Fragment>
-              )}
-              {editingData && <GenreImageForm genre={genre} />}
+    <main className="pb-12">
+      <div className="flex flex-col relative">
+        <div className="grid grid-cols-2 min-h-screen/2">
+          {screencapsForGenre(genre).map(({ movie, screencap }) => (
+            <Image
+              className="filter-grayscale blend-multiply opacity-70 -z-1 min-w-full min-h-full object-cover"
+              alt={movie.title}
+              src={screencap?.src}
+            />
+          ))}
+        </div>
+        <h1 className="absolute bottom-0 font-display text-3xl text-white pl-6 text-shadow-md">
+          {genre?.name || ''}
+        </h1>
+      </div>
+      <section className="bg-white p-8 min-h-screen/2 shadow-lg">
+        {loading || !genre ? (
+          <Loading />
+        ) : (
+          <Fragment>
+            <div className="flex w-full justify-between">
+              <span>{genre.category}</span>
+              <div className="flex items-end -mt-32">
+                <span
+                  className={`text-4xl font-bold mr-3 text-center -mb-2 text-${colorCodeKinkiness(
+                    genre.kinkiness,
+                  )}`}
+                >
+                  {genre.kinkiness}
+                </span>
+                <Image className="rounded" alt={genre.name} src={genre.picture} />
+              </div>
             </div>
-            {!editingData ? (
+            {!genre.linkableChildren.length ? null : (
               <Fragment>
-                <div className="genre-detail-header">
-                  <Headline1>{genre.name}</Headline1>
-                  <Text>{genre.category}</Text>
-                </div>
-                <KinkScore value={genre.kinkiness} scale="genre" />
-              </Fragment>
-            ) : (
-              <Fragment>
-                <GenreDataForm
-                  genre={genre}
-                  submit={() => {
-                    setEditingData(false);
-                    return refetch();
-                  }}
-                  cancel={() => setEditingData(false)}
-                />
+                <h2 className="text-xl border-gray-200 border-b mt-8">{i('SUBGENRES')}</h2>
+                {genre.linkableChildren.map(g => (
+                  <GenreCard genre={g} />
+                ))}
               </Fragment>
             )}
-            {(genre.validAsRoot || editingData) && (
-              <AddSubgenreForm genre={genre} linkableChildren={genre.linkableChildren} />
-            )}
-          </Container>
-        </Fragment>
-      )}
-    </Fragment>
+            <div />
+          </Fragment>
+        )}
+      </section>
+    </main>
   );
 };

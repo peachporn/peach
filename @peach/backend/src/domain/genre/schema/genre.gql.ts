@@ -22,6 +22,9 @@ export const genreTypeDefs = gql`
     validAsFetish: Boolean!
     linkableParents: [Genre!]!
     linkableChildren: [Genre!]!
+
+    fetishMovies: [Movie!]
+    movies: [Movie!]
   }
 
   input GenreFilter {

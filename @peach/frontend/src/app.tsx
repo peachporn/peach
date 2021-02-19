@@ -11,6 +11,7 @@ import { ActressesPage } from './pages/actressList';
 import { WebsitesPage } from './pages/websiteList';
 import { TasksPage } from './pages/tasks';
 import { MoviesPage } from './pages/movieList';
+import { GenreDetailPage } from './pages/genreDetail';
 /*
 import { SettingsPage } from './pages/settings';
 import { SettingsProvider } from './context/settings';
@@ -40,9 +41,6 @@ const App = (
           <Route exact path="/actresses/:actressId/edit">
             <ActressDetailPage />
           </Route>
-          <Route exact path="/genres/:genreId">
-            <GenreDetailPage />
-          </Route>
           <Route exact path="/genres/:genreId/edit">
             <GenreDetailPage />
           </Route>
@@ -70,6 +68,9 @@ const App = (
           </Route>
           <Route path="/tasks">
             <TasksPage />
+          </Route>
+          <Route exact path="/genres/:genreId">
+            <GenreDetailPage />
           </Route>
           <Route exact path="/genres">
             <GenresPage />

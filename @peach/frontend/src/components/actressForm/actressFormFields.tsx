@@ -1,11 +1,11 @@
 import { h, FunctionalComponent } from 'preact';
 import { UseFormMethods } from 'react-hook-form';
-import { eyecolors, haircolors, ethnicities, cupsizes, boobs } from '../domain/actress';
-import { i } from '../i18n/i18n';
+import { i } from '../../i18n/i18n';
+import { boobs, cupsizes, ethnicities, eyecolors, haircolors } from '../../domain/actress';
 
 type ActressFormFieldsProps = {
   register: UseFormMethods['register'];
-  picture?: string;
+  imageUrl?: string;
   className?: string;
 };
 
@@ -13,7 +13,7 @@ const label = 'text-gray-400';
 
 export const ActressFormFields: FunctionalComponent<ActressFormFieldsProps> = ({
   register,
-  picture,
+  imageUrl,
   className,
 }) => (
   <div className={`grid grid-cols-1/2 gap-3 ${className || ''}`}>
@@ -23,14 +23,24 @@ export const ActressFormFields: FunctionalComponent<ActressFormFieldsProps> = ({
       ref={register}
     />
     <div className="col-span-2 w-full">
-      {!picture ? null : <img className="w-full" src={picture} alt="" />}
-      <input className="input w-full" name="picture" ref={register} />
+      {!imageUrl ? null : <img className="w-full" src={imageUrl} alt="" />}
+      <input className="input w-full" name="imageUrl" ref={register} />
     </div>
 
     <label className={label} htmlFor="aliases">
       {i('ACTRESS_ALIASES')}
     </label>
     <input className="input" name="aliases" ref={register} />
+
+    <label className={label} htmlFor="ethnicity">
+      {i('ACTRESS_ETHNICITY')}
+    </label>
+    <select className="input" name="ethnicity" ref={register}>
+      <option value={undefined}>{i('UNKNOWN')}</option>
+      {ethnicities.map(ethnicity => (
+        <option value={ethnicity}>{ethnicity}</option>
+      ))}
+    </select>
 
     <label className={label} htmlFor="haircolor">
       {i('ACTRESS_HAIRCOLOR')}
@@ -49,16 +59,6 @@ export const ActressFormFields: FunctionalComponent<ActressFormFieldsProps> = ({
       <option value={undefined}>{i('UNKNOWN')}</option>
       {eyecolors.map(eyecolor => (
         <option value={eyecolor}>{eyecolor}</option>
-      ))}
-    </select>
-
-    <label className={label} htmlFor="ethnicity">
-      {i('ACTRESS_ETHNICITY')}
-    </label>
-    <select className="input" name="ethnicity" ref={register}>
-      <option value={undefined}>{i('UNKNOWN')}</option>
-      {ethnicities.map(ethnicity => (
-        <option value={ethnicity}>{ethnicity}</option>
       ))}
     </select>
 

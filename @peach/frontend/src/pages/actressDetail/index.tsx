@@ -12,6 +12,7 @@ import { Loading } from '../../components/loading';
 import { shuffle } from '../../utils/list';
 import { i } from '../../i18n/i18n';
 import { formatDate } from '../../utils/date';
+import { EditActressForm } from './components/editActressForm';
 
 const screencapsForActress = (actress?: ActressDetailFragment) =>
   shuffle(
@@ -226,7 +227,7 @@ export const ActressDetailPage: FunctionalComponent = () => {
               </div>
 
               <div className="mb-4">
-                {!actress.socialMediaLinks ? null : (
+                {!actress.socialMediaLinks?.filter(Boolean).length ? null : (
                   <Fragment>
                     <span className="text-gray-400">{i('ACTRESS_SOCIALMEDIA_LINKS')}</span>
                     <div>
@@ -246,6 +247,7 @@ export const ActressDetailPage: FunctionalComponent = () => {
                 )}
               </div>
             </div>
+            <EditActressForm actress={actress} onSubmit={refetch} />
           </Fragment>
         )}
       </section>

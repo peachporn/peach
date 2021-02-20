@@ -387,6 +387,7 @@ export type ActressScrapeResult = {
 
 export type UpdateActressInput = {
   name?: Maybe<Scalars['String']>;
+  aliases?: Maybe<Array<Scalars['String']>>;
   dateOfBirth?: Maybe<Scalars['String']>;
   dateOfCareerstart?: Maybe<Scalars['String']>;
   dateOfRetirement?: Maybe<Scalars['String']>;
@@ -394,13 +395,18 @@ export type UpdateActressInput = {
   haircolor?: Maybe<Haircolor>;
   eyecolor?: Maybe<Eyecolor>;
   ethnicity?: Maybe<Ethnicity>;
+  country?: Maybe<Scalars['String']>;
+  province?: Maybe<Scalars['String']>;
+  city?: Maybe<Scalars['String']>;
+  boobs?: Maybe<Boobs>;
+  piercings?: Maybe<Scalars['String']>;
+  tattoos?: Maybe<Scalars['String']>;
   height?: Maybe<Scalars['Int']>;
   weight?: Maybe<Scalars['Int']>;
   measurements?: Maybe<MeasurementsInput>;
   cupsize?: Maybe<Cupsize>;
-  boobs?: Maybe<Boobs>;
-  tattoos?: Maybe<Scalars['String']>;
-  piercings?: Maybe<Scalars['String']>;
+  socialMediaLinks?: Maybe<Array<Maybe<Scalars['String']>>>;
+  officialWebsite?: Maybe<Scalars['String']>;
 };
 
 export type MeasurementsInput = {

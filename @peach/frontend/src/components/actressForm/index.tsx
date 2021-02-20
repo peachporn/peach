@@ -7,11 +7,10 @@ import { scrapeActressQuery } from '../../pages/actressList/queries/scrapeActres
 import { Loading } from '../loading';
 import { i } from '../../i18n/i18n';
 import { Icon } from '../icon';
-import { ActressFormFields } from '../actressFormFields';
+import { ActressFormFields } from './actressFormFields';
 
 export type ActressFormValues = {
   name: string;
-  picture: string;
   aliases: string;
   haircolor: string;
   eyecolor: string;
@@ -36,16 +35,20 @@ export type ActressFormValues = {
   tattoos: string;
   officialWebsite: string;
   socialMediaLinks: string;
+
+  imageUrl: string;
 };
 
 export type ActressFormProps = {
   onSubmit: (data: ActressFormValues) => Promise<unknown>;
-  onCancel: () => void;
+  onCancel?: () => void;
+  defaultValues?: Partial<ActressFormValues>;
 };
 
 export const ActressForm: FunctionalComponent<ActressFormProps> = ({
   onSubmit: onSubmitCallback,
   onCancel,
+  defaultValues,
 }) => {
   const [searchName, setSearchName] = useState<string>('');
 
@@ -56,7 +59,9 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
     },
   });
 
-  const { register, handleSubmit, setValue, watch, reset } = useForm<ActressFormValues>();
+  const { register, handleSubmit, setValue, watch, reset } = useForm<ActressFormValues>({
+    defaultValues,
+  });
 
   useEffect(() => {
     if (!data) return;
@@ -88,7 +93,7 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
     } = data;
 
     setValue('name', name);
-    setValue('picture', picture);
+    setValue('imageUrl', picture);
     setValue('aliases', aliases);
     setValue('haircolor', haircolor);
     setValue('eyecolor', eyecolor);
@@ -123,11 +128,13 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
     setValue('officialWebsite', officialWebsite);
   }, [data]);
 
-  const picture = watch('picture');
+  const imageUrl = watch('imageUrl');
 
   const resetForm = () => {
     reset();
   };
+
+  const actress = data || defaultValues;
 
   const onSubmit = (values: ActressFormValues) =>
     onSubmitCallback(values).then(() => {
@@ -137,7 +144,7 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
   return (
     <Fragment>
       <div className="flex items-center">
-        {data ? null : (
+        {actress ? null : (
           <Fragment>
             <Icon icon="search" />
             <input
@@ -154,10 +161,10 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
         )}
       </div>
       {loading ? <Loading /> : null}
-      {!data ? null : (
+      {!actress ? null : (
         // @ts-ignore
         <form onSubmit={handleSubmit(onSubmit)}>
-          <ActressFormFields className="my-3" register={register} picture={picture} />
+          <ActressFormFields className="my-3" register={register} imageUrl={imageUrl} />
           <button className="bg-pink w-full text-white py-1 rounded-sm" type="submit">
             <Icon icon="check" />
           </button>
@@ -165,7 +172,9 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
             className="bg-grey-200 w-full text-white py-1 rounded-sm"
             onClick={() => {
               setSearchName('');
-              onCancel();
+              if (onCancel) {
+                onCancel();
+              }
             }}
           >
             <Icon icon="clear" />

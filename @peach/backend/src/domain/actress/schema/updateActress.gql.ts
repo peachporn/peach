@@ -3,20 +3,33 @@ import { gql } from 'apollo-server';
 export const updateActressTypeDefs = gql`
   input UpdateActressInput {
     name: String
+    aliases: [String!]
+
     dateOfBirth: String
     dateOfCareerstart: String
     dateOfRetirement: String
     dateOfDeath: String
+
     haircolor: Haircolor
     eyecolor: Eyecolor
     ethnicity: Ethnicity
+
+    country: String
+    province: String
+    city: String
+
+    boobs: Boobs
+
+    piercings: String
+    tattoos: String
+
     height: Int
     weight: Int
     measurements: MeasurementsInput
     cupsize: Cupsize
-    boobs: Boobs
-    tattoos: String
-    piercings: String
+
+    socialMediaLinks: [String]
+    officialWebsite: String
   }
 
   input MeasurementsInput {

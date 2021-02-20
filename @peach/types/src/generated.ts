@@ -645,6 +645,8 @@ export type FetishBubbleFragment = { __typename?: 'Genre', id: number, name: str
 
 export type GenreCardFragment = { __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, kinkiness: number };
 
+export type GenreClipFragment = { __typename?: 'Genre', id: number, name: string, category: GenreCategory, picture: string };
+
 export type GenreSearchQueryVariables = Exact<{
   filter: GenreFilter;
   limit: Scalars['Int'];
@@ -814,6 +816,19 @@ export type HomepageQuery = { __typename?: 'Query', randomMovies: Array<(
     & MovieCardFragment
   )>, settings: { __typename?: 'Settings', id: number, pinnedFetishes: Array<{ __typename?: 'Genre', name: string }> } };
 
+export type GenreActionCardFragment = { __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, linkableChildren: Array<{ __typename?: 'Genre', id: number, name: string }> };
+
+export type MovieDetailFragment = { __typename?: 'Movie', id: number, title: string, path: string, videoUrl: string, cover: number, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean, index: number }>, volume?: Maybe<{ __typename?: 'Volume', name: string }>, actresses: Array<{ __typename?: 'Actress', id: number, name: string, picture?: Maybe<string> }>, metaData?: Maybe<{ __typename?: 'MovieMetadata', durationSeconds: number, sizeInMB: number, minutes: number, seconds: number, quality: Quality, format: Format, fps: number }>, genres: Array<{ __typename?: 'GenreDefinition', timeStart: number, genre: { __typename?: 'GenreLink', parent: (
+        { __typename?: 'Genre' }
+        & GenreActionCardFragment
+      ), children: Array<(
+        { __typename?: 'Genre' }
+        & GenreActionCardFragment
+      )> } }>, fetishes: Array<(
+    { __typename?: 'Genre' }
+    & FetishBubbleFragment
+  )> };
+
 export type DeleteMovieMutationVariables = Exact<{
   movieId: Scalars['Int'];
 }>;
@@ -882,19 +897,20 @@ export type FindGenreQueryVariables = Exact<{
 }>;
 
 
-export type FindGenreQuery = { __typename?: 'Query', genres: Array<{ __typename?: 'Genre', id: number, name: string, category: GenreCategory, picture: string, validAsRoot: boolean, validAsFetish: boolean, linkableChildren: Array<{ __typename?: 'Genre', id: number }> }> };
+export type FindGenreQuery = { __typename?: 'Query', genres: Array<(
+    { __typename?: 'Genre' }
+    & GenreActionCardFragment
+  )> };
 
-export type MovieQueryVariables = Exact<{
+export type MovieDetailQueryVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
 
-export type MovieQuery = { __typename?: 'Query', movie?: Maybe<(
+export type MovieDetailQuery = { __typename?: 'Query', movie?: Maybe<(
     { __typename?: 'Movie' }
     & MovieDetailFragment
   )> };
-
-export type MovieDetailFragment = { __typename?: 'Movie', id: number, title: string, path: string, videoUrl: string, cover: number, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean, index: number }>, volume?: Maybe<{ __typename?: 'Volume', name: string }>, actresses: Array<{ __typename?: 'Actress', id: number, name: string, picture?: Maybe<string> }>, metaData?: Maybe<{ __typename?: 'MovieMetadata', durationSeconds: number, sizeInMB: number, minutes: number, seconds: number, quality: Quality, format: Format, fps: number }>, genres: Array<{ __typename?: 'GenreDefinition', timeStart: number, genre: { __typename?: 'GenreLink', parent: { __typename?: 'Genre', id: number, name: string, picture: string, validAsRoot: boolean, category: GenreCategory, linkableChildren: Array<{ __typename?: 'Genre', id: number }> }, children: Array<{ __typename?: 'Genre', id: number, name: string, picture: string, validAsRoot: boolean, category: GenreCategory, linkableChildren: Array<{ __typename?: 'Genre', id: number }> }> } }>, fetishes: Array<{ __typename?: 'Genre', id: number, name: string, picture: string }> };
 
 export type MovieListQueryVariables = Exact<{
   limit: Scalars['Int'];

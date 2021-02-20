@@ -15,6 +15,8 @@ export type IconType =
   | 'delete_forever'
   | 'edit'
   | 'error'
+  | 'expand_more'
+  | 'expand_less'
   | 'language'
   | 'local_offer'
   | 'loyalty'

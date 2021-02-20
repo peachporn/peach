@@ -20,7 +20,6 @@ import { Headline2 } from '../../../../../components/src';
 import { Loading } from '../../../components/loading';
 import { Icon } from '../../../components/icon';
 import { Modal } from '../../../components/modal';
-import { Index } from '../../../components/actressCard/actressCard';
 
 export type AddActressFormProps = {
   existingActresses: ActressCardActress[];

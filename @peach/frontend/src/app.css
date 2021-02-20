@@ -85,7 +85,6 @@
         overflow: hidden;
     }
 
-
     @keyframes meterMove {
         0% {
             background-position: 0 0;
@@ -94,6 +93,19 @@
             background-position: 50px 50px;
         }
     }
+
+
+    .genre-clip-focus:not(.genre-clip--no-child),
+    .genre-clip-focus.genre-clip--no-child img {
+        @apply border-b-4 border-pink
+    }
+
+    .genre-clip:hover > div,
+    .genre-clip-focus > div {
+        opacity: 1;
+        visibility: visible;
+    }
+
 
 }
 

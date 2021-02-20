@@ -1,11 +1,12 @@
 import { adjust, uniqBy, prop } from 'ramda';
-import { DefinableGenre, GenreDefinitionDraft } from './types';
+import { GenreActionCardFragment, GenreCategory } from '@peach/types';
+import { GenreDefinitionDraft } from './types';
 import { i, I18nKey } from '../../../../i18n/i18n';
 
 type StartAction = {
   type: 'START';
   props: {
-    genre: DefinableGenre;
+    genre: GenreActionCardFragment;
     time: number;
   };
 };
@@ -21,7 +22,7 @@ type DuplicateAction = {
 type AddChildAction = {
   type: 'ADD_CHILD';
   props: {
-    genre: DefinableGenre;
+    genre: GenreActionCardFragment;
     parent: GenreDefinitionDraft;
   };
 };
@@ -112,7 +113,7 @@ export const addChild: ActionExecutor<AddChildAction['props']> = ({
 };
 
 export const possibleActionTypes = (
-  genre: DefinableGenre,
+  genre: GenreActionCardFragment,
   genreDefinitions: GenreDefinitionDraft[],
   focusedGenre?: GenreDefinitionDraft,
 ): ActionType[] => {

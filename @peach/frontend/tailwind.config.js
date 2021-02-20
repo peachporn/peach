@@ -44,6 +44,9 @@ module.exports = {
         offBlack: {
           DEFAULT: '#1C1A1F',
         },
+        tintBlack: {
+          DEFAULT: 'rgba(0,0,0,.2)',
+        },
       },
       boxShadow: {
         '-md': '0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
@@ -51,6 +54,10 @@ module.exports = {
       gridTemplateColumns: {
         '3/1': 'minmax(0, 3fr) minmax(0, 1fr)',
         '1/2': 'minmax(0, 1fr) minmax(0, 2fr)',
+        100: 'repeat(100, 1fr)',
+      },
+      minHeight: {
+        32: '8rem',
       },
     },
     fontFamily: {

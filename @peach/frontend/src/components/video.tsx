@@ -29,6 +29,13 @@ export const Video = forwardRef<HTMLVideoElement, VideoProps>(({ src }, video) =
     const current = video.current.currentTime;
     const newTouchPosition = e.changedTouches[0].clientX;
     const scrubTime = newTouchPosition - touchPosition;
+    if (Math.abs(scrubTime) < 0.15) {
+      if (video.current.paused) {
+        video.current.play();
+      } else {
+        video.current.pause();
+      }
+    }
 
     setTouchPosition(newTouchPosition);
     // eslint-disable-next-line no-param-reassign

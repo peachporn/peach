@@ -3,6 +3,7 @@ import { genreIdsForGenreLink, GenreLinkRaw, resolveGenreLink } from '@peach/dom
 import { GenreDefinition, GenreLink } from '@peach/types';
 import { transformGenre } from '../../genre/transformer/genre';
 import { Resolvers } from '../../../generated/resolver-types';
+import { transformMovie } from '../transformer/movie';
 
 export const serializeGenreDefinitionGenre = (genreLinks: GenreLinkRaw) =>
   JSON.stringify(genreLinks);
@@ -47,5 +48,48 @@ export const genreDefinitionsResolvers: Resolvers = {
           },
         })
         .then(genreDefinitions => genreDefinitions.map(resolveGenreDefinition(prisma))),
+  },
+  Mutation: {
+    updateGenreDefinitions: async (_parent, { movieId, genreDefinitions }, { prisma }) => {
+      const movie = await prisma.movie.findOne({
+        where: { id: movieId },
+        include: {
+          genres: true,
+        },
+      });
+
+      const movieGenres = !movie ? [] : movie.genres;
+
+      await prisma.genreDefinition.deleteMany({
+        where: {
+          id: {
+            in: movieGenres.map(g => g.id),
+          },
+        },
+      });
+
+      await prisma.movie.update({
+        where: {
+          id: movieId,
+        },
+        data: {
+          genres: {
+            create: genreDefinitions.map(genreDefinition => ({
+              timeStart: genreDefinition.timeStart,
+              genre: serializeGenreDefinitionGenre(genreDefinition.genre as GenreLinkRaw),
+            })),
+          },
+        },
+      });
+
+      return prisma.movie
+        .findOne({
+          where: { id: movieId },
+          include: {
+            genres: true,
+          },
+        })
+        .then(m => (m ? transformMovie(m) : undefined));
+    },
   },
 };

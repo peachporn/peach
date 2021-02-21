@@ -101,6 +101,7 @@ export type Actress = {
 };
 
 export type ActressFilter = {
+  ids?: Maybe<Array<Scalars['Int']>>;
   name?: Maybe<Scalars['String']>;
 };
 
@@ -232,7 +233,6 @@ export type CreateActressInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addActressToMovie?: Maybe<Movie>;
   cancelTask?: Maybe<Scalars['Boolean']>;
   cancelTasks: Scalars['Int'];
   createActress?: Maybe<Actress>;
@@ -241,11 +241,9 @@ export type Mutation = {
   createWebsite?: Maybe<Website>;
   deleteGenre?: Maybe<Genre>;
   deleteMovie?: Maybe<Movie>;
-  removeActressFromMovie?: Maybe<Movie>;
   restartTask?: Maybe<Task>;
   restartTasks: Scalars['Int'];
   scanLibrary?: Maybe<Scalars['Boolean']>;
-  setMovieFetishes?: Maybe<Movie>;
   takeAllScreencaps?: Maybe<Scalars['Boolean']>;
   updateActress?: Maybe<Actress>;
   updateGenre?: Maybe<Genre>;
@@ -253,12 +251,6 @@ export type Mutation = {
   updateMovie?: Maybe<Movie>;
   updateSettings: Settings;
   updateWebsite?: Maybe<Website>;
-};
-
-
-export type MutationAddActressToMovieArgs = {
-  movieId: Scalars['Int'];
-  actressId: Scalars['Int'];
 };
 
 
@@ -302,12 +294,6 @@ export type MutationDeleteMovieArgs = {
 };
 
 
-export type MutationRemoveActressFromMovieArgs = {
-  movieId: Scalars['Int'];
-  actressId: Scalars['Int'];
-};
-
-
 export type MutationRestartTaskArgs = {
   taskId: Scalars['Int'];
 };
@@ -315,12 +301,6 @@ export type MutationRestartTaskArgs = {
 
 export type MutationRestartTasksArgs = {
   taskIds: Array<Scalars['Int']>;
-};
-
-
-export type MutationSetMovieFetishesArgs = {
-  movieId: Scalars['Int'];
-  genreIds: Array<Scalars['Int']>;
 };
 
 
@@ -344,7 +324,7 @@ export type MutationUpdateGenreDefinitionsArgs = {
 
 export type MutationUpdateMovieArgs = {
   movieId: Scalars['Int'];
-  data: MovieUpdateInput;
+  data: UpdateMovieInput;
 };
 
 
@@ -535,7 +515,7 @@ export type Movie = {
   videoUrl: Scalars['String'];
   title: Scalars['String'];
   actresses: Array<Actress>;
-  actors: Scalars['Int'];
+  website?: Maybe<Website>;
   volume?: Maybe<Volume>;
   metaData?: Maybe<MovieMetadata>;
   path: Scalars['String'];
@@ -553,9 +533,12 @@ export type Screencap = {
   src: Scalars['String'];
 };
 
-export type MovieUpdateInput = {
-  cover?: Maybe<Scalars['Int']>;
+export type UpdateMovieInput = {
   title?: Maybe<Scalars['String']>;
+  fetishes?: Maybe<Array<Scalars['Int']>>;
+  website?: Maybe<Scalars['Int']>;
+  actresses?: Maybe<Array<Scalars['Int']>>;
+  cover?: Maybe<Scalars['Int']>;
 };
 
 export type Volume = {
@@ -641,6 +624,17 @@ export type WebsiteFilter = {
 
 export type ActressCardFragment = { __typename?: 'Actress', id: number, name: string, picture?: Maybe<string> };
 
+export type ActressSearchQueryVariables = Exact<{
+  filter: ActressFilter;
+  limit: Scalars['Int'];
+}>;
+
+
+export type ActressSearchQuery = { __typename?: 'Query', actresses: Array<(
+    { __typename?: 'Actress' }
+    & ActressCardFragment
+  )> };
+
 export type FetishBubbleFragment = { __typename?: 'Genre', id: number, name: string, picture: string };
 
 export type GenreCardFragment = { __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, kinkiness: number };
@@ -663,6 +657,17 @@ export type MovieCardFragment = { __typename?: 'Movie', id: number, title: strin
 export type WebsiteCardFragment = { __typename?: 'Website', id: number, name: string, url: string, picture?: Maybe<string>, fetish?: Maybe<(
     { __typename?: 'Genre' }
     & FetishBubbleFragment
+  )> };
+
+export type WebsiteSearchQueryVariables = Exact<{
+  filter: WebsiteFilter;
+  limit: Scalars['Int'];
+}>;
+
+
+export type WebsiteSearchQuery = { __typename?: 'Query', websites: Array<(
+    { __typename?: 'Website' }
+    & WebsiteCardFragment
   )> };
 
 export type UpdateSettingsMutationVariables = Exact<{
@@ -818,7 +823,13 @@ export type HomepageQuery = { __typename?: 'Query', randomMovies: Array<(
 
 export type GenreActionCardFragment = { __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, linkableChildren: Array<{ __typename?: 'Genre', id: number, name: string }> };
 
-export type MovieDetailFragment = { __typename?: 'Movie', id: number, title: string, path: string, videoUrl: string, cover: number, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean, index: number }>, volume?: Maybe<{ __typename?: 'Volume', name: string }>, actresses: Array<{ __typename?: 'Actress', id: number, name: string, picture?: Maybe<string> }>, metaData?: Maybe<{ __typename?: 'MovieMetadata', durationSeconds: number, sizeInMB: number, minutes: number, seconds: number, quality: Quality, format: Format, fps: number }>, genres: Array<{ __typename?: 'GenreDefinition', timeStart: number, genre: { __typename?: 'GenreLink', parent: (
+export type MovieDetailFragment = { __typename?: 'Movie', id: number, title: string, path: string, videoUrl: string, cover: number, website?: Maybe<(
+    { __typename?: 'Website' }
+    & WebsiteCardFragment
+  )>, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean, index: number }>, volume?: Maybe<{ __typename?: 'Volume', name: string }>, actresses: Array<(
+    { __typename?: 'Actress' }
+    & ActressCardFragment
+  )>, metaData?: Maybe<{ __typename?: 'MovieMetadata', durationSeconds: number, sizeInMB: number, minutes: number, seconds: number, quality: Quality, format: Format, fps: number }>, genres: Array<{ __typename?: 'GenreDefinition', timeStart: number, genre: { __typename?: 'GenreLink', parent: (
         { __typename?: 'Genre' }
         & GenreActionCardFragment
       ), children: Array<(
@@ -844,45 +855,13 @@ export type UpdateGenreDefinitionsMutationVariables = Exact<{
 
 export type UpdateGenreDefinitionsMutation = { __typename?: 'Mutation', updateGenreDefinitions?: Maybe<{ __typename?: 'Movie', id: number }> };
 
-export type UpdateCoverMutationVariables = Exact<{
+export type UpdateMovieMutationVariables = Exact<{
   movieId: Scalars['Int'];
-  cover: Scalars['Int'];
+  input: UpdateMovieInput;
 }>;
 
 
-export type UpdateCoverMutation = { __typename?: 'Mutation', updateMovie?: Maybe<{ __typename?: 'Movie', screencaps: Array<{ __typename?: 'Screencap', index: number, src: string, cover: boolean }> }> };
-
-export type UpdateTitleMutationVariables = Exact<{
-  movieId: Scalars['Int'];
-  title: Scalars['String'];
-}>;
-
-
-export type UpdateTitleMutation = { __typename?: 'Mutation', updateMovie?: Maybe<{ __typename?: 'Movie', title: string }> };
-
-export type AddActressToMovieMutationVariables = Exact<{
-  movieId: Scalars['Int'];
-  actressId: Scalars['Int'];
-}>;
-
-
-export type AddActressToMovieMutation = { __typename?: 'Mutation', addActressToMovie?: Maybe<{ __typename?: 'Movie', actresses: Array<{ __typename?: 'Actress', id: number, name: string, picture?: Maybe<string> }> }> };
-
-export type RemoveActressFromMovieMutationVariables = Exact<{
-  movieId: Scalars['Int'];
-  actressId: Scalars['Int'];
-}>;
-
-
-export type RemoveActressFromMovieMutation = { __typename?: 'Mutation', removeActressFromMovie?: Maybe<{ __typename?: 'Movie', actresses: Array<{ __typename?: 'Actress', id: number, name: string, picture?: Maybe<string> }> }> };
-
-export type SetMovieFetishesMutationVariables = Exact<{
-  movieId: Scalars['Int'];
-  genreIds: Array<Scalars['Int']> | Scalars['Int'];
-}>;
-
-
-export type SetMovieFetishesMutation = { __typename?: 'Mutation', setMovieFetishes?: Maybe<{ __typename?: 'Movie', fetishes: Array<{ __typename?: 'Genre', name: string }> }> };
+export type UpdateMovieMutation = { __typename?: 'Mutation', updateMovie?: Maybe<{ __typename?: 'Movie', id: number }> };
 
 export type FindActressQueryVariables = Exact<{
   name: Scalars['String'];

@@ -110,6 +110,10 @@
 }
 
 @layer utilities {
+    .filter-blur {
+        filter: blur(20px);
+    }
+
     .filter-grayscale {
         filter: grayscale(1);
     }

@@ -10,58 +10,33 @@ export const updateMovieResolvers: Resolvers = {
           where: {
             id: movieId,
           },
-          data,
-        })
-        .then(transformMovie),
-    setMovieFetishes: async (_parent, { movieId, genreIds }, { prisma }) =>
-      prisma.movie
-        .update({
-          where: {
-            id: movieId,
-          },
           include: {
             fetishes: true,
           },
           data: {
-            fetishes: {
-              set: genreIds.map(id => ({ id })),
-            },
-          },
-        })
-        .then(transformMovie),
-    addActressToMovie: async (_parent, { movieId, actressId }, { prisma }) =>
-      prisma.movie
-        .update({
-          where: {
-            id: movieId,
-          },
-          include: {
-            actresses: true,
-          },
-          data: {
-            actresses: {
-              connect: {
-                id: actressId,
-              },
-            },
-          },
-        })
-        .then(transformMovie),
-    removeActressFromMovie: async (_parent, { movieId, actressId }, { prisma }) =>
-      prisma.movie
-        .update({
-          where: {
-            id: movieId,
-          },
-          include: {
-            actresses: true,
-          },
-          data: {
-            actresses: {
-              disconnect: {
-                id: actressId,
-              },
-            },
+            title: data.title,
+            cover: data.cover,
+            ...(!data.website
+              ? {}
+              : {
+                  website: {
+                    connect: { id: data.website },
+                  },
+                }),
+            ...(!data.actresses
+              ? {}
+              : {
+                  actresses: {
+                    set: data.actresses.map(id => ({ id })),
+                  },
+                }),
+            ...(!data.fetishes
+              ? {}
+              : {
+                  fetishes: {
+                    set: data.fetishes.map(id => ({ id })),
+                  },
+                }),
           },
         })
         .then(transformMovie),

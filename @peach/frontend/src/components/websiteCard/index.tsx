@@ -4,15 +4,20 @@ import { Image } from '../image';
 
 type WebsiteCardProps = {
   website: WebsiteCardFragment;
+  className?: string;
   onClick?: () => void;
 };
 
-export const WebsiteCard: FunctionalComponent<WebsiteCardProps> = ({ website, onClick }) => (
+export const WebsiteCard: FunctionalComponent<WebsiteCardProps> = ({
+  website,
+  className,
+  onClick,
+}) => (
   <div
     tabIndex={0}
     role="button"
     onClick={onClick || undefined}
-    className="w-full rounded shadow flex flex-col focus:outline-none "
+    className={`w-full rounded shadow flex flex-col focus:outline-none ${className}`}
   >
     <Image
       className="h-40 object-contain w-full rounded-t"

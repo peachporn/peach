@@ -1,17 +1,15 @@
 import { gql } from 'apollo-server';
 
 export const updateMovieTypeDefs = gql`
-  input MovieUpdateInput {
-    cover: Int
+  input UpdateMovieInput {
     title: String
+    fetishes: [Int!]
+    website: Int
+    actresses: [Int!]
+    cover: Int
   }
 
   extend type Mutation {
-    updateMovie(movieId: Int!, data: MovieUpdateInput!): Movie
-
-    addActressToMovie(movieId: Int!, actressId: Int!): Movie
-    removeActressFromMovie(movieId: Int!, actressId: Int!): Movie
-
-    setMovieFetishes(movieId: Int!, genreIds: [Int!]!): Movie
+    updateMovie(movieId: Int!, data: UpdateMovieInput!): Movie
   }
 `;

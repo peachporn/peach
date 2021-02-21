@@ -1,5 +1,6 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { ActressCardFragment } from '@peach/types';
+import { Image } from '../image';
 
 export type ActressCardProps = {
   actress: ActressCardFragment;
@@ -14,15 +15,13 @@ export const ActressCard: FunctionalComponent<ActressCardProps> = ({
   onClick,
   url,
 }) => {
-  const className = `w-full rounded shadow flex flex-col focus:outline-none ${classNameProp || ''}`;
+  const className = `w-full rounded shadow relative flex flex-col focus:outline-none ${
+    classNameProp || ''
+  }`;
 
   const children = (
     <Fragment>
-      <img
-        className="h-56 object-cover w-full rounded-t"
-        src={actress.picture}
-        alt={actress.name}
-      />
+      <Image className="object-contain w-full rounded-t" src={actress.picture} alt={actress.name} />
       <span className="bg-white p-2">{actress.name}</span>
     </Fragment>
   );

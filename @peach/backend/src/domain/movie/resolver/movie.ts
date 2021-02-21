@@ -10,7 +10,7 @@ export const movieResolvers: Resolvers = {
     movie: async (_parent, { id }, { prisma }) => {
       const movie = await prisma.movie.findUnique({
         where: { id },
-        include: { metadata: true, volume: true, actresses: true, fetishes: true },
+        include: { metadata: true, volume: true, actresses: true, fetishes: true, website: true },
       });
 
       return movie ? transformMovie(movie) : undefined;

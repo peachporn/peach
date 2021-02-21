@@ -1,6 +1,8 @@
 import gql from 'graphql-tag';
 import { genreActionCardFragment } from '../components/genreForm/genreActionCard/genreActionCardFragment.gql';
 import { fetishBubbleFragment } from '../../../components/fetishBubble/fetishBubbleFragment.gql';
+import { websiteCardFragment } from '../../../components/websiteCard/websiteCardFragment.gql';
+import { actressCardFragment } from '../../../components/actressCard/actressCardFragment.gql';
 
 export const movieDetailFragment = gql`
   fragment MovieDetail on Movie {
@@ -8,6 +10,9 @@ export const movieDetailFragment = gql`
     title
     path
     videoUrl
+    website {
+      ...WebsiteCard
+    }
     screencaps {
       src
       cover
@@ -18,9 +23,7 @@ export const movieDetailFragment = gql`
       name
     }
     actresses {
-      id
-      name
-      picture
+      ...ActressCard
     }
     metaData {
       durationSeconds
@@ -47,6 +50,8 @@ export const movieDetailFragment = gql`
     }
   }
 
+  ${actressCardFragment}
+  ${websiteCardFragment}
   ${genreActionCardFragment}
   ${fetishBubbleFragment}
 `;

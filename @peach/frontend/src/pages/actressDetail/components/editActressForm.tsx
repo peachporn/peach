@@ -43,6 +43,7 @@ export const EditActressForm: FunctionalComponent<EditActressFormProps> = ({
         actressId: actress.id,
         data: {
           ...omit(['imageUrl'], data),
+          aliases: data.aliases.split(','),
           dateOfBirth: data.dateOfBirth || undefined,
           dateOfCareerstart: data.dateOfCareerstart || undefined,
           dateOfRetirement: data.dateOfRetirement || undefined,
@@ -69,6 +70,7 @@ export const EditActressForm: FunctionalComponent<EditActressFormProps> = ({
               : undefined,
           cupsize: data.cupsize && isCupsize(data.cupsize) ? (data.cupsize as Cupsize) : undefined,
           boobs: data.boobs && isBoobs(data.boobs) ? (data.boobs as Boobs) : undefined,
+          socialMediaLinks: data.socialMediaLinks?.split('\n'),
         },
       },
     })

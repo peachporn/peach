@@ -1,15 +1,11 @@
 import { FunctionalComponent, Fragment, h } from 'preact';
 import { useState } from 'preact/hooks';
-import { useMutation } from '@apollo/client';
-import { CreateGenreMutation, CreateGenreMutationVariables } from '@peach/types';
-import { omit } from 'ramda';
 import { Icon } from '../../../components/icon';
 import { Modal } from '../../../components/modal';
 import { Checkbox } from '../../../components/checkbox';
 import { GenreSearch } from '../../../components/genreSearch';
-import { createGenreMutation } from '../mutations/createGenre.gql';
-import { uploadGenreImage, uploadGenreImageFromUrl } from '../../../fetch/uploadImage';
 import { GenreForm, GenreFormValues } from '../../../components/genreForm';
+import { useCreateGenre } from '../../../hooks/useCreateGenre';
 
 type CreateGenreFormProps = {
   onSubmit: () => void;
@@ -20,37 +16,13 @@ export const CreateGenreForm: FunctionalComponent<CreateGenreFormProps> = ({
 }) => {
   const [visible, setVisible] = useState(false);
   const open = () => setVisible(true);
-
-  const [createGenre] = useMutation<CreateGenreMutation, CreateGenreMutationVariables>(
-    createGenreMutation,
-  );
+  const createGenre = useCreateGenre();
 
   const onSubmit = (data: GenreFormValues) =>
-    createGenre({
-      variables: {
-        data: {
-          ...omit(['image', 'imageUrl'], data),
-          kinkiness: parseInt(data.kinkiness, 10),
-          linkableChildren: data.linkableChildren
-            .split(',')
-            .map(id => parseInt(id, 10))
-            .filter(Boolean),
-        },
-      },
-    })
-      .then(({ data: createGenreData }) => {
-        const genreId = createGenreData?.createGenre?.id;
-        if (!genreId) return Promise.reject();
-        return data.image?.length
-          ? uploadGenreImage(genreId, data.image[0])
-          : data.imageUrl
-          ? uploadGenreImageFromUrl(genreId, data.imageUrl)
-          : Promise.resolve();
-      })
-      .then(() => {
-        setVisible(false);
-        onSubmitCallback();
-      });
+    createGenre(data).then(() => {
+      setVisible(false);
+      onSubmitCallback();
+    });
 
   return (
     <Fragment>

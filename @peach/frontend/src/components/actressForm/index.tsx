@@ -43,14 +43,16 @@ export type ActressFormProps = {
   onSubmit: (data: ActressFormValues) => Promise<unknown>;
   onCancel?: () => void;
   defaultValues?: Partial<ActressFormValues>;
+  defaultSearchName?: string;
 };
 
 export const ActressForm: FunctionalComponent<ActressFormProps> = ({
   onSubmit: onSubmitCallback,
   onCancel,
   defaultValues,
+  defaultSearchName,
 }) => {
-  const [searchName, setSearchName] = useState<string>('');
+  const [searchName, setSearchName] = useState<string>(defaultSearchName || '');
 
   const { data, loading } = useQuery(scrapeActressQuery, {
     skip: searchName === '',

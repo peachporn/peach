@@ -5,7 +5,6 @@ import {
   genresRoute,
   moviesRoute,
   settingsRoute,
-  tasksRoute,
   websitesRoute,
 } from '../utils/route';
 import { Icon } from './icon';
@@ -13,7 +12,7 @@ import { Icon } from './icon';
 const navLinkClass = 'flex flex-col items-center nav-link focus:outline-none';
 
 export const MobileNavigation: FunctionalComponent = () => (
-  <nav className="bg-gray-50 fixed bottom-0 left-0 text-gray-400 w-full py-4 text-xs">
+  <nav className="bg-gray-50 fixed bottom-0 left-0 text-gray-400 w-full py-4 text-xs z-40">
     <ul className="flex justify-around">
       <li>
         <NavLink className={navLinkClass} to={moviesRoute}>

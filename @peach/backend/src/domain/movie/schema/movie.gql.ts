@@ -8,8 +8,7 @@ export const movieTypeDefs = gql`
 
     title: String!
     actresses: [Actress!]!
-    # website     Website
-    actors: Int!
+    website: Website
 
     volume: Volume
     metaData: MovieMetadata

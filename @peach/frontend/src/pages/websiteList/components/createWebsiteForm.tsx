@@ -1,25 +1,9 @@
 import { FunctionalComponent, Fragment, h } from 'preact';
 import { useState } from 'preact/hooks';
-import { useMutation } from '@apollo/client';
-import {
-  CreateWebsiteMutation,
-  CreateWebsiteMutationVariables,
-  WebsiteDetailFragment,
-} from '@peach/types';
-import { omit } from 'ramda';
-import { WebsiteForm } from '../../../components/websiteForm';
-import { createWebsiteMutation } from '../mutations/createWebsite.gql';
-import { uploadWebsiteImage, uploadWebsiteImageFromUrl } from '../../../fetch/uploadImage';
+import { WebsiteForm, WebsiteFormValues } from '../../../components/websiteForm';
 import { Icon } from '../../../components/icon';
 import { Modal } from '../../../components/modal';
-
-type CreateWebsiteFormData = {
-  name: string;
-  url: string;
-  fetish?: string;
-  image: FileList;
-  imageUrl: string;
-};
+import { useCreateWebsite } from '../../../hooks/useCreateWebsite';
 
 export type CreateWebsiteFormProps = {
   onSubmit: () => void;
@@ -30,33 +14,13 @@ export const CreateWebsiteForm: FunctionalComponent<CreateWebsiteFormProps> = ({
 }) => {
   const [formVisible, setFormVisible] = useState(false);
   const open = () => setFormVisible(true);
+  const createWebsite = useCreateWebsite();
 
-  const [createWebsite] = useMutation<CreateWebsiteMutation, CreateWebsiteMutationVariables>(
-    createWebsiteMutation,
-  );
-
-  const onSubmit = (data: CreateWebsiteFormData) =>
-    createWebsite({
-      variables: {
-        data: {
-          ...omit(['image', 'imageUrl'], data),
-          fetish: data.fetish ? parseInt(data.fetish, 10) : undefined,
-        },
-      },
-    })
-      .then(({ data: createWebsiteData }) => {
-        const websiteId = createWebsiteData?.createWebsite?.id;
-        if (!websiteId) return Promise.reject();
-        return data.image?.length
-          ? uploadWebsiteImage(websiteId, data.image[0])
-          : data.imageUrl
-          ? uploadWebsiteImageFromUrl(websiteId, data.imageUrl)
-          : Promise.resolve();
-      })
-      .then(() => {
-        setFormVisible(false);
-        onSubmitCallback();
-      });
+  const onSubmit = (data: WebsiteFormValues) =>
+    createWebsite(data).then(() => {
+      setFormVisible(false);
+      onSubmitCallback();
+    });
 
   return (
     <Fragment>

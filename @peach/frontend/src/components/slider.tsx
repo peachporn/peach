@@ -1,9 +1,13 @@
 import { FunctionalComponent, h } from 'preact';
 
-export const Slider: FunctionalComponent = ({ children }) => (
-  <div className="overflow-x-auto flex gap-3 py-2 scroll-snap scroll-px-8 px-8">
+type SliderProps = {
+  padding?: number;
+};
+
+export const Slider: FunctionalComponent<SliderProps> = ({ children, padding = 8 }) => (
+  <div className={`overflow-x-auto flex gap-3 py-2 scroll-snap scroll-px-${padding} px-${padding}`}>
     {children}
-    <div className="flex-none ml-8 w-8" />
+    {padding >= 0 ? <div className={`flex-none ml-${padding} w-${padding}`} /> : null}
   </div>
 );
 

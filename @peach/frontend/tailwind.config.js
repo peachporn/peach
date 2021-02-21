@@ -59,6 +59,12 @@ module.exports = {
       minHeight: {
         32: '8rem',
       },
+      maxWidth: {
+        'screen/2': '50vw',
+      },
+      minWidth: {
+        'screen/2': '50vw',
+      },
     },
     fontFamily: {
       display: 'Pacifico,serif',

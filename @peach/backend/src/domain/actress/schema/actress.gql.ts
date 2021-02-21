@@ -102,6 +102,7 @@ export const actressTypeDefs = gql`
   }
 
   input ActressFilter {
+    ids: [Int!]
     name: String
   }
 

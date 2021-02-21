@@ -51,7 +51,7 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
         placeholder={placeholder}
         onKeyUp={event => setSearchName((event.target as HTMLInputElement)?.value)}
       />
-      <div className={`grid grid-cols-5 mt-2 h-20 ${containerClassName || ''}`}>
+      <div className={`grid grid-cols-5 mt-2 h-20 items-start ${containerClassName || ''}`}>
         {uniqBy(g => g.id, data?.genres || []).map(g => (
           <FetishBubble
             className={genreIds.includes(g.id) ? '' : 'opacity-70'}

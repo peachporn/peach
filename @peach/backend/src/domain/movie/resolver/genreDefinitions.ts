@@ -83,7 +83,7 @@ export const genreDefinitionsResolvers: Resolvers = {
       });
 
       return prisma.movie
-        .findOne({
+        .findUnique({
           where: { id: movieId },
           include: {
             genres: true,

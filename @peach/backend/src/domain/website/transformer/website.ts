@@ -1,4 +1,3 @@
-import { Prisma } from '@peach/utils';
 import { Website } from '@peach/types';
 import { transformBaseGenre } from '../../genre/transformer/genre';
 import { transformMovie } from '../../movie/transformer/movie';

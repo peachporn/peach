@@ -44,7 +44,7 @@ export const Video = forwardRef<HTMLVideoElement, VideoProps>(({ src }, video) =
 
   return (
     <video
-      className="video"
+      className="w-full"
       controls
       autoPlay
       muted

@@ -7,6 +7,7 @@
   "main": "src/generated.ts",
   "private": true,
   "scripts": {
+    "lint": "eslint src",
     "generate": "graphql-codegen"
   }
 }

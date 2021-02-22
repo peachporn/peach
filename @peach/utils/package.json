@@ -8,10 +8,12 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
+    "lint": "eslint src",
     "generate": "echo 'Nothing to do...'"
   },
   "dependencies": {
     "@prisma/client": "^2.14.0",
+    "dotenv": "^8.2.0",
     "node-fetch": "^2.6.1",
     "pino": "^6.10.0",
     "pino-pretty": "^4.3.0",

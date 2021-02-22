@@ -1,4 +1,4 @@
-import { Genre } from "@peach/types";
+import { Genre } from '@peach/types';
 
 export type GenreLinkRaw = {
   parent: number;

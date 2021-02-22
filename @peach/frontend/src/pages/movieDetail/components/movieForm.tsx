@@ -1,4 +1,4 @@
-import { FunctionalComponent, Fragment, h } from 'preact';
+import { FunctionalComponent, h } from 'preact';
 import { useForm } from 'react-hook-form';
 import { head } from 'ramda';
 import {
@@ -73,6 +73,7 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
       reset();
     });
 
+  const cover = watch('cover');
   const { isDirty } = formState;
 
   return (
@@ -123,6 +124,20 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
               setValue('website', head(websiteIds) || '', { shouldDirty: true });
             }}
           />
+        </div>
+
+        <div>
+          <input className="hidden" name="cover" ref={register} />
+          {movie.screencaps.map(screencap => (
+            <img
+              src={screencap.src}
+              onClick={() => {
+                setValue('cover', screencap.index);
+              }}
+              alt={`${movie.title} #${screencap.index}`}
+              className={`${cover === `${screencap.index}` ? 'opacity-100' : 'opacity-80'}`}
+            />
+          ))}
         </div>
       </div>
 

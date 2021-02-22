@@ -1,7 +1,6 @@
-import { Prisma } from '@prisma/client';
 import { ActressFilter } from '@peach/types';
 import { isInBusiness } from '@peach/domain';
-import { diffYears } from '@peach/utils';
+import { Prisma, diffYears } from '@peach/utils';
 import { transformActress } from '../transformer/actress';
 import { Resolvers } from '../../../generated/resolver-types';
 

@@ -1,4 +1,5 @@
 import { ApolloClient } from '@apollo/client';
+import { PathExistsQuery, PathExistsQueryVariables } from '@peach/types';
 import { pathExistsQuery } from './queries/settings.gql';
 
 export const validatePathExists = (client: ApolloClient<object>) => (value: string) =>

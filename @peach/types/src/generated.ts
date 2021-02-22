@@ -819,7 +819,20 @@ export type HomepageQuery = { __typename?: 'Query', randomMovies: Array<(
   )>, recentMovies: Array<(
     { __typename?: 'Movie' }
     & MovieCardFragment
-  )>, settings: { __typename?: 'Settings', id: number, pinnedFetishes: Array<{ __typename?: 'Genre', name: string }> } };
+  )>, settings: { __typename?: 'Settings', id: number, pinnedFetishes: Array<(
+      { __typename?: 'Genre' }
+      & FetishBubbleFragment
+    )> } };
+
+export type PinnedFetishesQueryVariables = Exact<{
+  fetishIds: Array<Scalars['Int']> | Scalars['Int'];
+}>;
+
+
+export type PinnedFetishesQuery = { __typename?: 'Query', movies: Array<(
+    { __typename?: 'Movie' }
+    & MovieCardFragment
+  )> };
 
 export type GenreActionCardFragment = { __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, linkableChildren: Array<{ __typename?: 'Genre', id: number, name: string }> };
 

@@ -1,5 +1,5 @@
 import { without } from 'ramda';
-import { Prisma, Movie as DBMovie } from '@peach/utils';
+import { Prisma, Movie as DBMovie, shuffle } from '@peach/utils';
 import { MovieFilter } from '@peach/types';
 import { Resolvers } from '../../../generated/resolver-types';
 import { transformMovie } from '../transformer/movie';
@@ -28,7 +28,22 @@ export const listMovieResolvers: Resolvers = {
     movieCount: (_parent, _args, { prisma }) => prisma.movie.count(),
     movies: (_parent, { limit, skip, filter, sort }, { prisma }) =>
       (sort === 'RANDOM'
-        ? prisma.$queryRaw<DBMovie[]>(`SELECT * from movie ORDER BY RANDOM() LIMIT ${limit || 1};`)
+        ? prisma.movie.count().then(count => {
+            const blockLimit = (limit || 30) * 5;
+            const randomSkip =
+              Math.random() * Math.max(0, Math.min(count, count - blockLimit || 0));
+
+            return prisma.movie
+              .findMany({
+                skip: randomSkip,
+                take: blockLimit,
+                ...applyMovieFilter(filter),
+                include: {
+                  genres: true,
+                },
+              })
+              .then(movies => shuffle(movies).slice(0, limit));
+          })
         : prisma.movie.findMany({
             skip: skip || 0,
             take: limit || 30,

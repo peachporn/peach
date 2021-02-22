@@ -21,7 +21,11 @@ export const ActressCard: FunctionalComponent<ActressCardProps> = ({
 
   const children = (
     <Fragment>
-      <Image className="object-contain w-full rounded-t" src={actress.picture} alt={actress.name} />
+      <Image
+        className="object-cover w-full h-full rounded-t"
+        src={actress.picture}
+        alt={actress.name}
+      />
       <span className="bg-white p-2">{actress.name}</span>
     </Fragment>
   );

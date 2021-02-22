@@ -2,20 +2,31 @@ import { Fragment, FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 
-import { HomepageQuery } from '@peach/types';
+import { HomepageQuery, PinnedFetishesQuery, PinnedFetishesQueryVariables } from '@peach/types';
 import { homepageQuery } from './queries/homepage.gql';
 import { i } from '../../i18n/i18n';
-import { Slider, SliderItem } from '../../components/slider';
-import { MovieCard } from '../../components/movieCard';
 import { NoVolumesHint } from './components/noVolumesHint';
 import { Icon } from '../../components/icon';
 import { settingsRoute } from '../../utils/route';
+import { MovieCardSlider } from './components/movieCardSlider';
+import { pinnedFetishesQuery } from './queries/pinnedFetishes.gql';
 
 export const Homepage: FunctionalComponent = () => {
   const { data } = useQuery<HomepageQuery>(homepageQuery);
 
   const movie = data?.randomMovies[0];
+  console.log(data);
   const hasMovies = data?.recentMovies.length || data?.randomMovies.length;
+
+  const { data: fetishMovies } = useQuery<PinnedFetishesQuery, PinnedFetishesQueryVariables>(
+    pinnedFetishesQuery,
+    {
+      variables: {
+        fetishIds: data?.settings.pinnedFetishes.map(f => f.id) || [],
+      },
+      skip: !data?.settings.pinnedFetishes.length,
+    },
+  );
 
   return (
     <main className="pb-12 min-h-screen">
@@ -31,26 +42,9 @@ export const Homepage: FunctionalComponent = () => {
           <NoVolumesHint />
         ) : (
           <Fragment>
-            <h2 className="text-xl mb-2 mt-4">{i('RECENT_MOVIES')}</h2>
-            <div className="-mx-8">
-              <Slider>
-                {(data?.recentMovies || []).map(m => (
-                  <SliderItem>
-                    <MovieCard noWidth className="w-52 md:w-72" movie={m} />
-                  </SliderItem>
-                ))}
-              </Slider>
-            </div>
-            <h2 className="text-xl mb-2 mt-4">{i('RANDOM_MOVIES')}</h2>
-            <div className="-mx-8">
-              <Slider>
-                {(data?.randomMovies || []).map(m => (
-                  <SliderItem>
-                    <MovieCard noWidth className="w-52 md:w-72" movie={m} />
-                  </SliderItem>
-                ))}
-              </Slider>
-            </div>
+            <MovieCardSlider movies={fetishMovies?.movies || []} headline={i('PINNED')} />
+            <MovieCardSlider movies={data?.randomMovies || []} headline={i('RANDOM_MOVIES')} />
+            <MovieCardSlider movies={data?.recentMovies || []} headline={i('RECENT_MOVIES')} />
           </Fragment>
         )}
       </div>

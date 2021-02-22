@@ -87,7 +87,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
           <Loading />
         ) : (
           <Fragment>
-            <div className="flex w-full justify-between">
+            <div className="flex w-full justify-between md:max-w-screen-md m-auto">
               <span>{genre.category}</span>
               <div className="flex items-end -mt-32">
                 <span
@@ -103,7 +103,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
             {!genre.linkableChildren.length ? null : (
               <Fragment>
                 <h2 className="text-lg border-gray-200 border-b mt-8">{i('SUBGENRES')}</h2>
-                <div className="grid grid-cols-4 pt-2 gap-2">
+                <div className="grid grid-cols-4 md:grid-cols-10 pt-2 gap-2">
                   {genre.linkableChildren.map(g => (
                     <GenreCard genre={g} />
                   ))}

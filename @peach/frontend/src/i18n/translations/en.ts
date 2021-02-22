@@ -1,5 +1,5 @@
 export default {
-  PINNED: 'Featured',
+  PINNED: 'Featured movies',
   RECENT_MOVIES: 'Recently added movies',
   RANDOM_MOVIES: 'Random movies',
   HOMEPAGE_NO_MOVIES: 'Nothing here yet!',

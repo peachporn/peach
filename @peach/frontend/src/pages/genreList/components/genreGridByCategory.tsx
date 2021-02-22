@@ -20,7 +20,7 @@ export const GenreGridByCategory: FunctionalComponent<GenreGridByCategoryProps> 
         return genresForCategory?.length ? (
           <div>
             <h2 className="text-lg border-b border-gray-200 mb-3">{c}</h2>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 md:grid-cols-10 gap-2">
               {genresForCategory.map(g => (
                 <GenreCard
                   key={g.id}

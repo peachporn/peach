@@ -75,25 +75,25 @@ export const WebsiteDetailPage: FunctionalComponent = () => {
         {loading || !website ? (
           <Loading />
         ) : (
-          <Fragment>
+          <div className="grid grid-cols-2 md:grid-cols-5 ">
             <Image
-              className="w-2/3 rounded mb-3 pr-3 object-contain"
+              className="w-64 rounded mb-3 pr-3 object-contain md:col-span-2 md:row-span-3"
               alt={website.name}
               src={website.picture}
             />
-            <a className="text-pink my-4 flex items-center" href={website.url}>
+            <a className="text-pink my-4 flex items-center md:col-span-3" href={website.url}>
               <Icon className="mr-2" icon="language" />
               <span className="font-bold">{website.url}</span>
             </a>
             {!website.fetish ? null : (
               <Fragment>
-                <h2 className="border-b border-gray-200 mb-2 text-md">{i('FETISH')}</h2>
+                <h2 className="border-b border-gray-200 mb-2 text-md col-span-3">{i('FETISH')}</h2>
                 <GenreCard
                   onClick={() => {
                     history.push(genreDetailRoute(website.fetish!.id));
                   }}
-                  className="w-1/4"
                   genre={website.fetish}
+                  className="w-2/3"
                 />
               </Fragment>
             )}
@@ -103,7 +103,7 @@ export const WebsiteDetailPage: FunctionalComponent = () => {
                 refetch();
               }}
             />
-          </Fragment>
+          </div>
         )}
       </section>
     </main>

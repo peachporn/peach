@@ -34,7 +34,6 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
   onSubmit: onSubmitCallback,
   movie,
 }) => {
-  console.log(movie.actresses, movie.fetishes);
   const { register, handleSubmit, watch, setValue, reset, formState } = useForm<MovieFormValues>({
     defaultValues: {
       title: movie.title,
@@ -78,16 +77,16 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
 
   return (
     <div className="pb-16">
-      <div className="grid grid-cols-1 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-7 gap-5 items-start">
         <input
-          className="input leading-loose text-2xl font-display text-pink"
+          className="input leading-loose text-2xl font-display text-pink md:col-span-3 md:order-1"
           name="title"
           placeholder={i('MOVIE_TITLE')}
           autoFocus
           ref={register({ required: true })}
         />
 
-        <div>
+        <div className="md:order-1 md:col-span-2 h-full">
           <input className="hidden" name="fetishes" ref={register} />
           <GenreSearch
             inputClassName="w-full"
@@ -101,7 +100,7 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
           />
         </div>
 
-        <div>
+        <div className="md:order-3 md:col-span-7 md:mt-5">
           <input className="hidden" name="actresses" ref={register} />
           <ActressSearch
             inputClassName="w-full"
@@ -114,7 +113,7 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
           />
         </div>
 
-        <div>
+        <div className="md:order-2 md:col-span-2">
           <input className="hidden" name="website" ref={register} />
           <WebsiteSearch
             inputClassName="w-full"
@@ -126,8 +125,8 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
           />
         </div>
 
-        <div>
-          <input className="hidden" name="cover" ref={register} />
+        <div className="md:order-4 md:col-span-7 relative grid grid-cols-1 md:grid-cols-5">
+          <input className="absolute hidden" name="cover" ref={register} />
           {movie.screencaps.map(screencap => (
             <img
               src={screencap.src}

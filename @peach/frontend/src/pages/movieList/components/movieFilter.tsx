@@ -25,7 +25,11 @@ export const MovieFilter: FunctionalComponent = () => {
           }}
         />
       </div>
-      <div className={`${visible ? 'max-h-full' : 'max-h-0'} transition-all overflow-hidden -mx-8`}>
+      <div
+        className={`${
+          visible ? 'max-h-full' : 'max-h-0'
+        } relative grid grid-cols-1 md:grid-cols-4 transition-all overflow-hidden -mx-8`}
+      >
         <div className="px-4">
           <GenreSearch
             multiple
@@ -38,7 +42,7 @@ export const MovieFilter: FunctionalComponent = () => {
         </div>
         <Icon
           icon="keyboard_arrow_up"
-          className="block text-center bg-gray-50 "
+          className="absolute bottom-0 w-full block text-center bg-gray-50"
           onClick={() => {
             setVisible(false);
           }}

@@ -100,7 +100,7 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
             .map(a => (
               <SliderItem key={a.id}>
                 <ActressCard
-                  className={`h-full max-w-screen/2 min-w-screen/2 ${
+                  className={`h-full max-w-screen/2 min-w-screen/2 md:min-w-0 md:w-64 ${
                     actressIds.includes(a.id) ? '' : 'opacity-70'
                   }`}
                   onClick={() => {

@@ -62,9 +62,11 @@ export const MovieDetailPage: FunctionalComponent = () => {
           />
         ) : (
           <Fragment>
-            <h1 className="leading-loose text-2xl font-display text-pink">{movie.title}</h1>
-            <div className="grid grid-cols-1 gap-10 py-4">
-              <div className="grid grid-cols-4">
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-10 py-4">
+              <h1 className="md:order-1 md:col-span-3 leading-loose text-2xl md:text-4xl font-display text-pink">
+                {movie.title}
+              </h1>
+              <div className="grid col-span-1 md:order-1 grid-cols-4 md:grid-cols-2 grid-rows-1 md:grid-rows-2">
                 {movie.fetishes.map(f => (
                   <FetishBubble
                     onClick={() => {
@@ -75,11 +77,11 @@ export const MovieDetailPage: FunctionalComponent = () => {
                 ))}
               </div>
               {!movie.actresses.length ? null : (
-                <Slider padding={0}>
+                <Slider className="md:order-3 md:col-span-5" padding={0}>
                   {movie.actresses.map(a => (
                     <SliderItem key={a.id}>
                       <ActressCard
-                        className="h-full max-w-screen/2 min-w-screen/2"
+                        className="h-full max-w-screen/2 min-w-screen/2 md:min-w-0 md:w-64"
                         onClick={() => {
                           history.push(actressDetailRoute(a.id));
                         }}
@@ -91,6 +93,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
               )}
               {!movie.website ? null : (
                 <WebsiteCard
+                  className="md:order-2"
                   key={movie.website.id}
                   onClick={() => {
                     history.push(websiteDetailRoute(movie.website!.id));
@@ -99,10 +102,15 @@ export const MovieDetailPage: FunctionalComponent = () => {
                 />
               )}
               {!movie.metaData || !movie.volume ? null : (
-                <MetadataTable metadata={movie.metaData} volume={movie.volume} path={movie.path} />
+                <MetadataTable
+                  className="md:order-4"
+                  metadata={movie.metaData}
+                  volume={movie.volume}
+                  path={movie.path}
+                />
               )}
             </div>
-            <div className="grid grid-cols-1 w-full mt-10">
+            <div className="grid grid-cols-1 md:grid-cols-5 w-full mt-10 md:mb-10">
               {movie.screencaps.map((screencap, i) => (
                 <img
                   className={

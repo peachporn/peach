@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { MovieCardFragment } from '@peach/types';
 
 import { movieDetailRoute } from '../../utils/route';
+import { Image } from '../image';
 
 type MovieCardProps = {
   className?: string;
@@ -16,11 +17,13 @@ export const MovieCard: FunctionalComponent<MovieCardProps> = ({
 }) => (
   <NavLink
     to={movieDetailRoute(movie.id)}
-    className={`block ${noWidth ? '' : 'w-full'} shadow-md rounded-md ${className}`}
+    className={`block ${noWidth ? '' : 'w-full'} shadow-md rounded-md ${className || ''}`}
   >
-    {movie.coverPicture?.src && (
-      <img className="w-full rounded-t-md" src={movie.coverPicture?.src} alt={movie.title} />
-    )}
-    <span className="block text-sm py-1 px-2">{movie.title}</span>
+    <Image
+      className="w-full rounded-t-md md:h-48 object-cover"
+      src={movie.coverPicture?.src || ''}
+      alt={movie.title}
+    />
+    <span className="block text-sm py-1 px-2 overflow-x-hidden break-all">{movie.title}</span>
   </NavLink>
 );

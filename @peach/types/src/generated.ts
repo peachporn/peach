@@ -429,6 +429,7 @@ export type Genre = {
 };
 
 export type GenreFilter = {
+  ids?: Maybe<Array<Scalars['Int']>>;
   name?: Maybe<Scalars['String']>;
   fetish?: Maybe<Scalars['Boolean']>;
   minKinkiness?: Maybe<Scalars['Int']>;
@@ -619,6 +620,7 @@ export type Website = {
 };
 
 export type WebsiteFilter = {
+  ids?: Maybe<Array<Scalars['Int']>>;
   name?: Maybe<Scalars['String']>;
 };
 

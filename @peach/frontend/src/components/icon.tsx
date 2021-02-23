@@ -14,6 +14,7 @@ export type IconType =
   | 'cloud'
   | 'delete_forever'
   | 'edit'
+  | 'home'
   | 'error'
   | 'expand_more'
   | 'expand_less'

@@ -20,7 +20,7 @@ export const WebsiteCard: FunctionalComponent<WebsiteCardProps> = ({
     className={`w-full rounded shadow flex flex-col focus:outline-none ${className}`}
   >
     <Image
-      className="h-40 object-contain w-full rounded-t"
+      className="h-40 object-cover w-full rounded-t"
       alt={website.name}
       src={website.picture}
     />

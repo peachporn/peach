@@ -11,7 +11,7 @@ export const MovieFilter: FunctionalComponent = () => {
   const { filter, setFetishes } = useContext(MovieFilterContext);
 
   return (
-    <div className={`shadow-sm -mt-8 -mx-8 w-screen px-8 mb-4 ${visible ? 'pt-4' : 'py-4'}`}>
+    <div className={`bg-white shadow-sm w-full px-8 ${visible ? 'pt-4' : 'py-4'}`}>
       <div className="flex justify-center items-center">
         <Icon
           icon="search"
@@ -27,11 +27,12 @@ export const MovieFilter: FunctionalComponent = () => {
       </div>
       <div
         className={`${
-          visible ? 'max-h-full' : 'max-h-0'
-        } relative grid grid-cols-1 md:grid-cols-4 transition-all overflow-hidden -mx-8`}
+          visible ? 'max-h-full pb-8' : 'max-h-0'
+        } relative grid grid-cols-1 md:grid-cols-4 transition-all overflow-hidden`}
       >
         <div className="px-4">
           <GenreSearch
+            containerClassName="pb-4"
             multiple
             placeholder={i('FETISH')}
             defaultValue={filter.fetishes}
@@ -42,7 +43,9 @@ export const MovieFilter: FunctionalComponent = () => {
         </div>
         <Icon
           icon="keyboard_arrow_up"
-          className="absolute bottom-0 w-full block text-center bg-gray-50"
+          className={`${
+            visible ? 'block' : 'hidden'
+          } absolute bottom-0 w-full text-center bg-gray-50`}
           onClick={() => {
             setVisible(false);
           }}

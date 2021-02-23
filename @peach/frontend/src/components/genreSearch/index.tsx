@@ -7,6 +7,7 @@ import { UseFormMethods } from 'react-hook-form';
 import { uniq } from 'ramda';
 import { genreSearchQuery } from './genreSearchQuery.gql';
 import { FetishBubble } from '../fetishBubble';
+import { websiteSearchQuery } from '../websiteSearch/websiteSearchQuery.gql';
 
 type GenreSearchProps = {
   onChange: (id: number[]) => unknown;
@@ -32,17 +33,31 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
 
   useEffect(() => {
     onChange(genreIds);
-  }, genreIds);
+  }, [genreIds]);
 
-  const filter = {
-    name: searchName,
-    ...filterOverride,
-  };
+  const { data: selectedGenres } = useQuery<GenreSearchQuery, GenreSearchQueryVariables>(
+    genreSearchQuery,
+    {
+      variables: { filter: { ids: genreIds }, limit: 5 },
+      skip: !genreIds.length,
+    },
+  );
 
-  const { data } = useQuery<GenreSearchQuery, GenreSearchQueryVariables>(genreSearchQuery, {
-    variables: { filter, limit: 5 },
-    skip: !genreIds.length && searchName.trim() === '',
-  });
+  const { data: searchedGenres } = useQuery<GenreSearchQuery, GenreSearchQueryVariables>(
+    genreSearchQuery,
+    {
+      variables: {
+        filter: {
+          name: searchName,
+          ...filterOverride,
+        },
+        limit: 5,
+      },
+      skip: searchName.trim() === '',
+    },
+  );
+
+  const genres = [...(selectedGenres?.genres || []), ...(searchedGenres?.genres || [])];
 
   return (
     <Fragment>
@@ -52,12 +67,13 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
         onKeyUp={event => setSearchName((event.target as HTMLInputElement)?.value)}
       />
       <div
-        className={`grid grid-cols-5 md:grid-cols-3 mt-2 h-20 md:h-full items-center items-start text-center ${
+        className={`flex gap-4 mt-2 h-20 md:h-full items-center text-center ${
           containerClassName || ''
         }`}
       >
-        {uniqBy(g => g.id, data?.genres || []).map(g => (
+        {uniqBy(g => g.id, genres || []).map(g => (
           <FetishBubble
+            key={g.id}
             className={genreIds.includes(g.id) ? '' : 'opacity-70'}
             onClick={() => {
               if (multiple) {

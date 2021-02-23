@@ -59,6 +59,9 @@ module.exports = {
       minHeight: {
         32: '8rem',
       },
+      maxHeight: {
+        32: '8rem',
+      },
       maxWidth: {
         'screen/2': '50vw',
       },

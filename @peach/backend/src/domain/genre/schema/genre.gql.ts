@@ -28,6 +28,7 @@ export const genreTypeDefs = gql`
   }
 
   input GenreFilter {
+    ids: [Int!]
     name: String
     fetish: Boolean
     minKinkiness: Int

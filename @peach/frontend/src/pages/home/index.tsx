@@ -12,10 +12,9 @@ import { MovieCardSlider } from './components/movieCardSlider';
 import { pinnedFetishesQuery } from './queries/pinnedFetishes.gql';
 
 export const Homepage: FunctionalComponent = () => {
-  const { data } = useQuery<HomepageQuery>(homepageQuery);
+  const { data, loading } = useQuery<HomepageQuery>(homepageQuery);
 
   const movie = data?.randomMovies[0];
-  console.log(data);
   const hasMovies = data?.recentMovies.length || data?.randomMovies.length;
 
   const { data: fetishMovies } = useQuery<PinnedFetishesQuery, PinnedFetishesQueryVariables>(
@@ -38,7 +37,7 @@ export const Homepage: FunctionalComponent = () => {
         </Link>
       </div>
       <div className="bg-white px-8 py-8 shadow-lg">
-        {!hasMovies ? (
+        {!loading && !hasMovies ? (
           <NoVolumesHint />
         ) : (
           <Fragment>

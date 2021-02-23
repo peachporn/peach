@@ -9,7 +9,7 @@ export const WebsiteFilter: FunctionalComponent = () => {
   const { filter, setName } = useContext(WebsiteFilterContext);
 
   return (
-    <div className={`shadow-sm -mt-8 -mx-8 w-screen px-8 mb-4 ${visible ? 'pt-4' : 'py-4'}`}>
+    <div className={`bg-white shadow-sm w-full px-8 ${visible ? 'pt-4' : 'py-4'}`}>
       <div className="flex justify-center items-center">
         <Icon
           icon="search"
@@ -33,10 +33,16 @@ export const WebsiteFilter: FunctionalComponent = () => {
           }}
         />
       </div>
-      <div className={`${visible ? 'max-h-full' : 'max-h-0'} transition-all overflow-hidden -mx-8`}>
+      <div
+        className={`${
+          visible ? 'max-h-full pb-8' : 'max-h-0'
+        } relative transition-all overflow-hidden`}
+      >
         <Icon
           icon="keyboard_arrow_up"
-          className="block text-center bg-gray-50 "
+          className={`${
+            visible ? 'block' : 'hidden'
+          } absolute bottom-0 w-full text-center bg-gray-50`}
           onClick={() => {
             setVisible(false);
           }}

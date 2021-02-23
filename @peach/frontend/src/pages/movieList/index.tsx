@@ -2,6 +2,7 @@ import { FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
 import { MovieCountQuery, MovieListQuery, MovieListQueryVariables } from '@peach/types';
 import { useContext } from 'preact/hooks';
+import { useHistory } from 'react-router-dom';
 import { movieCountQuery, movieListQuery } from './queries/movieList.gql';
 import { usePagination } from '../../utils/usePagination';
 import { i } from '../../i18n/i18n';
@@ -9,10 +10,13 @@ import { Loading } from '../../components/loading';
 import { MovieCard } from '../../components/movieCard';
 import { MovieFilterContext, MovieFilterProvider } from './context/movieFilter';
 import { MovieFilter } from './components/movieFilter';
+import { Image } from '../../components/image';
+import { homeRoute } from '../../utils/route';
 
 const pageLength = 12;
 
 const MoviesPageComponent: FunctionalComponent = () => {
+  const history = useHistory();
   const count = useQuery<MovieCountQuery>(movieCountQuery);
   const { filter } = useContext(MovieFilterContext);
 
@@ -38,8 +42,8 @@ const MoviesPageComponent: FunctionalComponent = () => {
       <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md">
         {i('NAVIGATION_MOVIES')}
       </h1>
+      <MovieFilter />
       <section className="bg-white p-8 min-h-screen shadow-lg">
-        <MovieFilter />
         {loading ? (
           <Loading />
         ) : (

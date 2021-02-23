@@ -34,7 +34,7 @@ export const MetadataTable: FunctionalComponent<MetadataTableProps> = ({
   volume,
   path,
 }) => (
-  <section className={className}>
+  <section className={`break-all ${className}`}>
     <h2 className="text-xl pb-2">{i('MOVIE_METADATA')}</h2>
     <span className="block">{qualityString(metadata)}</span>
     <span className="block">{durationString(metadata)}</span>

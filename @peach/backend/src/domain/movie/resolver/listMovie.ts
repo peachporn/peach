@@ -30,8 +30,9 @@ export const listMovieResolvers: Resolvers = {
       (sort === 'RANDOM'
         ? prisma.movie.count().then(count => {
             const blockLimit = (limit || 30) * 5;
-            const randomSkip =
-              Math.random() * Math.max(0, Math.min(count, count - blockLimit || 0));
+            const randomSkip = Math.floor(
+              Math.random() * Math.max(0, Math.min(count, count - blockLimit || 0)),
+            );
 
             return prisma.movie
               .findMany({

@@ -127,7 +127,9 @@ export const FreeonesScraper: ActressScraper = {
       type: 'html',
       transform: x => {
         const matches = x.match(/ href="(.*?)"/g);
-        return !matches ? undefined : matches.map(m => m.replaceAll('"', '').replace(' href=', ''));
+        return !matches
+          ? undefined
+          : matches.filter(Boolean).map(m => m.replace(/"/g, '').replace(' href=', ''));
       },
     },
     officialWebsite: {

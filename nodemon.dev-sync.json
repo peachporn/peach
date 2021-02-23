@@ -1,0 +1,7 @@
+{
+  "watch": [
+    "dist"
+  ],
+  "delay": 1000,
+  "exec": "./sync.sh"
+}

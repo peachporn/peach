@@ -10,6 +10,13 @@ const applyWebsiteFilter = (
     ? {}
     : {
         where: {
+          ...(!filter.ids
+            ? {}
+            : {
+                id: {
+                  in: filter.ids,
+                },
+              }),
           ...(!filter.name
             ? {}
             : {

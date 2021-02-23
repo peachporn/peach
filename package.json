@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "dev": "cd dist; nodemon --config ../nodemon.dev.json",
+    "dev:sync": "nodemon --config ./nodemon.dev-sync.json",
     "run:app": "cd dist; ./peach",
     "run:migrate": "cd dist; ./migrate",
     "watch": "DEVELOPMENT=true yarn build:copy; run-p watch:*",

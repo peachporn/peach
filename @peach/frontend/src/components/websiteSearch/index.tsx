@@ -2,18 +2,14 @@ import { Fragment, FunctionalComponent, h } from 'preact';
 import uniqBy from 'ramda/es/uniqBy';
 import { useEffect, useState } from 'preact/hooks';
 import { useQuery } from '@apollo/client';
-import {
-  WebsiteCardFragment,
-  WebsiteFilter,
-  WebsiteSearchQuery,
-  WebsiteSearchQueryVariables,
-} from '@peach/types';
+import { WebsiteFilter, WebsiteSearchQuery, WebsiteSearchQueryVariables } from '@peach/types';
 import { UseFormMethods } from 'react-hook-form';
-import { ascend, descend, sortWith, uniq } from 'ramda';
-import { websiteSearchQuery } from './websiteSearchQuery.gql';
+import { sortWith, uniq } from 'ramda';
 import { FetishBubble } from '../fetishBubble';
 import { WebsiteCard } from '../websiteCard';
 import { Slider, SliderItem } from '../slider';
+import { actressSearchQuery } from '../actressSearch/actressSearchQuery.gql';
+import { websiteSearchQuery } from './websiteSearchQuery.gql';
 
 type WebsiteSearchProps = {
   onChange: (id: number[]) => unknown;
@@ -39,17 +35,31 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
 
   useEffect(() => {
     onChange(websiteIds);
-  }, websiteIds);
+  }, [websiteIds]);
 
-  const filter = {
-    name: searchName,
-    ...filterOverride,
-  };
+  const { data: selectedWebsites } = useQuery<WebsiteSearchQuery, WebsiteSearchQueryVariables>(
+    websiteSearchQuery,
+    {
+      variables: { filter: { ids: websiteIds }, limit: 5 },
+      skip: !websiteIds.length,
+    },
+  );
 
-  const { data } = useQuery<WebsiteSearchQuery, WebsiteSearchQueryVariables>(websiteSearchQuery, {
-    variables: { filter, limit: 6 },
-    skip: !websiteIds.length && searchName.trim() === '',
-  });
+  const { data: searchedWebsites } = useQuery<WebsiteSearchQuery, WebsiteSearchQueryVariables>(
+    websiteSearchQuery,
+    {
+      variables: {
+        filter: {
+          name: searchName,
+          ...filterOverride,
+        },
+        limit: 5,
+      },
+      skip: searchName.trim() === '',
+    },
+  );
+
+  const websites = [...(selectedWebsites?.websites || []), ...(searchedWebsites?.websites || [])];
 
   return (
     <Fragment>
@@ -59,17 +69,11 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
         onKeyUp={event => setSearchName((event.target as HTMLInputElement)?.value)}
       />
       <div className={`mt-2 ${containerClassName || ''}`}>
-        <Slider padding={0}>
-          {uniqBy(
-            w => w.id,
-            sortWith<WebsiteCardFragment>(
-              [descend(w => websiteIds.includes(w.id)), ascend(w => w.name)],
-              data?.websites || [],
-            ),
-          ).map(w => (
+        <Slider className="md:grid-cols-3" padding={0}>
+          {uniqBy(w => w.id, websites || []).map(w => (
             <SliderItem key={w.id}>
               <WebsiteCard
-                className={`min-w-screen/2 md:min-w-0 md:w-40 ${
+                className={`min-w-screen/2 md:min-w-0 ${
                   websiteIds.includes(w.id) ? '' : 'opacity-70'
                 }`}
                 onClick={() => {

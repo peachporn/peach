@@ -7,7 +7,7 @@ type SliderProps = {
 
 export const Slider: FunctionalComponent<SliderProps> = ({ children, padding = 8, className }) => (
   <div
-    className={`overflow-x-auto flex gap-3 py-2 scroll-snap scroll-px-${padding} px-${padding} ${className}`}
+    className={`overflow-x-auto flex md:grid md:overflow-hidden gap-3 py-2 scroll-snap scroll-px-${padding} px-${padding} ${className}`}
   >
     {children}
     {padding >= 0 ? <div className={`flex-none ml-${padding} w-${padding}`} /> : null}
@@ -15,5 +15,5 @@ export const Slider: FunctionalComponent<SliderProps> = ({ children, padding = 8
 );
 
 export const SliderItem: FunctionalComponent = ({ children }) => (
-  <div className="flex-none snap-align-start">{children}</div>
+  <div className="flex-none snap-align-start md:w-full">{children}</div>
 );

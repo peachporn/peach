@@ -12,6 +12,7 @@ export const websiteTypeDefs = gql`
   }
 
   input WebsiteFilter {
+    ids: [Int!]
     name: String
   }
 

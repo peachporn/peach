@@ -72,6 +72,7 @@ export const WebsiteForm: FunctionalComponent<WebsiteFormProps> = ({
           defaultValue={defaultValues?.fetish ? [parseInt(defaultValues.fetish, 10)] : undefined}
           placeholder={i('FETISH')}
           filterOverride={{ fetish: true }}
+          containerClassName="w-1/5"
           onChange={fetishIds => {
             setValue('fetish', head(fetishIds) || '', { shouldDirty: true });
           }}

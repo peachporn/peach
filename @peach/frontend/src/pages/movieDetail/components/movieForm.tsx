@@ -103,6 +103,7 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
         <div className="md:order-3 md:col-span-7 md:mt-5">
           <input className="hidden" name="actresses" ref={register} />
           <ActressSearch
+            sliderClassName="md:grid-cols-7"
             inputClassName="w-full"
             multiple
             defaultValue={movie.actresses.map(f => f.id) || undefined}
@@ -116,6 +117,7 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
         <div className="md:order-2 md:col-span-2">
           <input className="hidden" name="website" ref={register} />
           <WebsiteSearch
+            containerClassName="md:grid-cols-3"
             inputClassName="w-full"
             defaultValue={movie.website?.id ? [movie.website.id] : undefined}
             placeholder={i('MOVIE_WEBSITE')}
@@ -143,7 +145,7 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
       <button
         className={`${
           !isDirty ? 'bg-gray-200' : 'bg-pink'
-        } rounded-sm text-white py-1 px-3 w-full mt-4`}
+        } rounded-sm text-white py-1 px-3 w-full md:w-80 md:block md:mx-auto mt-4`}
         disabled={!isDirty}
         onClick={() => handleSubmit(onSubmit)()}
       >

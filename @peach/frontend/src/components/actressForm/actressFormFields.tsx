@@ -18,7 +18,7 @@ export const ActressFormFields: FunctionalComponent<ActressFormFieldsProps> = ({
 }) => (
   <div className={`${className || ''}`}>
     <input
-      className="input font-display text-2xl text-pink w-full col-span-2"
+      className="input font-display text-2xl text-pink w-full col-span-2 mb-4"
       name="name"
       ref={register}
     />

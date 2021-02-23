@@ -15,6 +15,7 @@ import { FetishBubble } from '../fetishBubble';
 import { Slider, SliderItem } from '../slider';
 import { ActressCard } from '../actressCard';
 import { CreateActressForm } from './createActressForm';
+import { throttle } from '../../utils/throttle';
 
 type ActressSearchProps = {
   onChange: (id: number[]) => unknown;
@@ -24,6 +25,7 @@ type ActressSearchProps = {
   defaultValue?: number[];
   inputClassName?: string;
   containerClassName?: string;
+  sliderClassName?: string;
 };
 
 export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
@@ -34,19 +36,20 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
   onChange,
   containerClassName,
   inputClassName,
+  sliderClassName,
 }) => {
   const [actressIds, setActressIds] = useState<number[]>(defaultValue || []);
   const [searchName, setSearchName] = useState<string>('');
 
   useEffect(() => {
     onChange(actressIds);
-  }, actressIds);
+  }, [actressIds]);
 
   const { data: selectedActresses } = useQuery<ActressSearchQuery, ActressSearchQueryVariables>(
     actressSearchQuery,
     {
       variables: { filter: { ids: actressIds }, limit: 5 },
-      skip: !actressIds.length && searchName.trim() === '',
+      skip: !actressIds.length,
     },
   );
 
@@ -60,12 +63,12 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
         },
         limit: 5,
       },
-      skip: !actressIds.length && searchName.trim() === '',
+      skip: searchName.trim() === '',
     },
   );
 
   const actresses = [
-    ...(searchName === '' ? selectedActresses?.actresses || [] : []),
+    ...(selectedActresses?.actresses || []),
     ...(searchedActresses?.actresses || []),
   ];
 
@@ -75,7 +78,7 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
         className={`input ${inputClassName || ''}`}
         placeholder={placeholder}
         value={searchName}
-        onKeyUp={event => setSearchName((event.target as HTMLInputElement)?.value)}
+        onKeyUp={throttle(event => setSearchName((event.target as HTMLInputElement)?.value), 200)}
       />
       <div className={`min-h-screen/2 mt-2 ${containerClassName || ''}`}>
         {searchName !== '' && searchedActresses?.actresses.length === 0 ? (
@@ -88,7 +91,7 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
             }}
           />
         ) : null}
-        <Slider padding={0}>
+        <Slider className={sliderClassName} padding={0}>
           {uniqBy(
             a => a.id,
             sortWith<ActressCardFragment>(
@@ -100,7 +103,7 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
             .map(a => (
               <SliderItem key={a.id}>
                 <ActressCard
-                  className={`h-full max-w-screen/2 min-w-screen/2 md:min-w-0 md:w-64 ${
+                  className={`h-full max-w-screen/2 min-w-screen/2 md:min-w-0 ${
                     actressIds.includes(a.id) ? '' : 'opacity-70'
                   }`}
                   onClick={() => {

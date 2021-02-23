@@ -45,8 +45,8 @@ const ActressesPageComponent: FunctionalComponent = () => {
       <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md">
         {i('NAVIGATION_ACTRESSES')}
       </h1>
+      <ActressFilter />
       <section className="bg-white p-8 min-h-screen shadow-lg">
-        <ActressFilter />
         {loading ? (
           <Loading />
         ) : (

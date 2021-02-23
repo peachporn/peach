@@ -10,7 +10,7 @@ export const GenreFilter: FunctionalComponent = () => {
   const { filter, setName, setKinkiness } = useContext(GenreFilterContext);
 
   return (
-    <div className={`shadow-sm -mt-8 -mx-8 w-screen px-8 mb-4 ${visible ? 'pt-4' : 'py-4'}`}>
+    <div className={`bg-white shadow-sm w-full px-8 ${visible ? 'pt-4' : 'py-4'}`}>
       <div className="flex justify-center items-center">
         <Icon
           icon="search"
@@ -34,14 +34,20 @@ export const GenreFilter: FunctionalComponent = () => {
           }}
         />
       </div>
-      <div className={`${visible ? 'max-h-full' : 'max-h-0'} transition-all overflow-hidden -mx-8`}>
-        <div className="px-8 pb-4 pt-2">
+      <div
+        className={`${
+          visible ? 'max-h-full pb-8' : 'max-h-0'
+        } relative transition-all overflow-hidden`}
+      >
+        <div className="px-4">
           <span className="text-gray-500 text-sm">{i('GENRE_KINKINESS')}</span>
           <KinkinessSlider kinkiness={filter.minKinkiness || 0} setKinkiness={setKinkiness} />
         </div>
         <Icon
           icon="keyboard_arrow_up"
-          className="block text-center bg-gray-50 "
+          className={`${
+            visible ? 'block' : 'hidden'
+          } absolute bottom-0 w-full text-center bg-gray-50`}
           onClick={() => {
             setVisible(false);
           }}

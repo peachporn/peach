@@ -44,7 +44,7 @@ export const Video = forwardRef<HTMLVideoElement, VideoProps>(({ src }, video) =
 
   return (
     <video
-      className="w-full max-w-screen-lg m-auto"
+      className="w-full max-w-screen-xl m-auto"
       controls
       autoPlay
       muted

@@ -117,7 +117,7 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
         <div className="md:order-2 md:col-span-2">
           <input className="hidden" name="website" ref={register} />
           <WebsiteSearch
-            containerClassName="md:grid-cols-3"
+            containerClassName="md:grid-cols-1"
             inputClassName="w-full"
             defaultValue={movie.website?.id ? [movie.website.id] : undefined}
             placeholder={i('MOVIE_WEBSITE')}

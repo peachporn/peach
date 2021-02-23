@@ -126,7 +126,7 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
     setValue('weight', weight);
     setValue('piercings', piercings);
     setValue('tattoos', tattoos);
-    setValue('socialMediaLinks', socialMediaLinks.join('\n'));
+    setValue('socialMediaLinks', socialMediaLinks?.join('\n') || '');
     setValue('officialWebsite', officialWebsite);
   }, [data]);
 

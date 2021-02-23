@@ -53,7 +53,7 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
           name: searchName,
           ...filterOverride,
         },
-        limit: 5,
+        limit: 1,
       },
       skip: searchName.trim() === '',
     },
@@ -69,7 +69,7 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
         onKeyUp={event => setSearchName((event.target as HTMLInputElement)?.value)}
       />
       <div className={`mt-2 ${containerClassName || ''}`}>
-        <Slider className="md:grid-cols-3" padding={0}>
+        <Slider className="md:grid-cols-2" padding={0}>
           {uniqBy(w => w.id, websites || []).map(w => (
             <SliderItem key={w.id}>
               <WebsiteCard

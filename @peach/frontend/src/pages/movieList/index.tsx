@@ -10,7 +10,6 @@ import { Loading } from '../../components/loading';
 import { MovieCard } from '../../components/movieCard';
 import { MovieFilterContext, MovieFilterProvider } from './context/movieFilter';
 import { MovieFilter } from './components/movieFilter';
-import { Image } from '../../components/image';
 import { homeRoute } from '../../utils/route';
 
 const pageLength = 12;

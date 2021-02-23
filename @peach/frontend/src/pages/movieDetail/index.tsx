@@ -1,7 +1,7 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useHistory, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { useEffect, useRef, useState } from 'preact/hooks';
+import { useRef, useState } from 'preact/hooks';
 import { MovieDetailQuery, MovieDetailQueryVariables } from '@peach/types';
 import { sortWith } from 'ramda';
 import { movieDetailQuery } from './queries/movieDetail.gql';

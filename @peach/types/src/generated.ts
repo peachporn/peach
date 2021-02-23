@@ -228,7 +228,6 @@ export type CreateActressInput = {
   cupsize?: Maybe<Cupsize>;
   socialMediaLinks?: Maybe<Array<Maybe<Scalars['String']>>>;
   officialWebsite?: Maybe<Scalars['String']>;
-  picture?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {

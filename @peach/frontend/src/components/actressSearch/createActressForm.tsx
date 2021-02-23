@@ -21,7 +21,7 @@ export const CreateActressForm: FunctionalComponent<CreateActressFormProps> = ({
   const onSubmit = (data: ActressFormValues) =>
     createActress(data).then(result => {
       setVisible(false);
-      onSubmitCallback(result.data?.createActress?.id);
+      onSubmitCallback(result?.createActress?.id);
     });
 
   return (

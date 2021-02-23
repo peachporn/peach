@@ -13,16 +13,15 @@
   },
   "dependencies": {
     "@prisma/client": "^2.14.0",
+    "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "node-fetch": "^2.6.1",
     "pino": "^6.10.0",
     "pino-pretty": "^4.3.0",
-    "ramda": "^0.27.1",
-    "request": "^2.88.2"
+    "ramda": "^0.27.1"
   },
   "devDependencies": {
     "@types/pino": "^6.3.5",
-    "@types/ramda": "^0.27.34",
-    "@types/request": "^2.48.5"
+    "@types/ramda": "^0.27.34"
   }
 }

@@ -1,5 +1,5 @@
 import { without } from 'ramda';
-import { Prisma, Movie as DBMovie, shuffle } from '@peach/utils';
+import { Prisma, shuffle } from '@peach/utils';
 import { MovieFilter } from '@peach/types';
 import { Resolvers } from '../../../generated/resolver-types';
 import { transformMovie } from '../transformer/movie';

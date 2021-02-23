@@ -10,6 +10,7 @@ import {
 } from '@peach/types';
 import { createActressMutation } from '../pages/actressList/mutations/createActress.gql';
 import { ActressFormValues } from '../components/actressForm';
+import { uploadActressImageFromUrl } from '../fetch/uploadImage';
 
 export const useCreateActress = () => {
   const [createActress] = useMutation<CreateActressMutation, CreateActressMutationVariables>(
@@ -21,7 +22,6 @@ export const useCreateActress = () => {
       variables: {
         input: {
           name: formData.name,
-          picture: formData.imageUrl || undefined,
           aliases: formData.aliases.split(','),
           haircolor: (formData.haircolor as Haircolor) || undefined,
           eyecolor: (formData.eyecolor as Eyecolor) || undefined,
@@ -54,5 +54,12 @@ export const useCreateActress = () => {
           socialMediaLinks: formData.socialMediaLinks.split('\n'),
         },
       },
+    }).then(({ data: createActressData }) => {
+      const actressId = createActressData?.createActress?.id;
+      if (!actressId) return Promise.reject();
+      return (formData.imageUrl
+        ? uploadActressImageFromUrl(actressId, formData.imageUrl)
+        : Promise.resolve()
+      ).then(() => createActressData);
     });
 };

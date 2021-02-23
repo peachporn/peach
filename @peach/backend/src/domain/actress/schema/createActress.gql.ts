@@ -36,8 +36,6 @@ export const createActressTypeDefs = gql`
 
     socialMediaLinks: [String]
     officialWebsite: String
-
-    picture: String
   }
 
   extend type Mutation {

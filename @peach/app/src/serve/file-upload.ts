@@ -2,26 +2,7 @@ import { Application } from 'express';
 import fileUpload, { UploadedFile } from 'express-fileupload';
 import { getActressImagePath, getGenreImagePath, getWebsiteImagePath } from '@peach/domain';
 import { downloadImage, prisma } from '@peach/utils';
-
-const saveImageFromFile = async (
-  file: UploadedFile | UploadedFile[],
-  path: string,
-  mimeTypes: string[] = ['image/jpeg'],
-) => {
-  if (Array.isArray(file)) {
-    throw new Error('Multiple files uploaded! Please upload only one file');
-  }
-
-  if (file.truncated) {
-    throw new Error('File size exceeded! Please upload a file smaller than 50 MB');
-  }
-
-  if (!mimeTypes.includes(file.mimetype)) {
-    throw new Error('Only JPGs are supported!');
-  }
-
-  return file.mv(path);
-};
+import sharp from 'sharp';
 
 export const applyFileUploadMiddleware = (app: Application) => {
   app.use(
@@ -32,7 +13,6 @@ export const applyFileUploadMiddleware = (app: Application) => {
 
   app.post('/upload/actress/:actressId', async (req, res) => {
     const { actressId } = req.params;
-    const file = req.files && req.files.actressImage;
     const url = req.body && req.body.actressImageUrl;
 
     if (!actressId) {
@@ -56,18 +36,28 @@ export const applyFileUploadMiddleware = (app: Application) => {
 
     const path = `${actressImagePath}/${actressId}.jpg`;
 
-    const save = file
-      ? saveImageFromFile(file, path)
-      : url
-      ? downloadImage(url, path)
-      : Promise.reject();
+    const file = url
+      ? await downloadImage(url)
+      : req.files?.actressImage
+      ? Array.isArray(req.files.actressImage)
+        ? (req.files.actressImage as UploadedFile[])[0].data
+        : (req.files.actressImage as UploadedFile).data
+      : null;
 
-    return save
+    if (!file) {
+      res.status(500);
+      return res.send('Could not find file!');
+    }
+
+    return sharp(Buffer.from(file))
+      .jpeg()
+      .toFile(path)
       .then(() => {
         res.status(200);
         res.send('Success!');
       })
       .catch((e: Error) => {
+        console.log(e);
         res.status(500);
         res.send(e);
       });
@@ -75,7 +65,6 @@ export const applyFileUploadMiddleware = (app: Application) => {
 
   app.post('/upload/genre/:genreId', async (req, res) => {
     const { genreId } = req.params;
-    const file = req.files && req.files.genreImage;
     const url = req.body && req.body.genreImageUrl;
 
     if (!genreId) {
@@ -99,18 +88,28 @@ export const applyFileUploadMiddleware = (app: Application) => {
 
     const path = `${genreImagePath}/${genreId}.jpg`;
 
-    const save = file
-      ? saveImageFromFile(file, path)
-      : url
-      ? downloadImage(url, path)
-      : Promise.reject();
+    const file = url
+      ? await downloadImage(url)
+      : req.files?.genreImage
+      ? Array.isArray(req.files.genreImage)
+        ? (req.files.genreImage as UploadedFile[])[0].data
+        : (req.files.genreImage as UploadedFile).data
+      : null;
 
-    return save
+    if (!file) {
+      res.status(500);
+      return res.send('Could not find file!');
+    }
+
+    return sharp(Buffer.from(file))
+      .jpeg()
+      .toFile(path)
       .then(() => {
         res.status(200);
         res.send('Success!');
       })
       .catch((e: Error) => {
+        console.log(e);
         res.status(500);
         res.send(e);
       });
@@ -118,7 +117,6 @@ export const applyFileUploadMiddleware = (app: Application) => {
 
   app.post('/upload/website/:websiteId', async (req, res) => {
     const { websiteId } = req.params;
-    const file = req.files && req.files.websiteImage;
     const url = req.body && req.body.websiteImageUrl;
 
     if (!websiteId) {
@@ -142,18 +140,28 @@ export const applyFileUploadMiddleware = (app: Application) => {
 
     const path = `${websiteImagePath}${websiteId}.png`;
 
-    const save = file
-      ? saveImageFromFile(file, path, ['image/png'])
-      : url
-      ? downloadImage(url, path)
-      : Promise.reject();
+    const file = url
+      ? await downloadImage(url)
+      : req.files?.websiteImage
+      ? Array.isArray(req.files.websiteImage)
+        ? (req.files.websiteImage as UploadedFile[])[0].data
+        : (req.files.websiteImage as UploadedFile).data
+      : null;
 
-    return save
+    if (!file) {
+      res.status(500);
+      return res.send('Could not find file!');
+    }
+
+    return sharp(Buffer.from(file))
+      .png()
+      .toFile(path)
       .then(() => {
         res.status(200);
         res.send('Success!');
       })
       .catch((e: Error) => {
+        console.log(e);
         res.status(500);
         res.send(e);
       });

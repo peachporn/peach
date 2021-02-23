@@ -1,5 +1,6 @@
 import { FunctionalComponent, h } from 'preact';
 import { WebsiteCardFragment } from '@peach/types';
+import { useState } from 'preact/hooks';
 import { Image } from '../image';
 
 type WebsiteCardProps = {
@@ -12,18 +13,27 @@ export const WebsiteCard: FunctionalComponent<WebsiteCardProps> = ({
   website,
   className,
   onClick,
-}) => (
-  <div
-    tabIndex={0}
-    role="button"
-    onClick={onClick || undefined}
-    className={`w-full rounded shadow flex flex-col focus:outline-none ${className}`}
-  >
-    <Image
-      className="h-40 object-cover w-full rounded-t"
-      alt={website.name}
-      src={website.picture}
-    />
-    <span className="bg-white p-2">{website.name}</span>
-  </div>
-);
+}) => {
+  const [imageErrored, setImageErrored] = useState(false);
+
+  return (
+    <div
+      tabIndex={0}
+      role="button"
+      onClick={onClick || undefined}
+      className={`w-full rounded shadow flex flex-col focus:outline-none ${className} ${
+        imageErrored ? 'px-0' : 'px-3'
+      }`}
+    >
+      <Image
+        className={`h-40 ${imageErrored ? 'object-cover' : 'object-contain'} w-full rounded-t`}
+        alt={website.name}
+        src={website.picture}
+        onError={() => {
+          setImageErrored(true);
+        }}
+      />
+      <span className="bg-white p-2">{website.name}</span>
+    </div>
+  );
+};

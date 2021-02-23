@@ -10,6 +10,7 @@ export type ImageProps = {
   src?: string;
   alt: string;
   placeholder?: string;
+  onError?: () => void;
 };
 
 export const Image: FunctionalComponent<ImageProps> = ({
@@ -18,6 +19,7 @@ export const Image: FunctionalComponent<ImageProps> = ({
   placeholder = logo,
   alt,
   onClick,
+  onError,
 }) => {
   const [source, setSource] = useState(src);
 
@@ -33,6 +35,9 @@ export const Image: FunctionalComponent<ImageProps> = ({
       onError={() => {
         if (placeholder) {
           setSource(placeholder);
+        }
+        if (onError) {
+          onError();
         }
       }}
       src={source}

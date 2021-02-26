@@ -2,7 +2,12 @@ import { Fragment, FunctionalComponent, h } from 'preact';
 import uniqBy from 'ramda/es/uniqBy';
 import { useEffect, useState } from 'preact/hooks';
 import { useQuery } from '@apollo/client';
-import { WebsiteFilter, WebsiteSearchQuery, WebsiteSearchQueryVariables } from '@peach/types';
+import {
+  WebsiteCardFragment,
+  WebsiteFilter,
+  WebsiteSearchQuery,
+  WebsiteSearchQueryVariables,
+} from '@peach/types';
 import { UseFormMethods } from 'react-hook-form';
 import { sortWith, uniq } from 'ramda';
 import { FetishBubble } from '../fetishBubble';
@@ -10,6 +15,7 @@ import { WebsiteCard } from '../websiteCard';
 import { Slider, SliderItem } from '../slider';
 import { actressSearchQuery } from '../actressSearch/actressSearchQuery.gql';
 import { websiteSearchQuery } from './websiteSearchQuery.gql';
+import { debounce } from '../../utils/throttle';
 
 type WebsiteSearchProps = {
   onChange: (id: number[]) => unknown;
@@ -19,6 +25,7 @@ type WebsiteSearchProps = {
   defaultValue?: number[];
   inputClassName?: string;
   containerClassName?: string;
+  sliderClassName?: string;
 };
 
 export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
@@ -29,6 +36,7 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
   onChange,
   containerClassName,
   inputClassName,
+  sliderClassName,
 }) => {
   const [websiteIds, setWebsiteIds] = useState<number[]>(defaultValue || []);
   const [searchName, setSearchName] = useState<string>('');
@@ -59,33 +67,48 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
     },
   );
 
-  const websites = [...(selectedWebsites?.websites || []), ...(searchedWebsites?.websites || [])];
+  const websites = uniqBy(w => w.id, [
+    ...(selectedWebsites?.websites || []),
+    ...(searchedWebsites?.websites || []),
+  ]);
+
+  const submitWebsite = (w: WebsiteCardFragment) => {
+    if (multiple) {
+      setWebsiteIds(
+        websiteIds.includes(w.id)
+          ? websiteIds.filter(id => id !== w.id)
+          : uniq([...websiteIds, w.id]),
+      );
+    } else {
+      setWebsiteIds([w.id]);
+    }
+    setSearchName('');
+  };
 
   return (
     <Fragment>
       <input
         className={`input ${inputClassName || ''}`}
+        value={searchName}
         placeholder={placeholder}
-        onKeyUp={event => setSearchName((event.target as HTMLInputElement)?.value)}
+        onKeyUp={debounce((event: KeyboardEvent) => {
+          if (event.key === 'Enter' && searchedWebsites?.websites.length === 1) {
+            submitWebsite(searchedWebsites?.websites[0]);
+            return;
+          }
+          setSearchName((event.target as HTMLInputElement)?.value);
+        }, 200)}
       />
       <div className={`mt-2 ${containerClassName || ''}`}>
-        <Slider className="md:grid-cols-2" padding={0}>
-          {uniqBy(w => w.id, websites || []).map(w => (
+        <Slider className={`${sliderClassName}`} padding={0}>
+          {websites.map(w => (
             <SliderItem key={w.id}>
               <WebsiteCard
                 className={`min-w-screen/2 md:min-w-0 ${
                   websiteIds.includes(w.id) ? '' : 'opacity-70'
                 }`}
                 onClick={() => {
-                  if (multiple) {
-                    setWebsiteIds(
-                      websiteIds.includes(w.id)
-                        ? websiteIds.filter(id => id !== w.id)
-                        : uniq([...websiteIds, w.id]),
-                    );
-                  } else {
-                    setWebsiteIds([w.id]);
-                  }
+                  submitWebsite(w);
                 }}
                 website={w}
               />

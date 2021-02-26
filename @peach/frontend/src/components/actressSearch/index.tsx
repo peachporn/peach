@@ -15,7 +15,7 @@ import { FetishBubble } from '../fetishBubble';
 import { Slider, SliderItem } from '../slider';
 import { ActressCard } from '../actressCard';
 import { CreateActressForm } from './createActressForm';
-import { throttle } from '../../utils/throttle';
+import { debounce, throttle } from '../../utils/throttle';
 
 type ActressSearchProps = {
   onChange: (id: number[]) => unknown;
@@ -39,6 +39,7 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
   sliderClassName,
 }) => {
   const [actressIds, setActressIds] = useState<number[]>(defaultValue || []);
+  const [createActressFormVisible, setCreateActressFormVisible] = useState<boolean>(false);
   const [searchName, setSearchName] = useState<string>('');
 
   useEffect(() => {
@@ -72,17 +73,44 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
     ...(searchedActresses?.actresses || []),
   ];
 
+  const submitActress = (a: ActressCardFragment) => {
+    if (multiple) {
+      setActressIds(
+        actressIds.includes(a.id)
+          ? actressIds.filter(id => id !== a.id)
+          : uniq([...actressIds, a.id]),
+      );
+    } else {
+      setActressIds([a.id]);
+    }
+    setSearchName('');
+  };
+
   return (
     <Fragment>
       <input
+        tabIndex={0}
         className={`input ${inputClassName || ''}`}
         placeholder={placeholder}
         value={searchName}
-        onKeyUp={throttle(event => setSearchName((event.target as HTMLInputElement)?.value), 200)}
+        onKeyUp={debounce((event: KeyboardEvent) => {
+          if (event.key === 'Enter') {
+            if (searchedActresses?.actresses.length === 1) {
+              submitActress(searchedActresses.actresses[0]);
+              return;
+            }
+            if (searchedActresses?.actresses.length === 0) {
+              setCreateActressFormVisible(true);
+              return;
+            }
+          }
+          setSearchName((event.target as HTMLInputElement)?.value);
+        }, 200)}
       />
       <div className={`min-h-screen/2 mt-2 ${containerClassName || ''}`}>
         {searchName !== '' && searchedActresses?.actresses.length === 0 ? (
           <CreateActressForm
+            visibility={[createActressFormVisible, setCreateActressFormVisible]}
             name={searchName}
             onSubmit={actressId => {
               if (!actressId) return;
@@ -107,16 +135,7 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
                     actressIds.includes(a.id) ? '' : 'opacity-70'
                   }`}
                   onClick={() => {
-                    if (multiple) {
-                      setActressIds(
-                        actressIds.includes(a.id)
-                          ? actressIds.filter(id => id !== a.id)
-                          : uniq([...actressIds, a.id]),
-                      );
-                    } else {
-                      setActressIds([a.id]);
-                    }
-                    setSearchName('');
+                    submitActress(a);
                   }}
                   actress={a}
                 />

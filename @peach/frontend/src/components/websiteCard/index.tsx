@@ -21,12 +21,12 @@ export const WebsiteCard: FunctionalComponent<WebsiteCardProps> = ({
       tabIndex={0}
       role="button"
       onClick={onClick || undefined}
-      className={`w-full rounded shadow flex flex-col focus:outline-none ${className} ${
+      className={`h-full w-full rounded shadow flex flex-col focus:outline-none ${className} ${
         imageErrored ? 'px-0' : 'px-3'
       }`}
     >
       <Image
-        className={`h-40 ${imageErrored ? 'object-cover' : 'object-contain'} w-full rounded-t`}
+        className={`h-full ${imageErrored ? 'object-cover' : 'object-contain'} w-full rounded-t`}
         alt={website.name}
         src={website.picture}
         onError={() => {

@@ -26,3 +26,15 @@ export const throttle = <F extends (...args: any[]) => any>(func: F, wait: numbe
       }
     });
 };
+
+export const debounce = <T extends Function>(cb: T, wait = 20) => {
+  let h = 0;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const callable = (...args: any) => {
+    clearTimeout(h);
+    // @ts-ignore
+    h = setTimeout(() => cb(...args), wait);
+  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <T>(<any>callable);
+};

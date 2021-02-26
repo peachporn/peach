@@ -16,6 +16,7 @@ import { Icon } from '../../../components/icon';
 import { FetishBubble } from '../../../components/fetishBubble';
 import { WebsiteSearch } from '../../../components/websiteSearch';
 import { ActressSearch } from '../../../components/actressSearch';
+import { MetadataTable } from './metadataTable';
 
 export type MovieFormValues = {
   title: string;
@@ -117,7 +118,8 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
         <div className="md:order-2 md:col-span-2">
           <input className="hidden" name="website" ref={register} />
           <WebsiteSearch
-            containerClassName="md:grid-cols-1"
+            containerClassName="md:grid-cols-1 h-32"
+            sliderClassName="md:grid-cols-2 h-full"
             inputClassName="w-full"
             defaultValue={movie.website?.id ? [movie.website.id] : undefined}
             placeholder={i('MOVIE_WEBSITE')}
@@ -127,7 +129,16 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
           />
         </div>
 
-        <div className="md:order-4 md:col-span-7 relative grid grid-cols-1 md:grid-cols-5">
+        {!movie.metaData || !movie.volume ? null : (
+          <MetadataTable
+            className="md:order-4 col-span-5"
+            metadata={movie.metaData}
+            volume={movie.volume}
+            path={movie.path}
+          />
+        )}
+
+        <div className="md:order-5 md:col-span-7 relative grid grid-cols-1 md:grid-cols-5">
           <input className="absolute hidden" name="cover" ref={register} />
           {movie.screencaps.map(screencap => (
             <img

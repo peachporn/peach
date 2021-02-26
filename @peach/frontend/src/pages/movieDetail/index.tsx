@@ -68,7 +68,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
           ) : (
             <Fragment>
               <div className="grid grid-cols-1 gap-10 py-4">
-                <div className="grid grid-cols-1 md:grid-cols-5 place-items-start">
+                <div className="grid grid-cols-1 md:grid-cols-5 gap-y-6 place-items-start">
                   <h1 className="md:order-1 md:col-span-4 leading-tight text-2xl md:text-4xl font-display text-pink break-all">
                     {movie.title}
                   </h1>

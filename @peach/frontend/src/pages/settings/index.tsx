@@ -22,25 +22,29 @@ export const SettingsPage: FunctionalComponent = () => {
 
   return (
     <main className="pb-12">
-      <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md flex justify-between pr-4">
+      <h1 className="max-w-screen-md mx-auto font-display pt-8 text-3xl text-white pl-6 md:pl-0 text-shadow-md flex justify-between pr-4 md:pr-0">
         {i('SETTINGS')}
         <Link to={tasksRoute} className="text-white">
           <Icon icon="task_alt" />
         </Link>
       </h1>
       <section className="bg-white p-8 min-h-screen shadow-lg">
-        <GeneralSettingsForm />
-        <UIForm />
-        <LibraryForm />
-        <VolumeForm />
-        <div className="grid grid-cols-1 pt-3">
-          <button
-            className={`${isDisabled ? 'bg-gray-200' : 'bg-pink'} rounded-sm text-white py-1 px-3`}
-            disabled={isDisabled}
-            onClick={submit}
-          >
-            <Icon icon="check" />
-          </button>
+        <div className="max-w-screen-md mx-auto">
+          <GeneralSettingsForm />
+          <UIForm />
+          <LibraryForm />
+          <VolumeForm />
+          <div className="grid grid-cols-1 pt-3">
+            <button
+              className={`${
+                isDisabled ? 'bg-gray-200' : 'bg-pink'
+              } rounded-sm text-white py-1 px-3`}
+              disabled={isDisabled}
+              onClick={submit}
+            >
+              <Icon icon="check" />
+            </button>
+          </div>
         </div>
       </section>
     </main>

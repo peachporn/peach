@@ -51,6 +51,9 @@ module.exports = {
       boxShadow: {
         '-md': '0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
       },
+      gridRow: {
+        'span-20': 'span 20 / span 20',
+      },
       gridTemplateColumns: {
         '3/1': 'minmax(0, 3fr) minmax(0, 1fr)',
         '1/2': 'minmax(0, 1fr) minmax(0, 2fr)',

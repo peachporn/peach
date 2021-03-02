@@ -78,7 +78,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
             />
           ))}
         </div>
-        <h1 className="absolute bottom-0 font-display text-3xl text-white pl-6 text-shadow-md">
+        <h1 className="block -mt-9 mx-auto w-full max-w-screen-md font-display text-3xl text-white pl-6 md:pl-0 text-shadow-md">
           {genre?.name || ''}
         </h1>
       </div>
@@ -101,14 +101,14 @@ export const GenreDetailPage: FunctionalComponent = () => {
               </div>
             </div>
             {!genre.linkableChildren.length ? null : (
-              <Fragment>
+              <div className="max-w-screen-md mx-auto">
                 <h2 className="text-lg border-gray-200 border-b mt-8">{i('SUBGENRES')}</h2>
-                <div className="grid grid-cols-4 md:grid-cols-10 pt-2 gap-2">
+                <div className="grid grid-cols-4 md:grid-cols-6 pt-2 gap-2">
                   {genre.linkableChildren.map(g => (
                     <GenreCard genre={g} />
                   ))}
                 </div>
-              </Fragment>
+              </div>
             )}
             <div />
             <EditGenreForm

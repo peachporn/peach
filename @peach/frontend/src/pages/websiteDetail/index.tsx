@@ -67,7 +67,7 @@ export const WebsiteDetailPage: FunctionalComponent = () => {
             />
           ))}
         </div>
-        <h1 className="absolute bottom-0 font-display text-3xl text-white pl-6 text-shadow-md">
+        <h1 className="-mt-9 mx-auto max-w-screen-lg w-full font-display text-3xl text-white pl-6 md:pl-0 text-shadow-md">
           {website?.name || ''}
         </h1>
       </div>
@@ -75,25 +75,27 @@ export const WebsiteDetailPage: FunctionalComponent = () => {
         {loading || !website ? (
           <Loading />
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-5 ">
+          <div className="max-w-screen-lg mx-auto grid grid-cols-1 md:grid-cols-5 ">
             <Image
-              className="w-64 rounded mb-3 pr-3 object-contain md:col-span-2 md:row-span-3"
+              className="w-full md:w-64 rounded mb-3 md:pr-3 object-contain md:col-span-2 md:row-span-3 bg-gray-100 p-3"
               alt={website.name}
               src={website.picture}
             />
             <a className="text-pink my-4 flex items-center md:col-span-3" href={website.url}>
               <Icon className="mr-2" icon="language" />
-              <span className="font-bold">{website.url}</span>
+              <span className="font-bold break-all">{website.url}</span>
             </a>
             {!website.fetish ? null : (
               <Fragment>
-                <h2 className="border-b border-gray-200 mb-2 text-md col-span-3">{i('FETISH')}</h2>
+                <h2 className="border-b border-gray-200 mb-2 text-md md:col-span-3">
+                  {i('FETISH')}
+                </h2>
                 <GenreCard
                   onClick={() => {
                     history.push(genreDetailRoute(website.fetish!.id));
                   }}
                   genre={website.fetish}
-                  className="w-2/3"
+                  className="w-1/3 md:w-2/3"
                 />
               </Fragment>
             )}

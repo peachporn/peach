@@ -70,7 +70,7 @@ export const ActressDetailPage: FunctionalComponent = () => {
             />
           ))}
         </div>
-        <h1 className="absolute bottom-0 font-display text-3xl text-white pl-6 text-shadow-md">
+        <h1 className="block -mt-9 w-full max-w-screen-lg mx-auto font-display text-3xl text-white pl-6 md:pl-0 text-shadow-md">
           {actress?.name || ''}
         </h1>
       </div>
@@ -79,173 +79,157 @@ export const ActressDetailPage: FunctionalComponent = () => {
           <Loading />
         ) : (
           <Fragment>
-            <div className="flex flex-col">
-              <div className="flex mb-3">
-                <div className="flex flex-col w-1/2 justify-start pr-2">
-                  {!actress.age ? null : (
-                    <Fragment>
-                      <span className="text-2xl font-bold">{actress.age}</span>
-                      <span className="mb-2">{i('ACTRESS_YEARS_OLD')}</span>
-                    </Fragment>
-                  )}
-                  <span className="text-gray-400">{i('ACTRESS_STATUS')}</span>
-                  <span className="mb-2">
+            <div className="max-w-screen-lg mx-auto grid grid-cols-2">
+              {!actress.age ? null : (
+                <div>
+                  <span className="text-2xl font-bold">{actress.age}</span>
+                  <span className="mb-2">{i('ACTRESS_YEARS_OLD')}</span>
+                  <span className="block">
+                    <span className="text-gray-400">{i('ACTRESS_STATUS')}</span>{' '}
                     {!actress.inBusiness
                       ? i('ACTRESS_STATUS_RETIRED')
                       : i('ACTRESS_STATUS_IN_BUSINESS')}
                   </span>
-                  {actress.aliases.length === 0 ? null : (
-                    <Fragment>
-                      <span className="text-gray-400">{i('ACTRESS_ALIASES')}</span>
-                      <div>
-                        {actress.aliases.map(a => (
-                          <span className="block">{a}</span>
-                        ))}
-                      </div>
-                    </Fragment>
-                  )}
                 </div>
-                <Image className="w-1/2 rounded shadow" alt={actress.name} src={actress.picture} />
-              </div>
-              <div className="flex flex-col w-full justify-between">
-                <div className="mb-4">
-                  {!actress.ethnicity ? null : (
-                    <div className="grid grid-cols-2">
-                      <span className="text-gray-400">{i('ACTRESS_ETHNICITY')}</span>
-                      <span>{actress.ethnicity}</span>
-                    </div>
-                  )}
-                  {!actress.haircolor ? null : (
-                    <div className="grid grid-cols-2">
-                      <span className="text-gray-400">{i('ACTRESS_HAIRCOLOR')}</span>
-                      <span>{actress.haircolor}</span>
-                    </div>
-                  )}
-                  {!actress.eyecolor ? null : (
-                    <div className="grid grid-cols-2">
-                      <span className="text-gray-400">{i('ACTRESS_EYECOLOR')}</span>
-                      <span>{actress.eyecolor}</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="mb-4">
-                  {!actress.dateOfBirth ? null : (
-                    <div className="grid grid-cols-2">
-                      <span className="text-gray-400">{i('ACTRESS_DATEOFBIRTH')}</span>
-                      <span>{formatDate(actress.dateOfBirth)}</span>
-                    </div>
-                  )}
-                  {!actress.dateOfCareerstart ? null : (
-                    <div className="grid grid-cols-2">
-                      <span className="text-gray-400">{i('ACTRESS_DATEOFCAREERSTART')}</span>
-                      <span>{formatDate(actress.dateOfCareerstart)}</span>
-                    </div>
-                  )}
-                  {!actress.dateOfRetirement ? null : (
-                    <div className="grid grid-cols-2">
-                      <span className="text-gray-400">{i('ACTRESS_DATEOFRETIREMENT')}</span>
-                      <span>{formatDate(actress.dateOfRetirement)}</span>
-                    </div>
-                  )}
-                  {!actress.dateOfDeath ? null : (
-                    <div className="grid grid-cols-2">
-                      <span className="text-gray-400">{i('ACTRESS_DATEOFDEATH')}</span>
-                      <span>{formatDate(actress.dateOfDeath)}</span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="mb-4">
-                  {!actress.city && !actress.province && !actress.country ? null : (
-                    <div className="grid grid-cols-2 mt-2">
-                      <span className="text-gray-400">{i('ACTRESS_LOCATION')}</span>
-                      <span>
-                        {[actress.city, actress.province, actress.country]
-                          .filter(Boolean)
-                          .join(', ')}
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                <div className="mb-4">
-                  {!actress.cupsize ? null : (
-                    <div className="grid grid-cols-2">
-                      <span className="text-gray-400">{i('ACTRESS_CUPSIZE')}</span>
-                      <span>{actress.cupsize}</span>
-                    </div>
-                  )}
-                  {!actress.boobs ? null : (
-                    <div className="grid grid-cols-2">
-                      <span className="text-gray-400">{i('ACTRESS_BOOBS')}</span>
-                      <span>{actress.boobs}</span>
-                    </div>
-                  )}
-                  {!actress.height ? null : (
-                    <div className="grid grid-cols-2">
-                      <span className="text-gray-400">{i('ACTRESS_HEIGHT')}</span>
-                      <span>
-                        {actress.height} {i('CENTIMETER')}
-                      </span>
-                    </div>
-                  )}
-                  {!actress.weight ? null : (
-                    <div className="grid grid-cols-2">
-                      <span className="text-gray-400">{i('ACTRESS_WEIGHT')}</span>
-                      <span>
-                        {actress.weight} {i('KILOGRAM')}
-                      </span>
-                    </div>
-                  )}
-                  {!actress.measurements ? null : (
-                    <div className="grid grid-cols-3">
-                      <span className="text-gray-400">{i('ACTRESS_MEASUREMENTS_BUST')}</span>
-                      <span className="text-gray-400">{i('ACTRESS_MEASUREMENTS_HIPS')}</span>
-                      <span className="text-gray-400">{i('ACTRESS_MEASUREMENTS_WAIST')}</span>
-                      <span>{actress.measurements.bust}</span>
-                      <span>{actress.measurements.hips}</span>
-                      <span>{actress.measurements.waist}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="mb-4">
-                {!actress.piercings ? null : (
-                  <div className="grid grid-cols-1/2">
-                    <span className="text-gray-400">{i('ACTRESS_PIERCINGS')}</span>
-                    <span>{actress.piercings}</span>
+              )}
+              <Image
+                className="row-span-6 md:row-span-20 col-start-2 rounded shadow"
+                alt={actress.name}
+                src={actress.picture}
+              />
+              {actress.aliases.length === 0 ? null : (
+                <div>
+                  <span className="text-gray-400">{i('ACTRESS_ALIASES')}</span>
+                  <div>
+                    {actress.aliases.map(a => (
+                      <span className="block">{a}</span>
+                    ))}
                   </div>
-                )}
-                {!actress.tattoos ? null : (
-                  <div className="grid grid-cols-1/2">
-                    <span className="text-gray-400">{i('ACTRESS_TATTOOS')}</span>
-                    <span>{actress.tattoos}</span>
-                  </div>
-                )}
-              </div>
+                </div>
+              )}
+              {!actress.ethnicity ? null : (
+                <div className="mt-4 grid grid-cols-2">
+                  <span className="text-gray-400">{i('ACTRESS_ETHNICITY')}</span>
+                  <span>{actress.ethnicity}</span>
+                </div>
+              )}
+              {!actress.haircolor ? null : (
+                <div className="grid grid-cols-2">
+                  <span className="text-gray-400">{i('ACTRESS_HAIRCOLOR')}</span>
+                  <span>{actress.haircolor}</span>
+                </div>
+              )}
+              {!actress.eyecolor ? null : (
+                <div className="grid grid-cols-2">
+                  <span className="text-gray-400">{i('ACTRESS_EYECOLOR')}</span>
+                  <span>{actress.eyecolor}</span>
+                </div>
+              )}
 
-              <div className="mb-4">
-                {!actress.socialMediaLinks?.filter(Boolean).length ? null : (
-                  <Fragment>
-                    <span className="text-gray-400">{i('ACTRESS_SOCIALMEDIA_LINKS')}</span>
-                    <div>
-                      {actress.socialMediaLinks.map(link => (
-                        <a href={link} className="block text-pink underline">
-                          {link}
-                        </a>
-                      ))}
-                    </div>
-                  </Fragment>
-                )}
-                {!actress.officialWebsite ? null : (
-                  <div className="grid grid-cols-2">
-                    <span className="text-gray-400">{i('ACTRESS_OFFICIAL_WEBSITE')}</span>
-                    <span>{actress.officialWebsite}</span>
+              {!actress.dateOfBirth ? null : (
+                <div className="mt-4 grid grid-cols-2 col-span-2 md:col-span-1">
+                  <span className="text-gray-400">{i('ACTRESS_DATEOFBIRTH')}</span>
+                  <span>{formatDate(actress.dateOfBirth)}</span>
+                </div>
+              )}
+              {!actress.dateOfCareerstart ? null : (
+                <div className="grid grid-cols-2 col-span-2 md:col-span-1">
+                  <span className="text-gray-400">{i('ACTRESS_DATEOFCAREERSTART')}</span>
+                  <span>{formatDate(actress.dateOfCareerstart)}</span>
+                </div>
+              )}
+              {!actress.dateOfRetirement ? null : (
+                <div className="grid grid-cols-2 col-span-2 md:col-span-1">
+                  <span className="text-gray-400">{i('ACTRESS_DATEOFRETIREMENT')}</span>
+                  <span>{formatDate(actress.dateOfRetirement)}</span>
+                </div>
+              )}
+              {!actress.dateOfDeath ? null : (
+                <div className="grid grid-cols-2 col-span-2 md:col-span-1">
+                  <span className="text-gray-400">{i('ACTRESS_DATEOFDEATH')}</span>
+                  <span>{formatDate(actress.dateOfDeath)}</span>
+                </div>
+              )}
+
+              {!actress.city && !actress.province && !actress.country ? null : (
+                <div className="mt-4 grid grid-cols-2 col-span-2 md:col-span-1 mt-2">
+                  <span className="text-gray-400">{i('ACTRESS_LOCATION')}</span>
+                  <span>
+                    {[actress.city, actress.province, actress.country].filter(Boolean).join(', ')}
+                  </span>
+                </div>
+              )}
+
+              {!actress.cupsize ? null : (
+                <div className="mt-4 grid grid-cols-2 col-span-2 md:col-span-1">
+                  <span className="text-gray-400">{i('ACTRESS_CUPSIZE')}</span>
+                  <span>{actress.cupsize}</span>
+                </div>
+              )}
+              {!actress.boobs ? null : (
+                <div className="grid grid-cols-2 col-span-2 md:col-span-1">
+                  <span className="text-gray-400">{i('ACTRESS_BOOBS')}</span>
+                  <span>{actress.boobs}</span>
+                </div>
+              )}
+              {!actress.height ? null : (
+                <div className="grid grid-cols-2 col-span-2 md:col-span-1">
+                  <span className="text-gray-400">{i('ACTRESS_HEIGHT')}</span>
+                  <span>
+                    {actress.height} {i('CENTIMETER')}
+                  </span>
+                </div>
+              )}
+              {!actress.weight ? null : (
+                <div className="grid grid-cols-2 col-span-2 md:col-span-1">
+                  <span className="text-gray-400">{i('ACTRESS_WEIGHT')}</span>
+                  <span>
+                    {actress.weight} {i('KILOGRAM')}
+                  </span>
+                </div>
+              )}
+              {!actress.measurements ? null : (
+                <div className="grid grid-cols-3 col-span-2 md:col-span-1">
+                  <span className="text-gray-400">{i('ACTRESS_MEASUREMENTS_BUST')}</span>
+                  <span className="text-gray-400">{i('ACTRESS_MEASUREMENTS_HIPS')}</span>
+                  <span className="text-gray-400">{i('ACTRESS_MEASUREMENTS_WAIST')}</span>
+                  <span>{actress.measurements.bust}</span>
+                  <span>{actress.measurements.hips}</span>
+                  <span>{actress.measurements.waist}</span>
+                </div>
+              )}
+
+              {!actress.piercings ? null : (
+                <div className="mt-4 grid grid-cols-1/2 col-span-2 md:col-span-1">
+                  <span className="text-gray-400">{i('ACTRESS_PIERCINGS')}</span>
+                  <span>{actress.piercings}</span>
+                </div>
+              )}
+              {!actress.tattoos ? null : (
+                <div className="grid grid-cols-1/2 col-span-2 md:col-span-1">
+                  <span className="text-gray-400">{i('ACTRESS_TATTOOS')}</span>
+                  <span>{actress.tattoos}</span>
+                </div>
+              )}
+
+              {!actress.socialMediaLinks?.filter(Boolean).length ? null : (
+                <div className="mt-4 col-span-2 md:col-span-1">
+                  <span className="text-gray-400">{i('ACTRESS_SOCIALMEDIA_LINKS')}</span>
+                  <div>
+                    {actress.socialMediaLinks.map(link => (
+                      <a href={link} className="block text-pink underline break-all">
+                        {link}
+                      </a>
+                    ))}
                   </div>
-                )}
-              </div>
+                </div>
+              )}
+              {!actress.officialWebsite ? null : (
+                <div className="grid grid-cols-2 col-span-2 md:col-span-1">
+                  <span className="text-gray-400">{i('ACTRESS_OFFICIAL_WEBSITE')}</span>
+                  <span>{actress.officialWebsite}</span>
+                </div>
+              )}
             </div>
             <EditActressForm actress={actress} onSubmit={refetch} />
           </Fragment>

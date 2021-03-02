@@ -15,7 +15,7 @@ export const ActressCard: FunctionalComponent<ActressCardProps> = ({
   onClick,
   url,
 }) => {
-  const className = `w-full rounded shadow relative flex flex-col justify-between focus:outline-none ${
+  const className = `w-full rounded shadow relative flex flex-col justify-between focus:outline-none focus:border-pink border-b-2 border-transparent ${
     classNameProp || ''
   }`;
 

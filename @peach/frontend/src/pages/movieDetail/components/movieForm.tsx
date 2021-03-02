@@ -87,7 +87,7 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
           ref={register({ required: true })}
         />
 
-        <div className="md:order-1 md:col-span-2 h-full">
+        <div className="md:col-span-2 h-full">
           <input className="hidden" name="fetishes" ref={register} />
           <GenreSearch
             inputClassName="w-full"
@@ -101,7 +101,21 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
           />
         </div>
 
-        <div className="md:order-3 md:col-span-7 md:mt-5">
+        <div className="md:col-span-2">
+          <input className="hidden" name="website" ref={register} />
+          <WebsiteSearch
+            containerClassName="md:grid-cols-1 :md:h-32"
+            sliderClassName="md:grid-cols-2 h-full"
+            inputClassName="w-full"
+            defaultValue={movie.website?.id ? [movie.website.id] : undefined}
+            placeholder={i('MOVIE_WEBSITE')}
+            onChange={websiteIds => {
+              setValue('website', head(websiteIds) || '', { shouldDirty: true });
+            }}
+          />
+        </div>
+
+        <div className="md:col-span-7 md:mt-5">
           <input className="hidden" name="actresses" ref={register} />
           <ActressSearch
             sliderClassName="md:grid-cols-7"
@@ -115,30 +129,16 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
           />
         </div>
 
-        <div className="md:order-2 md:col-span-2">
-          <input className="hidden" name="website" ref={register} />
-          <WebsiteSearch
-            containerClassName="md:grid-cols-1 h-32"
-            sliderClassName="md:grid-cols-2 h-full"
-            inputClassName="w-full"
-            defaultValue={movie.website?.id ? [movie.website.id] : undefined}
-            placeholder={i('MOVIE_WEBSITE')}
-            onChange={websiteIds => {
-              setValue('website', head(websiteIds) || '', { shouldDirty: true });
-            }}
-          />
-        </div>
-
         {!movie.metaData || !movie.volume ? null : (
           <MetadataTable
-            className="md:order-4 col-span-5"
+            className="md:col-span-5"
             metadata={movie.metaData}
             volume={movie.volume}
             path={movie.path}
           />
         )}
 
-        <div className="md:order-5 md:col-span-7 relative grid grid-cols-1 md:grid-cols-5">
+        <div className="md:col-span-7 relative grid grid-cols-1 md:grid-cols-5">
           <input className="absolute hidden" name="cover" ref={register} />
           {movie.screencaps.map(screencap => (
             <img

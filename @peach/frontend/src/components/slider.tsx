@@ -15,5 +15,5 @@ export const Slider: FunctionalComponent<SliderProps> = ({ children, padding = 8
 );
 
 export const SliderItem: FunctionalComponent = ({ children }) => (
-  <div className="flex-none snap-align-start md:w-full h-full">{children}</div>
+  <div className="flex-none snap-align-start max-w-full md:w-full h-full">{children}</div>
 );

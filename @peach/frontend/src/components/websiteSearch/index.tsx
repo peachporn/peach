@@ -104,9 +104,7 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
           {websites.map(w => (
             <SliderItem key={w.id}>
               <WebsiteCard
-                className={`min-w-screen/2 md:min-w-0 ${
-                  websiteIds.includes(w.id) ? '' : 'opacity-70'
-                }`}
+                className={`w-screen/2 md:min-w-0 ${websiteIds.includes(w.id) ? '' : 'opacity-70'}`}
                 onClick={() => {
                   submitWebsite(w);
                 }}

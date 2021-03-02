@@ -79,6 +79,7 @@ module.exports = {
   },
   variants: {
     extend: {
+      borderColor: ['focus'],
       backgroundColor: ['active'],
       textColor: ['active'],
     },

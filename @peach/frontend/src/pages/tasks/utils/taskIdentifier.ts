@@ -1,8 +1,7 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
 import { TaskCategory } from '@peach/tasks';
 import { TaskFragment } from '@peach/types';
 
-const taskStatusMessageFns: Record<TaskCategory, (task: TaskFragment) => string> = {
+const taskIdentifierFns: Record<TaskCategory, (task: TaskFragment) => string> = {
   SCAN_LIBRARY: () => '',
   SCRAPE_METADATA: task => {
     if (!task.parameters) return '';
@@ -23,23 +22,8 @@ const taskStatusMessageFns: Record<TaskCategory, (task: TaskFragment) => string>
   },
 };
 
-type TaskStatusMessagesProps = {
-  tasks: TaskFragment[];
+export const taskIdentifier = (t: TaskFragment) => {
+  const identifierFn = taskIdentifierFns[t.category as TaskCategory];
+  if (!identifierFn) return '';
+  return identifierFn(t);
 };
-
-export const TaskStatusMessages: FunctionalComponent<TaskStatusMessagesProps> = ({ tasks }) => (
-  <Fragment>
-    {tasks
-      .map(t => {
-        const statusMessageFn = taskStatusMessageFns[t.category as TaskCategory];
-        if (!statusMessageFn) return '';
-        return statusMessageFn(t);
-      })
-      .map(m => (
-        <Fragment>
-          {m}
-          <br />
-        </Fragment>
-      ))}
-  </Fragment>
-);

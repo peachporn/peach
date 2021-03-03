@@ -6,20 +6,18 @@ import { groupBy } from 'ramda';
 import { i } from '../../../i18n/i18n';
 import { tasksQuery } from '../queries/tasks.gql';
 import { TaskControls } from './taskControls';
-import { TaskStatusMessages } from './taskStatusMessages';
-import { Icon } from '../../../components/icon';
+import { ErroredTask } from './erroredTask';
+import { taskIdentifier } from '../utils/taskIdentifier';
 
 type TaskViewProps = {
   taskGroups: [TaskStatus, [TaskCategory, TaskFragment[]][]][];
 };
 
-const TaskView: FunctionalComponent<TaskViewProps> = ({ taskGroups }) => {
-  console.log(taskGroups);
-
-  return (
-    <Fragment>
-      {taskGroups.flatMap(([status, categories]) =>
-        categories.map(([category, tasks]) => (
+const TaskView: FunctionalComponent<TaskViewProps> = ({ taskGroups }) => (
+  <Fragment>
+    {taskGroups.flatMap(([status, categories]) =>
+      categories.map(([category, tasks]) =>
+        ['RUNNING', 'PENDING'].includes(status) ? (
           <div className="py-2 border-b border-gray-200">
             <h3 className="text-lg mb-1">{i(category as TaskCategory)}</h3>
             {status === 'RUNNING' ? (
@@ -29,7 +27,16 @@ const TaskView: FunctionalComponent<TaskViewProps> = ({ taskGroups }) => {
                   <p className="absolute top-0 text-white font-bold right-4">{tasks.length}</p>
                 </div>
                 <p className="pt-2 pb-1">
-                  <TaskStatusMessages tasks={tasks} />
+                  {tasks
+                    .map(taskIdentifier)
+                    .slice(0, 11)
+                    .map(m => (
+                      <Fragment>
+                        {m}
+                        <br />
+                      </Fragment>
+                    ))}
+                  {tasks.length > 10 ? `... ${tasks.length - 10} more` : ''}
                 </p>
               </Fragment>
             ) : status === 'PENDING' ? (
@@ -39,22 +46,29 @@ const TaskView: FunctionalComponent<TaskViewProps> = ({ taskGroups }) => {
                   <p className="absolute top-0 text-pink font-bold right-4">{tasks.length}</p>
                 </div>
                 <p className="pt-2 pb-1">
-                  <TaskStatusMessages tasks={tasks} />
+                  {tasks
+                    .map(taskIdentifier)
+                    .slice(0, 11)
+                    .map(m => (
+                      <Fragment>
+                        {m}
+                        <br />
+                      </Fragment>
+                    ))}
+                  {tasks.length > 10 ? `... ${tasks.length - 10} more` : ''}
                 </p>
               </Fragment>
             ) : (
-              <div className="flex items-center">
-                <Icon className="mr-2" icon="warning" />
-                {tasks.map(t => t.statusMessage).join('\n')}
-              </div>
+              ''
             )}
           </div>
-        )),
-      )}
-    </Fragment>
-  );
-};
-
+        ) : (
+          tasks.map(t => <ErroredTask task={t} />)
+        ),
+      ),
+    )}
+  </Fragment>
+);
 export const TasksList: FunctionalComponent = () => {
   const { data, loading } = useQuery<TasksQuery>(tasksQuery, {
     pollInterval: 1000,

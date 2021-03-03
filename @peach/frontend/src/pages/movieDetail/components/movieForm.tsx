@@ -80,7 +80,7 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
     <div className="pb-16">
       <div className="grid grid-cols-1 md:grid-cols-7 gap-5 items-start">
         <input
-          className="input leading-loose text-2xl font-display text-pink md:col-span-3 md:order-1"
+          className="input leading-loose text-2xl font-display text-pink md:col-span-3"
           name="title"
           placeholder={i('MOVIE_TITLE')}
           autoFocus

@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from 'preact';
+import { Fragment, FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
 import { GenresCountQuery, GenresListQuery, GenresListQueryVariables } from '@peach/types';
 import { useContext } from 'preact/hooks';
@@ -11,8 +11,6 @@ import { GenreGridByCategory } from './components/genreGridByCategory';
 import { GenreFilterContext, GenreFilterProvider } from './context/genreFilter';
 import { GenreFilter } from './components/genreFilter';
 
-const pageLength = 48;
-
 const GenresPageComponent: FunctionalComponent = () => {
   const { filter } = useContext(GenreFilterContext);
   const count = useQuery<GenresCountQuery>(genresCountQuery);
@@ -21,10 +19,11 @@ const GenresPageComponent: FunctionalComponent = () => {
     return <span>loading</span>;
   }
 
-  const { limit, skip } = usePagination({
+  const pagination = usePagination({
     pageLength: count.data.genresCount,
     maxItems: count.data.genresCount,
   });
+  const { limit, skip } = pagination;
 
   const { refetch, loading, data } = useQuery<GenresListQuery, GenresListQueryVariables>(
     genresListQuery,
@@ -44,7 +43,13 @@ const GenresPageComponent: FunctionalComponent = () => {
       </h1>
       <GenreFilter />
       <section className="bg-white p-8 min-h-screen shadow-lg">
-        {loading ? <Loading /> : <GenreGridByCategory genres={data?.genres || []} />}
+        {loading ? (
+          <Loading />
+        ) : (
+          <Fragment>
+            <GenreGridByCategory genres={data?.genres || []} />
+          </Fragment>
+        )}
       </section>
       <CreateGenreForm onSubmit={count.refetch} />
     </main>

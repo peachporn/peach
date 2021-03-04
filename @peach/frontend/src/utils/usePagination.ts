@@ -6,7 +6,16 @@ export type PaginationProps = {
   pageLength: number;
 };
 
-export const usePagination = ({ maxItems, pageLength }: PaginationProps) => {
+export type UsePaginationMethods = {
+  limit: number;
+  skip: number;
+  nextPage: () => void;
+  previousPage: () => void;
+  maxPage: number;
+  page: number;
+};
+
+export const usePagination = ({ maxItems, pageLength }: PaginationProps): UsePaginationMethods => {
   const history = useHistory();
   const location = useLocation();
 

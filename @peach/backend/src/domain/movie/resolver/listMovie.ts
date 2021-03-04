@@ -11,6 +11,29 @@ export const applyMovieFilter = (
     ? {}
     : {
         where: {
+          ...(!filter.actresses
+            ? {}
+            : {
+                actresses: {
+                  some: {
+                    OR: filter.actresses.map(a => ({ id: a })),
+                  },
+                },
+              }),
+          ...(!filter.websites
+            ? {}
+            : {
+                website: {
+                  OR: filter.websites.map(f => ({ id: f })),
+                },
+              }),
+          ...(!filter.title
+            ? {}
+            : {
+                title: {
+                  contains: filter.title,
+                },
+              }),
           ...(!filter.fetishes
             ? {}
             : {

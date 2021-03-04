@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from 'preact';
+import { Fragment, FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
 import { MovieCountQuery, MovieListQuery, MovieListQueryVariables } from '@peach/types';
 import { useContext } from 'preact/hooks';
@@ -11,8 +11,9 @@ import { MovieCard } from '../../components/movieCard';
 import { MovieFilterContext, MovieFilterProvider } from './context/movieFilter';
 import { MovieFilter } from './components/movieFilter';
 import { homeRoute } from '../../utils/route';
+import { Pagination } from '../../components/pagination';
 
-const pageLength = 12;
+const pageLength = 20;
 
 const MoviesPageComponent: FunctionalComponent = () => {
   const history = useHistory();
@@ -23,10 +24,11 @@ const MoviesPageComponent: FunctionalComponent = () => {
     return <Loading />;
   }
 
-  const { limit, skip } = usePagination({
+  const pagination = usePagination({
     pageLength,
     maxItems: count.data.movieCount,
   });
+  const { limit, skip } = pagination;
 
   const { loading, data } = useQuery<MovieListQuery, MovieListQueryVariables>(movieListQuery, {
     variables: {
@@ -46,11 +48,14 @@ const MoviesPageComponent: FunctionalComponent = () => {
         {loading ? (
           <Loading />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {(data?.movies || []).map(movie => (
-              <MovieCard key={movie.id} movie={movie} />
-            ))}
-          </div>
+          <Fragment>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
+              {(data?.movies || []).map(movie => (
+                <MovieCard key={movie.id} movie={movie} />
+              ))}
+            </div>
+            <Pagination pagination={pagination} />
+          </Fragment>
         )}
       </section>
     </main>

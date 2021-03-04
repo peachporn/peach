@@ -1,10 +1,7 @@
-import { logScope } from '@peach/utils';
 import ffmpeg from 'fluent-ffmpeg';
 import { fullPath, movieScreencapPath } from '@peach/domain';
 import { defineTask } from '../task/template';
 import { ScreencapMovie } from './type';
-
-const log = logScope('screencaps');
 
 export type TakeScreencaps = {
   movie: ScreencapMovie;

@@ -97,7 +97,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
                 >
                   {genre.kinkiness}
                 </span>
-                <Image className="rounded" alt={genre.name} src={genre.picture} />
+                <Image className="rounded max-w-xs" alt={genre.name} src={genre.picture} />
               </div>
             </div>
             {!genre.linkableChildren.length ? null : (

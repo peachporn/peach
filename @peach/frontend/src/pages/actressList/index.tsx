@@ -12,8 +12,9 @@ import { ActressFilter } from './components/actressFilter';
 import { CreateActressForm } from './components/createActressForm';
 import { ActressCard } from '../../components/actressCard';
 import { actressDetailRoute } from '../../utils/route';
+import { Pagination } from '../../components/pagination';
 
-const pageLength = 48;
+const pageLength = 24;
 
 const ActressesPageComponent: FunctionalComponent = () => {
   const history = useHistory();
@@ -24,10 +25,12 @@ const ActressesPageComponent: FunctionalComponent = () => {
     return <span>loading</span>;
   }
 
-  const { limit, skip } = usePagination({
-    pageLength: count.data.actressesCount,
+  const pagination = usePagination({
+    pageLength,
     maxItems: count.data.actressesCount,
   });
+
+  const { limit, skip } = pagination;
 
   const { refetch, loading, data } = useQuery<ActressesListQuery, ActressesListQueryVariables>(
     actressesListQuery,
@@ -50,7 +53,7 @@ const ActressesPageComponent: FunctionalComponent = () => {
         {loading ? (
           <Loading />
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-6 gap-4">
             {(data?.actresses || []).map(actress => (
               <ActressCard
                 key={actress.id}
@@ -60,6 +63,7 @@ const ActressesPageComponent: FunctionalComponent = () => {
                 actress={actress}
               />
             ))}
+            <Pagination pagination={pagination} />
           </div>
         )}
       </section>

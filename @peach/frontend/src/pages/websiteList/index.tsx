@@ -12,8 +12,9 @@ import { WebsiteFilterContext, WebsiteFilterProvider } from './context/websiteFi
 import { WebsiteFilter } from './components/websiteFilter';
 import { WebsiteCard } from '../../components/websiteCard';
 import { websiteDetailRoute } from '../../utils/route';
+import { Pagination } from '../../components/pagination';
 
-const pageLength = 48;
+const pageLength = 24;
 
 const WebsitesPageComponent: FunctionalComponent = () => {
   const history = useHistory();
@@ -24,10 +25,11 @@ const WebsitesPageComponent: FunctionalComponent = () => {
     return <Loading />;
   }
 
-  const { limit, skip } = usePagination({
-    pageLength: count.data.websitesCount,
+  const pagination = usePagination({
+    pageLength,
     maxItems: count.data.websitesCount,
   });
+  const { limit, skip } = pagination;
 
   const { refetch, loading, data } = useQuery<WebsitesListQuery, WebsitesListQueryVariables>(
     websitesListQuery,
@@ -50,7 +52,7 @@ const WebsitesPageComponent: FunctionalComponent = () => {
         {loading ? (
           <Loading />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-7 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-6 gap-4">
             {(data?.websites || []).map(website => (
               <WebsiteCard
                 key={website.id}
@@ -60,6 +62,7 @@ const WebsitesPageComponent: FunctionalComponent = () => {
                 website={website}
               />
             ))}
+            <Pagination pagination={pagination} />
           </div>
         )}
       </section>

@@ -1,26 +1,32 @@
-import { logScope, spawnP } from '@peach/utils';
+import { logScope } from '@peach/utils';
+import ffmpeg from 'fluent-ffmpeg';
+import { fullPath, movieScreencapPath } from '@peach/domain';
 import { defineTask } from '../task/template';
 import { ScreencapMovie } from './type';
-import { screencapCommand } from './screencap';
 
 const log = logScope('screencaps');
 
-export type TakeScreencapParams = {
+export type TakeScreencaps = {
   movie: ScreencapMovie;
-  filename: string;
-  index: number;
 };
 
-const { createTask, runTask, taskDefinitionOptions } = defineTask<TakeScreencapParams>(
+const { createTask, runTask, taskDefinitionOptions } = defineTask<TakeScreencaps>(
   'TAKE_SCREENCAP',
-  async ({ parameters: { movie, filename } }) => {
-    const command = screencapCommand(filename, movie);
-    log.debug(`Running command ${command}`);
-
-    await spawnP(command, log, true);
-
-    return 'SUCCESS';
-  },
+  ({ parameters: { movie } }) =>
+    movieScreencapPath(movie).then(
+      screencapPath =>
+        new Promise(resolve => {
+          ffmpeg(fullPath(movie))
+            .on('end', () => {
+              resolve('SUCCESS' as const);
+            })
+            .screenshots({
+              count: 5,
+              filename: `${movie.id}-%0i.jpg`,
+              folder: screencapPath,
+            });
+        }),
+    ),
   {
     workers: 1,
   },

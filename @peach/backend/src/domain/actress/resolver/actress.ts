@@ -45,12 +45,14 @@ export const actressResolvers: Resolvers = {
       prisma.actress.count(applyActressFilter(filter)),
 
     actresses: async (_parent, { filter, skip, limit }, { prisma }) =>
-      prisma.actress
-        .findMany({
-          skip,
-          take: limit || 30,
-          ...applyActressFilter(filter),
-        })
-        .then(actresses => actresses.map(transformActress)),
+      limit === 0
+        ? []
+        : prisma.actress
+            .findMany({
+              skip,
+              take: limit || 30,
+              ...applyActressFilter(filter),
+            })
+            .then(actresses => actresses.map(transformActress)),
   },
 };

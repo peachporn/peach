@@ -73,7 +73,6 @@ export const TasksList: FunctionalComponent = () => {
   const { data, loading } = useQuery<TasksQuery>(tasksQuery, {
     pollInterval: 1000,
   });
-  console.log(data?.tasks);
 
   return loading || !data ? null : (
     <div>

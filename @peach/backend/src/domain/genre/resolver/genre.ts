@@ -87,20 +87,22 @@ export const genreResolvers: Resolvers = {
         })
         .then(g => (!g ? undefined : transformGenre(g))),
     genres: async (_parent, { filter, skip, limit }, { prisma }) =>
-      prisma.genre
-        .findMany({
-          skip,
-          orderBy: {
-            name: 'asc',
-          },
-          take: limit || 30,
-          ...applyGenreFilter(filter),
-          include: {
-            linkableChildren: true,
-            linkableParents: true,
-          },
-        })
-        .then(genres => genres.map(transformGenre)),
+      limit === 0
+        ? []
+        : prisma.genre
+            .findMany({
+              skip,
+              orderBy: {
+                name: 'asc',
+              },
+              take: limit || 30,
+              ...applyGenreFilter(filter),
+              include: {
+                linkableChildren: true,
+                linkableParents: true,
+              },
+            })
+            .then(genres => genres.map(transformGenre)),
 
     genresCount: async (_parent, { filter }, { prisma }) =>
       prisma.genre.count(applyGenreFilter(filter)),

@@ -41,15 +41,17 @@ export const websiteResolvers: Resolvers = {
       prisma.website.count(applyWebsiteFilter(filter)),
 
     websites: async (_parent, { filter, skip, limit }, { prisma }) =>
-      prisma.website
-        .findMany({
-          skip,
-          include: {
-            fetish: true,
-          },
-          take: limit || 30,
-          ...applyWebsiteFilter(filter),
-        })
-        .then(websites => websites.map(transformWebsite)),
+      limit === 0
+        ? []
+        : prisma.website
+            .findMany({
+              skip,
+              include: {
+                fetish: true,
+              },
+              take: limit || 30,
+              ...applyWebsiteFilter(filter),
+            })
+            .then(websites => websites.map(transformWebsite)),
   },
 };

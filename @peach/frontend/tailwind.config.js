@@ -54,6 +54,9 @@ module.exports = {
       gridRow: {
         'span-20': 'span 20 / span 20',
       },
+      gridTemplateRows: {
+        '2h20': '5rem 5rem',
+      },
       gridTemplateColumns: {
         '3/1': 'minmax(0, 3fr) minmax(0, 1fr)',
         '1/2': 'minmax(0, 1fr) minmax(0, 2fr)',
@@ -70,6 +73,7 @@ module.exports = {
       },
       minWidth: {
         'screen/2': '50vw',
+        10: '2.5rem',
       },
     },
     fontFamily: {

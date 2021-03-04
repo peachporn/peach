@@ -10,36 +10,34 @@ export const GenreFilter: FunctionalComponent = () => {
   const { filter, setName, setKinkiness } = useContext(GenreFilterContext);
 
   return (
-    <div className={`bg-white shadow-sm w-full px-8 ${visible ? 'pt-4' : 'py-4'}`}>
-      <div className="flex justify-center items-center">
-        <Icon
-          icon="search"
-          className={`text-pink rounded-full p-2 focus:outline-none ${
-            visible ? 'bg-transparent' : 'bg-gray-50'
-          } text-glow`}
-          onClick={() => {
-            if (!visible) {
-              setVisible(true);
-            }
-          }}
-        />
-        <input
-          className={`transition-all w-full py-1 border-b border-gray-200 focus:border-pink focus:outline-none ${
-            visible ? 'pl-2 max-w-screen-md' : 'max-w-0'
-          }`}
-          value={filter.name}
-          placeholder={i('GENRE_FILTER_NAME')}
-          onKeyUp={event => {
-            setName((event.target as HTMLInputElement).value);
-          }}
-        />
+    <div className={`bg-white shadow w-full px-8 ${visible ? 'pt-4' : 'py-4'}`}>
+      <div className="grid grid-cols-12">
+        <div className="col-span-12 place-items-center flex rounded-full p-2 focus:outline-none bg-gray-50">
+          <Icon
+            icon="search"
+            className="text-pink text-glow"
+            onClick={() => {
+              setVisible(!visible);
+            }}
+          />
+          <input
+            className="input border-b-0 bg-gray-50 w-full"
+            placeholder={visible ? i('MOVIE_TITLE') : ''}
+            onClick={() => {
+              setVisible(!visible);
+            }}
+            onKeyUp={e => {
+              setName((e.target as HTMLInputElement).value);
+            }}
+          />
+        </div>
       </div>
       <div
         className={`${
           visible ? 'max-h-full pb-8' : 'max-h-0'
-        } relative transition-all overflow-hidden`}
+        } relative grid items-start grid-cols-1 md:grid-cols-4 gap-3 transition-all overflow-hidden`}
       >
-        <div className="px-4">
+        <div className="py-4">
           <span className="text-gray-500 text-sm">{i('GENRE_KINKINESS')}</span>
           <KinkinessSlider kinkiness={filter.minKinkiness || 0} setKinkiness={setKinkiness} />
         </div>

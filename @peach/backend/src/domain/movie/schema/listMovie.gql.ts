@@ -2,6 +2,9 @@ import { gql } from 'apollo-server';
 
 export const listMovieTypeDefs = gql`
   input MovieFilter {
+    title: String
+    actresses: [Int!]
+    websites: [Int!]
     fetishes: [Int!]
   }
 

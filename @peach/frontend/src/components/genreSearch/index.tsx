@@ -21,6 +21,7 @@ type GenreSearchProps = {
   multiple?: boolean;
   placeholder?: string;
   defaultValue?: number[];
+  limit?: number;
   inputClassName?: string;
   containerClassName?: string;
 };
@@ -31,6 +32,7 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
   defaultValue,
   placeholder,
   onChange,
+  limit,
   containerClassName,
   inputClassName,
 }) => {
@@ -44,7 +46,7 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
   const { data: selectedGenres } = useQuery<GenreSearchQuery, GenreSearchQueryVariables>(
     genreSearchQuery,
     {
-      variables: { filter: { ids: genreIds }, limit: 5 },
+      variables: { filter: { ids: genreIds }, limit: 100 },
       skip: !genreIds.length,
     },
   );
@@ -57,7 +59,7 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
           name: searchName,
           ...filterOverride,
         },
-        limit: 5,
+        limit: limit || 5,
       },
       skip: searchName.trim() === '',
     },
@@ -96,7 +98,7 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
         }, 200)}
       />
       <div
-        className={`flex gap-4 mt-2 h-20 md:h-full items-center text-center ${
+        className={`flex gap-4 mt-2 h-20 md:h-full items-center text-center overflow-x-auto ${
           containerClassName || ''
         }`}
       >

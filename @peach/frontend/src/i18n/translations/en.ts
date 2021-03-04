@@ -25,7 +25,6 @@ export default {
   TASKS: 'Tasks',
   SCAN_LIBRARY: 'Update Library',
   SCRAPE_METADATA: 'Read movie metadata',
-  ENQUEUE_SCREENCAPS: 'Enqueue screencaps',
   TAKE_SCREENCAP: 'Screencap',
   SCRAPE_ACTRESS: 'Scrape actress data',
   TASK_RESTART: 'Restart',

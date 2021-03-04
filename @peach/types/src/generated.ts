@@ -479,6 +479,9 @@ export type GenreDefinitionInput = {
 };
 
 export type MovieFilter = {
+  title?: Maybe<Scalars['String']>;
+  actresses?: Maybe<Array<Scalars['Int']>>;
+  websites?: Maybe<Array<Scalars['Int']>>;
   fetishes?: Maybe<Array<Scalars['Int']>>;
 };
 
@@ -903,6 +906,27 @@ export type MovieDetailQueryVariables = Exact<{
 export type MovieDetailQuery = { __typename?: 'Query', movie?: Maybe<(
     { __typename?: 'Movie' }
     & MovieDetailFragment
+  )> };
+
+export type MovieFilterDisplayQueryVariables = Exact<{
+  genres?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
+  genreLimit: Scalars['Int'];
+  actresses?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
+  actressLimit: Scalars['Int'];
+  websites?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
+  websiteLimit: Scalars['Int'];
+}>;
+
+
+export type MovieFilterDisplayQuery = { __typename?: 'Query', genres: Array<(
+    { __typename?: 'Genre' }
+    & GenreCardFragment
+  )>, actresses: Array<(
+    { __typename?: 'Actress' }
+    & ActressCardFragment
+  )>, websites: Array<(
+    { __typename?: 'Website' }
+    & WebsiteCardFragment
   )> };
 
 export type MovieListQueryVariables = Exact<{

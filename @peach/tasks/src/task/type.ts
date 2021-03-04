@@ -15,11 +15,7 @@ export const toTask = (task: DBTask): Task => ({
 });
 export type TaskStatusMessage = 'SERVER_RESTARTED';
 
-export type TaskCategory =
-  | 'SCAN_LIBRARY'
-  | 'SCRAPE_METADATA'
-  | 'ENQUEUE_SCREENCAPS'
-  | 'TAKE_SCREENCAP';
+export type TaskCategory = 'SCAN_LIBRARY' | 'SCRAPE_METADATA' | 'TAKE_SCREENCAP';
 export type TaskStatus = 'PENDING' | 'RUNNING' | 'ERROR';
 
 export type TaskDefinition<Parameters = {}> = Omit<

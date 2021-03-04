@@ -6,6 +6,7 @@ export type ActressCardProps = {
   actress: ActressCardFragment;
   url?: string;
   className?: string;
+  noLabel?: boolean;
   onClick?: (e: Event) => void;
 };
 
@@ -13,20 +14,21 @@ export const ActressCard: FunctionalComponent<ActressCardProps> = ({
   actress,
   className: classNameProp,
   onClick,
+  noLabel,
   url,
 }) => {
-  const className = `w-full rounded shadow relative flex flex-col justify-between focus:outline-none focus:border-pink border-b-2 border-transparent ${
-    classNameProp || ''
-  }`;
+  const className = `w-full h-full rounded shadow relative flex flex-col justify-between focus:outline-none ${
+    noLabel ? '' : 'focus:border-pink border-b-2 border-transparent'
+  } ${classNameProp || ''}`;
 
   const children = (
     <Fragment>
       <Image
-        className="object-cover w-full h-full rounded-t"
+        className={`object-cover w-full h-full rounded-t ${noLabel ? 'rounded-b' : ''}`}
         src={actress.picture}
         alt={actress.name}
       />
-      <span className="bg-white p-2">{actress.name}</span>
+      {noLabel ? null : <span className="bg-white p-2">{actress.name}</span>}
     </Fragment>
   );
 

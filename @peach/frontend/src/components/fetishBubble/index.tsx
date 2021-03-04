@@ -21,7 +21,7 @@ export const FetishBubble: FunctionalComponent<FetishBubbleProps> = ({
     onClick={onClick || undefined}
     className={`flex flex-col items-center justify-center focus:outline-none ${className} focus:border-pink border-b-2 border-transparent`}
   >
-    <Image alt={genre.name} className={`rounded-full w-${size} h-${size}`} src={genre.picture} />
-    <span className="pt-1">{genre.name}</span>
+    <Image alt={genre.name} className={`block rounded-full h-${size}`} src={genre.picture} />
+    <span className={`pt-1 min-w-${size}`}>{genre.name}</span>
   </div>
 );

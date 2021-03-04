@@ -104,6 +104,7 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
         <div className="md:col-span-2">
           <input className="hidden" name="website" ref={register} />
           <WebsiteSearch
+            limit={1}
             containerClassName="md:grid-cols-1 :md:h-32"
             sliderClassName="md:grid-cols-2 h-full"
             inputClassName="w-full"

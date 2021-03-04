@@ -23,6 +23,7 @@ type WebsiteSearchProps = {
   multiple?: boolean;
   placeholder?: string;
   defaultValue?: number[];
+  limit?: number;
   inputClassName?: string;
   containerClassName?: string;
   sliderClassName?: string;
@@ -34,6 +35,7 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
   defaultValue,
   placeholder,
   onChange,
+  limit,
   containerClassName,
   inputClassName,
   sliderClassName,
@@ -48,7 +50,7 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
   const { data: selectedWebsites } = useQuery<WebsiteSearchQuery, WebsiteSearchQueryVariables>(
     websiteSearchQuery,
     {
-      variables: { filter: { ids: websiteIds }, limit: 5 },
+      variables: { filter: { ids: websiteIds }, limit: 100 },
       skip: !websiteIds.length,
     },
   );
@@ -61,7 +63,7 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
           name: searchName,
           ...filterOverride,
         },
-        limit: 1,
+        limit: limit || 5,
       },
       skip: searchName.trim() === '',
     },

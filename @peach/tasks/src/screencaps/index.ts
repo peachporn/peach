@@ -1,6 +1,6 @@
 import { prisma } from '@peach/utils';
-import { enqueueScreencaps } from './enqueue';
 import { hasMissingScreencaps } from './definitions';
+import { takeScreencap } from './take';
 
 export const takeScreencapsForAllMovies = async () => {
   prisma.movie
@@ -13,10 +13,9 @@ export const takeScreencapsForAllMovies = async () => {
     .then(movies =>
       movies.map(async movie => {
         const missing = await hasMissingScreencaps(movie);
-        return missing ? enqueueScreencaps({ movie, mode: 'allMissing' }) : Promise.resolve();
+        return missing ? takeScreencap({ movie }) : Promise.resolve();
       }),
     );
 };
 
 export * from './take';
-export * from './enqueue';

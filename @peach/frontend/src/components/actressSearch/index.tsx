@@ -23,6 +23,7 @@ type ActressSearchProps = {
   multiple?: boolean;
   placeholder?: string;
   defaultValue?: number[];
+  limit?: number;
   inputClassName?: string;
   containerClassName?: string;
   sliderClassName?: string;
@@ -35,6 +36,7 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
   placeholder,
   onChange,
   containerClassName,
+  limit,
   inputClassName,
   sliderClassName,
 }) => {
@@ -49,7 +51,7 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
   const { data: selectedActresses } = useQuery<ActressSearchQuery, ActressSearchQueryVariables>(
     actressSearchQuery,
     {
-      variables: { filter: { ids: actressIds }, limit: 5 },
+      variables: { filter: { ids: actressIds }, limit: 100 },
       skip: !actressIds.length,
     },
   );
@@ -62,7 +64,7 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
           name: searchName,
           ...filterOverride,
         },
-        limit: 5,
+        limit: limit || 5,
       },
       skip: searchName.trim() === '',
     },

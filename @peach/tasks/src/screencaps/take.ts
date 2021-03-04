@@ -13,11 +13,12 @@ const ffmpegScreencap = (
   timestamp: string,
   i: number,
 ) =>
-  new Promise(resolve => {
+  new Promise((resolve, reject) => {
     ffmpeg(fullPath(movie))
       .on('end', () => {
         resolve('SUCCESS' as const);
       })
+      .on('error', reject)
       .screenshots({
         timestamps: [timestamp],
         filename: `${movie.id}-0${i}.jpg`,
@@ -33,7 +34,9 @@ const { createTask, runTask, taskDefinitionOptions } = defineTask<TakeScreencaps
         ['15%', '30%', '50%', '70%', '85%'].map((timestamp, i) =>
           ffmpegScreencap(movie, screencapPath, timestamp, i + 1),
         ),
-      ).then(() => 'SUCCESS'),
+      )
+        .then(() => 'SUCCESS' as const)
+        .catch(() => 'ERROR' as const),
     ),
   {
     workers: 1,

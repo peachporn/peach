@@ -1,8 +1,15 @@
 import { omit } from 'ramda';
 import { exists } from '@peach/utils';
+import nodePath from 'path';
+import mkdirp from 'mkdirp';
 import { transformSettings } from '../transformer/settings';
 import { Resolvers } from '../../../generated/resolver-types';
 import { saveVolumes } from './volumes';
+
+const createLibraryStructure = (path: string) =>
+  Promise.all(
+    ['actresses', 'screencaps', 'genres', 'websites'].map(p => mkdirp(nodePath.join(path, p))),
+  );
 
 export const updateSettingsResolvers: Resolvers = {
   Query: {
@@ -11,6 +18,7 @@ export const updateSettingsResolvers: Resolvers = {
   Mutation: {
     updateSettings: (_parent, { data }, { prisma }) =>
       Promise.all([
+        data.libraryPath ? createLibraryStructure(data.libraryPath) : Promise.resolve([]),
         data.volumes ? saveVolumes(data.volumes, prisma) : Promise.resolve([]),
         prisma.settings.update({
           where: {
@@ -30,6 +38,6 @@ export const updateSettingsResolvers: Resolvers = {
               : undefined,
           },
         }),
-      ]).then(([_, settings]) => transformSettings(settings)),
+      ]).then(([_, __, settings]) => transformSettings(settings)),
   },
 };

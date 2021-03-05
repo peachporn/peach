@@ -14,16 +14,22 @@ const ffmpegScreencap = (
   i: number,
 ) =>
   new Promise((resolve, reject) => {
-    ffmpeg(fullPath(movie))
+    const ffmpegProcess = ffmpeg(fullPath(movie))
       .on('end', () => {
         resolve('SUCCESS' as const);
       })
-      .on('error', reject)
+      .on('error', error => {
+        reject(error);
+      })
       .screenshots({
         timestamps: [timestamp],
         filename: `${movie.id}-0${i}.jpg`,
         folder: screencapPath,
       });
+    setTimeout(() => {
+      ffmpegProcess.kill('SIGKILL');
+      reject(new Error('Timed out'));
+    }, 60000);
   });
 
 const { createTask, runTask, taskDefinitionOptions } = defineTask<TakeScreencaps>(

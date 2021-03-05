@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { usePagination } from '../../utils/usePagination';
 import { websitesCountQuery, websitesListQuery } from './queries/websiteList.gql';
-import { CreateWebsiteForm } from './components/createWebsiteForm';
+import { CreateWebsiteFloatingButton } from './components/createWebsiteFloatingButton';
 import { i } from '../../i18n/i18n';
 import { Loading } from '../../components/loading';
 import { WebsiteFilterContext, WebsiteFilterProvider } from './context/websiteFilter';
@@ -73,7 +73,7 @@ const WebsitesPageComponent: FunctionalComponent = () => {
             </div>
           )}
         </section>
-        <CreateWebsiteForm onSubmit={count.refetch} />
+        <CreateWebsiteFloatingButton onSubmit={count.refetch} />
       </main>
     </Fragment>
   );

@@ -7,11 +7,11 @@ import { GenreSearch } from '../../../components/genreSearch';
 import { GenreForm, GenreFormValues } from '../../../components/genreForm';
 import { useCreateGenre } from '../../../hooks/useCreateGenre';
 
-type CreateGenreFormProps = {
+type CreateGenreFloatingButtonProps = {
   onSubmit: () => void;
 };
 
-export const CreateGenreForm: FunctionalComponent<CreateGenreFormProps> = ({
+export const CreateGenreFloatingButton: FunctionalComponent<CreateGenreFloatingButtonProps> = ({
   onSubmit: onSubmitCallback,
 }) => {
   const [visible, setVisible] = useState(false);

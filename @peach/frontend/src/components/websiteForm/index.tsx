@@ -17,12 +17,14 @@ export type WebsiteFormValues = {
 
 export type WebsiteFormProps = {
   onSubmit: (data: WebsiteFormValues) => Promise<unknown>;
+  onCancel?: () => void;
   headline?: string;
   defaultValues?: Partial<WebsiteFormValues>;
 };
 
 export const WebsiteForm: FunctionalComponent<WebsiteFormProps> = ({
   onSubmit: onSubmitCallback,
+  onCancel,
   headline,
   defaultValues,
 }) => {
@@ -87,6 +89,17 @@ export const WebsiteForm: FunctionalComponent<WebsiteFormProps> = ({
         onClick={() => handleSubmit(onSubmit)()}
       >
         <Icon icon="check" />
+      </button>
+      <button
+        className="bg-grey-200 w-full text-white py-1 rounded-sm"
+        onClick={() => {
+          resetForm();
+          if (onCancel) {
+            onCancel();
+          }
+        }}
+      >
+        <Icon icon="clear" />
       </button>
     </Fragment>
   );

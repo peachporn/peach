@@ -817,7 +817,7 @@ export type GenresCountQuery = { __typename?: 'Query', genresCount: number };
 export type HomepageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomepageQuery = { __typename?: 'Query', randomMovies: Array<(
+export type HomepageQuery = { __typename?: 'Query', movieCount: number, randomMovies: Array<(
     { __typename?: 'Movie' }
     & MovieCardFragment
   )>, recentMovies: Array<(

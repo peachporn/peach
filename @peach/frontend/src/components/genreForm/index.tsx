@@ -22,12 +22,14 @@ export type GenreFormValues = {
 
 export type GenreFormProps = {
   onSubmit: (data: GenreFormValues) => Promise<unknown>;
+  onCancel?: () => void;
   headline?: string;
   defaultValues?: Partial<GenreFormValues>;
 };
 
 export const GenreForm: FunctionalComponent<GenreFormProps> = ({
   onSubmit: onSubmitCallback,
+  onCancel,
   headline,
   defaultValues,
 }) => {
@@ -121,6 +123,17 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({
         onClick={() => handleSubmit(onSubmit)()}
       >
         <Icon icon="check" />
+      </button>
+      <button
+        className="bg-grey-200 w-full text-white py-1 rounded-sm"
+        onClick={() => {
+          resetForm();
+          if (onCancel) {
+            onCancel();
+          }
+        }}
+      >
+        <Icon icon="clear" />
       </button>
     </Fragment>
   );

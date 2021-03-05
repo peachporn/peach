@@ -37,6 +37,11 @@ export const Homepage: FunctionalComponent = () => {
         <div className="pt-24 pb-8 min-h-screen/2">
           <img className="m-auto rounded-full shadow-lg" alt="Peach Logo" src="/logo.png" />
           <h1 className="text-center m-auto text-white font-display text-5xl">Peach</h1>
+          {data && (
+            <span className="block m-auto text-center text-white text-xs">
+              {i('SERVING_X_MOVIES', { count: `${data?.movieCount || ''}` })}
+            </span>
+          )}
           <Link to={settingsRoute}>
             <Icon className="text-white absolute right-3 top-3" icon="settings" />
           </Link>

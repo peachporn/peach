@@ -10,7 +10,7 @@ import { i } from '../../i18n/i18n';
 import { Loading } from '../../components/loading';
 import { ActressFilterContext, ActressFilterProvider } from './context/actressFilter';
 import { ActressFilter } from './components/actressFilter';
-import { CreateActressForm } from './components/createActressForm';
+import { CreateActressFloatingButton } from './components/createActressFloatingButton';
 import { ActressCard } from '../../components/actressCard';
 import { actressDetailRoute } from '../../utils/route';
 import { Pagination } from '../../components/pagination';
@@ -74,7 +74,7 @@ const ActressesPageComponent: FunctionalComponent = () => {
             </div>
           )}
         </section>
-        <CreateActressForm onSubmit={count.refetch} />
+        <CreateActressFloatingButton onSubmit={count.refetch} />
       </main>
     </Fragment>
   );

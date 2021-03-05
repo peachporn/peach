@@ -16,6 +16,8 @@ import { Slider, SliderItem } from '../slider';
 import { actressSearchQuery } from '../actressSearch/actressSearchQuery.gql';
 import { websiteSearchQuery } from './websiteSearchQuery.gql';
 import { debounce } from '../../utils/throttle';
+import { CreateWebsiteFloatingButton } from '../../pages/websiteList/components/createWebsiteFloatingButton';
+import { CreateWebsiteForm } from './createWebsiteForm';
 
 type WebsiteSearchProps = {
   onChange: (id: number[]) => unknown;
@@ -41,6 +43,7 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
   sliderClassName,
 }) => {
   const [websiteIds, setWebsiteIds] = useState<number[]>(defaultValue || []);
+  const [createWebsiteFormVisible, setCreateWebsiteFormVisible] = useState<boolean>(false);
   const [searchName, setSearchName] = useState<string>('');
 
   useEffect(() => {
@@ -94,14 +97,31 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
         value={searchName}
         placeholder={placeholder}
         onKeyUp={debounce((event: KeyboardEvent) => {
-          if (event.key === 'Enter' && searchedWebsites?.websites.length === 1) {
-            submitWebsite(searchedWebsites?.websites[0]);
-            return;
+          if (event.key === 'Enter') {
+            if (searchedWebsites?.websites.length === 1) {
+              submitWebsite(searchedWebsites?.websites[0]);
+              return;
+            }
+            if (searchedWebsites?.websites.length === 0) {
+              setCreateWebsiteFormVisible(true);
+              return;
+            }
           }
           setSearchName((event.target as HTMLInputElement)?.value);
         }, 200)}
       />
       <div className={`mt-2 ${containerClassName || ''}`}>
+        {searchName !== '' && searchedWebsites?.websites.length === 0 ? (
+          <CreateWebsiteForm
+            name={searchName}
+            visibility={[createWebsiteFormVisible, setCreateWebsiteFormVisible]}
+            onSubmit={websiteId => {
+              if (!websiteId) return;
+              setWebsiteIds([...websiteIds, websiteId]);
+              setSearchName('');
+            }}
+          />
+        ) : null}
         <Slider className={`${sliderClassName}`} padding={0}>
           {websites.map(w => (
             <SliderItem key={w.id}>

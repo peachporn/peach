@@ -5,11 +5,11 @@ import { Icon } from '../../../components/icon';
 import { Modal } from '../../../components/modal';
 import { useCreateWebsite } from '../../../hooks/useCreateWebsite';
 
-export type CreateWebsiteFormProps = {
+export type CreateWebsiteFloatingButtonProps = {
   onSubmit: () => void;
 };
 
-export const CreateWebsiteForm: FunctionalComponent<CreateWebsiteFormProps> = ({
+export const CreateWebsiteFloatingButton: FunctionalComponent<CreateWebsiteFloatingButtonProps> = ({
   onSubmit: onSubmitCallback,
 }) => {
   const [formVisible, setFormVisible] = useState(false);

@@ -5,7 +5,7 @@ import { useContext } from 'preact/hooks';
 import { Helmet } from 'react-helmet';
 import { usePagination } from '../../utils/usePagination';
 import { genresCountQuery, genresListQuery } from './queries/genreList.gql';
-import { CreateGenreForm } from './components/createGenreForm';
+import { CreateGenreFloatingButton } from './components/createGenreFloatingButton';
 import { i } from '../../i18n/i18n';
 import { Loading } from '../../components/loading';
 import { GenreGridByCategory } from './components/genreGridByCategory';
@@ -58,7 +58,7 @@ const GenresPageComponent: FunctionalComponent = () => {
             </Fragment>
           )}
         </section>
-        <CreateGenreForm onSubmit={count.refetch} />
+        <CreateGenreFloatingButton onSubmit={count.refetch} />
       </main>
     </Fragment>
   );

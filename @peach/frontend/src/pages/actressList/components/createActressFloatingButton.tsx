@@ -5,11 +5,11 @@ import { useCreateActress } from '../../../hooks/useCreateActress';
 import { Icon } from '../../../components/icon';
 import { Modal } from '../../../components/modal';
 
-export type CreateActressFormProps = {
+export type CreateActressFloatingButtonProps = {
   onSubmit: () => void;
 };
 
-export const CreateActressForm: FunctionalComponent<CreateActressFormProps> = ({
+export const CreateActressFloatingButton: FunctionalComponent<CreateActressFloatingButtonProps> = ({
   onSubmit: onSubmitCallback,
 }) => {
   const [visible, setVisible] = useState<boolean>(false);

@@ -123,12 +123,10 @@ export const MovieDetailPage: FunctionalComponent = () => {
                   />
                 )}
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-5 w-full mt-10 md:mb-10">
-                {movie.screencaps.map((screencap, i) => (
+              <div className="grid grid-cols-1 md:grid-cols-5 w-full mt-10 md:mb-10 rounded">
+                {movie.screencaps.map(screencap => (
                   <img
-                    className={
-                      i === 0 ? 'rounded-t' : i === movie.screencaps.length - 1 ? 'rounded-b' : ''
-                    }
+                    className="hover:scale-150 hover:z-10 transition-transform transform-gpu"
                     key={screencap.src}
                     src={screencap.src}
                     alt={`${movie.title} #${screencap.index}`}

@@ -155,7 +155,11 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
               value={searchName}
               onKeyUp={e => {
                 if (e.key === 'Enter') {
-                  setSearchName((e.target as HTMLInputElement).value);
+                  if (searchName !== '' && actress) {
+                    handleSubmit(onSubmit)();
+                  } else {
+                    setSearchName((e.target as HTMLInputElement).value);
+                  }
                 }
               }}
             />
@@ -164,8 +168,12 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
       </div>
       {loading ? <Loading /> : null}
       {!actress ? null : (
-        // @ts-ignore
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            handleSubmit(onSubmit)();
+          }}
+        >
           <ActressFormFields className="my-3" register={register} imageUrl={imageUrl} />
           <button className="bg-pink w-full text-white py-1 rounded-sm" type="submit">
             <Icon icon="check" />

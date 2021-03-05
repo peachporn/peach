@@ -83,6 +83,7 @@ module.exports = {
   },
   variants: {
     extend: {
+      zIndex: ['hover'],
       borderColor: ['focus'],
       backgroundColor: ['active'],
       textColor: ['active'],

@@ -148,7 +148,9 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
                 setValue('cover', screencap.index);
               }}
               alt={`${movie.title} #${screencap.index}`}
-              className={`${cover === `${screencap.index}` ? 'opacity-100' : 'opacity-80'}`}
+              className={`${
+                cover === `${screencap.index}` ? 'border-pink' : 'border-transparent'
+              } border-b-2 hover:scale-150 hover:z-10 cursor-pointer transition-transform transform-gpu`}
             />
           ))}
         </div>

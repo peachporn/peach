@@ -2,8 +2,6 @@ import { h, FunctionalComponent } from 'preact';
 
 import { useState } from 'preact/hooks';
 
-import logo from '../static/logo.png';
-
 export type ImageProps = {
   onClick?: () => void;
   className?: string;
@@ -16,7 +14,7 @@ export type ImageProps = {
 export const Image: FunctionalComponent<ImageProps> = ({
   className,
   src,
-  placeholder = logo,
+  placeholder = '/logo-square.png',
   alt,
   onClick,
   onError,

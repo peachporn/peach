@@ -1,6 +1,7 @@
-import { FunctionalComponent, h } from 'preact';
+import { Fragment, FunctionalComponent, h } from 'preact';
 import { Link } from 'react-router-dom';
 import { useContext } from 'preact/hooks';
+import { Helmet } from 'react-helmet';
 import { GeneralSettingsForm } from './components/generalSettingsForm';
 import { LibraryForm } from './components/libraryForm';
 import { i } from '../../i18n/i18n';
@@ -21,32 +22,39 @@ export const SettingsPage: FunctionalComponent = () => {
   const isDisabled = Object.keys(dirtyFields).length === 0;
 
   return (
-    <main className="pb-12">
-      <h1 className="max-w-screen-md mx-auto font-display pt-8 text-3xl text-white pl-6 md:pl-0 text-shadow-md flex justify-between pr-4 md:pr-0">
-        {i('SETTINGS')}
-        <Link to={tasksRoute} className="text-white">
-          <Icon icon="task_alt" />
-        </Link>
-      </h1>
-      <section className="bg-white p-8 min-h-screen shadow-lg">
-        <div className="max-w-screen-md mx-auto">
-          <GeneralSettingsForm />
-          <UIForm />
-          <LibraryForm />
-          <VolumeForm />
-          <div className="grid grid-cols-1 pt-3">
-            <button
-              className={`${
-                isDisabled ? 'bg-gray-200' : 'bg-pink'
-              } rounded-sm text-white py-1 px-3`}
-              disabled={isDisabled}
-              onClick={submit}
-            >
-              <Icon icon="check" />
-            </button>
+    <Fragment>
+      <Helmet>
+        <title>
+          {i('PAGE_TITLE_SETTINGS')} {i('PAGE_TITLE_SUFFIX')}
+        </title>
+      </Helmet>
+      <main className="pb-12">
+        <h1 className="max-w-screen-md mx-auto font-display pt-8 text-3xl text-white pl-6 md:pl-0 text-shadow-md flex justify-between pr-4 md:pr-0">
+          {i('SETTINGS')}
+          <Link to={tasksRoute} className="text-white">
+            <Icon icon="task_alt" />
+          </Link>
+        </h1>
+        <section className="bg-white p-8 min-h-screen shadow-lg">
+          <div className="max-w-screen-md mx-auto">
+            <GeneralSettingsForm />
+            <UIForm />
+            <LibraryForm />
+            <VolumeForm />
+            <div className="grid grid-cols-1 pt-3">
+              <button
+                className={`${
+                  isDisabled ? 'bg-gray-200' : 'bg-pink'
+                } rounded-sm text-white py-1 px-3`}
+                disabled={isDisabled}
+                onClick={submit}
+              >
+                <Icon icon="check" />
+              </button>
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+    </Fragment>
   );
 };

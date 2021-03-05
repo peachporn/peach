@@ -2,6 +2,7 @@ import { Fragment, FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
 import { GenresCountQuery, GenresListQuery, GenresListQueryVariables } from '@peach/types';
 import { useContext } from 'preact/hooks';
+import { Helmet } from 'react-helmet';
 import { usePagination } from '../../utils/usePagination';
 import { genresCountQuery, genresListQuery } from './queries/genreList.gql';
 import { CreateGenreForm } from './components/createGenreForm';
@@ -37,22 +38,29 @@ const GenresPageComponent: FunctionalComponent = () => {
   );
 
   return (
-    <main className="pb-12">
-      <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md">
-        {i('NAVIGATION_GENRES')}
-      </h1>
-      <GenreFilter />
-      <section className="bg-white p-8 min-h-screen shadow-lg">
-        {loading ? (
-          <Loading />
-        ) : (
-          <Fragment>
-            <GenreGridByCategory genres={data?.genres || []} />
-          </Fragment>
-        )}
-      </section>
-      <CreateGenreForm onSubmit={count.refetch} />
-    </main>
+    <Fragment>
+      <Helmet>
+        <title>
+          {i('PAGE_TITLE_GENRES')} {i('PAGE_TITLE_SUFFIX')}
+        </title>
+      </Helmet>
+      <main className="pb-12">
+        <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md">
+          {i('NAVIGATION_GENRES')}
+        </h1>
+        <GenreFilter />
+        <section className="bg-white p-8 min-h-screen shadow-lg">
+          {loading ? (
+            <Loading />
+          ) : (
+            <Fragment>
+              <GenreGridByCategory genres={data?.genres || []} />
+            </Fragment>
+          )}
+        </section>
+        <CreateGenreForm onSubmit={count.refetch} />
+      </main>
+    </Fragment>
   );
 };
 

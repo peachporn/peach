@@ -1,4 +1,12 @@
 export default {
+  PAGE_TITLE_HOME: 'Peach',
+  PAGE_TITLE_SUFFIX: '– Peach',
+  PAGE_TITLE_ACTRESSES: 'Actresses',
+  PAGE_TITLE_MOVIES: 'Movies',
+  PAGE_TITLE_GENRES: 'Genres',
+  PAGE_TITLE_WEBSITES: 'Websites',
+  PAGE_TITLE_SETTINGS: 'Settings',
+  PAGE_TITLE_TASKS: 'Tasks',
   PINNED: 'Featured movies',
   RECENT_MOVIES: 'Recently added movies',
   RANDOM_MOVIES: 'Random movies',

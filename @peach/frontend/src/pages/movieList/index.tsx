@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client';
 import { MovieCountQuery, MovieListQuery, MovieListQueryVariables } from '@peach/types';
 import { useContext } from 'preact/hooks';
 import { useHistory } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { movieCountQuery, movieListQuery } from './queries/movieList.gql';
 import { usePagination } from '../../utils/usePagination';
 import { i } from '../../i18n/i18n';
@@ -39,26 +40,33 @@ const MoviesPageComponent: FunctionalComponent = () => {
   });
 
   return (
-    <main className="pb-12">
-      <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md">
-        {i('NAVIGATION_MOVIES')}
-      </h1>
-      <MovieFilter />
-      <section className="bg-white p-8 min-h-screen shadow-lg">
-        {loading ? (
-          <Loading />
-        ) : (
-          <Fragment>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
-              {(data?.movies || []).map(movie => (
-                <MovieCard key={movie.id} movie={movie} />
-              ))}
-            </div>
-            <Pagination pagination={pagination} />
-          </Fragment>
-        )}
-      </section>
-    </main>
+    <Fragment>
+      <Helmet>
+        <title>
+          {i('PAGE_TITLE_MOVIES')} {i('PAGE_TITLE_SUFFIX')}
+        </title>
+      </Helmet>
+      <main className="pb-12">
+        <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md">
+          {i('NAVIGATION_MOVIES')}
+        </h1>
+        <MovieFilter />
+        <section className="bg-white p-8 min-h-screen shadow-lg">
+          {loading ? (
+            <Loading />
+          ) : (
+            <Fragment>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
+                {(data?.movies || []).map(movie => (
+                  <MovieCard key={movie.id} movie={movie} />
+                ))}
+              </div>
+              <Pagination pagination={pagination} />
+            </Fragment>
+          )}
+        </section>
+      </main>
+    </Fragment>
   );
 };
 

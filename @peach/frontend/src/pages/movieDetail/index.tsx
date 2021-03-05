@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client';
 import { useRef, useState } from 'preact/hooks';
 import { MovieDetailQuery, MovieDetailQueryVariables } from '@peach/types';
 import { sortWith } from 'ramda';
+import { Helmet } from 'react-helmet';
 import { movieDetailQuery } from './queries/movieDetail.gql';
 import { Video } from '../../components/video';
 import { Loading } from '../../components/loading';
@@ -17,6 +18,7 @@ import { actressDetailRoute, genreDetailRoute, websiteDetailRoute } from '../../
 import { WebsiteCard } from '../../components/websiteCard';
 import { MetadataTable } from './components/metadataTable';
 import { useScrollToTop } from '../../hooks/useScrollToTop';
+import { i } from '../../i18n/i18n';
 
 export type MovieDetailPageProps = {
   movieId: string;
@@ -47,6 +49,11 @@ export const MovieDetailPage: FunctionalComponent = () => {
 
   return (
     <Fragment>
+      <Helmet>
+        <title>
+          {movie?.title || ''} {i('PAGE_TITLE_SUFFIX')}
+        </title>
+      </Helmet>
       {loading || !movie ? null : (
         <Fragment>
           <Video ref={videoRef} src={{ 'video/mp4': movie.videoUrl }} />

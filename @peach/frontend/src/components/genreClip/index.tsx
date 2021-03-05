@@ -1,6 +1,5 @@
 import { JSX, Fragment, FunctionalComponent, h, VNode } from 'preact';
 import { GenreClipFragment } from '@peach/types';
-import logo from '../../static/logo.png';
 import { Image } from '../image';
 
 export type GenreClipProps = {
@@ -46,9 +45,9 @@ export const GenreClip: FunctionalComponent<GenreClipProps> = ({
     <Fragment>
       <Image
         className={`h-${size} w-${size} object-cover rounded`}
-        src={picture || logo}
+        src={picture || '/logo.png'}
+        placeholder="/logo.png"
         alt={name}
-        placeholder={logo}
       />
       {descriptionSlot ? (
         <div

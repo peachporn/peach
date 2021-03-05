@@ -1,6 +1,7 @@
 import { h, render } from 'preact';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
+import { useEffect } from 'preact/hooks';
 import { Homepage } from './pages/home';
 import { client } from './apollo-client.js';
 import { SettingsPage } from './pages/settings';
@@ -16,45 +17,57 @@ import { WebsiteDetailPage } from './pages/websiteDetail';
 import { ActressDetailPage } from './pages/actressDetail';
 import { MovieDetailPage } from './pages/movieDetail';
 
+const AppContent = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  return (
+    <Switch>
+      <Route exact path="/movies/:movieId">
+        <MovieDetailPage />
+      </Route>
+      <Route exact path="/movies">
+        <MoviesPage />
+      </Route>
+      <Route exact path="/actresses/:actressId">
+        <ActressDetailPage />
+      </Route>
+      <Route exact path="/actresses">
+        <ActressesPage />
+      </Route>
+      <Route path="/settings">
+        <SettingsPage />
+      </Route>
+      <Route path="/tasks">
+        <TasksPage />
+      </Route>
+      <Route exact path="/genres/:genreId">
+        <GenreDetailPage />
+      </Route>
+      <Route exact path="/genres">
+        <GenresPage />
+      </Route>
+      <Route exact path="/websites/:websiteId">
+        <WebsiteDetailPage />
+      </Route>
+      <Route exact path="/websites">
+        <WebsitesPage />
+      </Route>
+      <Route path="/">
+        <Homepage />
+      </Route>
+    </Switch>
+  );
+};
+
 const App = (
   <ApolloProvider client={client}>
     <SettingsProvider>
       <Router>
-        <Switch>
-          <Route exact path="/movies/:movieId">
-            <MovieDetailPage />
-          </Route>
-          <Route exact path="/movies">
-            <MoviesPage />
-          </Route>
-          <Route exact path="/actresses/:actressId">
-            <ActressDetailPage />
-          </Route>
-          <Route exact path="/actresses">
-            <ActressesPage />
-          </Route>
-          <Route path="/settings">
-            <SettingsPage />
-          </Route>
-          <Route path="/tasks">
-            <TasksPage />
-          </Route>
-          <Route exact path="/genres/:genreId">
-            <GenreDetailPage />
-          </Route>
-          <Route exact path="/genres">
-            <GenresPage />
-          </Route>
-          <Route exact path="/websites/:websiteId">
-            <WebsiteDetailPage />
-          </Route>
-          <Route exact path="/websites">
-            <WebsitesPage />
-          </Route>
-          <Route path="/">
-            <Homepage />
-          </Route>
-        </Switch>
+        <AppContent />
         <MobileNavigation />
       </Router>
     </SettingsProvider>

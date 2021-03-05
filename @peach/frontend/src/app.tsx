@@ -2,7 +2,6 @@ import { h, render } from 'preact';
 import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import { useEffect } from 'preact/hooks';
-import { Helmet } from 'react-helmet';
 import { Homepage } from './pages/home';
 import { client } from './apollo-client.js';
 import { SettingsPage } from './pages/settings';

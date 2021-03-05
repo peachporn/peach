@@ -16,7 +16,6 @@ import { Slider, SliderItem } from '../slider';
 import { actressSearchQuery } from '../actressSearch/actressSearchQuery.gql';
 import { websiteSearchQuery } from './websiteSearchQuery.gql';
 import { debounce } from '../../utils/throttle';
-import { CreateWebsiteFloatingButton } from '../../pages/websiteList/components/createWebsiteFloatingButton';
 import { CreateWebsiteForm } from './createWebsiteForm';
 
 type WebsiteSearchProps = {

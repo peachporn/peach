@@ -24,6 +24,7 @@ type WebsiteSearchProps = {
   multiple?: boolean;
   placeholder?: string;
   defaultValue?: number[];
+  setValue?: number[];
   limit?: number;
   inputClassName?: string;
   containerClassName?: string;
@@ -34,6 +35,7 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
   filterOverride,
   multiple = false,
   defaultValue,
+  setValue,
   placeholder,
   onChange,
   limit,
@@ -44,6 +46,11 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
   const [websiteIds, setWebsiteIds] = useState<number[]>(defaultValue || []);
   const [createWebsiteFormVisible, setCreateWebsiteFormVisible] = useState<boolean>(false);
   const [searchName, setSearchName] = useState<string>('');
+
+  useEffect(() => {
+    if (!setValue) return;
+    setWebsiteIds(setValue);
+  }, [setValue]);
 
   useEffect(() => {
     onChange(websiteIds);

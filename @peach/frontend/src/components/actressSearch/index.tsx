@@ -23,6 +23,7 @@ type ActressSearchProps = {
   multiple?: boolean;
   placeholder?: string;
   defaultValue?: number[];
+  setValue?: number[];
   limit?: number;
   inputClassName?: string;
   containerClassName?: string;
@@ -33,6 +34,7 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
   filterOverride,
   multiple = false,
   defaultValue,
+  setValue,
   placeholder,
   onChange,
   containerClassName,
@@ -43,6 +45,11 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
   const [actressIds, setActressIds] = useState<number[]>(defaultValue || []);
   const [createActressFormVisible, setCreateActressFormVisible] = useState<boolean>(false);
   const [searchName, setSearchName] = useState<string>('');
+
+  useEffect(() => {
+    if (!setValue) return;
+    setActressIds(setValue);
+  }, [setValue]);
 
   useEffect(() => {
     onChange(actressIds);

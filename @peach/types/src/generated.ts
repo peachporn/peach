@@ -240,6 +240,7 @@ export type Mutation = {
   createWebsite?: Maybe<Website>;
   deleteGenre?: Maybe<Genre>;
   deleteMovie?: Maybe<Movie>;
+  extractMovieInformation: ExtractedMovieInformation;
   restartTask?: Maybe<Task>;
   restartTasks: Scalars['Int'];
   scanLibrary?: Maybe<Scalars['Boolean']>;
@@ -290,6 +291,11 @@ export type MutationDeleteGenreArgs = {
 
 export type MutationDeleteMovieArgs = {
   movieId: Scalars['Int'];
+};
+
+
+export type MutationExtractMovieInformationArgs = {
+  movieTitle: Scalars['String'];
 };
 
 
@@ -453,6 +459,12 @@ export type MovieFromFileInput = {
   title: Scalars['String'];
   location: MovieLocation;
   actors?: Maybe<Scalars['Int']>;
+};
+
+export type ExtractedMovieInformation = {
+  __typename?: 'ExtractedMovieInformation';
+  actresses: Array<Actress>;
+  website?: Maybe<Website>;
 };
 
 export type GenreDefinition = {
@@ -863,6 +875,19 @@ export type DeleteMovieMutationVariables = Exact<{
 
 
 export type DeleteMovieMutation = { __typename?: 'Mutation', deleteMovie?: Maybe<{ __typename?: 'Movie', id: number }> };
+
+export type ExtractMovieInformationMutationVariables = Exact<{
+  movieTitle: Scalars['String'];
+}>;
+
+
+export type ExtractMovieInformationMutation = { __typename?: 'Mutation', extractMovieInformation: { __typename?: 'ExtractedMovieInformation', actresses: Array<(
+      { __typename?: 'Actress' }
+      & ActressCardFragment
+    )>, website?: Maybe<(
+      { __typename?: 'Website' }
+      & WebsiteCardFragment
+    )> } };
 
 export type UpdateGenreDefinitionsMutationVariables = Exact<{
   movieId: Scalars['Int'];

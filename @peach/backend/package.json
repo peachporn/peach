@@ -17,6 +17,7 @@
     "@peach/types": "3.0.0-alpha",
     "@peach/utils": "3.0.0-alpha",
     "apollo-server": "^2.19.2",
+    "case-anything": "^1.1.2",
     "mkdirp": "^1.0.4",
     "ramda": "^0.27.1"
   },

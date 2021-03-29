@@ -1,6 +1,6 @@
 import { createContext, FunctionalComponent, h } from 'preact';
 import { MovieFilter } from '@peach/types';
-import { useState } from 'preact/hooks';
+import { useLocalStorageState } from '../../../hooks/useLocalStorageState';
 
 type MovieFilterContextType = {
   filter: MovieFilter;
@@ -21,7 +21,7 @@ export const MovieFilterContext = createContext<MovieFilterContextType>({
 });
 
 export const MovieFilterProvider: FunctionalComponent = ({ children }) => {
-  const [filter, setFilter] = useState<MovieFilter>({});
+  const [filter, setFilter] = useLocalStorageState<MovieFilter>('movieList-filter', {});
 
   const setFetishes = (fetishes: number[]) => setFilter({ ...filter, fetishes });
   const setActresses = (actresses: number[]) => setFilter({ ...filter, actresses });

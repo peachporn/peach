@@ -1,6 +1,6 @@
 import { createContext, FunctionalComponent, h } from 'preact';
 import { WebsiteFilter } from '@peach/types';
-import { useState } from 'preact/hooks';
+import { useLocalStorageState } from '../../../hooks/useLocalStorageState';
 
 type WebsiteFilterContextType = {
   filter: WebsiteFilter;
@@ -13,7 +13,7 @@ export const WebsiteFilterContext = createContext<WebsiteFilterContextType>({
 });
 
 export const WebsiteFilterProvider: FunctionalComponent = ({ children }) => {
-  const [filter, setFilter] = useState<WebsiteFilter>({});
+  const [filter, setFilter] = useLocalStorageState<WebsiteFilter>('websitelist-filter', {});
 
   const setName = (name: string) => setFilter({ ...filter, name });
 

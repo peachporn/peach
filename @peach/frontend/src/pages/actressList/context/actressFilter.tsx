@@ -1,6 +1,6 @@
 import { createContext, FunctionalComponent, h } from 'preact';
 import { ActressFilter } from '@peach/types';
-import { useState } from 'preact/hooks';
+import { useLocalStorageState } from '../../../hooks/useLocalStorageState';
 
 type ActressFilterContextType = {
   filter: ActressFilter;
@@ -13,7 +13,7 @@ export const ActressFilterContext = createContext<ActressFilterContextType>({
 });
 
 export const ActressFilterProvider: FunctionalComponent = ({ children }) => {
-  const [filter, setFilter] = useState<ActressFilter>({});
+  const [filter, setFilter] = useLocalStorageState<ActressFilter>('actresslist-filter', {});
 
   const setName = (name: string) => setFilter({ ...filter, name });
 

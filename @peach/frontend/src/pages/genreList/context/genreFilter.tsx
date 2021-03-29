@@ -1,6 +1,6 @@
 import { createContext, FunctionalComponent, h } from 'preact';
 import { GenreFilter } from '@peach/types';
-import { useState } from 'preact/hooks';
+import { useLocalStorageState } from '../../../hooks/useLocalStorageState';
 
 type GenreFilterContextType = {
   filter: GenreFilter;
@@ -15,7 +15,7 @@ export const GenreFilterContext = createContext<GenreFilterContextType>({
 });
 
 export const GenreFilterProvider: FunctionalComponent = ({ children }) => {
-  const [filter, setFilter] = useState<GenreFilter>({});
+  const [filter, setFilter] = useLocalStorageState<GenreFilter>('genrelist-filter', {});
 
   const setName = (name: string) => setFilter({ ...filter, name });
   const setKinkiness = (kinkiness: number) => setFilter({ ...filter, minKinkiness: kinkiness });

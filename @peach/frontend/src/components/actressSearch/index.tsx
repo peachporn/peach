@@ -1,4 +1,4 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
+import { FunctionalComponent, h } from 'preact';
 import uniqBy from 'ramda/es/uniqBy';
 import { useEffect, useState } from 'preact/hooks';
 import { useQuery } from '@apollo/client';

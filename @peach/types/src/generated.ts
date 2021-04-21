@@ -461,10 +461,30 @@ export type MovieFromFileInput = {
   actors?: Maybe<Scalars['Int']>;
 };
 
+export type Token = {
+  __typename?: 'Token';
+  token: Scalars['String'];
+  detection?: Maybe<Scalars['Int']>;
+};
+
+export type Detection = WebsiteDetection | ActressDetection;
+
+export type WebsiteDetection = {
+  __typename?: 'WebsiteDetection';
+  id: Scalars['Int'];
+  content: Website;
+};
+
+export type ActressDetection = {
+  __typename?: 'ActressDetection';
+  id: Scalars['Int'];
+  content: Actress;
+};
+
 export type ExtractedMovieInformation = {
   __typename?: 'ExtractedMovieInformation';
-  actresses: Array<Actress>;
-  website?: Maybe<Website>;
+  tokens: Array<Token>;
+  detections: Array<Detection>;
 };
 
 export type GenreDefinition = {
@@ -876,18 +896,23 @@ export type DeleteMovieMutationVariables = Exact<{
 
 export type DeleteMovieMutation = { __typename?: 'Mutation', deleteMovie?: Maybe<{ __typename?: 'Movie', id: number }> };
 
+export type ExtractedMovieInformationFragment = { __typename?: 'ExtractedMovieInformation', tokens: Array<{ __typename?: 'Token', token: string, detection?: Maybe<number> }>, detections: Array<{ __typename?: 'WebsiteDetection', id: number, content: (
+      { __typename?: 'Website' }
+      & WebsiteCardFragment
+    ) } | { __typename?: 'ActressDetection', id: number, content: (
+      { __typename?: 'Actress' }
+      & ActressCardFragment
+    ) }> };
+
 export type ExtractMovieInformationMutationVariables = Exact<{
   movieTitle: Scalars['String'];
 }>;
 
 
-export type ExtractMovieInformationMutation = { __typename?: 'Mutation', extractMovieInformation: { __typename?: 'ExtractedMovieInformation', actresses: Array<(
-      { __typename?: 'Actress' }
-      & ActressCardFragment
-    )>, website?: Maybe<(
-      { __typename?: 'Website' }
-      & WebsiteCardFragment
-    )> } };
+export type ExtractMovieInformationMutation = { __typename?: 'Mutation', extractMovieInformation: (
+    { __typename?: 'ExtractedMovieInformation' }
+    & ExtractedMovieInformationFragment
+  ) };
 
 export type UpdateGenreDefinitionsMutationVariables = Exact<{
   movieId: Scalars['Int'];

@@ -28,6 +28,7 @@ export type IconType =
   | 'person_pin'
   | 'search'
   | 'settings'
+  | 'space_bar'
   | 'restart_alt'
   | 'task_alt'
   | 'play_arrow'

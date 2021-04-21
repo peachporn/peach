@@ -1,7 +1,8 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
+import { FunctionalComponent, h } from 'preact';
 import uniqBy from 'ramda/es/uniqBy';
 import { useEffect, useState } from 'preact/hooks';
 import { useQuery } from '@apollo/client';
+import { pascalCase, spaceCase } from 'case-anything';
 import {
   WebsiteCardFragment,
   WebsiteFilter,
@@ -17,6 +18,7 @@ import { actressSearchQuery } from '../actressSearch/actressSearchQuery.gql';
 import { websiteSearchQuery } from './websiteSearchQuery.gql';
 import { debounce } from '../../utils/throttle';
 import { CreateWebsiteForm } from './createWebsiteForm';
+import { Icon } from '../icon';
 
 type WebsiteSearchProps = {
   onChange: (id: number[]) => unknown;
@@ -25,6 +27,7 @@ type WebsiteSearchProps = {
   placeholder?: string;
   defaultValue?: number[];
   setValue?: number[];
+  setSearchName?: string;
   limit?: number;
   inputClassName?: string;
   containerClassName?: string;
@@ -36,6 +39,7 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
   multiple = false,
   defaultValue,
   setValue,
+  setSearchName: setSearchNameProp,
   placeholder,
   onChange,
   limit,
@@ -51,6 +55,11 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
     if (!setValue) return;
     setWebsiteIds(setValue);
   }, [setValue]);
+
+  useEffect(() => {
+    if (!setSearchNameProp) return;
+    setSearchName(setSearchNameProp);
+  }, [setSearchNameProp]);
 
   useEffect(() => {
     onChange(websiteIds);
@@ -97,7 +106,7 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
   };
 
   return (
-    <Fragment>
+    <div className="relative">
       <input
         className={`input ${inputClassName || ''}`}
         value={searchName}
@@ -116,6 +125,14 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
           setSearchName((event.target as HTMLInputElement)?.value);
         }, 200)}
       />
+      <button
+        className="absolute top-1 right-1 text-gray-500"
+        onClick={() => {
+          setSearchName(searchName.includes(' ') ? pascalCase(searchName) : spaceCase(searchName));
+        }}
+      >
+        <Icon icon="space_bar" />
+      </button>
       <div className={`mt-2 ${containerClassName || ''}`}>
         {searchName !== '' && searchedWebsites?.websites.length === 0 ? (
           <CreateWebsiteForm
@@ -142,6 +159,6 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
           ))}
         </Slider>
       </div>
-    </Fragment>
+    </div>
   );
 };

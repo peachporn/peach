@@ -10,12 +10,14 @@ import {
 } from '@peach/types';
 import { UseFormMethods } from 'react-hook-form';
 import { ascend, descend, sortWith, uniq } from 'ramda';
+import { pascalCase, spaceCase } from 'case-anything';
 import { actressSearchQuery } from './actressSearchQuery.gql';
 import { FetishBubble } from '../fetishBubble';
 import { Slider, SliderItem } from '../slider';
 import { ActressCard } from '../actressCard';
 import { CreateActressForm } from './createActressForm';
 import { debounce, throttle } from '../../utils/throttle';
+import { Icon } from '../icon';
 
 type ActressSearchProps = {
   onChange: (id: number[]) => unknown;
@@ -24,6 +26,7 @@ type ActressSearchProps = {
   placeholder?: string;
   defaultValue?: number[];
   setValue?: number[];
+  setSearchName?: string;
   limit?: number;
   inputClassName?: string;
   containerClassName?: string;
@@ -35,6 +38,7 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
   multiple = false,
   defaultValue,
   setValue,
+  setSearchName: setSearchNameProp,
   placeholder,
   onChange,
   containerClassName,
@@ -50,6 +54,11 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
     if (!setValue) return;
     setActressIds(setValue);
   }, [setValue]);
+
+  useEffect(() => {
+    if (!setSearchNameProp) return;
+    setSearchName(setSearchNameProp);
+  }, [setSearchNameProp]);
 
   useEffect(() => {
     onChange(actressIds);
@@ -96,7 +105,7 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
   };
 
   return (
-    <Fragment>
+    <div className="relative">
       <input
         tabIndex={0}
         className={`input ${inputClassName || ''}`}
@@ -116,6 +125,14 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
           setSearchName((event.target as HTMLInputElement)?.value);
         }, 200)}
       />
+      <button
+        className="absolute top-1 right-1 text-gray-500"
+        onClick={() => {
+          setSearchName(searchName.includes(' ') ? pascalCase(searchName) : spaceCase(searchName));
+        }}
+      >
+        <Icon icon="space_bar" />
+      </button>
       <div className={`min-h-screen/2 mt-2 ${containerClassName || ''}`}>
         {searchName !== '' && searchedActresses?.actresses.length === 0 ? (
           <CreateActressForm
@@ -152,6 +169,6 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
             ))}
         </Slider>
       </div>
-    </Fragment>
+    </div>
   );
 };

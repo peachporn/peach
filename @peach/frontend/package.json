@@ -17,6 +17,7 @@
     "@peach/utils": "3.0.0-alpha",
     "@seznam/compose-react-refs": "^1.0.5",
     "autoprefixer": "^10.2.1",
+    "case-anything": "^1.1.2",
     "graphql-tag": "^2.11.0",
     "preact": "^10.5.10",
     "ramda": "^0.27.1",

@@ -2,8 +2,6 @@ import { FunctionalComponent, h } from 'preact';
 import { useForm } from 'react-hook-form';
 import { head } from 'ramda';
 import {
-  ExtractMovieInformationMutation,
-  ExtractMovieInformationMutationVariables,
   FetishesQuery,
   FetishesQueryVariables,
   MovieDetailFragment,
@@ -11,7 +9,6 @@ import {
   UpdateMovieMutationVariables,
 } from '@peach/types';
 import { useMutation } from '@apollo/client';
-import { useState } from 'preact/hooks';
 import { updateMovieMutation } from '../mutations/updateMovie.gql';
 import { GenreSearch } from '../../../components/genreSearch';
 import { i } from '../../../i18n/i18n';
@@ -20,7 +17,9 @@ import { FetishBubble } from '../../../components/fetishBubble';
 import { WebsiteSearch } from '../../../components/websiteSearch';
 import { ActressSearch } from '../../../components/actressSearch';
 import { MetadataTable } from './metadataTable';
-import { extractMovieInformationMutation } from '../mutations/extractMovieInformation.gql';
+import { MovieInformationExtractor } from './movieInformationExtractor';
+import { useMovieInformationExtractor } from '../hooks/useMovieInformationExtractor';
+import { MovieInformationExtractorButton } from './movieInformationExtractorButton';
 
 export type MovieFormValues = {
   title: string;
@@ -39,6 +38,20 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
   onSubmit: onSubmitCallback,
   movie,
 }) => {
+  const {
+    extractMovieInformation,
+    extractionResult,
+    extractionFetchResult,
+    clipboard,
+    setClipboard,
+    setActressSearchName,
+    setWebsiteSearchName,
+    websiteSearchName,
+    actressSearchName,
+  } = useMovieInformationExtractor({
+    movieTitle: movie.title,
+  });
+
   const { register, handleSubmit, watch, setValue, reset, formState } = useForm<MovieFormValues>({
     defaultValues: {
       title: movie.title,
@@ -53,24 +66,6 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
   const [updateMovie] = useMutation<UpdateMovieMutation, UpdateMovieMutationVariables>(
     updateMovieMutation,
   );
-
-  const [extractedMovieInformation, setExtractedMovieInformation] = useState<
-    ExtractMovieInformationMutation['extractMovieInformation'] | undefined
-  >(undefined);
-
-  const [callExtractMovieInformationMutation] = useMutation<
-    ExtractMovieInformationMutation,
-    ExtractMovieInformationMutationVariables
-  >(extractMovieInformationMutation);
-
-  const extractMovieInformation = () =>
-    callExtractMovieInformationMutation({ variables: { movieTitle: movie.title } }).then(
-      response => {
-        const result = response?.data?.extractMovieInformation;
-        if (!result) return;
-        setExtractedMovieInformation(result);
-      },
-    );
 
   const onSubmit = (data: MovieFormValues) =>
     updateMovie({
@@ -98,17 +93,20 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
   const cover = watch('cover');
   const { isDirty } = formState;
 
+  console.log(extractionFetchResult);
+
   return (
     <div className="pb-16">
+      <MovieInformationExtractor
+        clipboard={clipboard}
+        setClipboard={setClipboard}
+        setActressSearchName={setActressSearchName}
+        setWebsiteSearchName={setWebsiteSearchName}
+        extractionFetchResult={extractionFetchResult}
+      />
       <div className="grid grid-cols-1 md:grid-cols-7 gap-5 items-start">
         <div className="flex items-center md:col-span-3">
-          <button className="mr-2" onClick={extractMovieInformation}>
-            <Icon
-              className="w-8 h-8 text-sm bg-gray-100 rounded-full p-1 focus:outline-none active:bg-pink active:text-white transition-all"
-              icon="find_replace"
-            />
-          </button>
-
+          <MovieInformationExtractorButton extractMovieInformation={extractMovieInformation} />
           <input
             className="w-full input leading-loose text-2xl font-display text-pink"
             name="title"
@@ -140,11 +138,8 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
             sliderClassName="md:grid-cols-2 h-full"
             inputClassName="w-full"
             defaultValue={movie.website?.id ? [movie.website.id] : undefined}
-            setValue={
-              extractedMovieInformation?.website?.id
-                ? [extractedMovieInformation.website.id]
-                : undefined
-            }
+            setValue={extractionResult.website}
+            setSearchName={websiteSearchName}
             placeholder={i('MOVIE_WEBSITE')}
             onChange={websiteIds => {
               setValue('website', head(websiteIds) || '', { shouldDirty: true });
@@ -159,11 +154,8 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
             inputClassName="w-full"
             multiple
             defaultValue={movie.actresses.map(f => f.id) || undefined}
-            setValue={
-              extractedMovieInformation?.actresses.length
-                ? extractedMovieInformation.actresses.map(a => a.id)
-                : undefined
-            }
+            setValue={extractionResult.actresses}
+            setSearchName={actressSearchName}
             placeholder={i('MOVIE_ACTRESSES')}
             onChange={actressIds => {
               setValue('actresses', actressIds || '', { shouldDirty: true });

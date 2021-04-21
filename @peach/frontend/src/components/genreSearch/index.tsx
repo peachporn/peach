@@ -21,6 +21,7 @@ type GenreSearchProps = {
   multiple?: boolean;
   placeholder?: string;
   defaultValue?: number[];
+  setValue?: number[];
   limit?: number;
   inputClassName?: string;
   containerClassName?: string;
@@ -30,6 +31,7 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
   filterOverride,
   multiple = false,
   defaultValue,
+  setValue,
   placeholder,
   onChange,
   limit,
@@ -38,6 +40,11 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
 }) => {
   const [genreIds, setGenreIds] = useState<number[]>(defaultValue || []);
   const [searchName, setSearchName] = useState<string>('');
+
+  useEffect(() => {
+    if (!setValue) return;
+    setGenreIds(setValue);
+  }, [setValue]);
 
   useEffect(() => {
     onChange(genreIds);

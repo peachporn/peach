@@ -9,7 +9,7 @@ import {
   ActressSearchQueryVariables,
 } from '@peach/types';
 import { UseFormMethods } from 'react-hook-form';
-import { ascend, descend, sortWith, uniq } from 'ramda';
+import { ascend, descend, equals, sortWith, uniq } from 'ramda';
 import { pascalCase, spaceCase } from 'case-anything';
 import { actressSearchQuery } from './actressSearchQuery.gql';
 import { FetishBubble } from '../fetishBubble';
@@ -52,7 +52,9 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
 
   useEffect(() => {
     if (!setValue) return;
-    setActressIds(setValue);
+    if (setValue.find(v => !actressIds.includes(v))) {
+      setActressIds(uniq([...actressIds, ...setValue]));
+    }
   }, [setValue]);
 
   useEffect(() => {

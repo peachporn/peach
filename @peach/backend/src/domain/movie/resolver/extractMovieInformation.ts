@@ -25,9 +25,10 @@ const nameCandidates = (tokens: string[]) =>
         nonNullish(
           tokens.flatMap(s => {
             if (!s) return null;
-            const separated = spaceCase(s).split(' ');
+            const spaceCased = spaceCase(s);
+            const separated = spaceCased.split(' ');
             const camelCased = pascalCase(s);
-            return uniq([...separated, camelCased]);
+            return uniq([...separated, spaceCased, camelCased]);
           }),
         )
           .filter(s => !isAllConsonants(s))
@@ -42,7 +43,7 @@ const nameCandidates = (tokens: string[]) =>
 export const extractMovieInformationResolvers: Resolvers = {
   Mutation: {
     extractMovieInformation: async (_parent, { movieTitle }) => {
-      const tokens = tokenize(movieTitle);
+      const tokens = tokenize(movieTitle).filter(t => t !== '');
       const candidates = nameCandidates(tokens);
 
       const detections = nonNullish(
@@ -54,13 +55,13 @@ export const extractMovieInformationResolvers: Resolvers = {
             ]).then(([foundActress, foundWebsite]) =>
               foundActress
                 ? ({
-                    tokens: c.split(' '),
+                    tokens: tokenize(c),
                     type: 'Actress',
                     content: transformActress(foundActress),
                   } as const)
                 : foundWebsite
                 ? ({
-                    tokens: c.split(' '),
+                    tokens: tokenize(c),
                     type: 'Website',
                     content: transformBaseWebsite(foundWebsite),
                   } as const)

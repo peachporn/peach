@@ -1,0 +1,15 @@
+{
+  "name": "peach",
+  "version": "3.0.0-alpha",
+  "description": "porn organizer",
+  "repository": "https://github.com/peachporn/peach.git",
+  "author": "GalateaPolymorph <galateapolymorph@gmail.com>",
+  "license": "GPL-3.0",
+  "private": true,
+  "scripts": {},
+  "dependencies": {
+    "fluent-ffmpeg": "^2.1.2",
+    "sharp": "^0.27.2",
+    "prisma": "^2.21.2"
+  }
+}

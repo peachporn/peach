@@ -4,98 +4,99 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
-  binaryTargets = ["native","debian-openssl-1.1.x"]
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl"]
 }
 
 model Volume {
-  id    Int   @id @default(autoincrement())
-  name  String @unique
-  path  String @unique
+  id    Int     @id @default(autoincrement())
+  name  String  @unique
+  path  String  @unique
+  Movie Movie[]
 }
 
 model MovieMetadata {
-  id                Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-  movie             Movie @relation(fields: [movieId], references: [id])
-  movieId           Int
+  movie   Movie @relation(fields: [movieId], references: [id])
+  movieId Int
 
-  quality           String
-  format            String
-  fps               Int
+  quality String
+  format  String
+  fps     Int
 
-  durationSeconds   Int
-  sizeInKB          Int
+  durationSeconds Int
+  sizeInKB        Int
 }
 
 model Actress {
-  id                  Int @id @default(autoincrement())
-  name                String @unique
-  aliases             String @default("[]")
+  id      Int    @id @default(autoincrement())
+  name    String @unique
+  aliases String @default("[]")
 
-  haircolor           String?
-  eyecolor            String?
+  haircolor String?
+  eyecolor  String?
 
-  dateOfBirth         DateTime?
-  dateOfCareerstart   DateTime?
-  dateOfRetirement    DateTime?
-  dateOfDeath         DateTime?
+  dateOfBirth       DateTime?
+  dateOfCareerstart DateTime?
+  dateOfRetirement  DateTime?
+  dateOfDeath       DateTime?
 
-  ethnicity           String?
-  country             String?
-  province            String?
-  city                String?
-  latitude            Float?
-  longitude           Float?
+  ethnicity String?
+  country   String?
+  province  String?
+  city      String?
+  latitude  Float?
+  longitude Float?
 
-  boobs               String?
+  boobs String?
 
-  piercings           String?
-  tattoos             String?
+  piercings String?
+  tattoos   String?
 
-  height              Int?
-  weight              Int?
-  measurements        String @default("{}")
-  cupsize             String?
+  height       Int?
+  weight       Int?
+  measurements String  @default("{}")
+  cupsize      String?
 
-  socialMediaLinks    String?
-  officialWebsite     String?
+  socialMediaLinks String?
+  officialWebsite  String?
 
-  movies              Movie[] @relation(references: [id])
+  movies Movie[] @relation(references: [id])
 }
 
 model Movie {
-  id          Int @id @default(autoincrement())
-  createdAt   DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
 
-  title       String @unique
-  actresses   Actress[] @relation(references: [id])
-  genres      GenreDefinition[]
-  fetishes    Genre[]
+  title     String            @unique
+  actresses Actress[]         @relation(references: [id])
+  genres    GenreDefinition[]
+  fetishes  Genre[]
 
-  actors      Int @default(0)
-  cover       Int @default(3)
+  actors Int @default(0)
+  cover  Int @default(3)
 
-  website     Website? @relation(fields: [websiteId], references: [id])
-  websiteId   Int?
+  website   Website? @relation(fields: [websiteId], references: [id])
+  websiteId Int?
 
-  path        String
-  volume      Volume @relation(fields: [volumeId], references: [id])
-  volumeId    Int
+  path     String
+  volume   Volume @relation(fields: [volumeId], references: [id])
+  volumeId Int
 
-  metadata    MovieMetadata?
+  metadata MovieMetadata?
 }
 
 model Settings {
-  id                 Int @id @default(autoincrement())
-  language           String
-  libraryPath        String
-  inferMovieTitle    String @default("FILENAME")
-  pinnedFetishes     Genre[]
+  id              Int     @id @default(autoincrement())
+  language        String
+  libraryPath     String
+  inferMovieTitle String  @default("FILENAME")
+  pinnedFetishes  Genre[]
 }
 
 model Task {
-  id            Int @id @default(autoincrement())
+  id            Int     @id @default(autoincrement())
   category      String
   status        String
   statusMessage String?
@@ -103,38 +104,40 @@ model Task {
 }
 
 model GenreDefinition {
-  id          Int @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-  movie       Movie @relation(fields: [movieId], references: [id])
-  movieId     Int
+  movie   Movie @relation(fields: [movieId], references: [id])
+  movieId Int
 
-  genre       String // { parent: Genre, children: Genre[] } serialized as JSON
+  genre String // { parent: Genre, children: Genre[] } serialized as JSON
 
-  timeStart   Float
+  timeStart Float
 }
 
 model Genre {
-  id                  Int @id @default(autoincrement())
-  name                String @unique
-  category            String
-  kinkiness           Int
-  validAsRoot         Boolean
-  validAsFetish       Boolean
+  id            Int     @id @default(autoincrement())
+  name          String  @unique
+  category      String
+  kinkiness     Int
+  validAsRoot   Boolean
+  validAsFetish Boolean
 
-  linkableParents     Genre[] @relation("Subgenre", references: [id])
-  linkableChildren    Genre[] @relation("Subgenre", references: [id])
+  linkableParents  Genre[] @relation("Subgenre", references: [id])
+  linkableChildren Genre[] @relation("Subgenre", references: [id])
 
-  movies              Movie[] @relation(references: [id])
+  movies Movie[] @relation(references: [id])
 
-  settings            Settings?  @relation(fields: [settingsId], references: [id])
-  settingsId          Int?
+  settings   Settings? @relation(fields: [settingsId], references: [id])
+  settingsId Int?
+  Website    Website[]
 }
 
 model Website {
-  id       Int @id @default(autoincrement())
-  name     String @unique
-  url      String
-  fetish   Genre? @relation(references: [id])
+  id     Int    @id @default(autoincrement())
+  name   String @unique
+  url    String
+  fetish Genre? @relation(references: [id], fields: [genreId])
 
-  movies   Movie[]
+  movies  Movie[]
+  genreId Int?
 }

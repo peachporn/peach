@@ -5,13 +5,7 @@ then
   mv dist/database.db dist/database.db.bak
 fi;
 
-cp node_modules/@prisma/cli/*-engine-* dist
-
 cp -R prisma/* dist
-cp prisma/.env.template dist/.env
-
-mkdir -p dist/node_modules/@prisma/cli
-cp -R node_modules/@prisma/cli dist/node_modules/@prisma
 
 if [ -n "$DEVELOPMENT" ]
 then

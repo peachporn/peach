@@ -1,14 +1,14 @@
 import { SettingsCreateInput } from '@prisma/client';
 import { InferMovieTitle } from '@peach/types';
-import { prisma } from '@peach/utils';
+import { fromEnvOptional, prisma } from '@peach/utils';
 
 export const defaultSettings: SettingsCreateInput = {
   language: 'EN',
-  libraryPath: '',
+  libraryPath: fromEnvOptional('DEFAULT_LIBRARY_PATH') || '',
   inferMovieTitle: 'FILENAME',
 };
 
-const settings = () => prisma.settings.findUnique({ where: { id: 1 } });
+const settings = () => prisma.settings.findMany().then(s => (s.length ? s[0] : undefined));
 
 export const getInferMovieTitle = () =>
   settings().then(s => (s && s.inferMovieTitle) || ('FILENAME' as InferMovieTitle));

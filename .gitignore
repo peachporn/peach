@@ -46,6 +46,7 @@ typings/
 # dotenv environment variables file
 .env
 .env.test
+.development-env
 
 # build output
 dist
@@ -57,10 +58,6 @@ generated.ts
 
 # development database
 dev.db
-
-# Sync script
-sync.sh
-sync-target.sh
 
 # OS Clutter
 .DS_Store

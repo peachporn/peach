@@ -2,13 +2,20 @@ FROM node:13-alpine
 
 WORKDIR /usr/src/app
 
+COPY prisma .
 COPY dist .
 
-ENV DATABASE_URL="file:./database.db"
-ENV DATABASE_PATH="./database.db"
-ENV PORT="80"
+VOLUME /mnt/library
+VOLUME /mnt/media
 
-RUN apk add  --no-cache ffmpeg
+ENV DATABASE_URL="file:/mnt/library/peach.db"
+ENV DATABASE_PATH="/mnt/library/peach.db"
+ENV PORT=80
+
+ENV DEFAULT_LIBRARY_PATH="/mnt/library"
+ENV DEFAULT_VOLUME_PATH="/mnt/media"
+
+RUN apk add --no-cache ffmpeg
 
 RUN yarn
 RUN yarn prisma generate
@@ -16,4 +23,4 @@ RUN cp node_modules/@prisma/engines/*-engine-* .
 
 EXPOSE 80
 
-CMD node app.js
+CMD yarn prisma migrate deploy && node app.js

@@ -14,3 +14,5 @@ export const fromEnv = (name: string) => {
 
   return v;
 };
+
+export const fromEnvOptional = (name: string) => process.env[name];

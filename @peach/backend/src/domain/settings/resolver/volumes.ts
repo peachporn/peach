@@ -1,4 +1,4 @@
-import { PrismaClient, nonNullish } from '@peach/utils';
+import { PrismaClient, nonNullish, fromEnvOptional } from '@peach/utils';
 import { UpdateSettingsInput } from '@peach/types';
 import { Resolvers } from '../../../generated/resolver-types';
 
@@ -46,6 +46,20 @@ export const saveVolumes = async (
 
 export const volumesResolvers: Resolvers = {
   Settings: {
-    volumes: async (_parent, _args, { prisma }) => prisma.volume.findMany(),
+    volumes: async (_parent, _args, { prisma }) =>
+      prisma.volume.findMany().then(volumes => {
+        const defaultVolumePath = fromEnvOptional('DEFAULT_VOLUME_PATH');
+        if (!volumes.length && defaultVolumePath) {
+          return prisma.volume
+            .create({
+              data: {
+                name: 'My Porn Library',
+                path: defaultVolumePath,
+              },
+            })
+            .then(() => prisma.volume.findMany());
+        }
+        return volumes;
+      }),
   },
 };

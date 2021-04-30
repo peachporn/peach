@@ -8,21 +8,15 @@
   "private": true,
   "scripts": {
     "dev": "cd dist; nodemon --config ../nodemon.dev.json",
-    "dev:sync": "nodemon --config ./nodemon.dev-sync.json",
-    "run:app": "cd dist; ./peach",
-    "run:migrate": "cd dist; ./migrate",
-    "watch": "DEVELOPMENT=true yarn build:copy; run-p watch:*",
+    "watch": "scripts/copy-dev; run-p watch:*",
     "watch:app": "yarn workspace @peach/app run watch",
     "watch:frontend": "yarn workspace @peach/frontend run watch",
-    "watch:migrate": "yarn workspace @peach/migrate run watch",
     "watch:types": "nodemon --config nodemon.types.json",
-    "build": "mkdir -p dist; run-p build:*",
-    "build:copy": "scripts/copy-artifacts",
+    "build": "rm -rf dist; mkdir -p dist; run-p build:*",
     "build:app": "yarn workspace @peach/app run build",
-    "build:migrate": "yarn workspace @peach/migrate run build",
-    "docker": "yarn docker:build && yarn docker:run",
-    "docker:build": "yarn build && docker build -t peach/peach .",
-    "docker:run": "docker run -dit peach/peach",
+    "build:frontend": "yarn workspace @peach/frontend run build",
+    "docker:build": "yarn build && docker build -t peachporn/peach .",
+    "docker:run-local": "docker run -d -v ~/peach/library:/mnt/library -v ~/peach/media:/mnt/media -p 80:80 peachporn/peach",
     "generate": "run-p generate:*",
     "generate:prisma": "prisma generate",
     "generate:types": "run-p generate:types:*",
@@ -30,8 +24,8 @@
     "generate:types:types": "yarn workspace @peach/types run generate",
     "typecheck": "yarn workspaces run tsc",
     "lint": "yarn workspaces run lint",
-    "migrations:save": "DATABASE_URL=file:./database.db prisma migrate dev --preview-feature",
-    "studio": "cd dist; DATABASE_URL=file:./database.db prisma studio --port 5555"
+    "migrations:save": "prisma migrate dev --preview-feature",
+    "studio": "cd dist; prisma studio"
   },
   "workspaces": [
     "@peach/*"

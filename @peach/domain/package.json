@@ -13,6 +13,6 @@
   "dependencies": {
     "@peach/types": "3.0.0-alpha",
     "@peach/utils": "3.0.0-alpha",
-    "@prisma/client": "^2.14.0"
+    "@prisma/client": "^2.21.2"
   }
 }

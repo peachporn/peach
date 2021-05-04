@@ -22,6 +22,6 @@
     "ramda": "^0.27.1"
   },
   "devDependencies": {
-    "@types/ramda": "^0.27.34"
+    "@types/ramda": "^0.27.40"
   }
 }

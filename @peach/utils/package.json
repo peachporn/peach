@@ -12,7 +12,7 @@
     "generate": "echo 'Nothing to do...'"
   },
   "dependencies": {
-    "@prisma/client": "^2.14.0",
+    "@prisma/client": "^2.21.2",
     "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "node-fetch": "^2.6.1",
@@ -22,6 +22,6 @@
   },
   "devDependencies": {
     "@types/pino": "^6.3.5",
-    "@types/ramda": "^0.27.34"
+    "@types/ramda": "^0.27.40"
   }
 }

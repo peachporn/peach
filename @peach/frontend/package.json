@@ -32,7 +32,7 @@
     "@snowpack/plugin-postcss": "^1.1.0",
     "@snowpack/plugin-run-script": "^2.3.0",
     "@snowpack/plugin-typescript": "^1.2.1",
-    "@types/ramda": "^0.27.34",
+    "@types/ramda": "^0.27.40",
     "@types/react-helmet": "^6.1.0",
     "@types/react-router-dom": "^5.1.7",
     "postcss": "^8.2.4",

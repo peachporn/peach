@@ -17,6 +17,7 @@
     "build:frontend": "yarn workspace @peach/frontend run build",
     "docker:build": "yarn build && docker build -t peachporn/peach .",
     "docker:run-local": "docker run -d -v ~/peach/library:/mnt/library -v ~/peach/media:/mnt/media -p 80:80 peachporn/peach",
+    "docker:publish": "docker push peachporn/peach:latest",
     "generate": "run-p generate:*",
     "generate:prisma": "prisma generate",
     "generate:types": "run-p generate:types:*",
@@ -60,6 +61,6 @@
     "graphql": "^15.4.0"
   },
   "volta": {
-    "node": "14.16.1"
+    "node": "13.14.0"
   }
 }

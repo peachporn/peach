@@ -9,6 +9,7 @@ import {
   UpdateMovieMutationVariables,
 } from '@peach/types';
 import { useMutation } from '@apollo/client';
+import { useEffect, useState } from 'preact/hooks';
 import { updateMovieMutation } from '../mutations/updateMovie.gql';
 import { GenreSearch } from '../../../components/genreSearch';
 import { i } from '../../../i18n/i18n';
@@ -90,16 +91,24 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
       reset();
     });
 
+  const [title, setTitle] = useState<string | null>(null);
+  useEffect(() => {
+    if (title === null) return;
+    setValue('title', title);
+  }, [title]);
+
   const cover = watch('cover');
   const { isDirty } = formState;
 
   return (
     <div className="pb-16">
       <MovieInformationExtractor
+        movie={movie}
         clipboard={clipboard}
         setClipboard={setClipboard}
         setActressSearchName={setActressSearchName}
         setWebsiteSearchName={setWebsiteSearchName}
+        setTitle={setTitle}
         extractionFetchResult={extractionFetchResult}
       />
       <div className="grid grid-cols-1 md:grid-cols-7 gap-5 items-start">

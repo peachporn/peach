@@ -3,6 +3,7 @@ import {
   ExtractedMovieInformationFragment,
   ExtractMovieInformationMutation,
   ExtractMovieInformationMutationVariables,
+  WebsiteDetectionFragment,
 } from '@peach/types';
 import { useMutation } from '@apollo/client';
 import { extractMovieInformationMutation } from '../mutations/extractMovieInformation.gql';
@@ -37,10 +38,11 @@ export const useMovieInformationExtractor = ({ movieTitle }: UseMovieInformation
 
   const detectedWebsite = extractionFetchResult?.detections.find(
     d => d.__typename === 'WebsiteDetection',
-  )?.content;
+  )?.content as WebsiteDetectionFragment['content'] | undefined;
 
   const extractionResult = {
     website: detectedWebsite ? [detectedWebsite.id] : undefined,
+    fetish: detectedWebsite && detectedWebsite.fetish ? [detectedWebsite.fetish.id] : undefined,
     actresses: detectedActresses?.length ? detectedActresses?.map(a => a.id) : undefined,
   };
 

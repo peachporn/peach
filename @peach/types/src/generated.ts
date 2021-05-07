@@ -896,10 +896,15 @@ export type DeleteMovieMutationVariables = Exact<{
 
 export type DeleteMovieMutation = { __typename?: 'Mutation', deleteMovie?: Maybe<{ __typename?: 'Movie', id: number }> };
 
-export type ExtractedMovieInformationFragment = { __typename?: 'ExtractedMovieInformation', tokens: Array<{ __typename?: 'Token', token: string, detection?: Maybe<number> }>, detections: Array<{ __typename?: 'WebsiteDetection', id: number, content: (
-      { __typename?: 'Website' }
-      & WebsiteCardFragment
-    ) } | { __typename?: 'ActressDetection', id: number, content: (
+export type WebsiteDetectionFragment = { __typename?: 'WebsiteDetection', id: number, content: (
+    { __typename?: 'Website', fetish?: Maybe<{ __typename?: 'Genre', id: number }> }
+    & WebsiteCardFragment
+  ) };
+
+export type ExtractedMovieInformationFragment = { __typename?: 'ExtractedMovieInformation', tokens: Array<{ __typename?: 'Token', token: string, detection?: Maybe<number> }>, detections: Array<(
+    { __typename?: 'WebsiteDetection' }
+    & WebsiteDetectionFragment
+  ) | { __typename?: 'ActressDetection', id: number, content: (
       { __typename?: 'Actress' }
       & ActressCardFragment
     ) }> };

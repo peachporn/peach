@@ -93,8 +93,6 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
   const cover = watch('cover');
   const { isDirty } = formState;
 
-  console.log(extractionFetchResult);
-
   return (
     <div className="pb-16">
       <MovieInformationExtractor
@@ -122,6 +120,7 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
             inputClassName="w-full"
             multiple
             defaultValue={movie.fetishes.map(f => f.id) || undefined}
+            setValue={extractionResult.fetish}
             placeholder={i('MOVIE_ADD_FETISHES')}
             filterOverride={{ fetish: true }}
             onChange={fetishIds => {

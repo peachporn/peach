@@ -3,6 +3,16 @@ import { actressCardFragment } from '../../../components/actressCard/actressCard
 import { websiteCardFragment } from '../../../components/websiteCard/websiteCardFragment.gql';
 
 export const extractMovieInformationMutation = gql`
+  fragment WebsiteDetection on WebsiteDetection {
+    id
+    content {
+      ...WebsiteCard
+      fetish {
+        id
+      }
+    }
+  }
+
   fragment ExtractedMovieInformation on ExtractedMovieInformation {
     tokens {
       token
@@ -16,10 +26,7 @@ export const extractMovieInformationMutation = gql`
         }
       }
       ... on WebsiteDetection {
-        id
-        content {
-          ...WebsiteCard
-        }
+        ...WebsiteDetection
       }
     }
   }

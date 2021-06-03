@@ -1,4 +1,3 @@
-import { without } from 'ramda';
 import { Prisma, shuffle } from '@peach/utils';
 import { MovieFilter } from '@peach/types';
 import { Resolvers } from '../../../generated/resolver-types';
@@ -6,7 +5,7 @@ import { transformMovie } from '../transformer/movie';
 
 export const applyMovieFilter = (
   filter: MovieFilter | undefined,
-): Pick<Prisma.FindManyMovieArgs, 'where'> =>
+): Pick<Prisma.MovieFindManyArgs, 'where'> =>
   !filter
     ? {}
     : {

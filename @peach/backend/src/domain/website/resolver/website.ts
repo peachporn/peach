@@ -5,7 +5,7 @@ import { Resolvers } from '../../../generated/resolver-types';
 
 const applyWebsiteFilter = (
   filter: WebsiteFilter | undefined,
-): Pick<Prisma.FindManyWebsiteArgs, 'where'> =>
+): Pick<Prisma.WebsiteFindManyArgs, 'where'> =>
   !filter
     ? {}
     : {

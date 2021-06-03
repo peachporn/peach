@@ -6,7 +6,7 @@ import { Resolvers } from '../../../generated/resolver-types';
 
 const applyActressFilter = (
   filter: ActressFilter | undefined,
-): Pick<Prisma.FindManyActressArgs, 'where'> =>
+): Pick<Prisma.ActressFindManyArgs, 'where'> =>
   !filter
     ? {}
     : {

@@ -6,7 +6,7 @@ import { transformMovie } from '../../movie/transformer/movie';
 
 export const applyGenreFilter = (
   filter: GenreFilter | undefined,
-): Pick<Prisma.FindManyGenreArgs, 'where'> =>
+): Pick<Prisma.GenreFindManyArgs, 'where'> =>
   !filter
     ? {}
     : {

@@ -13,6 +13,8 @@ export const movieListQuery = gql`
 
 export const movieCountQuery = gql`
   query movieCount {
-    movieCount
+    movieCount {
+      all
+    }
   }
 `;

@@ -2,7 +2,7 @@ import { Fragment, FunctionalComponent, h } from 'preact';
 import { useContext, useState } from 'preact/hooks';
 import { useQuery } from '@apollo/client';
 import { MovieFilterDisplayQuery, MovieFilterDisplayQueryVariables } from '@peach/types';
-import { MovieFilterContext } from '../context/movieFilter';
+import { MovieFilterContext } from '../../../context/movieFilter';
 import { Icon } from '../../../components/icon';
 import { FetishBubble } from '../../../components/fetishBubble';
 import { GenreSearch } from '../../../components/genreSearch';
@@ -13,12 +13,19 @@ import { movieFilterDisplayQuery } from '../queries/movieFilterDisplay.gql';
 import { WebsiteCard } from '../../../components/websiteCard';
 import { ActressCard } from '../../../components/actressCard';
 import { GenreCard } from '../../../components/genreCard';
+import { Checkbox } from '../../../components/checkbox';
 
 export const MovieFilter: FunctionalComponent = () => {
   const [visible, setVisible] = useState(false);
-  const { filter, isFiltered, setFetishes, setTitle, setActresses, setWebsites } = useContext(
-    MovieFilterContext,
-  );
+  const {
+    filter,
+    isFiltered,
+    setFetishes,
+    setTitle,
+    setActresses,
+    setWebsites,
+    setUntouched,
+  } = useContext(MovieFilterContext);
 
   const { data } = useQuery<MovieFilterDisplayQuery, MovieFilterDisplayQueryVariables>(
     movieFilterDisplayQuery,
@@ -112,6 +119,15 @@ export const MovieFilter: FunctionalComponent = () => {
             placeholder={i('MOVIE_ACTRESSES')}
             defaultValue={filter.actresses}
             inputClassName="w-full"
+          />
+        </div>
+        <div className="pt-2">
+          <Checkbox.NoForm
+            name="untouched"
+            label={<span>{i('ONLY_UNTOUCHED')}</span>}
+            onChange={checked => {
+              setUntouched(checked ? true : undefined);
+            }}
           />
         </div>
         <Icon

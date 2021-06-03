@@ -4,7 +4,10 @@ import { fetishBubbleFragment } from '../../../components/fetishBubble/fetishBub
 
 export const homepageQuery = gql`
   query Homepage {
-    movieCount
+    movieCount {
+      all
+      untouched
+    }
     randomMovies: movies(sort: RANDOM, limit: 10) {
       ...MovieCard
     }

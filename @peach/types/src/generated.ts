@@ -114,7 +114,7 @@ export type Query = {
   genres: Array<Genre>;
   genresCount: Scalars['Int'];
   movie?: Maybe<Movie>;
-  movieCount: Scalars['Int'];
+  movieCount: MovieCountResponse;
   movies: Array<Movie>;
   pathExists?: Maybe<Scalars['Boolean']>;
   scrapeActress?: Maybe<ActressScrapeResult>;
@@ -515,11 +515,18 @@ export type MovieFilter = {
   actresses?: Maybe<Array<Scalars['Int']>>;
   websites?: Maybe<Array<Scalars['Int']>>;
   fetishes?: Maybe<Array<Scalars['Int']>>;
+  untouched?: Maybe<Scalars['Boolean']>;
 };
 
 export type MoviesSort = 
   | 'CREATED_AT_DESC'
   | 'RANDOM';
+
+export type MovieCountResponse = {
+  __typename?: 'MovieCountResponse';
+  all: Scalars['Int'];
+  untouched: Scalars['Int'];
+};
 
 export type MovieMetadata = {
   __typename?: 'MovieMetadata';
@@ -560,6 +567,7 @@ export type Movie = {
   cover: Scalars['Int'];
   genres: Array<GenreDefinition>;
   fetishes: Array<Genre>;
+  untouched: Scalars['Boolean'];
 };
 
 export type Screencap = {
@@ -850,7 +858,7 @@ export type GenresCountQuery = { __typename?: 'Query', genresCount: number };
 export type HomepageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomepageQuery = { __typename?: 'Query', movieCount: number, randomMovies: Array<(
+export type HomepageQuery = { __typename?: 'Query', movieCount: { __typename?: 'MovieCountResponse', all: number, untouched: number }, randomMovies: Array<(
     { __typename?: 'Movie' }
     & MovieCardFragment
   )>, recentMovies: Array<(
@@ -1000,7 +1008,7 @@ export type MovieListQuery = { __typename?: 'Query', movies: Array<(
 export type MovieCountQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MovieCountQuery = { __typename?: 'Query', movieCount: number };
+export type MovieCountQuery = { __typename?: 'Query', movieCount: { __typename?: 'MovieCountResponse', all: number } };
 
 export type FetishesQueryVariables = Exact<{
   name: Scalars['String'];

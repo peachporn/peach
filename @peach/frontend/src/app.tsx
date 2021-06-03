@@ -16,6 +16,7 @@ import { GenreDetailPage } from './pages/genreDetail';
 import { WebsiteDetailPage } from './pages/websiteDetail';
 import { ActressDetailPage } from './pages/actressDetail';
 import { MovieDetailPage } from './pages/movieDetail';
+import { MovieFilterProvider } from './context/movieFilter';
 
 const AppContent = () => {
   const location = useLocation();
@@ -66,10 +67,12 @@ const AppContent = () => {
 const App = (
   <ApolloProvider client={client}>
     <SettingsProvider>
-      <Router>
-        <AppContent />
-        <MobileNavigation />
-      </Router>
+      <MovieFilterProvider>
+        <Router>
+          <AppContent />
+          <MobileNavigation />
+        </Router>
+      </MovieFilterProvider>
     </SettingsProvider>
   </ApolloProvider>
 );

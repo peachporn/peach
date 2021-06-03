@@ -20,6 +20,8 @@ export const movieTypeDefs = gql`
 
     genres: [GenreDefinition!]!
     fetishes: [Genre!]!
+
+    untouched: Boolean!
   }
 
   extend type Query {

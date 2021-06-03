@@ -3,6 +3,28 @@ import { MovieFilter } from '@peach/types';
 import { Resolvers } from '../../../generated/resolver-types';
 import { transformMovie } from '../transformer/movie';
 
+const touchedMovieFilter = {
+  OR: [
+    {
+      website: {
+        id: {
+          gte: 0,
+        },
+      },
+    },
+    {
+      actresses: {
+        some: {},
+      },
+    },
+    {
+      fetishes: {
+        some: {},
+      },
+    },
+  ],
+};
+
 export const applyMovieFilter = (
   filter: MovieFilter | undefined,
 ): Pick<Prisma.MovieFindManyArgs, 'where'> =>
@@ -10,6 +32,11 @@ export const applyMovieFilter = (
     ? {}
     : {
         where: {
+          ...(filter.untouched === undefined
+            ? {}
+            : filter.untouched
+            ? { NOT: [touchedMovieFilter] }
+            : touchedMovieFilter),
           ...(!filter.actresses
             ? {}
             : {
@@ -47,7 +74,14 @@ export const applyMovieFilter = (
 
 export const listMovieResolvers: Resolvers = {
   Query: {
-    movieCount: (_parent, _args, { prisma }) => prisma.movie.count(),
+    movieCount: (_parent, _args, { prisma }) =>
+      Promise.all([prisma.movie.count(), prisma.movie.count({ where: touchedMovieFilter })]).then(
+        ([all, touched]) => ({
+          __typename: 'MovieCountResponse',
+          all,
+          untouched: all - touched,
+        }),
+      ),
     movies: (_parent, { limit, skip, filter, sort }, { prisma }) =>
       (sort === 'RANDOM'
         ? prisma.movie.count().then(count => {
@@ -74,6 +108,9 @@ export const listMovieResolvers: Resolvers = {
             ...applyMovieFilter(filter),
             include: {
               genres: true,
+              actresses: true,
+              fetishes: true,
+              website: true,
             },
           })
       ).then(movies => movies.map(transformMovie)),

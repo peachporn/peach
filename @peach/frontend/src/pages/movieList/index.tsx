@@ -9,14 +9,14 @@ import { usePagination } from '../../utils/usePagination';
 import { i } from '../../i18n/i18n';
 import { Loading } from '../../components/loading';
 import { MovieCard } from '../../components/movieCard';
-import { MovieFilterContext, MovieFilterProvider } from './context/movieFilter';
+import { MovieFilterContext } from '../../context/movieFilter';
 import { MovieFilter } from './components/movieFilter';
 import { homeRoute } from '../../utils/route';
 import { Pagination } from '../../components/pagination';
 
 const pageLength = 20;
 
-const MoviesPageComponent: FunctionalComponent = () => {
+export const MoviesPage: FunctionalComponent = () => {
   const history = useHistory();
   const count = useQuery<MovieCountQuery>(movieCountQuery);
   const { filter } = useContext(MovieFilterContext);
@@ -27,7 +27,7 @@ const MoviesPageComponent: FunctionalComponent = () => {
 
   const pagination = usePagination({
     pageLength,
-    maxItems: count.data.movieCount,
+    maxItems: count.data.movieCount.all,
   });
   const { limit, skip } = pagination;
 
@@ -69,9 +69,3 @@ const MoviesPageComponent: FunctionalComponent = () => {
     </Fragment>
   );
 };
-
-export const MoviesPage: FunctionalComponent = () => (
-  <MovieFilterProvider>
-    <MoviesPageComponent />
-  </MovieFilterProvider>
-);

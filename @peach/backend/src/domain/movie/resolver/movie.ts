@@ -5,6 +5,8 @@ import { Resolvers } from '../../../generated/resolver-types';
 export const movieResolvers: Resolvers = {
   Movie: {
     videoUrl: parent => `/assets/movie/${parent.id}`,
+    untouched: parent =>
+      !(parent.actresses.length !== 0 || parent.fetishes.length !== 0 || !!parent.website),
   },
   Query: {
     movie: async (_parent, { id }, { prisma }) => {

@@ -4,15 +4,18 @@ import { Link } from 'react-router-dom';
 
 import { HomepageQuery, PinnedFetishesQuery, PinnedFetishesQueryVariables } from '@peach/types';
 import { Helmet } from 'react-helmet';
+import { useContext } from 'preact/hooks';
 import { homepageQuery } from './queries/homepage.gql';
 import { i } from '../../i18n/i18n';
 import { NoVolumesHint } from './components/noVolumesHint';
 import { Icon } from '../../components/icon';
-import { settingsRoute } from '../../utils/route';
+import { moviesRoute, settingsRoute } from '../../utils/route';
 import { MovieCardSlider } from './components/movieCardSlider';
 import { pinnedFetishesQuery } from './queries/pinnedFetishes.gql';
+import { MovieFilterContext } from '../../context/movieFilter';
 
 export const Homepage: FunctionalComponent = () => {
+  const { setUntouched } = useContext(MovieFilterContext);
   const { data, loading } = useQuery<HomepageQuery>(homepageQuery);
 
   const movie = data?.randomMovies[0];
@@ -38,9 +41,20 @@ export const Homepage: FunctionalComponent = () => {
           <img className="m-auto rounded-full shadow-lg" alt="Peach Logo" src="/logo.png" />
           <h1 className="text-center m-auto text-white font-display text-5xl">Peach</h1>
           {data && (
-            <span className="block m-auto text-center text-white text-xs">
-              {i('SERVING_X_MOVIES', { count: `${data?.movieCount || ''}` })}
-            </span>
+            <Fragment>
+              <span className="block m-auto text-center text-white text-xs">
+                {i('SERVING_X_MOVIES', { count: `${data?.movieCount.all || ''}` })}
+              </span>
+              <Link
+                to={moviesRoute}
+                className="block m-auto text-center text-white text-2xs"
+                onClick={() => {
+                  setUntouched(true);
+                }}
+              >
+                {i('UNTOUCHED', { count: `${data?.movieCount.untouched || ''}` })}
+              </Link>
+            </Fragment>
           )}
           <Link to={settingsRoute}>
             <Icon className="text-white absolute right-3 top-3" icon="settings" />

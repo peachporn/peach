@@ -6,6 +6,7 @@ export const listMovieTypeDefs = gql`
     actresses: [Int!]
     websites: [Int!]
     fetishes: [Int!]
+    untouched: Boolean
   }
 
   enum MoviesSort {
@@ -13,8 +14,13 @@ export const listMovieTypeDefs = gql`
     RANDOM
   }
 
+  type MovieCountResponse {
+    all: Int!
+    untouched: Int!
+  }
+
   type Query {
     movies(limit: Int, skip: Int, filter: MovieFilter, sort: MoviesSort): [Movie!]!
-    movieCount: Int!
+    movieCount: MovieCountResponse!
   }
 `;

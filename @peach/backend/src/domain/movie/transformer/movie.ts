@@ -38,4 +38,6 @@ export const transformMovie = (movie: MovieWithOptionalMetadataAndVolume): Movie
 
   genres: [],
   fetishes: (movie.fetishes || []).map(transformBaseGenre),
+
+  untouched: true,
 });

@@ -1,6 +1,7 @@
 import ffmpeg from 'fluent-ffmpeg';
 import { fullPath, movieScreencapPath } from '@peach/domain';
 import { logScope } from '@peach/utils';
+import mkdirp from 'mkdirp';
 import { defineTask } from '../task/template';
 import { ScreencapMovie } from './type';
 
@@ -32,6 +33,7 @@ const ffmpegScreencap = (
       })
       .on('error', error => {
         if (error.message.includes('EEXIST')) {
+          console.log(error);
           log.info(`Screencap ${screencapPath} already existed.`);
           clearTimeout(timeout);
           resolve('SUCCESS');
@@ -50,13 +52,15 @@ const ffmpegScreencap = (
 const { createTask, runTask, taskDefinitionOptions } = defineTask<TakeScreencaps>(
   'TAKE_SCREENCAP',
   ({ parameters: { movie } }) =>
-    movieScreencapPath(movie).then(screencapPath =>
-      Promise.all(
-        ['15%', '30%', '50%', '70%', '85%'].map((timestamp, i) =>
-          ffmpegScreencap(movie, screencapPath, timestamp, i + 1),
-        ),
-      ).then(() => 'SUCCESS' as const),
-    ),
+    movieScreencapPath(movie)
+      .then(screencapPath => mkdirp(screencapPath).then(() => screencapPath))
+      .then(screencapPath =>
+        Promise.all(
+          ['15%', '30%', '50%', '70%', '85%'].map((timestamp, i) =>
+            ffmpegScreencap(movie, screencapPath, timestamp, i + 1),
+          ),
+        ).then(() => 'SUCCESS' as const),
+      ),
   {
     workers: 1,
   },

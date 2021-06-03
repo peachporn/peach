@@ -52,7 +52,7 @@ export const Homepage: FunctionalComponent = () => {
                   setUntouched(true);
                 }}
               >
-                {i('UNTOUCHED', { count: `${data?.movieCount.untouched || ''}` })}
+                {i('COUNT_UNTOUCHED', { count: `${data?.movieCount.untouched || ''}` })}
               </Link>
             </Fragment>
           )}

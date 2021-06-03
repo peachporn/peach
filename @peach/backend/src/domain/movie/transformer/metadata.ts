@@ -11,6 +11,7 @@ const qualityMap: { [key: string]: Quality } = {
 const formatMap: { [key: string]: Format } = {
   mp4: 'mp4',
   wmv: 'wmv',
+  mkv: 'mkv',
 };
 
 export const transformMetadata = (metadata: MovieMetadata): Movie['metaData'] =>

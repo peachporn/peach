@@ -20,6 +20,7 @@ export const movieMetadataTypeDefs = gql`
   }
 
   enum Format {
+    mkv
     mp4
     wmv
   }

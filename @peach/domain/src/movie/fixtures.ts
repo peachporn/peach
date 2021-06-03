@@ -1,4 +1,4 @@
-export const movieFormats = ['mp4', 'avi', 'wmv'] as const;
+export const movieFormats = ['mp4', 'avi', 'wmv', 'mkv'] as const;
 export type MovieFormat = typeof movieFormats[number];
 export const isFormatSupported = (format: string): format is MovieFormat =>
   ((movieFormats as unknown) as string[]).includes(format);

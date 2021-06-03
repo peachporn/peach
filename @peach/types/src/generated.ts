@@ -540,6 +540,7 @@ export type Quality =
   | 'UHD';
 
 export type Format = 
+  | 'mkv'
   | 'mp4'
   | 'wmv';
 

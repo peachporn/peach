@@ -8,8 +8,11 @@ export const scrapeActressResolvers: Resolvers = {
 
       return {
         __typename: 'ActressScrapeResult',
-        ...scrapeResult,
-        name,
+        alternatives: scrapeResult.alternatives,
+        actress: {
+          ...scrapeResult.actress,
+          name: scrapeResult.actress ? name : undefined,
+        },
       };
     },
   },

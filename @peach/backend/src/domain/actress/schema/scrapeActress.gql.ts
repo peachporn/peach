@@ -1,8 +1,8 @@
 import { gql } from 'apollo-server';
 
 export const scrapeActressTypeDefs = gql`
-  type ActressScrapeResult {
-    name: String!
+  type ScrapedActress {
+    name: String
     aliases: [String!]
 
     haircolor: Haircolor
@@ -33,6 +33,17 @@ export const scrapeActressTypeDefs = gql`
     officialWebsite: String
 
     picture: String
+  }
+
+  type ScrapeAlternative {
+    name: String!
+    aliases: [String!]
+    pictureUrl: String
+  }
+
+  type ActressScrapeResult {
+    actress: ScrapedActress
+    alternatives: [ScrapeAlternative!]!
   }
 
   extend type Query {

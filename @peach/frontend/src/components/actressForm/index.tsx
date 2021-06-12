@@ -2,12 +2,14 @@ import { Fragment, FunctionalComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { useQuery } from '@apollo/client';
 import { useForm } from 'react-hook-form';
+import { ScrapeActressQuery, ScrapeActressQueryVariables } from '@peach/types';
 import { formatDateForInput } from '../../utils/date';
 import { scrapeActressQuery } from '../../pages/actressList/queries/scrapeActress.gql';
 import { Loading } from '../loading';
 import { i } from '../../i18n/i18n';
 import { Icon } from '../icon';
 import { ActressFormFields } from './actressFormFields';
+import { ActressAlternativeList } from './actressAlternativeList';
 
 export type ActressFormValues = {
   name: string;
@@ -54,45 +56,47 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
 }) => {
   const [searchName, setSearchName] = useState<string>(defaultSearchName || '');
 
-  const { data, loading } = useQuery(scrapeActressQuery, {
-    skip: searchName === '',
-    variables: {
-      name: searchName,
+  const { data, loading } = useQuery<ScrapeActressQuery, ScrapeActressQueryVariables>(
+    scrapeActressQuery,
+    {
+      skip: searchName === '',
+      variables: {
+        name: searchName,
+      },
     },
-  });
+  );
 
   const { register, handleSubmit, setValue, watch, reset } = useForm<ActressFormValues>({
     defaultValues,
   });
 
   useEffect(() => {
-    if (!data) return;
+    if (!data?.scrapeActress?.actress) return;
+
     const {
-      scrapeActress: {
-        name,
-        picture,
-        aliases,
-        haircolor,
-        eyecolor,
-        ethnicity,
-        dateOfBirth,
-        dateOfCareerstart,
-        dateOfRetirement,
-        dateOfDeath,
-        city,
-        province,
-        country,
-        cupsize,
-        boobs,
-        measurements,
-        height,
-        weight,
-        piercings,
-        tattoos,
-        socialMediaLinks,
-        officialWebsite,
-      },
-    } = data;
+      name,
+      picture,
+      aliases,
+      haircolor,
+      eyecolor,
+      ethnicity,
+      dateOfBirth,
+      dateOfCareerstart,
+      dateOfRetirement,
+      dateOfDeath,
+      city,
+      province,
+      country,
+      cupsize,
+      boobs,
+      measurements,
+      height,
+      weight,
+      piercings,
+      tattoos,
+      socialMediaLinks,
+      officialWebsite,
+    } = data?.scrapeActress?.actress;
 
     setValue('name', name);
     setValue('imageUrl', picture);
@@ -136,7 +140,8 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
     reset();
   };
 
-  const actress = data || defaultValues;
+  const actress = data?.scrapeActress?.actress || defaultValues;
+  const alternatives = data?.scrapeActress?.alternatives || [];
 
   const onSubmit = (values: ActressFormValues) =>
     onSubmitCallback(values).then(() => {
@@ -167,7 +172,13 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
         )}
       </div>
       {loading ? <Loading /> : null}
-      {!actress ? null : (
+      {!alternatives.length ? null : (
+        <ActressAlternativeList
+          alternatives={alternatives}
+          onSelect={alternative => setSearchName(alternative.name)}
+        />
+      )}
+      {!actress?.name || alternatives.length ? null : (
         <form
           onSubmit={e => {
             e.preventDefault();
@@ -191,6 +202,11 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
           </button>
         </form>
       )}
+      {!actress?.name && !alternatives.length && !loading ? (
+        <span className="text-lg w-full mt-12 flex justify-center">
+          {i('ACTRESS_SCRAPE_NORESULT', { name: searchName })}
+        </span>
+      ) : null}
     </Fragment>
   );
 };

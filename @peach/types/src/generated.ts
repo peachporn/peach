@@ -344,9 +344,9 @@ export type MutationUpdateWebsiteArgs = {
   data: UpdateWebsiteInput;
 };
 
-export type ActressScrapeResult = {
-  __typename?: 'ActressScrapeResult';
-  name: Scalars['String'];
+export type ScrapedActress = {
+  __typename?: 'ScrapedActress';
+  name?: Maybe<Scalars['String']>;
   aliases?: Maybe<Array<Scalars['String']>>;
   haircolor?: Maybe<Haircolor>;
   eyecolor?: Maybe<Eyecolor>;
@@ -369,6 +369,19 @@ export type ActressScrapeResult = {
   socialMediaLinks?: Maybe<Array<Maybe<Scalars['String']>>>;
   officialWebsite?: Maybe<Scalars['String']>;
   picture?: Maybe<Scalars['String']>;
+};
+
+export type ScrapeAlternative = {
+  __typename?: 'ScrapeAlternative';
+  name: Scalars['String'];
+  aliases?: Maybe<Array<Scalars['String']>>;
+  pictureUrl?: Maybe<Scalars['String']>;
+};
+
+export type ActressScrapeResult = {
+  __typename?: 'ActressScrapeResult';
+  actress?: Maybe<ScrapedActress>;
+  alternatives: Array<ScrapeAlternative>;
 };
 
 export type UpdateActressInput = {
@@ -766,7 +779,17 @@ export type ActressDetailQuery = { __typename?: 'Query', actress?: Maybe<(
     & ActressDetailFragment
   )> };
 
-export type ActressScrapeResultFragment = { __typename?: 'ActressScrapeResult', name: string, aliases?: Maybe<Array<string>>, picture?: Maybe<string>, haircolor?: Maybe<Haircolor>, eyecolor?: Maybe<Eyecolor>, ethnicity?: Maybe<Ethnicity>, cupsize?: Maybe<Cupsize>, boobs?: Maybe<Boobs>, height?: Maybe<number>, weight?: Maybe<number>, dateOfBirth?: Maybe<string>, dateOfCareerstart?: Maybe<string>, dateOfRetirement?: Maybe<string>, dateOfDeath?: Maybe<string>, country?: Maybe<string>, province?: Maybe<string>, city?: Maybe<string>, piercings?: Maybe<string>, tattoos?: Maybe<string>, socialMediaLinks?: Maybe<Array<Maybe<string>>>, officialWebsite?: Maybe<string>, measurements?: Maybe<{ __typename?: 'Measurements', bust: number, waist: number, hips: number }> };
+export type ScrapedActressFragment = { __typename?: 'ScrapedActress', name?: Maybe<string>, aliases?: Maybe<Array<string>>, picture?: Maybe<string>, haircolor?: Maybe<Haircolor>, eyecolor?: Maybe<Eyecolor>, ethnicity?: Maybe<Ethnicity>, cupsize?: Maybe<Cupsize>, boobs?: Maybe<Boobs>, height?: Maybe<number>, weight?: Maybe<number>, dateOfBirth?: Maybe<string>, dateOfCareerstart?: Maybe<string>, dateOfRetirement?: Maybe<string>, dateOfDeath?: Maybe<string>, country?: Maybe<string>, province?: Maybe<string>, city?: Maybe<string>, piercings?: Maybe<string>, tattoos?: Maybe<string>, socialMediaLinks?: Maybe<Array<Maybe<string>>>, officialWebsite?: Maybe<string>, measurements?: Maybe<{ __typename?: 'Measurements', bust: number, waist: number, hips: number }> };
+
+export type ScrapeAlternativeFragment = { __typename?: 'ScrapeAlternative', name: string, aliases?: Maybe<Array<string>>, pictureUrl?: Maybe<string> };
+
+export type ActressScrapeResultFragment = { __typename?: 'ActressScrapeResult', actress?: Maybe<(
+    { __typename?: 'ScrapedActress' }
+    & ScrapedActressFragment
+  )>, alternatives: Array<(
+    { __typename?: 'ScrapeAlternative' }
+    & ScrapeAlternativeFragment
+  )> };
 
 export type CreateActressMutationVariables = Exact<{
   input: CreateActressInput;

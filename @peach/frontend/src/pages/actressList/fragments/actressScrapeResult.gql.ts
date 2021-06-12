@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const actressScrapeResult = gql`
-  fragment ActressScrapeResult on ActressScrapeResult {
+  fragment ScrapedActress on ScrapedActress {
     name
     aliases
     picture
@@ -35,5 +35,20 @@ export const actressScrapeResult = gql`
 
     socialMediaLinks
     officialWebsite
+  }
+
+  fragment ScrapeAlternative on ScrapeAlternative {
+    name
+    aliases
+    pictureUrl
+  }
+
+  fragment ActressScrapeResult on ActressScrapeResult {
+    actress {
+      ...ScrapedActress
+    }
+    alternatives {
+      ...ScrapeAlternative
+    }
   }
 `;

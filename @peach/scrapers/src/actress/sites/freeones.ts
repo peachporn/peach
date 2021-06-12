@@ -7,6 +7,7 @@ import { inchToCm } from '../utils/units';
 
 export const FreeonesScraper: ActressScraper = {
   nameToUrl: name => `https://www.freeones.com/${slugify(name)}/profile`,
+  nameToAlternativeSearchUrl: name => `https://www.freeones.com/babes?q=${encodeURI(name)}`,
   fields: {
     name: {
       selector:
@@ -141,6 +142,27 @@ export const FreeonesScraper: ActressScraper = {
       selector: '.dashboard-image-large img',
       type: 'src',
       transform: x => x.replace('/teaser/', '/big/'),
+    },
+  },
+  alternativeItemSelector: '[data-test="teaser-subject"]',
+  alternativeFields: {
+    name: {
+      selector: '[data-test="subject-name"]',
+      type: 'text',
+      transform: x => x.trim(),
+    },
+    aliases: {
+      selector: '.secondary-data-wrapper > .content-container:nth-child(2) > p:first-child',
+      type: 'text',
+      transform: x =>
+        x
+          .replace('Aliases: ', '')
+          .split(', ')
+          .map(a => a.trim()),
+    },
+    pictureUrl: {
+      selector: '.image-content',
+      type: 'src',
     },
   },
 };

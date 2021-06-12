@@ -33,6 +33,7 @@ model Actress {
   id      Int    @id @default(autoincrement())
   name    String @unique
   aliases String @default("[]")
+  slug    String @default("")
 
   haircolor String?
   eyecolor  String?

@@ -50,14 +50,14 @@ export const extractMovieInformationResolvers: Resolvers = {
         await Promise.all(
           candidates.map(c =>
             Promise.all([
-              prisma.actress.findUnique({ where: { name: c } }),
+              prisma.actress.findMany({ where: { OR: [{ name: c }, { slug: { contains: c } }] } }),
               prisma.website.findUnique({ where: { name: c }, include: { fetish: true } }),
-            ]).then(([foundActress, foundWebsite]) =>
-              foundActress
+            ]).then(([foundActresses, foundWebsite]) =>
+              foundActresses.length
                 ? ({
                     tokens: tokenize(c),
                     type: 'Actress',
-                    content: transformActress(foundActress),
+                    content: transformActress(head(foundActresses)!),
                   } as const)
                 : foundWebsite
                 ? ({

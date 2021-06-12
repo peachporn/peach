@@ -3,9 +3,17 @@ import { CreateActressInput } from '@peach/types';
 import { transformActress } from '../transformer/actress';
 import { Resolvers } from '../../../generated/resolver-types';
 
+export const slugifyActressName = (name: string, aliases?: string[]): string =>
+  `${name.replace(/\W/g, '').toLowerCase()}${
+    !aliases?.filter(a => a !== '').length
+      ? ''
+      : `-${aliases.map(a => slugifyActressName(a)).join('-')}`
+  }`;
+
 const toDBActress = (actress: CreateActressInput): Omit<ActressCreateInput, 'movies'> => ({
   ...actress,
   aliases: actress.aliases ? JSON.stringify(actress.aliases) : undefined,
+  slug: slugifyActressName(actress.name, actress.aliases),
   measurements: actress.measurements ? JSON.stringify(actress.measurements) : undefined,
   dateOfBirth: actress.dateOfBirth ? new Date(actress.dateOfBirth) : undefined,
   dateOfCareerstart: actress.dateOfCareerstart ? new Date(actress.dateOfCareerstart) : undefined,
@@ -16,12 +24,11 @@ const toDBActress = (actress: CreateActressInput): Omit<ActressCreateInput, 'mov
 
 export const createActressResolvers: Resolvers = {
   Mutation: {
-    createActress: async (_parent, { input }, { prisma }) => {
-      const actress = await prisma.actress.create({
-        data: toDBActress(input),
-      });
-
-      return transformActress(actress);
-    },
+    createActress: async (_parent, { input }, { prisma }) =>
+      prisma.actress
+        .create({
+          data: toDBActress(input),
+        })
+        .then(transformActress),
   },
 };

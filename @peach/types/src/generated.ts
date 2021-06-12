@@ -241,6 +241,7 @@ export type Mutation = {
   deleteGenre?: Maybe<Genre>;
   deleteMovie?: Maybe<Movie>;
   extractMovieInformation: ExtractedMovieInformation;
+  generateSlugs: Scalars['Boolean'];
   restartTask?: Maybe<Task>;
   restartTasks: Scalars['Int'];
   scanLibrary?: Maybe<Scalars['Boolean']>;

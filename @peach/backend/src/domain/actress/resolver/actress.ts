@@ -21,9 +21,18 @@ const applyActressFilter = (
           ...(!filter.name
             ? {}
             : {
-                name: {
-                  contains: filter.name,
-                },
+                OR: [
+                  {
+                    name: {
+                      contains: filter.name,
+                    },
+                  },
+                  {
+                    aliases: {
+                      contains: filter.name,
+                    },
+                  },
+                ],
               }),
         },
       };

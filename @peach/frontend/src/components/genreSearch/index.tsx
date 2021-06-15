@@ -9,11 +9,12 @@ import {
   GenreSearchQueryVariables,
 } from '@peach/types';
 import { UseFormMethods } from 'react-hook-form';
-import { uniq } from 'ramda';
+import { equals, uniq } from 'ramda';
 import { genreSearchQuery } from './genreSearchQuery.gql';
 import { FetishBubble } from '../fetishBubble';
 import { websiteSearchQuery } from '../websiteSearch/websiteSearchQuery.gql';
 import { debounce } from '../../utils/throttle';
+import { usePrevious } from '../../utils/usePrevious';
 
 type GenreSearchProps = {
   onChange: (id: number[]) => unknown;
@@ -41,9 +42,13 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
   const [genreIds, setGenreIds] = useState<number[]>(defaultValue || []);
   const [searchName, setSearchName] = useState<string>('');
 
+  const previousSetValue = usePrevious(setValue);
+
   useEffect(() => {
-    if (!setValue) return;
-    setGenreIds(setValue);
+    if (!setValue || equals(setValue, previousSetValue)) return;
+    if (setValue.find(v => !genreIds.includes(v))) {
+      setGenreIds(setValue);
+    }
   }, [setValue]);
 
   useEffect(() => {

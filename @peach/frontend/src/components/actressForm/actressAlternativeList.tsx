@@ -10,7 +10,7 @@ export const ActressAlternativeList: FunctionalComponent<ActressAlternativeListP
   alternatives,
   onSelect,
 }) => (
-  <div className="grid grid-cols-2 p-2">
+  <div className="grid grid-cols-2 md:grid-cols-5 gap-4 p-2">
     {alternatives.map(alternative => (
       <button className="flex flex-col shadow rounded-sm" onClick={() => onSelect(alternative)}>
         {!alternative.pictureUrl ? null : <img alt="" src={alternative.pictureUrl} />}

@@ -9,7 +9,7 @@ import {
   ActressSearchQueryVariables,
 } from '@peach/types';
 import { UseFormMethods } from 'react-hook-form';
-import { ascend, descend, sortWith, uniq } from 'ramda';
+import { ascend, descend, equals, sortWith, uniq } from 'ramda';
 import { pascalCase, spaceCase } from 'case-anything';
 import { actressSearchQuery } from './actressSearchQuery.gql';
 import { FetishBubble } from '../fetishBubble';
@@ -18,6 +18,7 @@ import { ActressCard } from '../actressCard';
 import { CreateActressForm } from './createActressForm';
 import { debounce, throttle } from '../../utils/throttle';
 import { Icon } from '../icon';
+import { usePrevious } from '../../utils/usePrevious';
 
 type ActressSearchProps = {
   onChange: (id: number[]) => unknown;
@@ -50,8 +51,10 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
   const [createActressFormVisible, setCreateActressFormVisible] = useState<boolean>(false);
   const [searchName, setSearchName] = useState<string>('');
 
+  const previousSetValue = usePrevious(setValue);
+
   useEffect(() => {
-    if (!setValue) return;
+    if (!setValue || equals(setValue, previousSetValue)) return;
     if (setValue.find(v => !actressIds.includes(v))) {
       setActressIds(uniq([...actressIds, ...setValue]));
     }

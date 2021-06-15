@@ -19,15 +19,17 @@ export const Checkbox: FunctionalComponent<CheckboxProps> & {
 
 type CheckboxNoFormProps = {
   name: string;
+  checked: boolean;
   onChange: (checked: boolean) => void;
   label: VNode;
 };
 
-Checkbox.NoForm = ({ name, onChange, label }: CheckboxNoFormProps) => (
+Checkbox.NoForm = ({ name, onChange, label, checked }: CheckboxNoFormProps) => (
   <label className="pl-5 relative flex items-center" htmlFor={name}>
     <input
       className="hidden"
       type="checkbox"
+      checked={checked}
       onChange={e => {
         onChange((e.target as HTMLInputElement).checked);
       }}

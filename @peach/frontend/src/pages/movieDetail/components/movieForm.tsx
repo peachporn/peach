@@ -191,7 +191,7 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
               alt={`${movie.title} #${screencap.index}`}
               className={`${
                 cover === `${screencap.index}` ? 'border-pink' : 'border-transparent'
-              } border-b-2 hover:scale-150 hover:z-10 cursor-pointer transition-transform transform-gpu`}
+              } border-b-2 cursor-pointer`}
             />
           ))}
         </div>

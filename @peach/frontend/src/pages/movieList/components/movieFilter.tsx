@@ -59,6 +59,7 @@ export const MovieFilter: FunctionalComponent = () => {
             onClick={() => {
               setVisible(!visible);
             }}
+            value={filter.title}
             onKeyUp={e => {
               setTitle((e.target as HTMLInputElement).value);
             }}
@@ -124,6 +125,7 @@ export const MovieFilter: FunctionalComponent = () => {
         <div className="pt-2">
           <Checkbox.NoForm
             name="untouched"
+            checked={filter.untouched || false}
             label={<span>{i('ONLY_UNTOUCHED')}</span>}
             onChange={checked => {
               setUntouched(checked ? true : undefined);

@@ -10,7 +10,7 @@ import {
   WebsiteSearchQueryVariables,
 } from '@peach/types';
 import { UseFormMethods } from 'react-hook-form';
-import { sortWith, uniq } from 'ramda';
+import { equals, sortWith, uniq } from 'ramda';
 import { FetishBubble } from '../fetishBubble';
 import { WebsiteCard } from '../websiteCard';
 import { Slider, SliderItem } from '../slider';
@@ -19,6 +19,7 @@ import { websiteSearchQuery } from './websiteSearchQuery.gql';
 import { debounce } from '../../utils/throttle';
 import { CreateWebsiteForm } from './createWebsiteForm';
 import { Icon } from '../icon';
+import { usePrevious } from '../../utils/usePrevious';
 
 type WebsiteSearchProps = {
   onChange: (id: number[]) => unknown;
@@ -51,9 +52,13 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
   const [createWebsiteFormVisible, setCreateWebsiteFormVisible] = useState<boolean>(false);
   const [searchName, setSearchName] = useState<string>('');
 
+  const previousSetValue = usePrevious(setValue);
+
   useEffect(() => {
-    if (!setValue) return;
-    setWebsiteIds(setValue);
+    if (!setValue || equals(setValue, previousSetValue)) return;
+    if (setValue.find(v => !websiteIds.includes(v))) {
+      setWebsiteIds(setValue);
+    }
   }, [setValue]);
 
   useEffect(() => {

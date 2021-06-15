@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'preact/hooks';
 
 export const usePrevious = <T>(value: T) => {
   const ref = useRef<T>();

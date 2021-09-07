@@ -19,6 +19,7 @@ import { WebsiteCard } from '../../components/websiteCard';
 import { MetadataTable } from './components/metadataTable';
 import { useScrollToTop } from '../../hooks/useScrollToTop';
 import { i } from '../../i18n/i18n';
+import { DangerZone } from './components/dangerZone';
 
 export type MovieDetailPageProps = {
   movieId: string;
@@ -132,6 +133,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
                   />
                 ))}
               </div>
+              <DangerZone movieId={movie.id} />
             </Fragment>
           )}
           <button

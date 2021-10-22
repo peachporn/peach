@@ -14,14 +14,14 @@
   "dependencies": {
     "@prisma/client": "^2.21.2",
     "axios": "^0.21.1",
-    "dotenv": "^8.2.0",
-    "node-fetch": "^2.6.1",
-    "pino": "^6.10.0",
-    "pino-pretty": "^4.3.0",
+    "dotenv": "^10.0.0",
+    "node-fetch": "^3.0.0",
+    "pino": "^7.0.3",
+    "pino-pretty": "^7.1.0",
     "ramda": "^0.27.1"
   },
   "devDependencies": {
-    "@types/pino": "^6.3.5",
-    "@types/ramda": "^0.27.40"
+    "@types/pino": "^6.3.12",
+    "@types/ramda": "^0.27.45"
   }
 }

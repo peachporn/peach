@@ -3,7 +3,11 @@
 module.exports = {
   mount: {
     src: '/',
-    'src/static': '/',
+    static: {
+      url: '/',
+      static: true,
+      resolve: false
+    },
   },
   buildOptions: {
     out: '../../dist/frontend',

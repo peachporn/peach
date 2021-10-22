@@ -5,9 +5,9 @@ import { TaskFragment, TasksQuery, TaskStatus } from '@peach/types';
 import { groupBy } from 'ramda';
 import { i } from '../../../i18n/i18n';
 import { tasksQuery } from '../queries/tasks.gql';
+import { taskIdentifier } from '../utils/taskIdentifier';
 import { TaskControls } from './taskControls';
 import { ErroredTask } from './erroredTask';
-import { taskIdentifier } from '../utils/taskIdentifier';
 
 type TaskViewProps = {
   taskGroups: [TaskStatus, [TaskCategory, TaskFragment[]][]][];
@@ -81,15 +81,15 @@ export const TasksList: FunctionalComponent = () => {
       </h2>
       <div>
         <TaskView
-          taskGroups={Object.entries(
-            groupBy(task => task.status, data.tasks),
-          ).map(([status, tasks]) => [
-            status as TaskStatus,
-            Object.entries(groupBy(task => task.category, tasks)).map(([category, task]) => [
-              category as TaskCategory,
-              task,
-            ]),
-          ])}
+          taskGroups={Object.entries(groupBy(task => task.status, data.tasks)).map(
+            ([status, tasks]) => [
+              status as TaskStatus,
+              Object.entries(groupBy(task => task.category, tasks)).map(([category, task]) => [
+                category as TaskCategory,
+                task,
+              ]),
+            ],
+          )}
         />
         {data.tasks.length === 0 ? (
           <span className="block w-full text-center text-lg text-gray-300 py-5">

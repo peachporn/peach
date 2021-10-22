@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
 import path from 'path';
 import { createReadStream, promises } from 'fs';
+import { Request, Response } from 'express';
 import { getScreencapPath, MovieFormat, moviePathForId } from '@peach/domain';
 
 const { stat } = promises;

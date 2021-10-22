@@ -20,11 +20,12 @@ export const useCreateWebsite = () => {
     }).then(({ data: createWebsiteData }) => {
       const websiteId = createWebsiteData?.createWebsite?.id;
       if (!websiteId) return Promise.reject();
-      return (data.image?.length
-        ? uploadWebsiteImage(websiteId, data.image[0])
-        : data.imageUrl
-        ? uploadWebsiteImageFromUrl(websiteId, data.imageUrl)
-        : Promise.resolve()
+      return (
+        data.image?.length
+          ? uploadWebsiteImage(websiteId, data.image[0])
+          : data.imageUrl
+          ? uploadWebsiteImageFromUrl(websiteId, data.imageUrl)
+          : Promise.resolve()
       ).then(() => createWebsiteData);
     });
 };

@@ -1,5 +1,5 @@
-import { Prisma } from '@prisma/client';
 import path from 'path';
+import { Prisma } from '@prisma/client';
 import { prisma } from '@peach/utils';
 
 export const fullPath = (movie: Prisma.MovieGetPayload<{ include: { volume: true } }>) =>

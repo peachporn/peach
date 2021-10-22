@@ -3,13 +3,13 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GenreDetailQuery, GenreDetailQueryVariables } from '@peach/types';
 import { Helmet } from 'react-helmet';
-import { genreDetailQuery } from './queries/genreDetail.gql';
 import { Loading } from '../../components/loading';
 import { colorCodeKinkiness } from '../../domain/genre';
 import { Image } from '../../components/image';
 import { shuffle } from '../../utils/list';
 import { GenreCard } from '../../components/genreCard';
 import { i } from '../../i18n/i18n';
+import { genreDetailQuery } from './queries/genreDetail.gql';
 import { EditGenreForm } from './components/editGenreForm';
 
 const screencapsForGenre = (genre: GenreDetailQuery['genre']) =>

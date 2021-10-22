@@ -7,12 +7,12 @@ import {
   ActressDetailQueryVariables,
 } from '@peach/types';
 import { Helmet } from 'react-helmet';
-import { actressDetailQuery } from './queries/actressDetail.gql';
 import { Image } from '../../components/image';
 import { Loading } from '../../components/loading';
 import { shuffle } from '../../utils/list';
 import { i } from '../../i18n/i18n';
 import { formatDate } from '../../utils/date';
+import { actressDetailQuery } from './queries/actressDetail.gql';
 import { EditActressForm } from './components/editActressForm';
 
 const screencapsForActress = (actress?: ActressDetailFragment) =>

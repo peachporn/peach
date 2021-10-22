@@ -15,11 +15,11 @@ import { FetishBubble } from '../fetishBubble';
 import { WebsiteCard } from '../websiteCard';
 import { Slider, SliderItem } from '../slider';
 import { actressSearchQuery } from '../actressSearch/actressSearchQuery.gql';
-import { websiteSearchQuery } from './websiteSearchQuery.gql';
 import { debounce } from '../../utils/throttle';
-import { CreateWebsiteForm } from './createWebsiteForm';
 import { Icon } from '../icon';
 import { usePrevious } from '../../utils/usePrevious';
+import { CreateWebsiteForm } from './createWebsiteForm';
+import { websiteSearchQuery } from './websiteSearchQuery.gql';
 
 type WebsiteSearchProps = {
   onChange: (id: number[]) => unknown;
@@ -92,10 +92,10 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
     },
   );
 
-  const websites = uniqBy(w => w.id, [
-    ...(selectedWebsites?.websites || []),
-    ...(searchedWebsites?.websites || []),
-  ]);
+  const websites = uniqBy(
+    w => w.id,
+    [...(selectedWebsites?.websites || []), ...(searchedWebsites?.websites || [])],
+  );
 
   const submitWebsite = (w: WebsiteCardFragment) => {
     if (multiple) {

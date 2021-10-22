@@ -12,6 +12,12 @@ import {
   UpdateGenreDefinitionsMutation,
   UpdateGenreDefinitionsMutationVariables,
 } from '@peach/types';
+import { updateGenreDefinitionsMutation } from '../../mutations/updateGenreDefinitions.gql';
+import { i, I18nKey } from '../../../../i18n/i18n';
+import { findGenreQuery } from '../../queries/findGenre.gql';
+import { GenreClip } from '../../../../components/genreClip';
+import { Icon } from '../../../../components/icon';
+import { throttle } from '../../../../utils/throttle';
 import { GenreDefinitionDraft } from './types';
 import { jumpToTime, pause, playPause, scrub } from './video';
 import { removeChildFromGenreDefinition } from './genreLink';
@@ -25,13 +31,7 @@ import {
   possibleActionTypes,
 } from './action';
 import { buildGenreGrid, DisplayableGenre } from './display';
-import { updateGenreDefinitionsMutation } from '../../mutations/updateGenreDefinitions.gql';
-import { i, I18nKey } from '../../../../i18n/i18n';
-import { findGenreQuery } from '../../queries/findGenre.gql';
-import { GenreClip } from '../../../../components/genreClip';
-import { Icon } from '../../../../components/icon';
 import { GenreActionCard } from './genreActionCard';
-import { throttle } from '../../../../utils/throttle';
 import { GenreFormPreviewDrawer } from './previewDrawer';
 
 export type GenreFormProps = {
@@ -69,7 +69,11 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video, o
 
   /*
    *  FORM */
-  const { register, watch, reset: resetForm } = useForm<{ genreName: string }>({
+  const {
+    register,
+    watch,
+    reset: resetForm,
+  } = useForm<{ genreName: string }>({
     defaultValues: { genreName: '' },
   });
   const genreName = watch('genreName');

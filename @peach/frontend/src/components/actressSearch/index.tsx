@@ -11,14 +11,14 @@ import {
 import { UseFormMethods } from 'react-hook-form';
 import { ascend, descend, equals, sortWith, uniq } from 'ramda';
 import { pascalCase, spaceCase } from 'case-anything';
-import { actressSearchQuery } from './actressSearchQuery.gql';
 import { FetishBubble } from '../fetishBubble';
 import { Slider, SliderItem } from '../slider';
 import { ActressCard } from '../actressCard';
-import { CreateActressForm } from './createActressForm';
 import { debounce, throttle } from '../../utils/throttle';
 import { Icon } from '../icon';
 import { usePrevious } from '../../utils/usePrevious';
+import { CreateActressForm } from './createActressForm';
+import { actressSearchQuery } from './actressSearchQuery.gql';
 
 type ActressSearchProps = {
   onChange: (id: number[]) => unknown;

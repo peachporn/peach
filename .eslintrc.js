@@ -3,14 +3,8 @@
  */
 const eslintOptions = {
   root: true,
-  extends: [
-    'airbnb-typescript',
-    // Next lines are configuring prettier to remove eslint vs prettier collisions
-    // and enable fixing prettier with eslint command
-    'prettier/@typescript-eslint',
-    'plugin:prettier/recommended',
-  ],
-  plugins: ['prefer-arrow'],
+  extends: ['airbnb-typescript', 'plugin:prettier/recommended'],
+  plugins: ['prefer-arrow', 'import'],
   rules: {
     'arrow-body-style': ['error', 'as-needed'],
     'arrow-parens': 'off',
@@ -37,6 +31,7 @@ const eslintOptions = {
     '@typescript-eslint/no-implied-eval': 0,
     '@typescript-eslint/no-throw-literal': 0,
     '@typescript-eslint/dot-notation': 0,
+    '@typescript-eslint/return-await': 0,
 
     // Remove React-specific rules
     'react/prop-types': 0,
@@ -68,6 +63,7 @@ const eslintOptions = {
     ],
 
     'react/react-in-jsx-scope': 0,
+    'react/jsx-filename-extension': 0,
   },
 };
 

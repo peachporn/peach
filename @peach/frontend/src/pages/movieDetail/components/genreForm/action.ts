@@ -1,7 +1,7 @@
 import { adjust, uniqBy, prop } from 'ramda';
 import { GenreActionCardFragment, GenreCategory } from '@peach/types';
-import { GenreDefinitionDraft } from './types';
 import { i, I18nKey } from '../../../../i18n/i18n';
+import { GenreDefinitionDraft } from './types';
 
 type StartAction = {
   type: 'START';
@@ -50,67 +50,66 @@ export const createStartAction = (props: StartAction['props']): Action => ({
   type: 'START',
   props,
 });
-export const start: ActionExecutor<StartAction['props']> = ({
-  genre,
-  time,
-}) => genreDefinitions => [
-  ...genreDefinitions,
-  {
-    timeStart: time,
-    genre: {
-      parent: genre,
-      children: [],
-    },
-  },
-];
+export const start: ActionExecutor<StartAction['props']> =
+  ({ genre, time }) =>
+  genreDefinitions =>
+    [
+      ...genreDefinitions,
+      {
+        timeStart: time,
+        genre: {
+          parent: genre,
+          children: [],
+        },
+      },
+    ];
 
 export const createDuplicateAction = (props: DuplicateAction['props']): Action => ({
   type: 'DUPLICATE',
   props,
 });
-export const duplicate: ActionExecutor<DuplicateAction['props']> = ({
-  genre,
-  time,
-}) => genreDefinitions => [
-  ...genreDefinitions,
-  {
-    timeStart: time,
-    genre: genre.genre,
-  },
-];
+export const duplicate: ActionExecutor<DuplicateAction['props']> =
+  ({ genre, time }) =>
+  genreDefinitions =>
+    [
+      ...genreDefinitions,
+      {
+        timeStart: time,
+        genre: genre.genre,
+      },
+    ];
 
 export const createAddChildAction = (props: AddChildAction['props']): Action => ({
   type: 'ADD_CHILD',
   props,
 });
 
-export const addChild: ActionExecutor<AddChildAction['props']> = ({
-  genre,
-  parent,
-}) => genreDefinitions => {
-  const indexToUpdate = genreDefinitions.findIndex(
-    g => g.timeStart === parent.timeStart && g.genre.parent.id === parent.genre.parent.id,
-  );
+export const addChild: ActionExecutor<AddChildAction['props']> =
+  ({ genre, parent }) =>
+  genreDefinitions => {
+    const indexToUpdate = genreDefinitions.findIndex(
+      g => g.timeStart === parent.timeStart && g.genre.parent.id === parent.genre.parent.id,
+    );
 
-  return indexToUpdate === undefined
-    ? genreDefinitions
-    : adjust(
-        indexToUpdate,
-        g => ({
-          ...g,
-          genre: {
-            ...g.genre,
-            children: uniqBy(
-              prop('id'),
-              g.genre.parent.linkableChildren.find(c => c.id === genre.id)
-                ? [...g.genre.children, genre]
-                : g.genre.children,
-            ),
-          },
-        }),
-        genreDefinitions,
-      );
-};
+    return indexToUpdate === undefined
+      ? genreDefinitions
+      : adjust(
+          indexToUpdate,
+          g => ({
+            ...g,
+            genre: {
+              ...g.genre,
+              children: uniqBy(
+                prop('id'),
+                g.genre.parent.linkableChildren.find(c => c.id === genre.id)
+                  ? [...g.genre.children, genre]
+                  : g.genre.children,
+              ),
+            },
+          }),
+          genreDefinitions,
+        );
+  };
 
 export const possibleActionTypes = (
   genre: GenreActionCardFragment,

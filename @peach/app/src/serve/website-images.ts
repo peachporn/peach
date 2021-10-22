@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
 import path from 'path';
 import { createReadStream } from 'fs';
+import { Request, Response } from 'express';
 import { getGenreImagePath, getScreencapPath, getWebsiteImagePath } from '@peach/domain';
 
 export const serveWebsiteImages = async (req: Request, res: Response) => {

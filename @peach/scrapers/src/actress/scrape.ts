@@ -43,44 +43,48 @@ const scrapeField = <T extends ScrapedActress | ScrapeAlternative>(
   };
 };
 
-export const scrapeActress = (scraper: ActressScraper) => (name: string): Promise<ScrapedActress> =>
-  html(scraper.nameToUrl(name))
-    .then($ =>
-      Object.entries(scraper.fields).map(([field, fieldScraper]) =>
-        scrapeField($, field, fieldScraper),
-      ),
-    )
-    .then(scrapedFields => scrapedFields.reduce(mergeDeepLeft) as ScrapedActress);
+export const scrapeActress =
+  (scraper: ActressScraper) =>
+  (name: string): Promise<ScrapedActress> =>
+    html(scraper.nameToUrl(name))
+      .then($ =>
+        Object.entries(scraper.fields).map(([field, fieldScraper]) =>
+          scrapeField($, field, fieldScraper),
+        ),
+      )
+      .then(scrapedFields => scrapedFields.reduce(mergeDeepLeft) as ScrapedActress);
 
-export const scrapeAlternatives = (scraper: ActressScraper) => (
-  name: string,
-): Promise<ScrapeAlternative[]> =>
-  html(scraper.nameToAlternativeSearchUrl(name)).then($ => {
-    const alternativeItems = $(scraper.alternativeItemSelector);
+export const scrapeAlternatives =
+  (scraper: ActressScraper) =>
+  (name: string): Promise<ScrapeAlternative[]> =>
+    html(scraper.nameToAlternativeSearchUrl(name)).then($ => {
+      const alternativeItems = $(scraper.alternativeItemSelector);
 
-    return alternativeItems.toArray().map(
-      alternative$ =>
-        Object.entries(scraper.alternativeFields)
-          .map(
-            ([field, fieldScraper]) =>
-              scrapeField(
-                load(cheerioHtml(alternative$)),
-                field,
-                fieldScraper,
-              ) as ScrapeAlternative,
-          )
-          .reduce(mergeDeepLeft) as ScrapeAlternative,
+      return alternativeItems.toArray().map(
+        alternative$ =>
+          Object.entries(scraper.alternativeFields)
+            .map(
+              ([field, fieldScraper]) =>
+                scrapeField(
+                  load(cheerioHtml(alternative$)),
+                  field,
+                  fieldScraper,
+                ) as ScrapeAlternative,
+            )
+            .reduce(mergeDeepLeft) as ScrapeAlternative,
+      );
+    });
+
+export const scrape =
+  (scraper: ActressScraper) =>
+  (name: string): Promise<ScrapeResult> =>
+    scrapeActress(scraper)(name).then(actress =>
+      Object.values(actress).filter(v => !!v).length > 0
+        ? {
+            actress,
+            alternatives: [],
+          }
+        : scrapeAlternatives(scraper)(name).then(alternatives => ({
+            alternatives,
+          })),
     );
-  });
-
-export const scrape = (scraper: ActressScraper) => (name: string): Promise<ScrapeResult> =>
-  scrapeActress(scraper)(name).then(actress =>
-    Object.values(actress).filter(v => !!v).length > 0
-      ? {
-          actress,
-          alternatives: [],
-        }
-      : scrapeAlternatives(scraper)(name).then(alternatives => ({
-          alternatives,
-        })),
-  );

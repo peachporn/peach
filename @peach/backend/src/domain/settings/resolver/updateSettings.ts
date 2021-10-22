@@ -1,6 +1,6 @@
+import nodePath from 'path';
 import { omit } from 'ramda';
 import { exists } from '@peach/utils';
-import nodePath from 'path';
 import mkdirp from 'mkdirp';
 import { transformSettings } from '../transformer/settings';
 import { Resolvers } from '../../../generated/resolver-types';

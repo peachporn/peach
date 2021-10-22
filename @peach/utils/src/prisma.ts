@@ -1,5 +1,5 @@
-import { PrismaClient } from '@prisma/client';
 import * as path from 'path';
+import { PrismaClient } from '@prisma/client';
 import { fromEnv } from './env';
 
 const databasePath = fromEnv('DATABASE_PATH') || './database.db';

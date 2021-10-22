@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
 import path from 'path';
 import { createReadStream } from 'fs';
+import { Request, Response } from 'express';
 import { getActressImagePath, getScreencapPath } from '@peach/domain';
 
 export const serveActressImages = async (req: Request, res: Response) => {

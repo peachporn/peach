@@ -1,7 +1,7 @@
 import { defineTask } from '../task/template';
+import { takeScreencap } from '../screencaps';
 import { scrapeMovieMetadata } from './scrape';
 import { ScrapeableMovie } from './types';
-import { takeScreencap } from '../screencaps';
 
 type ScrapeMetadataParameters = {
   movie: ScrapeableMovie;

@@ -17,15 +17,8 @@ import { Checkbox } from '../../../components/checkbox';
 
 export const MovieFilter: FunctionalComponent = () => {
   const [visible, setVisible] = useState(false);
-  const {
-    filter,
-    isFiltered,
-    setFetishes,
-    setTitle,
-    setActresses,
-    setWebsites,
-    setUntouched,
-  } = useContext(MovieFilterContext);
+  const { filter, isFiltered, setFetishes, setTitle, setActresses, setWebsites, setUntouched } =
+    useContext(MovieFilterContext);
 
   const { data } = useQuery<MovieFilterDisplayQuery, MovieFilterDisplayQueryVariables>(
     movieFilterDisplayQuery,

@@ -17,9 +17,9 @@ import { Icon } from '../../../components/icon';
 import { FetishBubble } from '../../../components/fetishBubble';
 import { WebsiteSearch } from '../../../components/websiteSearch';
 import { ActressSearch } from '../../../components/actressSearch';
+import { useMovieInformationExtractor } from '../hooks/useMovieInformationExtractor';
 import { MetadataTable } from './metadataTable';
 import { MovieInformationExtractor } from './movieInformationExtractor';
-import { useMovieInformationExtractor } from '../hooks/useMovieInformationExtractor';
 import { MovieInformationExtractorButton } from './movieInformationExtractorButton';
 
 export type MovieFormValues = {
@@ -76,11 +76,11 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
           title: data.title,
           cover: data.cover ? parseInt(data.cover, 10) : undefined,
           website: data.website ? parseInt(data.website, 10) : undefined,
-          actresses: ((data.actresses as unknown) as string)
+          actresses: (data.actresses as unknown as string)
             .split(',')
             .map(f => parseInt(f, 10))
             .filter(Boolean),
-          fetishes: ((data.fetishes as unknown) as string)
+          fetishes: (data.fetishes as unknown as string)
             .split(',')
             .map(f => parseInt(f, 10))
             .filter(Boolean),

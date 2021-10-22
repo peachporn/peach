@@ -1,6 +1,6 @@
+import { promises } from 'fs';
 import { without } from 'ramda';
 import { fullPath, moviePathForId } from '@peach/domain';
-import { promises } from 'fs';
 import { transformMovie } from '../transformer/movie';
 import { Resolvers } from '../../../generated/resolver-types';
 

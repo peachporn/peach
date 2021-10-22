@@ -4,15 +4,15 @@ import { MovieCountQuery, MovieListQuery, MovieListQueryVariables } from '@peach
 import { useContext } from 'preact/hooks';
 import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { movieCountQuery, movieListQuery } from './queries/movieList.gql';
 import { usePagination } from '../../utils/usePagination';
 import { i } from '../../i18n/i18n';
 import { Loading } from '../../components/loading';
 import { MovieCard } from '../../components/movieCard';
 import { MovieFilterContext } from '../../context/movieFilter';
-import { MovieFilter } from './components/movieFilter';
 import { homeRoute } from '../../utils/route';
 import { Pagination } from '../../components/pagination';
+import { MovieFilter } from './components/movieFilter';
+import { movieCountQuery, movieListQuery } from './queries/movieList.gql';
 
 const pageLength = 20;
 

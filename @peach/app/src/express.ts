@@ -1,7 +1,7 @@
+import path from 'path';
 import { ApolloServer } from 'apollo-server-express';
 import express from 'express';
 import bodyParser from 'body-parser';
-import path from 'path';
 import { fromEnv } from '@peach/utils';
 import { getScreencapPath } from '@peach/domain';
 import { serverConfig } from '@peach/backend';

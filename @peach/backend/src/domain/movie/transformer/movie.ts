@@ -2,8 +2,8 @@ import { Prisma } from '@peach/utils';
 import { fromDBActress } from '@peach/domain';
 import { Movie } from '@peach/types';
 import { transformBaseGenre } from '../../genre/transformer/genre';
-import { transformMetadata } from './metadata';
 import { transformBaseWebsite } from '../../website/transformer/baseWebsite';
+import { transformMetadata } from './metadata';
 
 type MovieWithOptionalMetadataAndVolume = Omit<
   Prisma.MovieGetPayload<{

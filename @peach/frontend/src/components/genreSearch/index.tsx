@@ -10,11 +10,11 @@ import {
 } from '@peach/types';
 import { UseFormMethods } from 'react-hook-form';
 import { equals, uniq } from 'ramda';
-import { genreSearchQuery } from './genreSearchQuery.gql';
 import { FetishBubble } from '../fetishBubble';
 import { websiteSearchQuery } from '../websiteSearch/websiteSearchQuery.gql';
 import { debounce } from '../../utils/throttle';
 import { usePrevious } from '../../utils/usePrevious';
+import { genreSearchQuery } from './genreSearchQuery.gql';
 
 type GenreSearchProps = {
   onChange: (id: number[]) => unknown;
@@ -89,10 +89,10 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
     setSearchName('');
   };
 
-  const genres = uniqBy(g => g.id, [
-    ...(selectedGenres?.genres || []),
-    ...(searchedGenres?.genres || []),
-  ]);
+  const genres = uniqBy(
+    g => g.id,
+    [...(selectedGenres?.genres || []), ...(searchedGenres?.genres || [])],
+  );
 
   return (
     <Fragment>

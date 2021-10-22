@@ -2,12 +2,12 @@ import { FunctionalComponent, Fragment, h } from 'preact';
 import { useForm } from 'react-hook-form';
 import { GenreCategory } from '@peach/types';
 import { genreCategories } from '../../domain/genre';
-import { GenreImageFormFields } from './genreImageFormFields';
 import { GenreSearch } from '../genreSearch';
 import { Checkbox } from '../checkbox';
 import { KinkinessSlider } from '../../pages/genreList/components/kinkinessSlider';
 import { i } from '../../i18n/i18n';
 import { Icon } from '../icon';
+import { GenreImageFormFields } from './genreImageFormFields';
 
 export type GenreFormValues = {
   name: string;

@@ -1,7 +1,7 @@
-import { TaskCategory, TaskDefinitionOptions, TaskRunner } from './type';
 import { runScanLibraryTask, scanLibraryDefinitionOptions } from '../library';
 import { runScrapeMetadataTask, scrapeMetadataDefinitionOptions } from '../metadata';
 import { runTakeScreencapTask, takeScreencapDefinitionOptions } from '../screencaps';
+import { TaskCategory, TaskDefinitionOptions, TaskRunner } from './type';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const taskRunners: Map<TaskCategory, TaskRunner<any>> = new Map();

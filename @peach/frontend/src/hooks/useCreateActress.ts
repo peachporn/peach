@@ -57,9 +57,10 @@ export const useCreateActress = () => {
     }).then(({ data: createActressData }) => {
       const actressId = createActressData?.createActress?.id;
       if (!actressId) return Promise.reject();
-      return (formData.imageUrl
-        ? uploadActressImageFromUrl(actressId, formData.imageUrl)
-        : Promise.resolve()
+      return (
+        formData.imageUrl
+          ? uploadActressImageFromUrl(actressId, formData.imageUrl)
+          : Promise.resolve()
       ).then(() => createActressData);
     });
 };

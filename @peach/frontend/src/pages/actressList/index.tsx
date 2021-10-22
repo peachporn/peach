@@ -5,15 +5,15 @@ import { useContext } from 'preact/hooks';
 import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { usePagination } from '../../utils/usePagination';
-import { actressesCountQuery, actressesListQuery } from './queries/actressesList.gql';
 import { i } from '../../i18n/i18n';
 import { Loading } from '../../components/loading';
-import { ActressFilterContext, ActressFilterProvider } from './context/actressFilter';
-import { ActressFilter } from './components/actressFilter';
-import { CreateActressFloatingButton } from './components/createActressFloatingButton';
 import { ActressCard } from '../../components/actressCard';
 import { actressDetailRoute } from '../../utils/route';
 import { Pagination } from '../../components/pagination';
+import { ActressFilterContext, ActressFilterProvider } from './context/actressFilter';
+import { ActressFilter } from './components/actressFilter';
+import { CreateActressFloatingButton } from './components/createActressFloatingButton';
+import { actressesCountQuery, actressesListQuery } from './queries/actressesList.gql';
 
 const pageLength = 24;
 

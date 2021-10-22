@@ -2,15 +2,15 @@ import { Fragment, FunctionalComponent, h } from 'preact';
 import { Link } from 'react-router-dom';
 import { useContext } from 'preact/hooks';
 import { Helmet } from 'react-helmet';
-import { GeneralSettingsForm } from './components/generalSettingsForm';
-import { LibraryForm } from './components/libraryForm';
 import { i } from '../../i18n/i18n';
-import { VolumeForm } from './components/volumeForm';
 import { SettingsContext } from '../../context/settings';
 import { Icon } from '../../components/icon';
 import { isTouched } from '../../utils/form';
-import { UIForm } from './components/uiForm';
 import { tasksRoute } from '../../utils/route';
+import { UIForm } from './components/uiForm';
+import { VolumeForm } from './components/volumeForm';
+import { LibraryForm } from './components/libraryForm';
+import { GeneralSettingsForm } from './components/generalSettingsForm';
 
 export const SettingsPage: FunctionalComponent = () => {
   const {

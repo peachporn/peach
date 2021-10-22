@@ -13,13 +13,12 @@ type MovieInformationExtractorButtonProps = {
   extractMovieInformation: () => void;
 };
 
-export const MovieInformationExtractorButton: FunctionalComponent<MovieInformationExtractorButtonProps> = ({
-  extractMovieInformation,
-}) => (
-  <button className="mr-2" onClick={extractMovieInformation}>
-    <Icon
-      className="w-8 h-8 text-sm bg-gray-100 rounded-full p-1 focus:outline-none active:bg-pink active:text-white transition-all"
-      icon="find_replace"
-    />
-  </button>
-);
+export const MovieInformationExtractorButton: FunctionalComponent<MovieInformationExtractorButtonProps> =
+  ({ extractMovieInformation }) => (
+    <button className="mr-2" onClick={extractMovieInformation}>
+      <Icon
+        className="w-8 h-8 text-sm bg-gray-100 rounded-full p-1 focus:outline-none active:bg-pink active:text-white transition-all"
+        icon="find_replace"
+      />
+    </button>
+  );

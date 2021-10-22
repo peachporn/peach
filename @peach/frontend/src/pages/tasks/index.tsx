@@ -2,9 +2,9 @@ import { Fragment, FunctionalComponent, h } from 'preact';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { i } from '../../i18n/i18n';
-import { TasksList } from './components/tasksList';
 import { settingsRoute } from '../../utils/route';
 import { Icon } from '../../components/icon';
+import { TasksList } from './components/tasksList';
 import { TaskLauncher } from './components/taskLauncher';
 
 export const TasksPage: FunctionalComponent = () => (

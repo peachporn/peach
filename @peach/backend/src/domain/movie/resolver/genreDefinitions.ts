@@ -10,33 +10,33 @@ export const serializeGenreDefinitionGenre = (genreLinks: GenreLinkRaw) =>
 
 export const deserializeGenreDefinitionGenre = (json: string) => JSON.parse(json) as GenreLinkRaw;
 
-const resolveGenreDefinition = (prisma: PrismaClient) => async (
-  genreDefinition: DBGenreDefinition,
-): Promise<GenreDefinition> => {
-  const genreLink = deserializeGenreDefinitionGenre(genreDefinition.genre) || [];
+const resolveGenreDefinition =
+  (prisma: PrismaClient) =>
+  async (genreDefinition: DBGenreDefinition): Promise<GenreDefinition> => {
+    const genreLink = deserializeGenreDefinitionGenre(genreDefinition.genre) || [];
 
-  const genreIds = genreIdsForGenreLink(genreLink);
+    const genreIds = genreIdsForGenreLink(genreLink);
 
-  const genres = await prisma.genre
-    .findMany({
-      where: {
-        id: {
-          in: genreIds,
+    const genres = await prisma.genre
+      .findMany({
+        where: {
+          id: {
+            in: genreIds,
+          },
         },
-      },
-      include: {
-        linkableChildren: true,
-        linkableParents: true,
-      },
-    })
-    .then(gs => gs.map(transformGenre));
+        include: {
+          linkableChildren: true,
+          linkableParents: true,
+        },
+      })
+      .then(gs => gs.map(transformGenre));
 
-  return {
-    id: genreDefinition.id,
-    timeStart: genreDefinition.timeStart,
-    genre: resolveGenreLink(genres)(genreLink) as GenreLink,
+    return {
+      id: genreDefinition.id,
+      timeStart: genreDefinition.timeStart,
+      genre: resolveGenreLink(genres)(genreLink) as GenreLink,
+    };
   };
-};
 
 export const genreDefinitionsResolvers: Resolvers = {
   Movie: {

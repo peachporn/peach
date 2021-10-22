@@ -1,6 +1,6 @@
+import * as path from 'path';
 import glob from 'glob';
 import { Movie, Volume } from '@prisma/client';
-import * as path from 'path';
 import { movieFormats, getInferMovieTitle } from '@peach/domain';
 import { sequence, logScope, prisma } from '@peach/utils';
 

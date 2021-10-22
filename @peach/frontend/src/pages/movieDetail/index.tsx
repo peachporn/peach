@@ -5,20 +5,20 @@ import { useRef, useState } from 'preact/hooks';
 import { MovieDetailQuery, MovieDetailQueryVariables } from '@peach/types';
 import { sortWith } from 'ramda';
 import { Helmet } from 'react-helmet';
-import { movieDetailQuery } from './queries/movieDetail.gql';
 import { Video } from '../../components/video';
 import { Loading } from '../../components/loading';
-import { GenreForm } from './components/genreForm';
-import { MovieForm } from './components/movieForm';
 import { Icon } from '../../components/icon';
 import { FetishBubble } from '../../components/fetishBubble';
 import { Slider, SliderItem } from '../../components/slider';
 import { ActressCard } from '../../components/actressCard';
 import { actressDetailRoute, genreDetailRoute, websiteDetailRoute } from '../../utils/route';
 import { WebsiteCard } from '../../components/websiteCard';
-import { MetadataTable } from './components/metadataTable';
 import { useScrollToTop } from '../../hooks/useScrollToTop';
 import { i } from '../../i18n/i18n';
+import { MetadataTable } from './components/metadataTable';
+import { MovieForm } from './components/movieForm';
+import { GenreForm } from './components/genreForm';
+import { movieDetailQuery } from './queries/movieDetail.gql';
 import { DangerZone } from './components/dangerZone';
 
 export type MovieDetailPageProps = {

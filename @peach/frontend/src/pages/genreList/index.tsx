@@ -4,10 +4,10 @@ import { GenresCountQuery, GenresListQuery, GenresListQueryVariables } from '@pe
 import { useContext } from 'preact/hooks';
 import { Helmet } from 'react-helmet';
 import { usePagination } from '../../utils/usePagination';
-import { genresCountQuery, genresListQuery } from './queries/genreList.gql';
-import { CreateGenreFloatingButton } from './components/createGenreFloatingButton';
 import { i } from '../../i18n/i18n';
 import { Loading } from '../../components/loading';
+import { genresCountQuery, genresListQuery } from './queries/genreList.gql';
+import { CreateGenreFloatingButton } from './components/createGenreFloatingButton';
 import { GenreGridByCategory } from './components/genreGridByCategory';
 import { GenreFilterContext, GenreFilterProvider } from './context/genreFilter';
 import { GenreFilter } from './components/genreFilter';

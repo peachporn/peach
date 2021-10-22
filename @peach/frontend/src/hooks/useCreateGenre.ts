@@ -24,11 +24,12 @@ export const useCreateGenre = () => {
     }).then(({ data: createGenreData }) => {
       const genreId = createGenreData?.createGenre?.id;
       if (!genreId) return Promise.reject();
-      return (data.image?.length
-        ? uploadGenreImage(genreId, data.image[0])
-        : data.imageUrl
-        ? uploadGenreImageFromUrl(genreId, data.imageUrl)
-        : Promise.resolve()
+      return (
+        data.image?.length
+          ? uploadGenreImage(genreId, data.image[0])
+          : data.imageUrl
+          ? uploadGenreImageFromUrl(genreId, data.imageUrl)
+          : Promise.resolve()
       ).then(() => createGenreData);
     });
 };

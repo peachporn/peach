@@ -6,12 +6,12 @@ import { Helmet } from 'react-helmet';
 import { Loading } from '../../components/loading';
 import { Image } from '../../components/image';
 import { shuffle } from '../../utils/list';
-import { websiteDetailQuery } from './queries/websiteDetail.gql';
-import { EditWebsiteForm } from './components/editWebsiteForm';
 import { GenreCard } from '../../components/genreCard';
 import { i } from '../../i18n/i18n';
 import { Icon } from '../../components/icon';
 import { genreDetailRoute } from '../../utils/route';
+import { EditWebsiteForm } from './components/editWebsiteForm';
+import { websiteDetailQuery } from './queries/websiteDetail.gql';
 
 const screencapsForWebsite = (website: WebsiteDetailQuery['website']) =>
   shuffle(

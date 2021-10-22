@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom';
 import { HomepageQuery, PinnedFetishesQuery, PinnedFetishesQueryVariables } from '@peach/types';
 import { Helmet } from 'react-helmet';
 import { useContext } from 'preact/hooks';
-import { homepageQuery } from './queries/homepage.gql';
 import { i } from '../../i18n/i18n';
-import { NoVolumesHint } from './components/noVolumesHint';
 import { Icon } from '../../components/icon';
 import { moviesRoute, settingsRoute } from '../../utils/route';
+import { MovieFilterContext } from '../../context/movieFilter';
+import { homepageQuery } from './queries/homepage.gql';
+import { NoVolumesHint } from './components/noVolumesHint';
 import { MovieCardSlider } from './components/movieCardSlider';
 import { pinnedFetishesQuery } from './queries/pinnedFetishes.gql';
-import { MovieFilterContext } from '../../context/movieFilter';
 
 export const Homepage: FunctionalComponent = () => {
   const { setUntouched } = useContext(MovieFilterContext);

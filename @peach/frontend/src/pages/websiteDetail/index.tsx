@@ -86,7 +86,7 @@ export const WebsiteDetailPage: FunctionalComponent = () => {
               <Image
                 className="w-full md:w-64 rounded mb-3 md:pr-3 object-contain md:col-span-2 md:row-span-3 bg-gray-100 p-3"
                 alt={website.name}
-                src={website.picture}
+                src={website.picture || ''}
               />
               <a className="text-pink my-4 flex items-center md:col-span-3" href={website.url}>
                 <Icon className="mr-2" icon="language" />

@@ -58,6 +58,7 @@ export const SettingsProvider: FunctionalComponent = ({ children }) => {
 
   const defaultValues = (settings: SettingsFragment) => ({
     ...settings,
+    libraryPath: settings.libraryPath || undefined,
     pinnedFetishes: settings.pinnedFetishes.map(f => f.id).join(','),
   });
 

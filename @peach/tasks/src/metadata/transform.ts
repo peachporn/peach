@@ -1,5 +1,5 @@
 import child_process from 'child_process';
-import { MovieMetadataCreateInput } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 import { isFormatSupported, MovieFormat, MovieQuality } from '@peach/domain';
 import { FFProbeMetadata, FFProbeStream, log } from './types';
 
@@ -33,7 +33,7 @@ const fps = (stream: FFProbeStream): number =>
 
 export const transformMovieMetadata = (
   metadata: FFProbeMetadata,
-): Omit<MovieMetadataCreateInput, 'movie'> => {
+): Omit<Prisma.MovieMetadataCreateInput, 'movie'> => {
   const videoStream = findVideoStream(metadata);
 
   if (!videoStream) {

@@ -57,6 +57,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
       </Helmet>
       {loading || !movie ? null : (
         <Fragment>
+          {/* @ts-ignore */}
           <Video ref={videoRef} src={{ 'video/mp4': movie.videoUrl }} />
           <GenreForm movie={movie} video={videoRef} onSubmit={refetch} />
         </Fragment>

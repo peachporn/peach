@@ -36,7 +36,7 @@ import { GenreFormPreviewDrawer } from './previewDrawer';
 
 export type GenreFormProps = {
   movie: MovieDetailFragment;
-  video: PropRef<HTMLVideoElement>;
+  video: PropRef<HTMLVideoElement | undefined>;
   onSubmit?: () => {};
 };
 

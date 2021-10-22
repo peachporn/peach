@@ -69,7 +69,7 @@ export const ActressDetailPage: FunctionalComponent = () => {
       <main className="pb-12">
         <div className="flex flex-col relative">
           <div className="grid grid-cols-2 min-h-screen/2">
-            {screencapsForActress(actress).map(({ movie, screencap }) => (
+            {screencapsForActress(actress || undefined).map(({ movie, screencap }) => (
               <Image
                 className="filter-grayscale blend-multiply opacity-70 -z-1 min-w-full min-h-full object-cover"
                 alt={movie.title}
@@ -102,7 +102,7 @@ export const ActressDetailPage: FunctionalComponent = () => {
                 <Image
                   className="row-span-6 md:row-span-20 col-start-2 rounded shadow"
                   alt={actress.name}
-                  src={actress.picture}
+                  src={actress.picture || ''}
                 />
                 {actress.aliases.length === 0 ? null : (
                   <div>
@@ -224,7 +224,7 @@ export const ActressDetailPage: FunctionalComponent = () => {
                     <span className="text-gray-400">{i('ACTRESS_SOCIALMEDIA_LINKS')}</span>
                     <div>
                       {actress.socialMediaLinks.map(link => (
-                        <a href={link} className="block text-pink underline break-all">
+                        <a href={link || undefined} className="block text-pink underline break-all">
                           {link}
                         </a>
                       ))}

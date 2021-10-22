@@ -51,7 +51,7 @@ export const genreDefinitionsResolvers: Resolvers = {
   },
   Mutation: {
     updateGenreDefinitions: async (_parent, { movieId, genreDefinitions }, { prisma }) => {
-      const movie = await prisma.movie.findOne({
+      const movie = await prisma.movie.findUnique({
         where: { id: movieId },
         include: {
           genres: true,

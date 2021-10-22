@@ -1,4 +1,4 @@
-import { TaskCreateInput, Task as PrismaTask } from '@prisma/client';
+import { Prisma, Task as PrismaTask } from '@prisma/client';
 
 export type DBTask = PrismaTask;
 
@@ -19,7 +19,7 @@ export type TaskCategory = 'SCAN_LIBRARY' | 'SCRAPE_METADATA' | 'TAKE_SCREENCAP'
 export type TaskStatus = 'PENDING' | 'RUNNING' | 'ERROR';
 
 export type TaskDefinition<Parameters = {}> = Omit<
-  TaskCreateInput,
+  Prisma.TaskCreateInput,
   'category' | 'status' | 'parameters'
 > & {
   category: TaskCategory;

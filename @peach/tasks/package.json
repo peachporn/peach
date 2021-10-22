@@ -14,7 +14,7 @@
     "@peach/domain": "3.0.0-alpha",
     "@peach/scrapers": "3.0.0-alpha",
     "@peach/utils": "3.0.0-alpha",
-    "@prisma/client": "^2.21.2",
+    "@prisma/client": "^3.3.0",
     "fluent-ffmpeg": "^2.1.2",
     "glob": "^7.2.0",
     "mkdirp": "^1.0.4",

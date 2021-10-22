@@ -95,7 +95,6 @@ export const EditActressForm: FunctionalComponent<EditActressFormProps> = ({
       <Modal visible={visible} setVisible={setVisible}>
         <ActressForm
           defaultValues={{
-            ...actress,
             aliases: actress.aliases.join('\n'),
             dateOfBirth: actress.dateOfBirth ? formatDateForInput(actress.dateOfBirth) : undefined,
             dateOfCareerstart: actress.dateOfCareerstart
@@ -110,10 +109,21 @@ export const EditActressForm: FunctionalComponent<EditActressFormProps> = ({
               hips: `${actress.measurements?.hips || ''}`,
               waist: `${actress.measurements?.waist || ''}`,
             },
+            ethnicity: actress.ethnicity || undefined,
+            haircolor: actress.haircolor || undefined,
+            eyecolor: actress.eyecolor || undefined,
+            city: actress.city || undefined,
+            province: actress.province || undefined,
+            country: actress.country || undefined,
+            cupsize: actress.cupsize || undefined,
+            boobs: actress.boobs || undefined,
+            piercings: actress.piercings || undefined,
+            tattoos: actress.tattoos || undefined,
+            officialWebsite: actress.officialWebsite || undefined,
             height: `${actress.height || ''}`,
             weight: `${actress.weight || ''}`,
             socialMediaLinks: (actress.socialMediaLinks || []).join('\n'),
-            imageUrl: actress.picture,
+            imageUrl: actress.picture || '',
           }}
           onSubmit={onSubmit}
         />

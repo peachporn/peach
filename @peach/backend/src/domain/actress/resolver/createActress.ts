@@ -1,4 +1,4 @@
-import { ActressCreateInput } from '@peach/utils';
+import { Prisma } from '@peach/utils';
 import { CreateActressInput } from '@peach/types';
 import { transformActress } from '../transformer/actress';
 import { Resolvers } from '../../../generated/resolver-types';
@@ -10,7 +10,7 @@ export const slugifyActressName = (name: string, aliases?: string[]): string =>
       : `-${aliases.map(a => slugifyActressName(a)).join('-')}`
   }`;
 
-const toDBActress = (actress: CreateActressInput): Omit<ActressCreateInput, 'movies'> => ({
+const toDBActress = (actress: CreateActressInput): Omit<Prisma.ActressCreateInput, 'movies'> => ({
   ...actress,
   aliases: actress.aliases ? JSON.stringify(actress.aliases) : undefined,
   slug: slugifyActressName(actress.name, actress.aliases),

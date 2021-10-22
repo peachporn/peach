@@ -1,4 +1,4 @@
-import { ActressScrapeResult } from '@peach/types';
+import { ScrapedActress as GQLScrapedActress } from '@peach/types';
 
 export type ScrapeResult = {
   actress?: ScrapedActress;
@@ -11,7 +11,7 @@ export type ScrapeAlternative = {
   aliases: string[];
 };
 
-export type ScrapedActress = Omit<Partial<ActressScrapeResult>, '__typename'>;
+export type ScrapedActress = Omit<Partial<GQLScrapedActress>, '__typename'>;
 
 export type ExtractType = 'text' | 'href' | 'src' | 'html';
 

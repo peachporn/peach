@@ -1,8 +1,8 @@
-import { SettingsCreateInput } from '@prisma/client';
+import { Prisma } from '@peach/utils';
 import { InferMovieTitle } from '@peach/types';
 import { fromEnvOptional, prisma } from '@peach/utils';
 
-export const defaultSettings: SettingsCreateInput = {
+export const defaultSettings: Prisma.SettingsCreateInput = {
   language: 'EN',
   libraryPath: fromEnvOptional('DEFAULT_LIBRARY_PATH') || '',
   inferMovieTitle: 'FILENAME',

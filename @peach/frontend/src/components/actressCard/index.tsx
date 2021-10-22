@@ -25,7 +25,7 @@ export const ActressCard: FunctionalComponent<ActressCardProps> = ({
     <Fragment>
       <Image
         className={`object-cover w-full h-full rounded-t ${noLabel ? 'rounded-b' : ''}`}
-        src={actress.picture}
+        src={actress.picture || ''}
         alt={actress.name}
       />
       {noLabel ? null : <span className="bg-white p-2">{actress.name}</span>}

@@ -35,7 +35,7 @@ export const WebsiteCard: FunctionalComponent<WebsiteCardProps> = ({
         <Image
           className={`h-full w-full ${imageErrored ? 'object-cover' : 'object-contain'} rounded-t`}
           alt={website.name}
-          src={website.picture}
+          src={website.picture || ''}
           onError={() => {
             setImageErrored(true);
           }}

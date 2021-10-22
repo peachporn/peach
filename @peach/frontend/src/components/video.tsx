@@ -1,6 +1,6 @@
-import { h, RefObject } from 'preact';
+import { h } from 'preact';
 import { compose } from 'ramda';
-import { useState } from 'preact/hooks';
+import { PropRef, useState } from 'preact/hooks';
 import { forwardRef } from 'preact/compat';
 
 type VideoSrc = {
@@ -9,7 +9,7 @@ type VideoSrc = {
 
 export type VideoProps = {
   src: VideoSrc;
-  ref: RefObject<HTMLVideoElement>;
+  ref: PropRef<HTMLVideoElement | undefined>;
 };
 
 const sources = (src: VideoSrc) =>

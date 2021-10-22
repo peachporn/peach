@@ -1,20 +1,20 @@
 import { PropRef } from 'preact/hooks';
 
-export const scrub = (offset: number, video: PropRef<HTMLVideoElement>) => {
+export const scrub = (offset: number, video: PropRef<HTMLVideoElement | undefined>) => {
   if (video.current) {
     // eslint-disable-next-line no-param-reassign
     video.current.currentTime += offset;
   }
 };
 
-export const jumpToTime = (time: number, video: PropRef<HTMLVideoElement>) => {
+export const jumpToTime = (time: number, video: PropRef<HTMLVideoElement | undefined>) => {
   if (video.current) {
     // eslint-disable-next-line no-param-reassign
     video.current.currentTime = time;
   }
 };
 
-export const playPause = (video: PropRef<HTMLVideoElement>) => {
+export const playPause = (video: PropRef<HTMLVideoElement | undefined>) => {
   if (video.current) {
     if (video.current.paused) {
       video.current.play();
@@ -24,7 +24,7 @@ export const playPause = (video: PropRef<HTMLVideoElement>) => {
   }
 };
 
-export const pause = (video: PropRef<HTMLVideoElement>) => {
+export const pause = (video: PropRef<HTMLVideoElement | undefined>) => {
   if (video.current) {
     video.current.pause();
   }

@@ -1,5 +1,5 @@
 import child_process from 'child_process';
-import { Logger } from 'pino';
+import { P } from 'pino';
 
 export const execP = (command: string): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -16,7 +16,7 @@ export const execP = (command: string): Promise<string> =>
 
 export const spawnP = (
   command: string,
-  logger: Logger,
+  logger: P.Logger,
   errorAsStdout: boolean = false,
 ): Promise<string> =>
   new Promise((resolve, reject) => {

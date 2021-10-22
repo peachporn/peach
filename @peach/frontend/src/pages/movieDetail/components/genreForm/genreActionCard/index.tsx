@@ -27,7 +27,7 @@ export const GenreActionCard: FunctionalComponent<GenreActionCardProps> = ({
     className={`flex flex-col rounded-md focus:outline-none shadow-sm focus:border-pink border-b-2
     ${className}`}
   >
-    <Image alt={genre.name} className="w-full rounded-t-md" src={genre.picture} />
+    <Image alt={genre.name} className="w-20 rounded-t-md" src={genre.picture} />
     <div
       className={`flex justify-between bg-white text-sm p-1 rounded-b-md ${
         focus ? 'border-b-2 border-pink' : ''

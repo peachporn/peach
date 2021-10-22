@@ -23,7 +23,6 @@ import {
   createStartAction,
   executeAction,
   possibleActionTypes,
-  printAction,
 } from './action';
 import { buildGenreGrid, DisplayableGenre } from './display';
 import { updateGenreDefinitionsMutation } from '../../mutations/updateGenreDefinitions.gql';
@@ -292,9 +291,6 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video, o
     'Film',
     'Feature',
   ];
-  const categoriesWithSingleItem = categories.filter(
-    c => genreDefinitions.filter(g => g.genre.parent.category === c).length === 1,
-  );
 
   const renderGenreFormClip = (genreDefinition: DisplayableGenre | GenreDefinitionDraft) => (
     <GenreClip
@@ -365,11 +361,11 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video, o
   return !expanded ? (
     <GenreFormPreviewDrawer genreGrid={genreGrid()} expanded={expanded} setExpanded={setExpanded} />
   ) : (
-    <div>
-      <div className="bg-white grid w-full overflow-x-auto gap-4 -mb-0.5 p-2">
+    <div className="bg-white w-full">
+      <div className="grid w-full max-w-screen-xl mx-auto overflow-x-auto gap-4 -mb-0.5 p-2">
         {categories.map(
           category =>
-            genreDefinitions.filter(g => g.genre.parent.category === category).length > 1 && (
+            genreDefinitions.filter(g => g.genre.parent.category === category).length > 0 && (
               <span className="flex relative h-full h-14">
                 <span className="absolute top-1/2 transform -translate-y-1/2 text-gray-200 pr-2">
                   {i(`GENRE_CATEGORY_${category.toUpperCase()}` as I18nKey)}
@@ -381,13 +377,6 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video, o
               </span>
             ),
         )}
-        <span className="grid grid-cols-6 place-items-center">
-          {categoriesWithSingleItem.map(category =>
-            genreDefinitions
-              .filter(g => g.genre.parent.category === category)
-              .map(renderGenreFormClip),
-          )}
-        </span>
       </div>
       <input
         name="genreName"
@@ -399,7 +388,7 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video, o
         }}
         placeholder={i('SCENE_FORM_PLACEHOLDER')}
       />
-      <div className="grid grid-cols-5 gap-2 py-2 px-4 bg-gray-50 min-h-32 place-items-start -mt-0.5">
+      <div className="flex gap-2 py-2 px-4 bg-gray-50 h-32 place-items-start -mt-0.5">
         {actions.map(
           (a, j) =>
             a && (
@@ -409,7 +398,9 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video, o
                 }`}
                 genre={'name' in a.props.genre ? a.props.genre : a.props.genre.genre.parent}
                 focus={focusedAction === j}
-                headline={printAction(a)}
+                headline={
+                  'name' in a.props.genre ? a.props.genre.name : a.props.genre.genre.parent.name
+                }
                 onClick={() => {
                   submitAction(a);
                   focusTextInput();
@@ -425,8 +416,8 @@ export const GenreForm: FunctionalComponent<GenreFormProps> = ({ movie, video, o
         )}
       </div>
       {!equals(genreDefinitions, movie.genres) && (
-        <div className="fixed bottom-12 w-full left-0 bg-white p-2">
-          <button className="w-full bg-pink text-white py-1 px-2 rounded" onClick={submit}>
+        <div className="py-2 flex justify-center bg-white">
+          <button className="w-full md:w-80 bg-pink text-white py-1 px-2 rounded" onClick={submit}>
             <Icon icon="check" />{' '}
           </button>
         </div>

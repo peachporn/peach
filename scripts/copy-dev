@@ -5,4 +5,5 @@ mkdir -p dist
 
 cp -R prisma/* dist
 cp -R node_modules/@prisma/engines/*-engine-* dist
+cp -R node_modules/@prisma/engines/libquery_engine* dist
 cp .development-env dist/.env

@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { genreActionCardFragment } from '../components/genreForm/genreActionCard/genreActionCardFragment.gql';
+import { genreActionCardFragment } from '../components/highlightForm/genreActionCard/genreActionCardFragment.gql';
 import { fetishBubbleFragment } from '../../../components/fetishBubble/fetishBubbleFragment.gql';
 import { websiteCardFragment } from '../../../components/websiteCard/websiteCardFragment.gql';
 import { actressCardFragment } from '../../../components/actressCard/actressCardFragment.gql';

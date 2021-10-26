@@ -1,9 +1,9 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useHistory, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { useRef, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import { MovieDetailQuery, MovieDetailQueryVariables } from '@peach/types';
-import { sortWith } from 'ramda';
+import { equals, sortWith } from 'ramda';
 import { Helmet } from 'react-helmet';
 import { Video } from '../../components/video';
 import { Loading } from '../../components/loading';
@@ -15,9 +15,13 @@ import { actressDetailRoute, genreDetailRoute, websiteDetailRoute } from '../../
 import { WebsiteCard } from '../../components/websiteCard';
 import { useScrollToTop } from '../../hooks/useScrollToTop';
 import { i } from '../../i18n/i18n';
+import { GenreDisplayClip } from './components/highlightForm/genreFormClip';
+import { GenreGrid } from './components/highlightForm/genreGrid';
+import { GenreDefinitionDraft } from './components/highlightForm/types';
 import { MetadataTable } from './components/metadataTable';
 import { MovieForm } from './components/movieForm';
-import { GenreForm } from './components/genreForm';
+import { HighlightForm } from './components/highlightForm';
+import { useMovieHighlightForm } from './hooks/useMovieHighlightForm';
 import { movieDetailQuery } from './queries/movieDetail.gql';
 import { DangerZone } from './components/dangerZone';
 
@@ -31,6 +35,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
   const videoRef = useRef<HTMLVideoElement>();
   const params = useParams<MovieDetailPageProps>();
   const movieId = parseInt(params.movieId, 10);
+
   if (!movieId) {
     return null;
   }
@@ -44,9 +49,32 @@ export const MovieDetailPage: FunctionalComponent = () => {
     },
   );
 
+  const movieHighlightForm = useMovieHighlightForm();
+
   useScrollToTop([editing], () => !editing);
 
   const movie = data?.movie;
+  const [genreDefinitions, setGenreDefinitions] = useState<GenreDefinitionDraft[]>([]);
+
+  useEffect(() => {
+    if (!movie) return;
+    setGenreDefinitions(movie.genres);
+  }, [movie]);
+
+  const submitHighlightForm = () => {
+    if (equals(genreDefinitions, movie?.genres)) return Promise.resolve();
+
+    return movieHighlightForm.submit({
+      movieId,
+      genreDefinitions: genreDefinitions.map(g => ({
+        timeStart: g.timeStart,
+        genre: {
+          parent: g.genre.parent.id,
+          children: g.genre.children.map(c => c.id),
+        },
+      })),
+    });
+  };
 
   return (
     <Fragment>
@@ -59,7 +87,28 @@ export const MovieDetailPage: FunctionalComponent = () => {
         <Fragment>
           {/* @ts-ignore */}
           <Video ref={videoRef} src={{ 'video/mp4': movie.videoUrl }} />
-          <GenreForm movie={movie} video={videoRef} onSubmit={refetch} />
+          {editing ? (
+            <HighlightForm
+              genreDefinitions={genreDefinitions}
+              setGenreDefinitions={setGenreDefinitions}
+              form={movieHighlightForm.form}
+              video={videoRef}
+            />
+          ) : (
+            <div className={'bg-white w-full h-14'}>
+              {!videoRef.current ? null : (
+                <GenreGrid
+                  genreDefinitions={genreDefinitions}
+                  setGenreDefinitions={setGenreDefinitions}
+                  video={videoRef}
+                  focusedGenre={null}
+                  focusGenre={() => {}}
+                  form={movieHighlightForm.form}
+                  ClipComponent={GenreDisplayClip}
+                />
+              )}
+            </div>
+          )}
         </Fragment>
       )}
       <section className="bg-white p-8 min-h-screen shadow-lg relative pb-14">
@@ -70,8 +119,11 @@ export const MovieDetailPage: FunctionalComponent = () => {
             <MovieForm
               movie={movie}
               onSubmit={() => {
-                setEditing(false);
-                return refetch();
+                console.log('submitting form...');
+                return submitHighlightForm().then(() => {
+                  setEditing(false);
+                  return refetch();
+                });
               }}
             />
           ) : (

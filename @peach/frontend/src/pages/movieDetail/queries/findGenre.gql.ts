@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { genreActionCardFragment } from '../components/genreForm/genreActionCard/genreActionCardFragment.gql';
+import { genreActionCardFragment } from '../components/highlightForm/genreActionCard/genreActionCardFragment.gql';
 
 export const findGenreQuery = gql`
   query FindGenre($name: String!, $fetish: Boolean) {

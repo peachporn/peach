@@ -18,6 +18,7 @@ import { FetishBubble } from '../../../components/fetishBubble';
 import { WebsiteSearch } from '../../../components/websiteSearch';
 import { ActressSearch } from '../../../components/actressSearch';
 import { useMovieInformationExtractor } from '../hooks/useMovieInformationExtractor';
+import { DangerZone } from './dangerZone';
 import { MetadataTable } from './metadataTable';
 import { MovieInformationExtractor } from './movieInformationExtractor';
 import { MovieInformationExtractorButton } from './movieInformationExtractorButton';
@@ -173,15 +174,6 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
           />
         </div>
 
-        {!movie.metaData || !movie.volume ? null : (
-          <MetadataTable
-            className="md:col-span-5"
-            metadata={movie.metaData}
-            volume={movie.volume}
-            path={movie.path}
-          />
-        )}
-
         <div className="md:col-span-7 relative grid grid-cols-1 md:grid-cols-5">
           <input className="absolute hidden" name="cover" ref={register} />
           {movie.screencaps.map(screencap => (
@@ -197,6 +189,15 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
             />
           ))}
         </div>
+
+        {!movie.metaData || !movie.volume ? null : (
+          <MetadataTable
+            className="md:col-span-5"
+            metadata={movie.metaData}
+            volume={movie.volume}
+            path={movie.path}
+          />
+        )}
       </div>
 
       <button
@@ -216,6 +217,7 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
       >
         <Icon icon="clear" />
       </button>
+      <DangerZone movieId={movie.id} />
     </div>
   );
 };

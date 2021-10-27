@@ -181,7 +181,6 @@ export const MovieDetailPage: FunctionalComponent = () => {
               {!movie.metaData || !movie.volume ? null : (
                 <MetadataTable metadata={movie.metaData} volume={movie.volume} path={movie.path} />
               )}
-              <DangerZone movieId={movie.id} />
             </Fragment>
           )}
           <button

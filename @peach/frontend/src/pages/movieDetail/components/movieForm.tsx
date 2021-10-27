@@ -32,11 +32,13 @@ export type MovieFormValues = {
 
 export type MovieFormProps = {
   movie: MovieDetailFragment;
-  onSubmit: () => {};
+  onSubmit: () => void;
+  onCancel: () => void;
 };
 
 export const MovieForm: FunctionalComponent<MovieFormProps> = ({
   onSubmit: onSubmitCallback,
+  onCancel,
   movie,
 }) => {
   const {
@@ -205,6 +207,14 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({
         onClick={() => handleSubmit(onSubmit)()}
       >
         <Icon icon="check" />
+      </button>
+      <button
+        className={
+          'bg-gray-200 rounded-sm text-white py-1 px-3 w-full md:w-80 md:block md:mx-auto mt-4'
+        }
+        onClick={onCancel}
+      >
+        <Icon icon="clear" />
       </button>
     </div>
   );

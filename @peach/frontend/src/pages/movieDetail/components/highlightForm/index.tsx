@@ -5,6 +5,7 @@ import { useQuery } from '@apollo/client';
 import { UseFormMethods } from 'react-hook-form';
 import { FindGenreQuery, FindGenreQueryVariables, GenreActionCardFragment } from '@peach/types';
 import { i } from '../../../../i18n/i18n';
+import { usePrevious } from '../../../../utils/usePrevious';
 import { MovieHighlightForm } from '../../hooks/useMovieHighlightForm';
 import { findGenreQuery } from '../../queries/findGenre.gql';
 import { throttle } from '../../../../utils/throttle';
@@ -75,12 +76,18 @@ export const HighlightForm: FunctionalComponent<HighlightFormProps> = ({
 
   /*
    *  ACTIONS */
-  const { data } = useQuery<FindGenreQuery, FindGenreQueryVariables>(findGenreQuery, {
-    skip: genreName.trim() === '',
-    variables: {
-      name: genreName.trim() || '',
+  const { data: queryData, loading } = useQuery<FindGenreQuery, FindGenreQueryVariables>(
+    findGenreQuery,
+    {
+      skip: genreName.trim() === '',
+      notifyOnNetworkStatusChange: false,
+      variables: {
+        name: genreName.trim() || '',
+      },
     },
-  });
+  );
+  const previousData = usePrevious(queryData);
+  const data = loading ? previousData : queryData;
 
   const possibleActions = (genre: GenreActionCardFragment) => {
     const actionTypes = possibleActionTypes(genre, genreDefinitions, focusedGenre || undefined);

@@ -31,35 +31,34 @@ export type MovieDetailPageProps = {
 
 export const MovieDetailPage: FunctionalComponent = () => {
   const history = useHistory();
-  const [editing, setEditing] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>();
+
   const params = useParams<MovieDetailPageProps>();
   const movieId = parseInt(params.movieId, 10);
 
-  if (!movieId) {
-    return null;
-  }
+  const videoRef = useRef<HTMLVideoElement>();
+
+  const movieHighlightForm = useMovieHighlightForm();
+  const [genreDefinitions, setGenreDefinitions] = useState<GenreDefinitionDraft[]>([]);
+  const [editing, setEditing] = useState(false);
 
   const { loading, data, refetch } = useQuery<MovieDetailQuery, MovieDetailQueryVariables>(
     movieDetailQuery,
     {
+      skip: !movieId,
       variables: {
         id: movieId,
       },
     },
   );
 
-  const movieHighlightForm = useMovieHighlightForm();
-
-  useScrollToTop([editing], () => !editing);
-
   const movie = data?.movie;
-  const [genreDefinitions, setGenreDefinitions] = useState<GenreDefinitionDraft[]>([]);
 
   useEffect(() => {
     if (!movie) return;
     setGenreDefinitions(movie.genres);
   }, [movie]);
+
+  useScrollToTop([editing], () => !editing);
 
   const submitHighlightForm = () => {
     if (equals(genreDefinitions, movie?.genres)) return Promise.resolve();
@@ -76,7 +75,7 @@ export const MovieDetailPage: FunctionalComponent = () => {
     });
   };
 
-  return (
+  return !movieId ? null : (
     <Fragment>
       <Helmet>
         <title>
@@ -118,13 +117,13 @@ export const MovieDetailPage: FunctionalComponent = () => {
           ) : editing ? (
             <MovieForm
               movie={movie}
-              onSubmit={() => {
-                console.log('submitting form...');
-                return submitHighlightForm().then(() => {
+              onCancel={() => setEditing(false)}
+              onSubmit={() =>
+                submitHighlightForm().then(() => {
                   setEditing(false);
                   return refetch();
-                });
-              }}
+                })
+              }
             />
           ) : (
             <Fragment>
@@ -169,13 +168,6 @@ export const MovieDetailPage: FunctionalComponent = () => {
                     ))}
                   </Slider>
                 )}
-                {!movie.metaData || !movie.volume ? null : (
-                  <MetadataTable
-                    metadata={movie.metaData}
-                    volume={movie.volume}
-                    path={movie.path}
-                  />
-                )}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-5 w-full mt-10 md:mb-10 rounded">
                 {movie.screencaps.map(screencap => (
@@ -186,6 +178,9 @@ export const MovieDetailPage: FunctionalComponent = () => {
                   />
                 ))}
               </div>
+              {!movie.metaData || !movie.volume ? null : (
+                <MetadataTable metadata={movie.metaData} volume={movie.volume} path={movie.path} />
+              )}
               <DangerZone movieId={movie.id} />
             </Fragment>
           )}

@@ -61,7 +61,7 @@ export const GenreGrid: FunctionalComponent<GenreGridProps> = ({
         ]),
       ) as Record<GenreCategory, DisplayableGenre[]>,
     );
-  }, [duration]);
+  }, [duration, genreDefinitions]);
 
   return (
     <div className="bg-white grid w-full max-w-screen-xl mx-auto overflow-x-auto gap-4 -mb-0.5 p-2">

@@ -1,7 +1,8 @@
-FROM node:12-alpine
+FROM node:14-alpine
 
 WORKDIR /usr/src/app
 
+COPY yarn.lock .
 COPY prisma .
 COPY dist .
 
@@ -15,11 +16,12 @@ ENV PORT=80
 ENV DEFAULT_LIBRARY_PATH="/mnt/library"
 ENV DEFAULT_VOLUME_PATH="/mnt/media"
 
-RUN apk add --no-cache ffmpeg
+RUN apk --update add ffmpeg openssl
 
 RUN yarn
 RUN yarn prisma generate
 RUN cp node_modules/@prisma/engines/*-engine-* .
+RUN cp node_modules/@prisma/engines/libquery_engine* . 2>/dev/null || :
 
 EXPOSE 80
 

@@ -15,7 +15,7 @@
     "build": "rm -rf dist; mkdir -p dist; run-p build:*",
     "build:app": "yarn workspace @peach/app run build",
     "build:frontend": "yarn workspace @peach/frontend run build",
-    "docker:build": "yarn build && docker build -t peachporn/peach .",
+    "docker:build": "yarn build; docker buildx build --platform linux/amd64 -t peachporn/peach:latest --load --progress=plain .",
     "docker:run-local": "docker run -d -v ~/peach/library:/mnt/library -v ~/peach/media:/mnt/media -p 80:80 peachporn/peach",
     "docker:publish": "docker push peachporn/peach:latest",
     "generate": "run-p generate:*",
@@ -62,6 +62,6 @@
     "graphql": "^15.4.0"
   },
   "volta": {
-    "node": "12.22.1"
+    "node": "14.18.1"
   }
 }

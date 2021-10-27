@@ -74,7 +74,12 @@ const ActressesPageComponent: FunctionalComponent = () => {
             </div>
           )}
         </section>
-        <CreateActressFloatingButton onSubmit={count.refetch} />
+        <CreateActressFloatingButton
+          onSubmit={() => {
+            count.refetch();
+            refetch();
+          }}
+        />
       </main>
     </Fragment>
   );

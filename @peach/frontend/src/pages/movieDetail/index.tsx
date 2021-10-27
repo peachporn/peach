@@ -23,7 +23,6 @@ import { MovieForm } from './components/movieForm';
 import { HighlightForm } from './components/highlightForm';
 import { useMovieHighlightForm } from './hooks/useMovieHighlightForm';
 import { movieDetailQuery } from './queries/movieDetail.gql';
-import { DangerZone } from './components/dangerZone';
 
 export type MovieDetailPageProps = {
   movieId: string;

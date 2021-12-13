@@ -13,9 +13,12 @@ Scrape actress information like hair color, age, body measurements etc.
 Tag genres and fetishes. Search for the right movie. See statistics about your collection.
 
 ## Getting Started
-To run peach in testing mode, install nodejs and yarn and run the following commands:
+To run peach in testing mode, install nodejs and yarn
+Copy the `.development-env.template` to `.development-env` and fill in the correct values.
+
+Then, run the following commands:
 * `yarn`
 * `yarn generate`
-* `yarn build:dev`
-* `yarn migrate:dev`
+* `yarn prisma migrate dev`
+* `yarn watch`
 * `yarn dev`

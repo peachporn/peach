@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { WebsiteDetailQuery, WebsiteDetailQueryVariables } from '@peach/types';
 import { Helmet } from 'react-helmet';
+import { CoverScreencaps } from '../../components/coverScreencaps';
 import { Loading } from '../../components/loading';
 import { Image } from '../../components/image';
 import { shuffle } from '../../utils/list';
@@ -17,15 +18,15 @@ const screencapsForWebsite = (website: WebsiteDetailQuery['website']) =>
   shuffle(
     [
       ...(website?.movies || []).map(m => ({
-        movie: m,
-        screencap: m.screencaps.find(s => s.cover),
+        movieTitle: m.title,
+        src: m.screencaps.find(s => s.cover)!.src,
       })),
       ...(website?.movies || []).flatMap(m =>
         m.screencaps
           .filter(s => !s.cover)
           .map(s => ({
-            movie: m,
-            screencap: s,
+            movieTitle: m.title,
+            src: s.src,
           })),
       ),
     ]
@@ -65,15 +66,7 @@ export const WebsiteDetailPage: FunctionalComponent = () => {
       </Helmet>
       <main className="pb-12">
         <div className="flex flex-col relative">
-          <div className="grid grid-cols-2 min-h-screen/2">
-            {screencapsForWebsite(website).map(({ movie, screencap }) => (
-              <Image
-                className="filter-grayscale blend-multiply opacity-70 -z-1 min-w-full min-h-full object-cover"
-                alt={movie.title}
-                src={screencap?.src}
-              />
-            ))}
-          </div>
+          <CoverScreencaps screencaps={screencapsForWebsite(website)} />
           <h1 className="-mt-9 mx-auto max-w-screen-lg w-full font-display text-3xl text-white pl-6 md:pl-0 text-shadow-md">
             {website?.name || ''}
           </h1>

@@ -7,6 +7,7 @@ import {
   ActressDetailQueryVariables,
 } from '@peach/types';
 import { Helmet } from 'react-helmet';
+import { CoverScreencaps } from '../../components/coverScreencaps';
 import { Image } from '../../components/image';
 import { Loading } from '../../components/loading';
 import { shuffle } from '../../utils/list';
@@ -19,15 +20,15 @@ const screencapsForActress = (actress?: ActressDetailFragment) =>
   shuffle(
     [
       ...(actress?.movies || []).map(m => ({
-        movie: m,
-        screencap: m.screencaps.find(s => s.cover),
+        movieTitle: m.title,
+        src: m.screencaps.find(s => s.cover)!.src,
       })),
       ...(actress?.movies || []).flatMap(m =>
         m.screencaps
           .filter(s => !s.cover)
           .map(s => ({
-            movie: m,
-            screencap: s,
+            movieTitle: m.title,
+            src: s.src,
           })),
       ),
     ]
@@ -68,15 +69,7 @@ export const ActressDetailPage: FunctionalComponent = () => {
       </Helmet>
       <main className="pb-12">
         <div className="flex flex-col relative">
-          <div className="grid grid-cols-2 min-h-screen/2">
-            {screencapsForActress(actress || undefined).map(({ movie, screencap }) => (
-              <Image
-                className="filter-grayscale blend-multiply opacity-70 -z-1 min-w-full min-h-full object-cover"
-                alt={movie.title}
-                src={screencap?.src}
-              />
-            ))}
-          </div>
+          <CoverScreencaps screencaps={screencapsForActress(actress || undefined)} />
           <h1 className="block -mt-9 w-full max-w-screen-lg mx-auto font-display text-3xl text-white pl-6 md:pl-0 text-shadow-md">
             {actress?.name || ''}
           </h1>

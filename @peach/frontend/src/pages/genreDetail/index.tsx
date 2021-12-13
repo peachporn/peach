@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GenreDetailQuery, GenreDetailQueryVariables } from '@peach/types';
 import { Helmet } from 'react-helmet';
+import { CoverScreencaps } from '../../components/coverScreencaps';
 import { Loading } from '../../components/loading';
 import { colorCodeKinkiness } from '../../domain/genre';
 import { Image } from '../../components/image';
@@ -16,27 +17,27 @@ const screencapsForGenre = (genre: GenreDetailQuery['genre']) =>
   shuffle(
     [
       ...(genre?.fetishMovies || []).map(m => ({
-        movie: m,
-        screencap: m.screencaps.find(s => s.cover),
+        movieTitle: m.title,
+        src: m.screencaps.find(s => s.cover)!.src,
       })),
       ...(genre?.movies || []).map(m => ({
-        movie: m,
-        screencap: m.screencaps.find(s => s.cover),
+        movieTitle: m.title,
+        src: m.screencaps.find(s => s.cover)!.src,
       })),
       ...(genre?.fetishMovies || []).flatMap(m =>
         m.screencaps
           .filter(s => !s.cover)
           .map(s => ({
-            movie: m,
-            screencap: s,
+            movieTitle: m.title,
+            src: s.src,
           })),
       ),
       ...(genre?.movies || []).flatMap(m =>
         m.screencaps
           .filter(s => !s.cover)
           .map(s => ({
-            movie: m,
-            screencap: s,
+            movieTitle: m.title,
+            src: s.src,
           })),
       ),
     ]
@@ -76,15 +77,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
       </Helmet>
       <main className="pb-12">
         <div className="flex flex-col relative">
-          <div className="grid grid-cols-2 min-h-screen/2">
-            {screencapsForGenre(genre).map(({ movie, screencap }) => (
-              <Image
-                className="filter-grayscale blend-multiply opacity-70 -z-1 min-w-full min-h-full object-cover"
-                alt={movie.title}
-                src={screencap?.src}
-              />
-            ))}
-          </div>
+          <CoverScreencaps screencaps={screencapsForGenre(genre)} />
           <h1 className="block -mt-9 mx-auto w-full max-w-screen-md font-display text-3xl text-white pl-6 md:pl-0 text-shadow-md">
             {genre?.name || ''}
           </h1>

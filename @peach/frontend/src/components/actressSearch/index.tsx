@@ -139,17 +139,6 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
         <Icon icon="space_bar" />
       </button>
       <div className={`min-h-screen/2 mt-2 ${containerClassName || ''}`}>
-        {searchName !== '' && searchedActresses?.actresses.length === 0 ? (
-          <CreateActressForm
-            visibility={[createActressFormVisible, setCreateActressFormVisible]}
-            name={searchName}
-            onSubmit={actressId => {
-              if (!actressId) return;
-              setActressIds([...actressIds, actressId]);
-              setSearchName('');
-            }}
-          />
-        ) : null}
         <Slider className={sliderClassName} padding={0}>
           {uniqBy(
             a => a.id,
@@ -173,6 +162,17 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
               </SliderItem>
             ))}
         </Slider>
+        {searchName !== '' ? (
+          <CreateActressForm
+            visibility={[createActressFormVisible, setCreateActressFormVisible]}
+            name={searchName}
+            onSubmit={actressId => {
+              if (!actressId) return;
+              setActressIds([...actressIds, actressId]);
+              setSearchName('');
+            }}
+          />
+        ) : null}
       </div>
     </div>
   );

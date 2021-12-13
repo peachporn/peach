@@ -17,7 +17,11 @@ export const updateMovieResolvers: Resolvers = {
             title: data.title,
             cover: data.cover,
             ...(!data.website
-              ? {}
+              ? {
+                  website: {
+                    disconnect: true,
+                  },
+                }
               : {
                   website: {
                     connect: { id: data.website },

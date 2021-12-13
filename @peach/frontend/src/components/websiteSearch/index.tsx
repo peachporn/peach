@@ -98,15 +98,11 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
   );
 
   const submitWebsite = (w: WebsiteCardFragment) => {
-    if (multiple) {
-      setWebsiteIds(
-        websiteIds.includes(w.id)
-          ? websiteIds.filter(id => id !== w.id)
-          : uniq([...websiteIds, w.id]),
-      );
-    } else {
-      setWebsiteIds([w.id]);
-    }
+    setWebsiteIds(
+      websiteIds.includes(w.id)
+        ? websiteIds.filter(id => id !== w.id)
+        : uniq([...(multiple ? websiteIds : []), w.id]),
+    );
     setSearchName('');
   };
 

@@ -21,6 +21,7 @@ import { GenreDefinitionDraft } from './components/highlightForm/types';
 import { MetadataTable } from './components/metadataTable';
 import { MovieForm } from './components/movieForm';
 import { HighlightForm } from './components/highlightForm';
+import { MovieFormProvider } from './context/movieForm';
 import { useMovieHighlightForm } from './hooks/useMovieHighlightForm';
 import { movieDetailQuery } from './queries/movieDetail.gql';
 
@@ -114,16 +115,17 @@ export const MovieDetailPage: FunctionalComponent = () => {
           {loading || !movie ? (
             <Loading />
           ) : editing ? (
-            <MovieForm
+            <MovieFormProvider
               movie={movie}
-              onCancel={() => setEditing(false)}
               onSubmit={() =>
                 submitHighlightForm().then(() => {
                   setEditing(false);
                   return refetch();
                 })
               }
-            />
+            >
+              <MovieForm onCancel={() => setEditing(false)} />
+            </MovieFormProvider>
           ) : (
             <Fragment>
               <div className="grid grid-cols-1 gap-10 py-4">

@@ -165,7 +165,7 @@ export default {
   EXTREME: 'Extreme',
   KINKYNESS: 'Kinkyness',
   IMAGE_URL: 'Picture URL',
-  SCENE_FORM_PLACEHOLDER: 'Mark a genre',
+  SCENE_FORM_PLACEHOLDER: 'Capture a highlight',
   SCENE_FORM_SUCCESS: 'Genres saved successfully!',
   GENRE_CATEGORY_PRACTICE: 'Practice',
   GENRE_CATEGORY_LOCATION: 'Location',

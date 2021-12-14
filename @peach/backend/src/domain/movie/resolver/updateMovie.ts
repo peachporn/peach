@@ -16,31 +16,24 @@ export const updateMovieResolvers: Resolvers = {
           data: {
             title: data.title,
             cover: data.cover,
-            ...(!data.website
-              ? {
-                  website: {
-                    disconnect: true,
-                  },
-                }
-              : {
-                  website: {
+            website: {
+              ...(!data.website ? { disconnect: true } : {}),
+              ...(data.website
+                ? {
                     connect: { id: data.website },
-                  },
-                }),
-            ...(!data.actresses
-              ? {}
-              : {
-                  actresses: {
+                  }
+                : {}),
+            },
+            actresses: {
+              ...(data.actresses
+                ? {
                     set: data.actresses.map(id => ({ id })),
-                  },
-                }),
-            ...(!data.fetishes
-              ? {}
-              : {
-                  fetishes: {
-                    set: data.fetishes.map(id => ({ id })),
-                  },
-                }),
+                  }
+                : {}),
+            },
+            fetishes: {
+              set: [...(data.fetishes?.map(id => ({ id })) ?? [])],
+            },
           },
         })
         .then(transformMovie),

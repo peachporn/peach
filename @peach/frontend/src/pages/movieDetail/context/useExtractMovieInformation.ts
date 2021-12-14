@@ -8,25 +8,24 @@ import {
 import { useMutation } from '@apollo/client';
 import { extractMovieInformationMutation } from '../mutations/extractMovieInformation.gql';
 
-type UseMovieInformationExtractorProps = {
-  movieTitle: string;
+export type ExtractionResult = {
+  website: number[] | undefined;
+  fetish: number[] | undefined;
+  actresses: number[] | undefined;
 };
 
-export const useMovieInformationExtractor = ({ movieTitle }: UseMovieInformationExtractorProps) => {
-  const [clipboard, setClipboard] = useState('');
-  const [websiteSearchName, setWebsiteSearchName] = useState('');
-  const [actressSearchName, setActressSearchName] = useState('');
-
+export const useExtractMovieInformation = (title: string) => {
   const [extractionFetchResult, setExtractionResult] = useState<
     ExtractedMovieInformationFragment | undefined
   >(undefined);
+
   const [callExtractMovieInformationMutation] = useMutation<
     ExtractMovieInformationMutation,
     ExtractMovieInformationMutationVariables
   >(extractMovieInformationMutation);
 
   const extractMovieInformation = () =>
-    callExtractMovieInformationMutation({ variables: { movieTitle } }).then(response => {
+    callExtractMovieInformationMutation({ variables: { movieTitle: title } }).then(response => {
       const r = response?.data?.extractMovieInformation;
       if (!r) return;
       setExtractionResult(r);
@@ -40,7 +39,7 @@ export const useMovieInformationExtractor = ({ movieTitle }: UseMovieInformation
     d => d.__typename === 'WebsiteDetection',
   )?.content as WebsiteDetectionFragment['content'] | undefined;
 
-  const extractionResult = {
+  const extractionResult: ExtractionResult = {
     website: detectedWebsite ? [detectedWebsite.id] : undefined,
     fetish: detectedWebsite && detectedWebsite.fetish ? [detectedWebsite.fetish.id] : undefined,
     actresses: detectedActresses?.length ? detectedActresses?.map(a => a.id) : undefined,
@@ -49,15 +48,6 @@ export const useMovieInformationExtractor = ({ movieTitle }: UseMovieInformation
   return {
     extractMovieInformation,
     extractionFetchResult,
-
-    clipboard,
-    setClipboard,
-
-    websiteSearchName,
-    setWebsiteSearchName,
-    actressSearchName,
-    setActressSearchName,
-
     extractionResult,
   };
 };

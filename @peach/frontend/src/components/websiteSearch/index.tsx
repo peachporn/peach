@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from 'preact';
+import { FunctionalComponent, h, VNode } from 'preact';
 import uniqBy from 'ramda/es/uniqBy';
 import { useEffect, useState } from 'preact/hooks';
 import { useQuery } from '@apollo/client';
@@ -22,7 +22,7 @@ import { CreateWebsiteForm } from './createWebsiteForm';
 import { websiteSearchQuery } from './websiteSearchQuery.gql';
 
 type WebsiteSearchProps = {
-  onChange: (id: number[]) => unknown;
+  onChange: (id: number[], fetishIds: number[]) => unknown;
   filterOverride?: Partial<WebsiteFilter>;
   multiple?: boolean;
   placeholder?: string;
@@ -30,6 +30,7 @@ type WebsiteSearchProps = {
   setValue?: number[];
   setSearchName?: string;
   limit?: number;
+  controlsSlot?: VNode;
   inputClassName?: string;
   containerClassName?: string;
   sliderClassName?: string;
@@ -44,10 +45,12 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
   placeholder,
   onChange,
   limit,
+  controlsSlot,
   containerClassName,
   inputClassName,
   sliderClassName,
 }) => {
+  const [fetishIds, setFetishIds] = useState<number[]>([]);
   const [websiteIds, setWebsiteIds] = useState<number[]>(defaultValue || []);
   const [createWebsiteFormVisible, setCreateWebsiteFormVisible] = useState<boolean>(false);
   const [searchName, setSearchName] = useState<string>('');
@@ -67,8 +70,8 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
   }, [setSearchNameProp]);
 
   useEffect(() => {
-    onChange(websiteIds);
-  }, [websiteIds]);
+    onChange(websiteIds, fetishIds);
+  }, [websiteIds, fetishIds]);
 
   const { data: selectedWebsites } = useQuery<WebsiteSearchQuery, WebsiteSearchQueryVariables>(
     websiteSearchQuery,
@@ -103,6 +106,13 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
         ? websiteIds.filter(id => id !== w.id)
         : uniq([...(multiple ? websiteIds : []), w.id]),
     );
+    if (w.fetish?.id) {
+      setFetishIds(
+        fetishIds.includes(w.fetish.id)
+          ? fetishIds.filter(id => id !== w.fetish!.id)
+          : uniq([...(multiple ? fetishIds : []), w.fetish.id]),
+      );
+    }
     setSearchName('');
   };
 
@@ -126,14 +136,18 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
           setSearchName((event.target as HTMLInputElement)?.value);
         }, 200)}
       />
-      <button
-        className="absolute top-1 right-1 text-gray-500"
-        onClick={() => {
-          setSearchName(searchName.includes(' ') ? pascalCase(searchName) : spaceCase(searchName));
-        }}
-      >
-        <Icon icon="space_bar" />
-      </button>
+      <div className="absolute top-1 right-1 text-gray-500">
+        {controlsSlot}
+        <button
+          onClick={() => {
+            setSearchName(
+              searchName.includes(' ') ? pascalCase(searchName) : spaceCase(searchName),
+            );
+          }}
+        >
+          <Icon icon="space_bar" />
+        </button>
+      </div>
       <div className={`mt-2 ${containerClassName || ''}`}>
         {searchName !== '' && searchedWebsites?.websites.length === 0 ? (
           <CreateWebsiteForm

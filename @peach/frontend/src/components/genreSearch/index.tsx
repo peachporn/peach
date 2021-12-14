@@ -1,6 +1,3 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
-import uniqBy from 'ramda/es/uniqBy';
-import { useEffect, useState } from 'preact/hooks';
 import { useQuery } from '@apollo/client';
 import {
   FetishBubbleFragment,
@@ -8,24 +5,30 @@ import {
   GenreSearchQuery,
   GenreSearchQueryVariables,
 } from '@peach/types';
-import { UseFormMethods } from 'react-hook-form';
+import { Fragment, FunctionalComponent, h, VNode } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
 import { equals, uniq } from 'ramda';
-import { FetishBubble } from '../fetishBubble';
-import { websiteSearchQuery } from '../websiteSearch/websiteSearchQuery.gql';
+import uniqBy from 'ramda/es/uniqBy';
 import { debounce } from '../../utils/throttle';
 import { usePrevious } from '../../utils/usePrevious';
+import { FetishBubble } from '../fetishBubble';
 import { genreSearchQuery } from './genreSearchQuery.gql';
 
 type GenreSearchProps = {
+  placeholder?: string;
   onChange: (id: number[]) => unknown;
   filterOverride?: Partial<GenreFilter>;
+
   multiple?: boolean;
-  placeholder?: string;
+  limit?: number;
+
   defaultValue?: number[];
   setValue?: number[];
-  limit?: number;
+
   inputClassName?: string;
   containerClassName?: string;
+
+  controlsSlot?: VNode;
 };
 
 export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
@@ -36,10 +39,11 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
   placeholder,
   onChange,
   limit,
+  controlsSlot,
   containerClassName,
   inputClassName,
 }) => {
-  const [genreIds, setGenreIds] = useState<number[]>(defaultValue || []);
+  const [genreIds, setGenreIds] = useState<number[]>(defaultValue || setValue || []);
   const [searchName, setSearchName] = useState<string>('');
 
   const previousSetValue = usePrevious(setValue);
@@ -96,21 +100,24 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
 
   return (
     <Fragment>
-      <input
-        tabIndex={0}
-        className={`input ${inputClassName || ''}`}
-        placeholder={placeholder}
-        value={searchName}
-        onKeyUp={debounce((event: KeyboardEvent) => {
-          if (event.key === 'Enter' && searchedGenres?.genres.length === 1) {
-            submitGenre(searchedGenres.genres[0]);
-            return;
-          }
-          setSearchName((event.target as HTMLInputElement)?.value);
-        }, 200)}
-      />
+      <div className="relative">
+        <input
+          tabIndex={0}
+          className={`input ${inputClassName || ''}`}
+          placeholder={placeholder}
+          value={searchName}
+          onKeyUp={debounce((event: KeyboardEvent) => {
+            if (event.key === 'Enter' && searchedGenres?.genres.length === 1) {
+              submitGenre(searchedGenres.genres[0]);
+              return;
+            }
+            setSearchName((event.target as HTMLInputElement)?.value);
+          }, 200)}
+        />
+        <div className="absolute top-1 right-1 text-gray-500">{controlsSlot}</div>
+      </div>
       <div
-        className={`flex gap-4 mt-2 h-20 md:h-full items-center text-center overflow-x-auto ${
+        className={`flex gap-4 mt-4 h-20 md:h-full items-start text-center overflow-x-auto ${
           containerClassName || ''
         }`}
       >

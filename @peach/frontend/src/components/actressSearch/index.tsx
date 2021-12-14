@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from 'preact';
+import { FunctionalComponent, h, VNode } from 'preact';
 import uniqBy from 'ramda/es/uniqBy';
 import { useEffect, useState } from 'preact/hooks';
 import { useQuery } from '@apollo/client';
@@ -29,6 +29,7 @@ type ActressSearchProps = {
   setValue?: number[];
   setSearchName?: string;
   limit?: number;
+  controlsSlot?: VNode;
   inputClassName?: string;
   containerClassName?: string;
   sliderClassName?: string;
@@ -42,8 +43,9 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
   setSearchName: setSearchNameProp,
   placeholder,
   onChange,
-  containerClassName,
   limit,
+  controlsSlot,
+  containerClassName,
   inputClassName,
   sliderClassName,
 }) => {
@@ -130,14 +132,18 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
           setSearchName((event.target as HTMLInputElement)?.value);
         }, 200)}
       />
-      <button
-        className="absolute top-1 right-1 text-gray-500"
-        onClick={() => {
-          setSearchName(searchName.includes(' ') ? pascalCase(searchName) : spaceCase(searchName));
-        }}
-      >
-        <Icon icon="space_bar" />
-      </button>
+      <div className="absolute top-1 right-1 text-gray-500">
+        {controlsSlot}
+        <button
+          onClick={() => {
+            setSearchName(
+              searchName.includes(' ') ? pascalCase(searchName) : spaceCase(searchName),
+            );
+          }}
+        >
+          <Icon icon="space_bar" />
+        </button>
+      </div>
       <div className={`min-h-screen/2 mt-2 ${containerClassName || ''}`}>
         <Slider className={sliderClassName} padding={0}>
           {uniqBy(

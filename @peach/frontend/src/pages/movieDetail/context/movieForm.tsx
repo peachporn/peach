@@ -5,10 +5,9 @@ import {
   UpdateMovieMutation,
   UpdateMovieMutationVariables,
 } from '@peach/types';
-import { h } from 'preact';
-import { FunctionalComponent } from 'preact';
+import { FunctionalComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
-import { head, uniq } from 'ramda';
+import { equals, uniq } from 'ramda';
 import { createContext } from '../../../utils/createContext';
 import { usePrevious } from '../../../utils/usePrevious';
 import { updateMovieMutation } from '../mutations/updateMovie.gql';
@@ -73,8 +72,10 @@ export const MovieFormProvider: FunctionalComponent<{
 
   const { extractionResult, extractionFetchResult, extractMovieInformation } =
     useExtractMovieInformation(title);
+  const previousExtractionResult = usePrevious(extractionResult);
 
   useEffect(() => {
+    if (!extractionResult || equals(previousExtractionResult, extractionResult)) return;
     setActressIds(uniq([...(extractionResult.actresses ?? []), ...actressIds]));
     setFetishIds(uniq([...(extractionResult.fetish ?? []), ...fetishIds]));
     setWebsiteId(extractionResult.website?.[0]);

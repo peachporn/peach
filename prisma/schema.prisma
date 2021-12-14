@@ -51,6 +51,7 @@ model Actress {
   longitude Float?
 
   boobs String?
+  cupsize      String?
 
   piercings String?
   tattoos   String?
@@ -58,7 +59,6 @@ model Actress {
   height       Int?
   weight       Int?
   measurements String  @default("{}")
-  cupsize      String?
 
   socialMediaLinks String?
   officialWebsite  String?

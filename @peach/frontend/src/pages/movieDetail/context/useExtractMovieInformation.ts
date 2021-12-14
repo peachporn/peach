@@ -1,11 +1,11 @@
-import { useState } from 'preact/hooks';
+import { useMutation } from '@apollo/client';
 import {
   ExtractedMovieInformationFragment,
   ExtractMovieInformationMutation,
   ExtractMovieInformationMutationVariables,
   WebsiteDetectionFragment,
 } from '@peach/types';
-import { useMutation } from '@apollo/client';
+import { useState } from 'preact/hooks';
 import { extractMovieInformationMutation } from '../mutations/extractMovieInformation.gql';
 
 export type ExtractionResult = {

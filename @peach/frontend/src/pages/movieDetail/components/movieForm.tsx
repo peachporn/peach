@@ -1,16 +1,14 @@
 import { FunctionalComponent, h } from 'preact';
 import { head, uniq } from 'ramda';
-import { FetishesQuery, FetishesQueryVariables } from '@peach/types';
-import { useMovieFormContext } from '../context/movieForm';
-import { GenreSearch } from '../../../components/genreSearch';
-import { i } from '../../../i18n/i18n';
-import { Icon } from '../../../components/icon';
-import { FetishBubble } from '../../../components/fetishBubble';
-import { WebsiteSearch } from '../../../components/websiteSearch';
 import { ActressSearch } from '../../../components/actressSearch';
+import { GenreSearch } from '../../../components/genreSearch';
+import { Icon } from '../../../components/icon';
+import { WebsiteSearch } from '../../../components/websiteSearch';
+import { i } from '../../../i18n/i18n';
+import { useMovieFormContext } from '../context/movieForm';
+import { Clipboard } from './clipboard';
 import { DangerZone } from './dangerZone';
 import { MetadataTable } from './metadataTable';
-import { Clipboard } from './clipboard';
 
 export type MovieFormProps = {
   onCancel: () => void;

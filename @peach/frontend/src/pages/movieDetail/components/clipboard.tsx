@@ -1,8 +1,6 @@
 import { FunctionalComponent, h } from 'preact';
-import { head, init, last } from 'ramda';
-import { ActressSearch } from '../../../components/actressSearch';
+import { init, last } from 'ramda';
 import { Icon } from '../../../components/icon';
-import { WebsiteSearch } from '../../../components/websiteSearch';
 import { useMovieFormContext } from '../context/movieForm';
 
 export const Clipboard: FunctionalComponent = ({}) => {
@@ -48,7 +46,7 @@ export const Clipboard: FunctionalComponent = ({}) => {
                 </button>
               </div>
             )}
-            <div className="flex w-full h-full items-center gap-2 text-sm">
+            <div className="flex flex-wrap w-full h-full items-center gap-2 text-sm">
               {extractionFetchResult?.tokens.map(t => (
                 <button
                   onClick={addToClipboard(t.token)}

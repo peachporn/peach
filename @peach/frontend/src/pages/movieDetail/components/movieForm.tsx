@@ -9,6 +9,7 @@ import { useMovieFormContext } from '../context/movieForm';
 import { Clipboard } from './clipboard';
 import { DangerZone } from './dangerZone';
 import { MetadataTable } from './metadataTable';
+import { TitleGoogleSearchButton } from './titleGoogleSearchButton';
 
 export type MovieFormProps = {
   onCancel: () => void;
@@ -35,6 +36,7 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({ onCancel }) => 
     setWebsiteSearchTerm,
     clipboard,
     setClipboard,
+    extractMovieInformation,
   } = useMovieFormContext();
 
   return (
@@ -63,7 +65,17 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({ onCancel }) => 
               )}
             </div>
           </div>
-          <Clipboard />
+          <div className="py-4">
+            <button className="mr-2" onClick={extractMovieInformation}>
+              <Icon
+                className="w-8 h-8 text-sm bg-gray-100 rounded-full p-1 focus:outline-none active:bg-pink active:text-white transition-all"
+                icon="person_search"
+              />
+            </button>
+
+            <Clipboard />
+            <TitleGoogleSearchButton />
+          </div>
         </div>
 
         <div className="md:col-span-2 h-full">

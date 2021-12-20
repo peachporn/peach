@@ -307,6 +307,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   cancelTask?: Maybe<Scalars['Boolean']>;
   cancelTasks: Scalars['Int'];
+  convertMovie?: Maybe<Scalars['Boolean']>;
   createActress?: Maybe<Actress>;
   createGenre?: Maybe<Genre>;
   createMovieFromFile: Movie;
@@ -335,6 +336,11 @@ export type MutationCancelTaskArgs = {
 
 export type MutationCancelTasksArgs = {
   taskIds: Array<Scalars['Int']>;
+};
+
+
+export type MutationConvertMovieArgs = {
+  movieId: Scalars['Int'];
 };
 
 
@@ -849,6 +855,13 @@ export type PinnedFetishesQuery = { __typename?: 'Query', movies: Array<{ __type
 export type GenreActionCardFragment = { __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, linkableChildren: Array<{ __typename?: 'Genre', id: number, name: string }> };
 
 export type MovieDetailFragment = { __typename?: 'Movie', id: number, title: string, path: string, videoUrl: string, cover: number, website?: { __typename?: 'Website', id: number, name: string, url: string, picture?: string | null | undefined, fetish?: { __typename?: 'Genre', id: number, name: string, picture: string } | null | undefined } | null | undefined, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean, index: number }>, volume?: { __typename?: 'Volume', name: string } | null | undefined, actresses: Array<{ __typename?: 'Actress', id: number, name: string, picture?: string | null | undefined }>, metaData?: { __typename?: 'MovieMetadata', durationSeconds: number, sizeInMB: number, minutes: number, seconds: number, quality: Quality, format: Format, fps: number } | null | undefined, genres: Array<{ __typename?: 'GenreDefinition', timeStart: number, genre: { __typename?: 'GenreLink', parent: { __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, linkableChildren: Array<{ __typename?: 'Genre', id: number, name: string }> }, children: Array<{ __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, linkableChildren: Array<{ __typename?: 'Genre', id: number, name: string }> }> } }>, fetishes: Array<{ __typename?: 'Genre', id: number, name: string, picture: string }> };
+
+export type ConvertMovieMutationVariables = Exact<{
+  movieId: Scalars['Int'];
+}>;
+
+
+export type ConvertMovieMutation = { __typename?: 'Mutation', convertMovie?: boolean | null | undefined };
 
 export type DeleteMovieMutationVariables = Exact<{
   movieId: Scalars['Int'];

@@ -69,6 +69,7 @@ export default {
   MOVIE_ADD_FETISHES: 'Add fetishes',
   MOVIE_DANGERZONE: 'Danger zone',
   MOVIE_DELETE: 'Delete movie',
+  MOVIE_CONVERT: 'Convert movie to mp4',
   MOVIE_DELETE_CONFIRM: 'Are you sure you want to delete this movie?',
   METADATA_MINUTES: 'minutes',
   METADATA_SECONDS: 'seconds',
@@ -193,4 +194,5 @@ export default {
   TASKS_NONE: 'Nothing to do!',
   CENTIMETER: 'cm',
   KILOGRAM: 'kg',
+  OK: 'Ok',
 } as const;

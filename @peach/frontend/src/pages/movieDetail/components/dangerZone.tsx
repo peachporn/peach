@@ -1,10 +1,16 @@
+import { useMutation } from '@apollo/client';
+import {
+  ConvertMovieMutation,
+  ConvertMovieMutationVariables,
+  DeleteMovieMutation,
+  DeleteMovieMutationVariables,
+} from '@peach/types';
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useState } from 'preact/hooks';
-import { useMutation } from '@apollo/client';
-import { DeleteMovieMutation, DeleteMovieMutationVariables } from '@peach/types';
 import { useHistory } from 'react-router-dom';
-import { i } from '../../../i18n/i18n';
 import { Modal } from '../../../components/modal';
+import { i } from '../../../i18n/i18n';
+import { convertMovieMutation } from '../mutations/convertMovie.gql';
 import { deleteMovieMutation } from '../mutations/deleteMovie.gql';
 
 export type DangerZoneProps = {
@@ -25,10 +31,25 @@ export const DangerZone: FunctionalComponent<DangerZoneProps> = ({ movieId, clas
     },
   );
 
+  const [convertMovie] = useMutation<ConvertMovieMutation, ConvertMovieMutationVariables>(
+    convertMovieMutation,
+    {
+      variables: {
+        movieId,
+      },
+    },
+  );
+
   const submitDelete = () => {
     deleteMovie().then(() => {
       setDeleteConfirmationVisible(false);
       history.goBack();
+    });
+  };
+
+  const submitConvert = () => {
+    convertMovie().then(() => {
+      alert('Conversion started!');
     });
   };
 
@@ -57,6 +78,9 @@ export const DangerZone: FunctionalComponent<DangerZoneProps> = ({ movieId, clas
           onClick={() => setDeleteConfirmationVisible(true)}
         >
           {i('MOVIE_DELETE')}
+        </button>
+        <button className="bg-pink text-white rounded p-2 ml-2" onClick={submitConvert}>
+          {i('MOVIE_CONVERT')}
         </button>
       </section>
     </Fragment>

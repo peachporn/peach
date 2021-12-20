@@ -9,7 +9,7 @@ import { useMovieFormContext } from '../context/movieForm';
 import { Clipboard } from './clipboard';
 import { DangerZone } from './dangerZone';
 import { MetadataTable } from './metadataTable';
-import { TitleGoogleSearchButton } from './titleGoogleSearchButton';
+import { TitleSearchButtons } from './titleSearchButtons';
 
 export type MovieFormProps = {
   onCancel: () => void;
@@ -73,8 +73,8 @@ export const MovieForm: FunctionalComponent<MovieFormProps> = ({ onCancel }) => 
               />
             </button>
 
+            <TitleSearchButtons />
             <Clipboard />
-            <TitleGoogleSearchButton />
           </div>
         </div>
 

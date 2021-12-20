@@ -5,15 +5,15 @@ import {
   WebsiteSearchQuery,
   WebsiteSearchQueryVariables,
 } from '@peach/types';
-import { h } from 'preact';
+import { Fragment, h } from 'preact';
 import { head } from 'ramda';
 import { actressSearchQuery } from '../../../components/actressSearch/actressSearchQuery.gql';
 import { Icon } from '../../../components/icon';
 import { websiteSearchQuery } from '../../../components/websiteSearch/websiteSearchQuery.gql';
 import { useMovieFormContext } from '../context/movieForm';
 
-export const TitleGoogleSearchButton = () => {
-  const { actressIds, websiteId } = useMovieFormContext();
+export const TitleSearchButtons = () => {
+  const { actressIds, websiteId, setTitle } = useMovieFormContext();
 
   const { data: selectedActresses } = useQuery<ActressSearchQuery, ActressSearchQueryVariables>(
     actressSearchQuery,
@@ -38,12 +38,30 @@ export const TitleGoogleSearchButton = () => {
           head(selectedWebsites.websites)?.url
         }`;
 
+  const setFallbackTitle = () => {
+    setTitle(
+      `${(selectedActresses?.actresses ?? []).map(a => a.name).join(' ')} ${(
+        selectedWebsites?.websites ?? []
+      )
+        .map(w => w.name)
+        .join(' ')}`,
+    );
+  };
+
   return !url ? null : (
-    <a className="mr-2 text-center" href={url} target="_blank">
-      <Icon
-        className="w-8 h-8 text-sm bg-gray-100 rounded-full p-1 focus:outline-none active:bg-pink active:text-white transition-all"
-        icon="search"
-      />
-    </a>
+    <Fragment>
+      <button className="mr-2 text-center" onClick={setFallbackTitle}>
+        <Icon
+          className="w-8 h-8 text-sm bg-gray-100 rounded-full p-1 focus:outline-none active:bg-pink active:text-white transition-all"
+          icon="subtitles"
+        />
+      </button>
+      <a className="mr-2 text-center" href={url} target="_blank">
+        <Icon
+          className="w-8 h-8 text-sm bg-gray-100 rounded-full p-1 focus:outline-none active:bg-pink active:text-white transition-all"
+          icon="search"
+        />
+      </a>
+    </Fragment>
   );
 };

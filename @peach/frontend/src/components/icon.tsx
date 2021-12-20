@@ -32,6 +32,7 @@ export type IconType =
   | 'settings'
   | 'space_bar'
   | 'restart_alt'
+  | 'subtitles'
   | 'task_alt'
   | 'play_arrow'
   | 'warning';

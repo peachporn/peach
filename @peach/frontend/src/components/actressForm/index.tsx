@@ -26,6 +26,7 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
   defaultValues,
   defaultSearchName,
 }) => {
+  const [manual, setManual] = useState(false);
   const [searchName, setSearchName] = useState<string>(defaultSearchName || '');
 
   const { data, loading } = useQuery<ScrapeActressQuery, ScrapeActressQueryVariables>(
@@ -130,7 +131,7 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
           onSelect={alternative => setSearchName(alternative.name)}
         />
       )}
-      {!actress?.name || alternatives.length ? null : (
+      {!manual && (!actress?.name || alternatives.length) ? null : (
         <form
           className={'max-w-screen-lg mx-auto pb-8'}
           onSubmit={e => {
@@ -158,10 +159,29 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
           </button>
         </form>
       )}
-      {!actress?.name && !alternatives.length && !loading ? (
-        <span className="text-lg w-full mt-12 flex justify-center">
-          {i('ACTRESS_SCRAPE_NORESULT', { name: searchName })}
-        </span>
+      {!manual && !actress?.name && !alternatives.length && !loading ? (
+        <div className={'flex items-center flex-col'}>
+          <span className="text-lg w-full mt-12 flex justify-center">
+            {i('ACTRESS_SCRAPE_NORESULT', { name: searchName })}
+          </span>
+          <div
+            role="button"
+            tabIndex={0}
+            onClick={() => {
+              setValue('name', searchName);
+              setManual(true);
+            }}
+            className="w-full flex flex-col items-center text-center pt-8"
+          >
+            <Icon
+              className="bg-gray-100 rounded-full p-2 mr-1 text-pink text-glow focus:outline-none active:bg-pink active:text-white transition-all"
+              icon="add"
+            />
+            <span className="w-2/3 text-offBlack">
+              {i('ACTRESS_NORESULT_ADD', { name: searchName })}
+            </span>
+          </div>
+        </div>
       ) : null}
     </Fragment>
   );

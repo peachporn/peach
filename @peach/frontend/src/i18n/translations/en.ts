@@ -99,6 +99,7 @@ export default {
   ACTRESS_REMOVE_SUCCESS: 'Actress removed successfully!',
   ACTRESS_FORM_NORESULT: 'Search the internet for "{{name}}"',
   ACTRESS_SCRAPE_NORESULT: 'No actress found for name {{name}}!',
+  ACTRESS_NORESULT_ADD: 'Add {{name}} manually',
   ACTRESS_CREATE_BUTTON: 'Create her!',
   ACTRESS_CREATE_SUCCESS: 'Actress created successfully!',
   ACTRESS_FILTER_NAME: 'Name',

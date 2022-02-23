@@ -1,5 +1,6 @@
 import { FreeonesScraper, scrape } from '@peach/scrapers';
 import { Resolvers } from '../../../generated/resolver-types';
+import { transformScrapedActress } from '../transformer/actressScrapeResult';
 
 export const scrapeActressResolvers: Resolvers = {
   Query: {
@@ -9,10 +10,7 @@ export const scrapeActressResolvers: Resolvers = {
       return {
         __typename: 'ActressScrapeResult',
         alternatives: scrapeResult.alternatives,
-        actress: {
-          ...scrapeResult.actress,
-          name: scrapeResult.actress ? name : undefined,
-        },
+        actress: !scrapeResult.actress ? undefined : transformScrapedActress(scrapeResult.actress),
       };
     },
   },

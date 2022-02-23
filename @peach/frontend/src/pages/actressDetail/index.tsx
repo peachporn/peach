@@ -1,40 +1,17 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
-import { useParams, useHistory } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import {
-  ActressDetailFragment,
-  ActressDetailQuery,
-  ActressDetailQueryVariables,
-} from '@peach/types';
+import { ActressDetailQuery, ActressDetailQueryVariables } from '@peach/types';
+import { Fragment, FunctionalComponent, h } from 'preact';
 import { Helmet } from 'react-helmet';
+import { useHistory, useParams } from 'react-router-dom';
 import { CoverScreencaps } from '../../components/coverScreencaps';
 import { Image } from '../../components/image';
 import { Loading } from '../../components/loading';
-import { shuffle } from '../../utils/list';
 import { i } from '../../i18n/i18n';
 import { formatDate } from '../../utils/date';
-import { actressDetailQuery } from './queries/actressDetail.gql';
 import { EditActressForm } from './components/editActressForm';
-
-const screencapsForActress = (actress?: ActressDetailFragment) =>
-  shuffle(
-    [
-      ...(actress?.movies || []).map(m => ({
-        movieTitle: m.title,
-        src: m.screencaps.find(s => s.cover)!.src,
-      })),
-      ...(actress?.movies || []).flatMap(m =>
-        m.screencaps
-          .filter(s => !s.cover)
-          .map(s => ({
-            movieTitle: m.title,
-            src: s.src,
-          })),
-      ),
-    ]
-      .filter(Boolean)
-      .slice(0, 6),
-  );
+import { actressDetailQuery } from './queries/actressDetail.gql';
+import { dick, looksAndrogynous, looksMale, pussy, tits } from './utils/appearance';
+import { screencapsForActress } from './utils/screencapsForActress';
 
 export type ActressDetailPageProps = {
   actressId: string;
@@ -80,18 +57,17 @@ export const ActressDetailPage: FunctionalComponent = () => {
           ) : (
             <Fragment>
               <div className="max-w-screen-lg mx-auto grid grid-cols-2">
-                {!actress.age ? null : (
-                  <div>
-                    <span className="text-2xl font-bold">{actress.age}</span>
-                    <span className="mb-2">{i('ACTRESS_YEARS_OLD')}</span>
-                    <span className="block">
-                      <span className="text-gray-400">{i('ACTRESS_STATUS')}</span>{' '}
-                      {!actress.inBusiness
-                        ? i('ACTRESS_STATUS_RETIRED')
-                        : i('ACTRESS_STATUS_IN_BUSINESS')}
-                    </span>
-                  </div>
-                )}
+                <div>
+                  <span className={'pr-2 text-xl'}>
+                    {looksAndrogynous(actress) ? '⚲' : looksMale(actress) ? '♂' : '♀'}
+                  </span>
+                  {!actress.dates?.age ? null : (
+                    <Fragment>
+                      <span className="text-2xl font-bold">{actress.dates?.age}</span>
+                      <span className="mb-2">{i('ACTRESS_YEARS_OLD')}</span>
+                    </Fragment>
+                  )}
+                </div>
                 <Image
                   className="row-span-6 md:row-span-20 col-start-2 rounded shadow"
                   alt={actress.name}
@@ -107,116 +83,133 @@ export const ActressDetailPage: FunctionalComponent = () => {
                     </div>
                   </div>
                 )}
-                {!actress.ethnicity ? null : (
-                  <div className="mt-4 grid grid-cols-2">
-                    <span className="text-gray-400">{i('ACTRESS_ETHNICITY')}</span>
-                    <span>{actress.ethnicity}</span>
-                  </div>
-                )}
-                {!actress.haircolor ? null : (
-                  <div className="grid grid-cols-2">
-                    <span className="text-gray-400">{i('ACTRESS_HAIRCOLOR')}</span>
-                    <span>{actress.haircolor}</span>
-                  </div>
-                )}
-                {!actress.eyecolor ? null : (
-                  <div className="grid grid-cols-2">
-                    <span className="text-gray-400">{i('ACTRESS_EYECOLOR')}</span>
-                    <span>{actress.eyecolor}</span>
-                  </div>
-                )}
-
-                {!actress.dateOfBirth ? null : (
-                  <div className="mt-4 grid grid-cols-2 col-span-2 md:col-span-1">
-                    <span className="text-gray-400">{i('ACTRESS_DATEOFBIRTH')}</span>
-                    <span>{formatDate(actress.dateOfBirth)}</span>
-                  </div>
-                )}
-                {!actress.dateOfCareerstart ? null : (
-                  <div className="grid grid-cols-2 col-span-2 md:col-span-1">
-                    <span className="text-gray-400">{i('ACTRESS_DATEOFCAREERSTART')}</span>
-                    <span>{formatDate(actress.dateOfCareerstart)}</span>
-                  </div>
-                )}
-                {!actress.dateOfRetirement ? null : (
-                  <div className="grid grid-cols-2 col-span-2 md:col-span-1">
-                    <span className="text-gray-400">{i('ACTRESS_DATEOFRETIREMENT')}</span>
-                    <span>{formatDate(actress.dateOfRetirement)}</span>
-                  </div>
-                )}
-                {!actress.dateOfDeath ? null : (
-                  <div className="grid grid-cols-2 col-span-2 md:col-span-1">
-                    <span className="text-gray-400">{i('ACTRESS_DATEOFDEATH')}</span>
-                    <span>{formatDate(actress.dateOfDeath)}</span>
-                  </div>
-                )}
-
-                {!actress.city && !actress.province && !actress.country ? null : (
-                  <div className="mt-4 grid grid-cols-2 col-span-2 md:col-span-1 mt-2">
-                    <span className="text-gray-400">{i('ACTRESS_LOCATION')}</span>
+                {!dick(actress) && !pussy(actress) ? null : (
+                  <div className="mt-4 grid grid-cols-1/2">
+                    <span className="text-gray-400">{i('ACTRESS_EQUIPMENT')}</span>
                     <span>
-                      {[actress.city, actress.province, actress.country].filter(Boolean).join(', ')}
+                      {dick(actress)
+                        ? i('EQUIPMENT_DICK')
+                        : pussy(actress)
+                        ? i('EQUIPMENT_PUSSY')
+                        : ''}
                     </span>
                   </div>
                 )}
 
-                {!actress.cupsize ? null : (
-                  <div className="mt-4 grid grid-cols-2 col-span-2 md:col-span-1">
+                {!tits(actress) ? null : (
+                  <div className="grid grid-cols-1/2 col-span-2 md:col-span-1">
                     <span className="text-gray-400">{i('ACTRESS_CUPSIZE')}</span>
-                    <span>{actress.cupsize}</span>
+                    <span>
+                      {tits(actress)?.size}{' '}
+                      {tits(actress)?.hasImplants ? i('ACTRESS_IMPLANTS') : ''}
+                    </span>
                   </div>
                 )}
-                {!actress.boobs ? null : (
-                  <div className="grid grid-cols-2 col-span-2 md:col-span-1">
-                    <span className="text-gray-400">{i('ACTRESS_BOOBS')}</span>
-                    <span>{actress.boobs}</span>
-                  </div>
-                )}
-                {!actress.height ? null : (
-                  <div className="grid grid-cols-2 col-span-2 md:col-span-1">
+                {!actress.appearance?.height ? null : (
+                  <div className="grid grid-cols-1/2 col-span-2 md:col-span-1">
                     <span className="text-gray-400">{i('ACTRESS_HEIGHT')}</span>
                     <span>
-                      {actress.height} {i('CENTIMETER')}
+                      {actress.appearance?.height} {i('CENTIMETER')}
                     </span>
                   </div>
                 )}
-                {!actress.weight ? null : (
-                  <div className="grid grid-cols-2 col-span-2 md:col-span-1">
+                {!actress.appearance?.weight ? null : (
+                  <div className="grid grid-cols-1/2 col-span-2 md:col-span-1">
                     <span className="text-gray-400">{i('ACTRESS_WEIGHT')}</span>
                     <span>
-                      {actress.weight} {i('KILOGRAM')}
+                      {actress.appearance?.weight} {i('KILOGRAM')}
                     </span>
                   </div>
                 )}
-                {!actress.measurements ? null : (
+                {!actress.appearance?.measurements ? null : (
                   <div className="grid grid-cols-3 col-span-2 md:col-span-1">
                     <span className="text-gray-400">{i('ACTRESS_MEASUREMENTS_BUST')}</span>
                     <span className="text-gray-400">{i('ACTRESS_MEASUREMENTS_HIPS')}</span>
                     <span className="text-gray-400">{i('ACTRESS_MEASUREMENTS_WAIST')}</span>
-                    <span>{actress.measurements.bust}</span>
-                    <span>{actress.measurements.hips}</span>
-                    <span>{actress.measurements.waist}</span>
+                    <span>{actress.appearance?.measurements.chest}</span>
+                    <span>{actress.appearance?.measurements.hips}</span>
+                    <span>{actress.appearance?.measurements.waist}</span>
                   </div>
                 )}
 
-                {!actress.piercings ? null : (
-                  <div className="mt-4 grid grid-cols-1/2 col-span-2 md:col-span-1">
-                    <span className="text-gray-400">{i('ACTRESS_PIERCINGS')}</span>
-                    <span>{actress.piercings}</span>
+                {!actress.appearance?.haircolor ? null : (
+                  <div className="grid grid-cols-1/2">
+                    <span className="text-gray-400">{i('ACTRESS_HAIRCOLOR')}</span>
+                    <span>{actress.appearance?.haircolor}</span>
                   </div>
                 )}
-                {!actress.tattoos ? null : (
+                {!actress.appearance?.eyecolor ? null : (
+                  <div className="grid grid-cols-1/2">
+                    <span className="text-gray-400">{i('ACTRESS_EYECOLOR')}</span>
+                    <span>{actress.appearance?.eyecolor}</span>
+                  </div>
+                )}
+                {!actress.appearance?.piercings ? null : (
+                  <div className="grid grid-cols-1/2 col-span-2 md:col-span-1">
+                    <span className="text-gray-400">{i('ACTRESS_PIERCINGS')}</span>
+                    <span>{actress.appearance?.piercings}</span>
+                  </div>
+                )}
+                {!actress.appearance?.tattoos ? null : (
                   <div className="grid grid-cols-1/2 col-span-2 md:col-span-1">
                     <span className="text-gray-400">{i('ACTRESS_TATTOOS')}</span>
-                    <span>{actress.tattoos}</span>
+                    <span>{actress.appearance?.tattoos}</span>
                   </div>
                 )}
 
-                {!actress.socialMediaLinks?.filter(Boolean).length ? null : (
+                {!actress.dates?.dateOfBirth ? null : (
+                  <div className="mt-4 grid grid-cols-1/2 col-span-2 md:col-span-1">
+                    <span className="text-gray-400">{i('ACTRESS_DATEOFBIRTH')}</span>
+                    <span>{formatDate(actress.dates?.dateOfBirth)}</span>
+                  </div>
+                )}
+                {!actress.dates?.dateOfCareerstart ? null : (
+                  <div className="grid grid-cols-1/2 col-span-2 md:col-span-1">
+                    <span className="text-gray-400">{i('ACTRESS_DATEOFCAREERSTART')}</span>
+                    <span>{formatDate(actress.dates?.dateOfCareerstart)}</span>
+                  </div>
+                )}
+                {!actress.dates?.dateOfRetirement ? null : (
+                  <div className="grid grid-cols-1/2 col-span-2 md:col-span-1">
+                    <span className="text-gray-400">{i('ACTRESS_DATEOFRETIREMENT')}</span>
+                    <span>{formatDate(actress.dates?.dateOfRetirement)}</span>
+                  </div>
+                )}
+                {!actress.dates?.dateOfDeath ? null : (
+                  <div className="grid grid-cols-1/2 col-span-2 md:col-span-1">
+                    <span className="text-gray-400">{i('ACTRESS_DATEOFDEATH')}</span>
+                    <span>{formatDate(actress.dates?.dateOfDeath)}</span>
+                  </div>
+                )}
+                <span className="grid grid-cols-1/2 col-span-2 md:col-span-1">
+                  <span className="text-gray-400">{i('ACTRESS_STATUS')}</span>{' '}
+                  {!actress.dates?.inBusiness
+                    ? i('ACTRESS_STATUS_RETIRED')
+                    : i('ACTRESS_STATUS_IN_BUSINESS')}
+                </span>
+
+                {!actress.location?.city &&
+                !actress.location?.province &&
+                !actress.location?.country ? null : (
+                  <div className="mt-4 grid grid-cols-1/2 col-span-2 md:col-span-1 mt-2">
+                    <span className="text-gray-400">{i('ACTRESS_LOCATION')}</span>
+                    <span>
+                      {[
+                        actress.location?.city,
+                        actress.location?.province,
+                        actress.location?.country,
+                      ]
+                        .filter(Boolean)
+                        .join(', ')}
+                    </span>
+                  </div>
+                )}
+
+                {!actress.contact?.socialMediaLinks?.filter(Boolean).length ? null : (
                   <div className="mt-4 col-span-2 md:col-span-1">
                     <span className="text-gray-400">{i('ACTRESS_SOCIALMEDIA_LINKS')}</span>
                     <div>
-                      {actress.socialMediaLinks.map(link => (
+                      {actress.contact?.socialMediaLinks.map(link => (
                         <a href={link || undefined} className="block text-pink underline break-all">
                           {link}
                         </a>
@@ -224,10 +217,10 @@ export const ActressDetailPage: FunctionalComponent = () => {
                     </div>
                   </div>
                 )}
-                {!actress.officialWebsite ? null : (
+                {!actress.contact?.officialWebsite ? null : (
                   <div className="grid grid-cols-2 col-span-2 md:col-span-1">
                     <span className="text-gray-400">{i('ACTRESS_OFFICIAL_WEBSITE')}</span>
-                    <span>{actress.officialWebsite}</span>
+                    <span>{actress.contact?.officialWebsite}</span>
                   </div>
                 )}
               </div>

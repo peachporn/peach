@@ -1,8 +1,9 @@
-import { ActressFilter } from '@peach/types';
 import { isInBusiness } from '@peach/domain';
-import { Prisma, diffYears } from '@peach/utils';
-import { transformActress } from '../transformer/actress';
+import { ActressFilter } from '@peach/types';
+import { diffYears } from '@peach/utils/src/date';
+import { Prisma } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
+import { transformActress } from '../transformer/actress';
 
 const applyActressFilter = (
   filter: ActressFilter | undefined,
@@ -39,8 +40,10 @@ const applyActressFilter = (
 
 export const actressResolvers: Resolvers = {
   Actress: {
-    inBusiness: parent => isInBusiness(parent),
     picture: parent => `/assets/actress/${parent.id}.jpg`,
+  },
+  ActressDates: {
+    inBusiness: parent => isInBusiness(parent),
     age: parent =>
       !parent.dateOfBirth ? undefined : diffYears(new Date(), new Date(parent.dateOfBirth)),
   },
@@ -48,7 +51,11 @@ export const actressResolvers: Resolvers = {
     actress: async (_parent, { id }, { prisma }) =>
       prisma.actress
         .findUnique({ where: { id }, include: { movies: true } })
-        .then(actress => (actress ? transformActress(actress) : undefined)),
+        .then(actress => (actress ? transformActress(actress) : undefined))
+        .catch(e => {
+          console.error(e);
+          return undefined;
+        }),
 
     actressesCount: async (_parent, { filter }, { prisma }) =>
       prisma.actress.count(applyActressFilter(filter)),

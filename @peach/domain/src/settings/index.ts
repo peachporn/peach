@@ -1,6 +1,6 @@
-import { Prisma } from '@peach/utils';
 import { InferMovieTitle } from '@peach/types';
-import { fromEnvOptional, prisma } from '@peach/utils';
+import { fromEnvOptional } from '@peach/utils/src/env';
+import { Prisma, prisma } from '@peach/utils/src/prisma';
 
 export const defaultSettings: Prisma.SettingsCreateInput = {
   language: 'EN',

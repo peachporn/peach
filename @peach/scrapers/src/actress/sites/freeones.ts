@@ -1,6 +1,6 @@
 import slugify from 'slugify';
-import { isCupsize, isEthnicity, isEyecolor, isHaircolor } from '@peach/domain';
-import { Ethnicity, Eyecolor, Haircolor } from '@peach/types';
+import { isCupsize, isEyecolor, isHaircolor } from '@peach/domain';
+import { Eyecolor, Haircolor } from '@peach/types';
 import { ActressScraper } from '../type';
 import { filter, regex } from '../transformers';
 import { inchToCm } from '../utils/units';
@@ -28,12 +28,6 @@ export const FreeonesScraper: ActressScraper = {
       selector: '[data-test="link_span_eye_color"]',
       type: 'text',
       transform: filter<Eyecolor>(isEyecolor),
-    },
-    ethnicity: {
-      selector: '[data-test="link_span_ethnicity"]',
-      type: 'text',
-      transform: x =>
-        x === 'Latin' ? 'Latina' : x === 'Black' ? 'Ebony' : filter<Ethnicity>(isEthnicity)(x),
     },
     dateOfBirth: {
       selector: '.profile-meta-item p.mb-1.font-weight-base > a',
@@ -76,10 +70,10 @@ export const FreeonesScraper: ActressScraper = {
       selector: '.profile-meta-item .hide-on-edit p:last-child > a:nth-child(2) > span',
       type: 'text',
     },
-    boobs: {
+    hasImplants: {
       selector: '[data-test="link_span_boobs"]',
       type: 'text',
-      transform: x => (x === 'Natural' || x === 'Fake' ? x : undefined),
+      transform: x => x === 'Fake',
     },
     piercings: {
       selector: '[data-test="p_has_piercings"]',
@@ -112,11 +106,23 @@ export const FreeonesScraper: ActressScraper = {
         }
 
         return {
-          bust: inchToCm(parse(matches[1] || undefined)),
+          chest: inchToCm(parse(matches[1] || undefined)),
           waist: inchToCm(parse(matches[2] || undefined)),
           hips: inchToCm(parse(matches[3] || undefined)),
         };
       },
+    },
+    hasDick: {
+      type: 'constant',
+      value: false,
+    },
+    hasPussy: {
+      type: 'constant',
+      value: true,
+    },
+    genderExpression: {
+      type: 'constant',
+      value: 'Female',
     },
     cupsize: {
       selector: '[data-test="p-measurements"]',

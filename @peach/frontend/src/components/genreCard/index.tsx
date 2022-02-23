@@ -1,7 +1,7 @@
-import { FunctionalComponent, h } from 'preact';
 import { GenreCardFragment } from '@peach/types';
-import { Image } from '../image';
+import { FunctionalComponent, h } from 'preact';
 import { colorCodeKinkiness } from '../../domain/genre';
+import { Image } from '../image';
 
 type GenreCardProps = {
   genre: GenreCardFragment;

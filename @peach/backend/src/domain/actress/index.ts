@@ -1,4 +1,5 @@
 import { actressTypeDefs } from './schema/actress.gql';
+import { actressAppearanceTypeDefs } from './schema/appearance.gql';
 import { updateActressTypeDefs } from './schema/updateActress.gql';
 import { createActressTypeDefs } from './schema/createActress.gql';
 import { scrapeActressTypeDefs } from './schema/scrapeActress.gql';
@@ -11,6 +12,7 @@ import { scrapeActressResolvers } from './resolver/scrapeActress';
 import { generateSlugsResolver } from './resolver/generateSlugs';
 
 export const actressDomainTypeDefs = [
+  actressAppearanceTypeDefs,
   actressTypeDefs,
   updateActressTypeDefs,
   createActressTypeDefs,

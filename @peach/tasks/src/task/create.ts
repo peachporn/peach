@@ -1,5 +1,5 @@
+import { prisma } from '@peach/utils/src/prisma';
 import { Task as DBTask } from '@prisma/client';
-import { prisma } from '@peach/utils';
 import { TaskDefinition } from './type';
 
 export const createTask = async <TaskParameters = {}>(

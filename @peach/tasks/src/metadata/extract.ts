@@ -1,5 +1,6 @@
 import * as path from 'path';
-import { execP, Prisma } from '@peach/utils';
+import { execP } from '@peach/utils/src/exec';
+import { Prisma } from '@prisma/client';
 import {
   FFProbeFormat,
   FFProbeMetadata,

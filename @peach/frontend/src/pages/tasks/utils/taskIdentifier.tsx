@@ -6,6 +6,11 @@ import { movieDetailRoute } from '../../../utils/route';
 
 const taskIdentifierFns: Record<TaskCategory, (task: TaskFragment) => VNode | null> = {
   SCAN_LIBRARY: () => null,
+  CONVERT_MOVIE: task => {
+    if (!task.parameters) return null;
+    const parameters = JSON.parse(task.parameters);
+    return <Link to={movieDetailRoute(parameters.movie.id)}>{parameters.movie.path}</Link>;
+  },
   SCRAPE_METADATA: task => {
     if (!task.parameters) return null;
     const parameters = JSON.parse(task.parameters);

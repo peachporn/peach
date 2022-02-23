@@ -1,4 +1,4 @@
-import { Prisma } from '@peach/utils';
+import { Prisma } from '@peach/utils/src/prisma';
 
 export type WebsiteWithOptionalFetishAndMovies = Omit<
   Prisma.WebsiteGetPayload<{

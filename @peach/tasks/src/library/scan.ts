@@ -1,8 +1,10 @@
 import * as path from 'path';
-import glob from 'glob';
+import { getInferMovieTitle, movieFormats } from '@peach/domain';
+import { logScope } from '@peach/utils/src/logging';
+import { prisma } from '@peach/utils/src/prisma';
+import { sequence } from '@peach/utils/src/promise';
 import { Movie, Volume } from '@prisma/client';
-import { movieFormats, getInferMovieTitle } from '@peach/domain';
-import { sequence, logScope, prisma } from '@peach/utils';
+import glob from 'glob';
 
 const log = logScope('scan-library');
 

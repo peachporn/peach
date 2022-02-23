@@ -1,49 +1,17 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
-import { useHistory, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { GenreDetailQuery, GenreDetailQueryVariables } from '@peach/types';
+import { Fragment, FunctionalComponent, h } from 'preact';
 import { Helmet } from 'react-helmet';
+import { useHistory, useParams } from 'react-router-dom';
 import { CoverScreencaps } from '../../components/coverScreencaps';
+import { GenreCard } from '../../components/genreCard';
+import { Image } from '../../components/image';
 import { Loading } from '../../components/loading';
 import { colorCodeKinkiness } from '../../domain/genre';
-import { Image } from '../../components/image';
-import { shuffle } from '../../utils/list';
-import { GenreCard } from '../../components/genreCard';
 import { i } from '../../i18n/i18n';
-import { genreDetailQuery } from './queries/genreDetail.gql';
 import { EditGenreForm } from './components/editGenreForm';
-
-const screencapsForGenre = (genre: GenreDetailQuery['genre']) =>
-  shuffle(
-    [
-      ...(genre?.fetishMovies || []).map(m => ({
-        movieTitle: m.title,
-        src: m.screencaps.find(s => s.cover)!.src,
-      })),
-      ...(genre?.movies || []).map(m => ({
-        movieTitle: m.title,
-        src: m.screencaps.find(s => s.cover)!.src,
-      })),
-      ...(genre?.fetishMovies || []).flatMap(m =>
-        m.screencaps
-          .filter(s => !s.cover)
-          .map(s => ({
-            movieTitle: m.title,
-            src: s.src,
-          })),
-      ),
-      ...(genre?.movies || []).flatMap(m =>
-        m.screencaps
-          .filter(s => !s.cover)
-          .map(s => ({
-            movieTitle: m.title,
-            src: s.src,
-          })),
-      ),
-    ]
-      .filter(Boolean)
-      .slice(0, 6),
-  );
+import { genreDetailQuery } from './queries/genreDetail.gql';
+import { screencapsForGenre } from './utils/screencapsForGenre';
 
 export type GenreDetailPageProps = {
   genreId: string;

@@ -6,35 +6,47 @@ export const actressScrapeResult = gql`
     aliases
     picture
 
-    haircolor
-    eyecolor
-    ethnicity
+    appearance {
+      genderExpression
+      haircolor
+      eyecolor
 
-    cupsize
-    measurements {
-      bust
-      waist
-      hips
+      equipment {
+        ... on Tits {
+          hasImplants
+          size
+        }
+      }
+
+      height
+      weight
+      measurements {
+        chest
+        waist
+        hips
+      }
+
+      piercings
+      tattoos
     }
-    boobs
 
-    height
-    weight
+    dates {
+      dateOfBirth
+      dateOfCareerstart
+      dateOfRetirement
+      dateOfDeath
+    }
 
-    dateOfBirth
-    dateOfCareerstart
-    dateOfRetirement
-    dateOfDeath
+    location {
+      country
+      province
+      city
+    }
 
-    country
-    province
-    city
-
-    piercings
-    tattoos
-
-    socialMediaLinks
-    officialWebsite
+    contact {
+      socialMediaLinks
+      officialWebsite
+    }
   }
 
   fragment ScrapeAlternative on ScrapeAlternative {

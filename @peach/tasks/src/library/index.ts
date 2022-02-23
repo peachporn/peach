@@ -1,7 +1,8 @@
-import { logScope, prisma } from '@peach/utils';
+import { logScope } from '@peach/utils/src/logging';
+import { prisma } from '@peach/utils/src/prisma';
+import { scrapeMetadata } from '../metadata';
 
 import { defineTask } from '../task/template';
-import { scrapeMetadata } from '../metadata';
 import { scanVolume } from './scan';
 
 const log = logScope('scan-library');

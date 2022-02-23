@@ -1,5 +1,5 @@
-import { Prisma } from '@peach/utils';
 import { InferMovieTitle, Language, Settings } from '@peach/types';
+import { Prisma } from '@peach/utils/src/prisma';
 import { transformBaseGenre } from '../../genre/transformer/genre';
 
 const languageMap: { [key: string]: Language } = {

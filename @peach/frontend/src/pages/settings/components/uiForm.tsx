@@ -1,12 +1,8 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useContext } from 'preact/hooks';
-import { FetishesQuery, FetishesQueryVariables } from '@peach/types';
+import { GenreSearch } from '../../../components/genreSearch';
 import { SettingsContext } from '../../../context/settings';
 import { i } from '../../../i18n/i18n';
-import { fetishesQuery } from '../queries/fetishes.gql';
-import { FetishBubble } from '../../../components/fetishBubble';
-import { nonNullish } from '../../../utils/list';
-import { GenreSearch } from '../../../components/genreSearch';
 
 export const UIForm: FunctionalComponent = () => {
   const {

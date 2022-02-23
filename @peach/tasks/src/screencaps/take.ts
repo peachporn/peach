@@ -1,6 +1,6 @@
-import ffmpeg from 'fluent-ffmpeg';
 import { fullPath, movieScreencapPath } from '@peach/domain';
-import { logScope } from '@peach/utils';
+import { logScope } from '@peach/utils/src/logging';
+import ffmpeg from 'fluent-ffmpeg';
 import mkdirp from 'mkdirp';
 import { defineTask } from '../task/template';
 import { ScreencapMovie } from './type';

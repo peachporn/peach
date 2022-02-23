@@ -1,5 +1,4 @@
-import child_process from 'child_process';
-import { prisma, MovieMetadata } from '@peach/utils';
+import { MovieMetadata, prisma } from '@peach/utils/src/prisma';
 import { extractMovieMetadata } from './extract';
 import { transformMovieMetadata } from './transform';
 import { log, ScrapeableMovie } from './types';

@@ -1,8 +1,8 @@
-import { Prisma } from '@peach/utils';
 import { GenreFilter } from '@peach/types';
-import { transformGenre } from '../transformer/genre';
+import { Prisma } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
 import { transformMovie } from '../../movie/transformer/movie';
+import { transformGenre } from '../transformer/genre';
 
 export const applyGenreFilter = (
   filter: GenreFilter | undefined,

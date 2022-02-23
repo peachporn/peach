@@ -13,33 +13,44 @@ export type Scalars = {
 
 export type Actress = {
   __typename?: 'Actress';
-  age?: Maybe<Scalars['Int']>;
   aliases: Array<Scalars['String']>;
-  boobs?: Maybe<Boobs>;
-  city?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  cupsize?: Maybe<Cupsize>;
+  appearance?: Maybe<ActressAppearance>;
+  contact?: Maybe<ActressContact>;
+  dates?: Maybe<ActressDates>;
+  id: Scalars['Int'];
+  location?: Maybe<ActressLocation>;
+  movies?: Maybe<Array<Movie>>;
+  name: Scalars['String'];
+  picture?: Maybe<Scalars['String']>;
+};
+
+export type ActressAppearance = {
+  __typename?: 'ActressAppearance';
+  equipment: Array<Equipment>;
+  eyecolor?: Maybe<Eyecolor>;
+  genderExpression: GenderExpression;
+  haircolor?: Maybe<Haircolor>;
+  height?: Maybe<Scalars['Int']>;
+  measurements?: Maybe<Measurements>;
+  piercings?: Maybe<Scalars['String']>;
+  tattoos?: Maybe<Scalars['String']>;
+  weight?: Maybe<Scalars['Int']>;
+};
+
+export type ActressContact = {
+  __typename?: 'ActressContact';
+  officialWebsite?: Maybe<Scalars['String']>;
+  socialMediaLinks?: Maybe<Array<Scalars['String']>>;
+};
+
+export type ActressDates = {
+  __typename?: 'ActressDates';
+  age?: Maybe<Scalars['Int']>;
   dateOfBirth?: Maybe<Scalars['String']>;
   dateOfCareerstart?: Maybe<Scalars['String']>;
   dateOfDeath?: Maybe<Scalars['String']>;
   dateOfRetirement?: Maybe<Scalars['String']>;
-  ethnicity?: Maybe<Ethnicity>;
-  eyecolor?: Maybe<Eyecolor>;
-  haircolor?: Maybe<Haircolor>;
-  height?: Maybe<Scalars['Int']>;
-  id: Scalars['Int'];
   inBusiness?: Maybe<Scalars['Boolean']>;
-  location?: Maybe<GeoLocation>;
-  measurements?: Maybe<Measurements>;
-  movies?: Maybe<Array<Movie>>;
-  name: Scalars['String'];
-  officialWebsite?: Maybe<Scalars['String']>;
-  picture?: Maybe<Scalars['String']>;
-  piercings?: Maybe<Scalars['String']>;
-  province?: Maybe<Scalars['String']>;
-  socialMediaLinks?: Maybe<Array<Maybe<Scalars['String']>>>;
-  tattoos?: Maybe<Scalars['String']>;
-  weight?: Maybe<Scalars['Int']>;
 };
 
 export type ActressDetection = {
@@ -53,28 +64,31 @@ export type ActressFilter = {
   name?: Maybe<Scalars['String']>;
 };
 
+export type ActressLocation = {
+  __typename?: 'ActressLocation';
+  city?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  location?: Maybe<GeoLocation>;
+  province?: Maybe<Scalars['String']>;
+};
+
 export type ActressScrapeResult = {
   __typename?: 'ActressScrapeResult';
   actress?: Maybe<ScrapedActress>;
   alternatives: Array<ScrapeAlternative>;
 };
 
-export type Boobs =
-  | 'Fake'
-  | 'Natural';
-
 export type CreateActressInput = {
   aliases?: Maybe<Array<Scalars['String']>>;
-  boobs?: Maybe<Boobs>;
   city?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
-  cupsize?: Maybe<Cupsize>;
   dateOfBirth?: Maybe<Scalars['String']>;
   dateOfCareerstart?: Maybe<Scalars['String']>;
   dateOfDeath?: Maybe<Scalars['String']>;
   dateOfRetirement?: Maybe<Scalars['String']>;
-  ethnicity?: Maybe<Ethnicity>;
+  equipment: Array<EquipmentInput>;
   eyecolor?: Maybe<Eyecolor>;
+  genderExpression: GenderExpression;
   haircolor?: Maybe<Haircolor>;
   height?: Maybe<Scalars['Int']>;
   measurements?: Maybe<MeasurementsInput>;
@@ -82,7 +96,7 @@ export type CreateActressInput = {
   officialWebsite?: Maybe<Scalars['String']>;
   piercings?: Maybe<Scalars['String']>;
   province?: Maybe<Scalars['String']>;
-  socialMediaLinks?: Maybe<Array<Maybe<Scalars['String']>>>;
+  socialMediaLinks?: Maybe<Array<Scalars['String']>>;
   tattoos?: Maybe<Scalars['String']>;
   weight?: Maybe<Scalars['Int']>;
 };
@@ -112,13 +126,23 @@ export type Cupsize =
 
 export type Detection = ActressDetection | WebsiteDetection;
 
-export type Ethnicity =
-  | 'Asian'
-  | 'Caucasian'
-  | 'Ebony'
-  | 'Indian'
-  | 'Latina'
-  | 'NativeAmerican';
+export type Dick = {
+  __typename?: 'Dick';
+  isDick?: Maybe<Scalars['Boolean']>;
+};
+
+export type Equipment = Dick | Pussy | Tits;
+
+export type EquipmentInput = {
+  hasImplants?: Maybe<Scalars['Boolean']>;
+  size?: Maybe<Cupsize>;
+  type: EquipmentInputType;
+};
+
+export type EquipmentInputType =
+  | 'Dick'
+  | 'Pussy'
+  | 'Tits';
 
 export type ExtractedMovieInformation = {
   __typename?: 'ExtractedMovieInformation';
@@ -138,6 +162,11 @@ export type Format =
   | 'mkv'
   | 'mp4'
   | 'wmv';
+
+export type GenderExpression =
+  | 'Androgynous'
+  | 'Female'
+  | 'Male';
 
 export type Genre = {
   __typename?: 'Genre';
@@ -226,19 +255,13 @@ export type Language =
 
 export type Measurements = {
   __typename?: 'Measurements';
-  bust: Scalars['Int'];
+  chest: Scalars['Int'];
   hips: Scalars['Int'];
   waist: Scalars['Int'];
 };
 
 export type MeasurementsInput = {
-  bust: Scalars['Int'];
-  hips: Scalars['Int'];
-  waist: Scalars['Int'];
-};
-
-export type MesaurementsInput = {
-  bust: Scalars['Int'];
+  chest: Scalars['Int'];
   hips: Scalars['Int'];
   waist: Scalars['Int'];
 };
@@ -423,6 +446,11 @@ export type MutationUpdateWebsiteArgs = {
   websiteId: Scalars['Int'];
 };
 
+export type Pussy = {
+  __typename?: 'Pussy';
+  isPussy?: Maybe<Scalars['Boolean']>;
+};
+
 export type Quality =
   | 'FullHD'
   | 'HD'
@@ -534,28 +562,12 @@ export type ScrapeAlternative = {
 export type ScrapedActress = {
   __typename?: 'ScrapedActress';
   aliases?: Maybe<Array<Scalars['String']>>;
-  boobs?: Maybe<Boobs>;
-  city?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  cupsize?: Maybe<Cupsize>;
-  dateOfBirth?: Maybe<Scalars['String']>;
-  dateOfCareerstart?: Maybe<Scalars['String']>;
-  dateOfDeath?: Maybe<Scalars['String']>;
-  dateOfRetirement?: Maybe<Scalars['String']>;
-  ethnicity?: Maybe<Ethnicity>;
-  eyecolor?: Maybe<Eyecolor>;
-  haircolor?: Maybe<Haircolor>;
-  height?: Maybe<Scalars['Int']>;
-  location?: Maybe<GeoLocation>;
-  measurements?: Maybe<Measurements>;
+  appearance?: Maybe<ActressAppearance>;
+  contact?: Maybe<ActressContact>;
+  dates?: Maybe<ActressDates>;
+  location?: Maybe<ActressLocation>;
   name?: Maybe<Scalars['String']>;
-  officialWebsite?: Maybe<Scalars['String']>;
   picture?: Maybe<Scalars['String']>;
-  piercings?: Maybe<Scalars['String']>;
-  province?: Maybe<Scalars['String']>;
-  socialMediaLinks?: Maybe<Array<Maybe<Scalars['String']>>>;
-  tattoos?: Maybe<Scalars['String']>;
-  weight?: Maybe<Scalars['Int']>;
 };
 
 export type Screencap = {
@@ -594,6 +606,12 @@ export type TaskStatus =
   | 'PENDING'
   | 'RUNNING';
 
+export type Tits = {
+  __typename?: 'Tits';
+  hasImplants: Scalars['Boolean'];
+  size: Cupsize;
+};
+
 export type Token = {
   __typename?: 'Token';
   detection?: Maybe<Scalars['Int']>;
@@ -602,18 +620,18 @@ export type Token = {
 
 export type UpdateActressInput = {
   aliases?: Maybe<Array<Scalars['String']>>;
-  boobs?: Maybe<Boobs>;
   city?: Maybe<Scalars['String']>;
   country?: Maybe<Scalars['String']>;
-  cupsize?: Maybe<Cupsize>;
   dateOfBirth?: Maybe<Scalars['String']>;
   dateOfCareerstart?: Maybe<Scalars['String']>;
   dateOfDeath?: Maybe<Scalars['String']>;
   dateOfRetirement?: Maybe<Scalars['String']>;
-  ethnicity?: Maybe<Ethnicity>;
+  equipment?: Maybe<Array<Maybe<EquipmentInput>>>;
   eyecolor?: Maybe<Eyecolor>;
+  genderExpression?: Maybe<GenderExpression>;
   haircolor?: Maybe<Haircolor>;
   height?: Maybe<Scalars['Int']>;
+  imageUrl?: Maybe<Scalars['String']>;
   measurements?: Maybe<MeasurementsInput>;
   name?: Maybe<Scalars['String']>;
   officialWebsite?: Maybe<Scalars['String']>;
@@ -744,7 +762,7 @@ export type PathExistsQuery = { __typename?: 'Query', pathExists?: boolean | nul
 
 export type SettingsFragment = { __typename?: 'Settings', id: number, language: Language, inferMovieTitle: InferMovieTitle, libraryPath?: string | null | undefined, volumes: Array<{ __typename?: 'Volume', name: string, path: string }>, pinnedFetishes: Array<{ __typename?: 'Genre', id: number, name: string, picture: string }> };
 
-export type ActressDetailFragment = { __typename?: 'Actress', id: number, name: string, picture?: string | null | undefined, aliases: Array<string>, haircolor?: Haircolor | null | undefined, eyecolor?: Eyecolor | null | undefined, ethnicity?: Ethnicity | null | undefined, dateOfBirth?: string | null | undefined, dateOfCareerstart?: string | null | undefined, dateOfRetirement?: string | null | undefined, dateOfDeath?: string | null | undefined, age?: number | null | undefined, inBusiness?: boolean | null | undefined, country?: string | null | undefined, province?: string | null | undefined, city?: string | null | undefined, boobs?: Boobs | null | undefined, piercings?: string | null | undefined, tattoos?: string | null | undefined, height?: number | null | undefined, weight?: number | null | undefined, cupsize?: Cupsize | null | undefined, socialMediaLinks?: Array<string | null | undefined> | null | undefined, officialWebsite?: string | null | undefined, location?: { __typename?: 'GeoLocation', latitude: number, longitude: number } | null | undefined, measurements?: { __typename?: 'Measurements', bust: number, hips: number, waist: number } | null | undefined, movies?: Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean }> }> | null | undefined };
+export type ActressDetailFragment = { __typename?: 'Actress', id: number, name: string, picture?: string | null | undefined, aliases: Array<string>, appearance?: { __typename?: 'ActressAppearance', genderExpression: GenderExpression, haircolor?: Haircolor | null | undefined, eyecolor?: Eyecolor | null | undefined, height?: number | null | undefined, weight?: number | null | undefined, piercings?: string | null | undefined, tattoos?: string | null | undefined, equipment: Array<{ __typename?: 'Dick' } | { __typename?: 'Pussy' } | { __typename?: 'Tits', hasImplants: boolean, size: Cupsize }>, measurements?: { __typename?: 'Measurements', chest: number, hips: number, waist: number } | null | undefined } | null | undefined, dates?: { __typename?: 'ActressDates', dateOfBirth?: string | null | undefined, dateOfCareerstart?: string | null | undefined, dateOfRetirement?: string | null | undefined, dateOfDeath?: string | null | undefined, age?: number | null | undefined, inBusiness?: boolean | null | undefined } | null | undefined, location?: { __typename?: 'ActressLocation', country?: string | null | undefined, province?: string | null | undefined, city?: string | null | undefined, location?: { __typename?: 'GeoLocation', latitude: number, longitude: number } | null | undefined } | null | undefined, contact?: { __typename?: 'ActressContact', socialMediaLinks?: Array<string> | null | undefined, officialWebsite?: string | null | undefined } | null | undefined, movies?: Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean }> }> | null | undefined };
 
 export type UpdateActressMutationVariables = Exact<{
   actressId: Scalars['Int'];
@@ -759,13 +777,13 @@ export type ActressDetailQueryVariables = Exact<{
 }>;
 
 
-export type ActressDetailQuery = { __typename?: 'Query', actress?: { __typename?: 'Actress', id: number, name: string, picture?: string | null | undefined, aliases: Array<string>, haircolor?: Haircolor | null | undefined, eyecolor?: Eyecolor | null | undefined, ethnicity?: Ethnicity | null | undefined, dateOfBirth?: string | null | undefined, dateOfCareerstart?: string | null | undefined, dateOfRetirement?: string | null | undefined, dateOfDeath?: string | null | undefined, age?: number | null | undefined, inBusiness?: boolean | null | undefined, country?: string | null | undefined, province?: string | null | undefined, city?: string | null | undefined, boobs?: Boobs | null | undefined, piercings?: string | null | undefined, tattoos?: string | null | undefined, height?: number | null | undefined, weight?: number | null | undefined, cupsize?: Cupsize | null | undefined, socialMediaLinks?: Array<string | null | undefined> | null | undefined, officialWebsite?: string | null | undefined, location?: { __typename?: 'GeoLocation', latitude: number, longitude: number } | null | undefined, measurements?: { __typename?: 'Measurements', bust: number, hips: number, waist: number } | null | undefined, movies?: Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean }> }> | null | undefined } | null | undefined };
+export type ActressDetailQuery = { __typename?: 'Query', actress?: { __typename?: 'Actress', id: number, name: string, picture?: string | null | undefined, aliases: Array<string>, appearance?: { __typename?: 'ActressAppearance', genderExpression: GenderExpression, haircolor?: Haircolor | null | undefined, eyecolor?: Eyecolor | null | undefined, height?: number | null | undefined, weight?: number | null | undefined, piercings?: string | null | undefined, tattoos?: string | null | undefined, equipment: Array<{ __typename?: 'Dick' } | { __typename?: 'Pussy' } | { __typename?: 'Tits', hasImplants: boolean, size: Cupsize }>, measurements?: { __typename?: 'Measurements', chest: number, hips: number, waist: number } | null | undefined } | null | undefined, dates?: { __typename?: 'ActressDates', dateOfBirth?: string | null | undefined, dateOfCareerstart?: string | null | undefined, dateOfRetirement?: string | null | undefined, dateOfDeath?: string | null | undefined, age?: number | null | undefined, inBusiness?: boolean | null | undefined } | null | undefined, location?: { __typename?: 'ActressLocation', country?: string | null | undefined, province?: string | null | undefined, city?: string | null | undefined, location?: { __typename?: 'GeoLocation', latitude: number, longitude: number } | null | undefined } | null | undefined, contact?: { __typename?: 'ActressContact', socialMediaLinks?: Array<string> | null | undefined, officialWebsite?: string | null | undefined } | null | undefined, movies?: Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean }> }> | null | undefined } | null | undefined };
 
-export type ScrapedActressFragment = { __typename?: 'ScrapedActress', name?: string | null | undefined, aliases?: Array<string> | null | undefined, picture?: string | null | undefined, haircolor?: Haircolor | null | undefined, eyecolor?: Eyecolor | null | undefined, ethnicity?: Ethnicity | null | undefined, cupsize?: Cupsize | null | undefined, boobs?: Boobs | null | undefined, height?: number | null | undefined, weight?: number | null | undefined, dateOfBirth?: string | null | undefined, dateOfCareerstart?: string | null | undefined, dateOfRetirement?: string | null | undefined, dateOfDeath?: string | null | undefined, country?: string | null | undefined, province?: string | null | undefined, city?: string | null | undefined, piercings?: string | null | undefined, tattoos?: string | null | undefined, socialMediaLinks?: Array<string | null | undefined> | null | undefined, officialWebsite?: string | null | undefined, measurements?: { __typename?: 'Measurements', bust: number, waist: number, hips: number } | null | undefined };
+export type ScrapedActressFragment = { __typename?: 'ScrapedActress', name?: string | null | undefined, aliases?: Array<string> | null | undefined, picture?: string | null | undefined, appearance?: { __typename?: 'ActressAppearance', genderExpression: GenderExpression, haircolor?: Haircolor | null | undefined, eyecolor?: Eyecolor | null | undefined, height?: number | null | undefined, weight?: number | null | undefined, piercings?: string | null | undefined, tattoos?: string | null | undefined, equipment: Array<{ __typename?: 'Dick' } | { __typename?: 'Pussy' } | { __typename?: 'Tits', hasImplants: boolean, size: Cupsize }>, measurements?: { __typename?: 'Measurements', chest: number, waist: number, hips: number } | null | undefined } | null | undefined, dates?: { __typename?: 'ActressDates', dateOfBirth?: string | null | undefined, dateOfCareerstart?: string | null | undefined, dateOfRetirement?: string | null | undefined, dateOfDeath?: string | null | undefined } | null | undefined, location?: { __typename?: 'ActressLocation', country?: string | null | undefined, province?: string | null | undefined, city?: string | null | undefined } | null | undefined, contact?: { __typename?: 'ActressContact', socialMediaLinks?: Array<string> | null | undefined, officialWebsite?: string | null | undefined } | null | undefined };
 
 export type ScrapeAlternativeFragment = { __typename?: 'ScrapeAlternative', name: string, aliases?: Array<string> | null | undefined, pictureUrl?: string | null | undefined };
 
-export type ActressScrapeResultFragment = { __typename?: 'ActressScrapeResult', actress?: { __typename?: 'ScrapedActress', name?: string | null | undefined, aliases?: Array<string> | null | undefined, picture?: string | null | undefined, haircolor?: Haircolor | null | undefined, eyecolor?: Eyecolor | null | undefined, ethnicity?: Ethnicity | null | undefined, cupsize?: Cupsize | null | undefined, boobs?: Boobs | null | undefined, height?: number | null | undefined, weight?: number | null | undefined, dateOfBirth?: string | null | undefined, dateOfCareerstart?: string | null | undefined, dateOfRetirement?: string | null | undefined, dateOfDeath?: string | null | undefined, country?: string | null | undefined, province?: string | null | undefined, city?: string | null | undefined, piercings?: string | null | undefined, tattoos?: string | null | undefined, socialMediaLinks?: Array<string | null | undefined> | null | undefined, officialWebsite?: string | null | undefined, measurements?: { __typename?: 'Measurements', bust: number, waist: number, hips: number } | null | undefined } | null | undefined, alternatives: Array<{ __typename?: 'ScrapeAlternative', name: string, aliases?: Array<string> | null | undefined, pictureUrl?: string | null | undefined }> };
+export type ActressScrapeResultFragment = { __typename?: 'ActressScrapeResult', actress?: { __typename?: 'ScrapedActress', name?: string | null | undefined, aliases?: Array<string> | null | undefined, picture?: string | null | undefined, appearance?: { __typename?: 'ActressAppearance', genderExpression: GenderExpression, haircolor?: Haircolor | null | undefined, eyecolor?: Eyecolor | null | undefined, height?: number | null | undefined, weight?: number | null | undefined, piercings?: string | null | undefined, tattoos?: string | null | undefined, equipment: Array<{ __typename?: 'Dick' } | { __typename?: 'Pussy' } | { __typename?: 'Tits', hasImplants: boolean, size: Cupsize }>, measurements?: { __typename?: 'Measurements', chest: number, waist: number, hips: number } | null | undefined } | null | undefined, dates?: { __typename?: 'ActressDates', dateOfBirth?: string | null | undefined, dateOfCareerstart?: string | null | undefined, dateOfRetirement?: string | null | undefined, dateOfDeath?: string | null | undefined } | null | undefined, location?: { __typename?: 'ActressLocation', country?: string | null | undefined, province?: string | null | undefined, city?: string | null | undefined } | null | undefined, contact?: { __typename?: 'ActressContact', socialMediaLinks?: Array<string> | null | undefined, officialWebsite?: string | null | undefined } | null | undefined } | null | undefined, alternatives: Array<{ __typename?: 'ScrapeAlternative', name: string, aliases?: Array<string> | null | undefined, pictureUrl?: string | null | undefined }> };
 
 export type CreateActressMutationVariables = Exact<{
   input: CreateActressInput;
@@ -793,7 +811,7 @@ export type ScrapeActressQueryVariables = Exact<{
 }>;
 
 
-export type ScrapeActressQuery = { __typename?: 'Query', scrapeActress?: { __typename?: 'ActressScrapeResult', actress?: { __typename?: 'ScrapedActress', name?: string | null | undefined, aliases?: Array<string> | null | undefined, picture?: string | null | undefined, haircolor?: Haircolor | null | undefined, eyecolor?: Eyecolor | null | undefined, ethnicity?: Ethnicity | null | undefined, cupsize?: Cupsize | null | undefined, boobs?: Boobs | null | undefined, height?: number | null | undefined, weight?: number | null | undefined, dateOfBirth?: string | null | undefined, dateOfCareerstart?: string | null | undefined, dateOfRetirement?: string | null | undefined, dateOfDeath?: string | null | undefined, country?: string | null | undefined, province?: string | null | undefined, city?: string | null | undefined, piercings?: string | null | undefined, tattoos?: string | null | undefined, socialMediaLinks?: Array<string | null | undefined> | null | undefined, officialWebsite?: string | null | undefined, measurements?: { __typename?: 'Measurements', bust: number, waist: number, hips: number } | null | undefined } | null | undefined, alternatives: Array<{ __typename?: 'ScrapeAlternative', name: string, aliases?: Array<string> | null | undefined, pictureUrl?: string | null | undefined }> } | null | undefined };
+export type ScrapeActressQuery = { __typename?: 'Query', scrapeActress?: { __typename?: 'ActressScrapeResult', actress?: { __typename?: 'ScrapedActress', name?: string | null | undefined, aliases?: Array<string> | null | undefined, picture?: string | null | undefined, appearance?: { __typename?: 'ActressAppearance', genderExpression: GenderExpression, haircolor?: Haircolor | null | undefined, eyecolor?: Eyecolor | null | undefined, height?: number | null | undefined, weight?: number | null | undefined, piercings?: string | null | undefined, tattoos?: string | null | undefined, equipment: Array<{ __typename?: 'Dick' } | { __typename?: 'Pussy' } | { __typename?: 'Tits', hasImplants: boolean, size: Cupsize }>, measurements?: { __typename?: 'Measurements', chest: number, waist: number, hips: number } | null | undefined } | null | undefined, dates?: { __typename?: 'ActressDates', dateOfBirth?: string | null | undefined, dateOfCareerstart?: string | null | undefined, dateOfRetirement?: string | null | undefined, dateOfDeath?: string | null | undefined } | null | undefined, location?: { __typename?: 'ActressLocation', country?: string | null | undefined, province?: string | null | undefined, city?: string | null | undefined } | null | undefined, contact?: { __typename?: 'ActressContact', socialMediaLinks?: Array<string> | null | undefined, officialWebsite?: string | null | undefined } | null | undefined } | null | undefined, alternatives: Array<{ __typename?: 'ScrapeAlternative', name: string, aliases?: Array<string> | null | undefined, pictureUrl?: string | null | undefined }> } | null | undefined };
 
 export type GenreDetailFragment = { __typename?: 'Genre', id: number, name: string, category: GenreCategory, kinkiness: number, picture: string, validAsRoot: boolean, validAsFetish: boolean, fetishMovies?: Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean }> }> | null | undefined, movies?: Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean }> }> | null | undefined, linkableChildren: Array<{ __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, kinkiness: number }> };
 

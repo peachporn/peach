@@ -7,7 +7,7 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
-    "dev": "cd dist; nodemon -r --config ../nodemon.dev.json",
+    "dev": "cd dist; dotenv -e ../.development-env -- nodemon -r --config ../nodemon.dev.json",
     "watch": "scripts/copy-dev; run-p watch:*",
     "watch:app": "yarn workspace @peach/app run watch",
     "watch:frontend": "yarn workspace @peach/frontend run watch",
@@ -25,7 +25,7 @@
     "generate:types:types": "yarn workspace @peach/types run generate",
     "typecheck": "yarn workspaces run tsc",
     "lint": "yarn workspaces run lint",
-    "migrations:save": "prisma migrate dev --preview-feature",
+    "migrations:save": "dotenv -e .development-env -- prisma migrate dev --preview-feature",
     "studio": "cd dist; prisma studio"
   },
   "workspaces": [
@@ -41,7 +41,7 @@
     "@types/eslint": "^7.28.2",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
-    "dotenv": "^10.0.0",
+    "dotenv": "^16.0.0",
     "dotenv-cli": "^4.0.0",
     "esbuild": "^0.13.8",
     "eslint": "^8.0.1",
@@ -56,10 +56,12 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.4.1",
     "prisma": "^3.3.0",
+    "type-fest": "^2.12.0",
     "typescript": "^4.4.4"
   },
   "dependencies": {
-    "graphql": "^15.4.0"
+    "graphql": "^15.4.0",
+    "sharp": "^0.30.1"
   },
   "volta": {
     "node": "14.18.1",

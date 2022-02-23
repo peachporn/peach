@@ -1,8 +1,8 @@
-import { FunctionalComponent, h } from 'preact';
 import { GenreCardFragment } from '@peach/types';
+import { FunctionalComponent, h } from 'preact';
 import { useHistory } from 'react-router-dom';
-import { genreCategories } from '../../../domain/genre';
 import { GenreCard } from '../../../components/genreCard';
+import { genreCategories } from '../../../domain/genre';
 import { genreDetailRoute } from '../../../utils/route';
 
 type GenreGridByCategoryProps = {

@@ -1,4 +1,4 @@
-import { prisma, PrismaClient } from '@peach/utils';
+import { prisma, PrismaClient } from '@peach/utils/src/prisma';
 
 export type Context = {
   prisma: PrismaClient;

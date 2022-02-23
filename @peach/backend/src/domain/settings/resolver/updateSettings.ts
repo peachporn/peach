@@ -1,9 +1,9 @@
 import nodePath from 'path';
-import { omit } from 'ramda';
-import { exists } from '@peach/utils';
+import { exists } from '@peach/utils/src/fs';
 import mkdirp from 'mkdirp';
-import { transformSettings } from '../transformer/settings';
+import { omit } from 'ramda';
 import { Resolvers } from '../../../generated/resolver-types';
+import { transformSettings } from '../transformer/settings';
 import { saveVolumes } from './volumes';
 
 const createLibraryStructure = (path: string) =>

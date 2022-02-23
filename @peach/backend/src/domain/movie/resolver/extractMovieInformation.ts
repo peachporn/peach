@@ -1,10 +1,11 @@
-import { aperture, head, range, toLower, toUpper, uniq } from 'ramda';
-import { nonNullish, prisma } from '@peach/utils';
-import { spaceCase, pascalCase } from 'case-anything';
 import { Actress, Website } from '@peach/types';
+import { nonNullish } from '@peach/utils/src/list';
+import { prisma } from '@peach/utils/src/prisma';
+import { pascalCase, spaceCase } from 'case-anything';
+import { aperture, head, range, toLower, toUpper, uniq } from 'ramda';
 import { Resolvers } from '../../../generated/resolver-types';
-import { transformBaseWebsite } from '../../website/transformer/baseWebsite';
 import { transformActress } from '../../actress/transformer/actress';
+import { transformBaseWebsite } from '../../website/transformer/baseWebsite';
 
 export const isUppercase = (c: string) => toUpper(c) === c;
 

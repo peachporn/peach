@@ -1,11 +1,11 @@
-import { FunctionalComponent, Fragment, h } from 'preact';
-import { useForm } from 'react-hook-form';
 import { GenreCategory } from '@peach/types';
+import { Fragment, FunctionalComponent, h } from 'preact';
+import { useForm } from 'react-hook-form';
 import { genreCategories } from '../../domain/genre';
-import { GenreSearch } from '../genreSearch';
-import { Checkbox } from '../checkbox';
-import { KinkinessSlider } from '../../pages/genreList/components/kinkinessSlider';
 import { i } from '../../i18n/i18n';
+import { KinkinessSlider } from '../../pages/genreList/components/kinkinessSlider';
+import { Checkbox } from '../checkbox';
+import { GenreSearch } from '../genreSearch';
 import { Icon } from '../icon';
 import { GenreImageFormFields } from './genreImageFormFields';
 

@@ -1,6 +1,6 @@
-import { Prisma, Actress as DBActress } from '@peach/utils';
 import { fromDBActress } from '@peach/domain';
 import { Actress } from '@peach/types';
+import { Actress as DBActress, Prisma } from '@peach/utils/src/prisma';
 import { transformMovie } from '../../movie/transformer/movie';
 
 type ActressWithOptionalMovies = DBActress &

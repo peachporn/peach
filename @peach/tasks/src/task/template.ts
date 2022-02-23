@@ -1,7 +1,7 @@
-import { logScope } from '@peach/utils';
-import { Task, TaskCategory, TaskResult, TaskRunner, TaskDefinitionOptions } from './type';
+import { logScope } from '@peach/utils/src/logging';
 import { createTask, createUniqueTask } from './create';
 import { numberOfRunningTasksOfCategory } from './status';
+import { Task, TaskCategory, TaskDefinitionOptions, TaskResult, TaskRunner } from './type';
 
 const log = logScope('run-tasks');
 

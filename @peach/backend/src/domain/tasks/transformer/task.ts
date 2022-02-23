@@ -1,5 +1,5 @@
-import { Task as DBTask } from '@peach/utils';
 import { Task, TaskStatus } from '@peach/types';
+import { Task as DBTask } from '@peach/utils/src/prisma';
 
 const statusMap: { [key: string]: TaskStatus } = {
   PENDING: 'PENDING',

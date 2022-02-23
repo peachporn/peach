@@ -1,6 +1,6 @@
 import { indexFromFilename, movieScreencaps } from '@peach/domain';
-import { nonNullish } from '@peach/utils';
 import { Movie, Screencap } from '@peach/types';
+import { nonNullish } from '@peach/utils/src/list';
 import { Resolvers } from '../../../generated/resolver-types';
 
 const resolveScreencaps = (movie: Pick<Movie, 'id' | 'cover'>): Promise<Screencap[]> =>

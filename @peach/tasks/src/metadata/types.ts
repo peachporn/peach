@@ -1,5 +1,5 @@
+import { logScope } from '@peach/utils/src/logging';
 import { Prisma } from '@prisma/client';
-import { logScope } from '@peach/utils';
 
 export const log = logScope('scrape-metadata');
 

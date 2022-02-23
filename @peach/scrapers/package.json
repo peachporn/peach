@@ -22,6 +22,7 @@
   "devDependencies": {
     "@types/cheerio": "^0.22.30",
     "@types/node-fetch": "^3.0.3",
-    "@types/ramda": "^0.27.45"
+    "@types/ramda": "^0.27.45",
+    "type-fest": "^2.12.0"
   }
 }

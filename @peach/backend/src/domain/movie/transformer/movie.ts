@@ -1,6 +1,6 @@
-import { Prisma } from '@peach/utils';
 import { fromDBActress } from '@peach/domain';
 import { Movie } from '@peach/types';
+import { Prisma } from '@peach/utils/src/prisma';
 import { transformBaseGenre } from '../../genre/transformer/genre';
 import { transformBaseWebsite } from '../../website/transformer/baseWebsite';
 import { transformMetadata } from './metadata';

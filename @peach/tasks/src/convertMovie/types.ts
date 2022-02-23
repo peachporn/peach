@@ -1,4 +1,4 @@
-import { logScope } from '@peach/utils';
+import { logScope } from '@peach/utils/src/logging';
 import { Prisma } from '@prisma/client';
 
 export const log = logScope('convert-movie');

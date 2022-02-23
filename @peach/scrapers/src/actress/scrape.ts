@@ -28,7 +28,13 @@ const scrapeField = <T extends ScrapedActress | ScrapeAlternative>(
   if (!fieldScraper) {
     throw new Error(`Error reading field scraper definition for field ${field}`);
   }
-  const { type, selector, transform } = fieldScraper;
+  const { type } = fieldScraper;
+
+  if (type === 'constant') {
+    return fieldScraper.value;
+  }
+
+  const { transform, selector } = fieldScraper;
 
   const extract = extractors.get(type);
   if (!extract) {
@@ -49,6 +55,7 @@ export const scrapeActress =
     html(scraper.nameToUrl(name))
       .then($ =>
         Object.entries(scraper.fields).map(([field, fieldScraper]) =>
+          // @ts-ignore
           scrapeField($, field, fieldScraper),
         ),
       )
@@ -63,13 +70,8 @@ export const scrapeAlternatives =
       return alternativeItems.toArray().map(
         alternative$ =>
           Object.entries(scraper.alternativeFields)
-            .map(
-              ([field, fieldScraper]) =>
-                scrapeField(
-                  load(cheerioHtml(alternative$)),
-                  field,
-                  fieldScraper,
-                ) as ScrapeAlternative,
+            .map(([field, fieldScraper]) =>
+              scrapeField(load(cheerioHtml(alternative$)), field, fieldScraper),
             )
             .reduce(mergeDeepLeft) as ScrapeAlternative,
       );

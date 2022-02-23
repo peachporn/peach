@@ -1,5 +1,7 @@
-import { PrismaClient, nonNullish, fromEnvOptional } from '@peach/utils';
 import { UpdateSettingsInput } from '@peach/types';
+import { fromEnvOptional } from '@peach/utils/src/env';
+import { nonNullish } from '@peach/utils/src/list';
+import { PrismaClient } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
 
 export const saveVolumes = async (

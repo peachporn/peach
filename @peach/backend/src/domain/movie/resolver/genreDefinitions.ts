@@ -1,8 +1,8 @@
-import { PrismaClient, GenreDefinition as DBGenreDefinition } from '@peach/utils';
 import { genreIdsForGenreLink, GenreLinkRaw, resolveGenreLink } from '@peach/domain';
 import { GenreDefinition, GenreLink } from '@peach/types';
-import { transformGenre } from '../../genre/transformer/genre';
+import { GenreDefinition as DBGenreDefinition, PrismaClient } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
+import { transformGenre } from '../../genre/transformer/genre';
 import { transformMovie } from '../transformer/movie';
 
 export const serializeGenreDefinitionGenre = (genreLinks: GenreLinkRaw) =>

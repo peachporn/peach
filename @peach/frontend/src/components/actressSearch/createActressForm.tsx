@@ -1,10 +1,11 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useState } from 'preact/hooks';
-import { ActressForm, ActressFormValues } from '../actressForm';
+import { ActressFormValues } from '../../domain/actress/types/actressFormValues';
 import { useCreateActress } from '../../hooks/useCreateActress';
+import { i } from '../../i18n/i18n';
+import { ActressForm } from '../actressForm';
 import { Icon } from '../icon';
 import { Modal } from '../modal';
-import { i } from '../../i18n/i18n';
 
 export type CreateActressFormProps = {
   name: string;

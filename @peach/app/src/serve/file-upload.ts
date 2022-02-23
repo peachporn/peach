@@ -1,7 +1,8 @@
+import { getActressImagePath, getGenreImagePath, getWebsiteImagePath } from '@peach/domain';
+import { downloadImage } from '@peach/utils/src/download-image';
+import { prisma } from '@peach/utils/src/prisma';
 import { Application } from 'express';
 import fileUpload, { UploadedFile } from 'express-fileupload';
-import { getActressImagePath, getGenreImagePath, getWebsiteImagePath } from '@peach/domain';
-import { downloadImage, prisma } from '@peach/utils';
 import sharp from 'sharp';
 
 export const applyFileUploadMiddleware = (app: Application) => {

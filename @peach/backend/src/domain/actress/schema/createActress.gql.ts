@@ -1,30 +1,24 @@
 import { gql } from 'apollo-server';
 
 export const createActressTypeDefs = gql`
-  input MesaurementsInput {
-    bust: Int!
-    waist: Int!
-    hips: Int!
-  }
-
   input CreateActressInput {
     name: String!
     aliases: [String!]
-
-    haircolor: Haircolor
-    eyecolor: Eyecolor
-    ethnicity: Ethnicity
 
     dateOfBirth: String
     dateOfCareerstart: String
     dateOfRetirement: String
     dateOfDeath: String
 
+    haircolor: Haircolor
+    eyecolor: Eyecolor
+
     country: String
     province: String
     city: String
 
-    boobs: Boobs
+    equipment: [EquipmentInput!]!
+    genderExpression: GenderExpression!
 
     piercings: String
     tattoos: String
@@ -32,9 +26,8 @@ export const createActressTypeDefs = gql`
     height: Int
     weight: Int
     measurements: MeasurementsInput
-    cupsize: Cupsize
 
-    socialMediaLinks: [String]
+    socialMediaLinks: [String!]
     officialWebsite: String
   }
 

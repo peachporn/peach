@@ -1,7 +1,7 @@
-import { Prisma } from '@peach/utils';
 import { WebsiteFilter } from '@peach/types';
-import { transformWebsite } from '../transformer/website';
+import { Prisma } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
+import { transformWebsite } from '../transformer/website';
 
 const applyWebsiteFilter = (
   filter: WebsiteFilter | undefined,

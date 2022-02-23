@@ -1,5 +1,5 @@
-import { Genre as DBGenre, Prisma } from '@peach/utils';
 import { Genre, GenreCategory } from '@peach/types';
+import { Genre as DBGenre, Prisma } from '@peach/utils/src/prisma';
 
 const categoryMap: { [key: string]: GenreCategory } = {
   Position: 'Position',

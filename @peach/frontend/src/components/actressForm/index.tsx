@@ -1,45 +1,17 @@
+import { useQuery } from '@apollo/client';
+import { ScrapeActressQuery, ScrapeActressQueryVariables } from '@peach/types';
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
-import { useQuery } from '@apollo/client';
 import { useForm } from 'react-hook-form';
-import { ScrapeActressQuery, ScrapeActressQueryVariables } from '@peach/types';
-import { formatDateForInput } from '../../utils/date';
-import { scrapeActressQuery } from '../../pages/actressList/queries/scrapeActress.gql';
-import { Loading } from '../loading';
+import { ActressFormValues } from '../../domain/actress/types/actressFormValues';
+import { isTits } from '../../domain/actress/types/appearance';
 import { i } from '../../i18n/i18n';
+import { scrapeActressQuery } from '../../pages/actressList/queries/scrapeActress.gql';
+import { formatDateForInput } from '../../utils/date';
 import { Icon } from '../icon';
-import { ActressFormFields } from './actressFormFields';
+import { Loading } from '../loading';
 import { ActressAlternativeList } from './actressAlternativeList';
-
-export type ActressFormValues = {
-  name: string;
-  aliases: string;
-  haircolor: string;
-  eyecolor: string;
-  ethnicity: string;
-  dateOfBirth: string;
-  dateOfCareerstart: string;
-  dateOfRetirement: string;
-  dateOfDeath: string;
-  city: string;
-  province: string;
-  country: string;
-  cupsize: string;
-  boobs: string;
-  measurements: {
-    bust: string;
-    waist: string;
-    hips: string;
-  };
-  height: string;
-  weight: string;
-  piercings: string;
-  tattoos: string;
-  officialWebsite: string;
-  socialMediaLinks: string;
-
-  imageUrl: string;
-};
+import { ActressFormFields } from './actressFormFields';
 
 export type ActressFormProps = {
   onSubmit: (data: ActressFormValues) => Promise<unknown>;
@@ -66,72 +38,52 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
     },
   );
 
-  const { register, handleSubmit, setValue, watch, reset } = useForm<ActressFormValues>({
+  const form = useForm<ActressFormValues>({
     defaultValues,
   });
+  const { handleSubmit, setValue, watch, reset } = form;
 
   useEffect(() => {
     if (!data?.scrapeActress?.actress) return;
+    const actress = data.scrapeActress.actress;
 
-    const {
+    const { name, picture, aliases } = actress;
+
+    const initialValues = {
       name,
-      picture,
+      imageUrl: picture,
       aliases,
-      haircolor,
-      eyecolor,
-      ethnicity,
-      dateOfBirth,
-      dateOfCareerstart,
-      dateOfRetirement,
-      dateOfDeath,
-      city,
-      province,
-      country,
-      cupsize,
-      boobs,
-      measurements,
-      height,
-      weight,
-      piercings,
-      tattoos,
-      socialMediaLinks,
-      officialWebsite,
-    } = data?.scrapeActress?.actress;
 
-    setValue('name', name);
-    setValue('imageUrl', picture);
-    setValue('aliases', aliases);
-    setValue('haircolor', haircolor);
-    setValue('eyecolor', eyecolor);
-    setValue('ethnicity', ethnicity);
-    if (dateOfBirth) {
-      setValue('dateOfBirth', formatDateForInput(dateOfBirth));
-    }
-    if (dateOfCareerstart) {
-      setValue('dateOfCareerstart', formatDateForInput(dateOfCareerstart));
-    }
-    if (dateOfRetirement) {
-      setValue('dateOfRetirement', formatDateForInput(dateOfRetirement));
-    }
-    if (dateOfDeath) {
-      setValue('dateOfDeath', formatDateForInput(dateOfDeath));
-    }
-    setValue('city', city);
-    setValue('province', province);
-    setValue('country', country);
-    setValue('cupsize', cupsize);
-    setValue('boobs', boobs);
-    if (measurements) {
-      setValue('measurements.bust', measurements.bust);
-      setValue('measurements.waist', measurements.waist);
-      setValue('measurements.hips', measurements.hips);
-    }
-    setValue('height', height);
-    setValue('weight', weight);
-    setValue('piercings', piercings);
-    setValue('tattoos', tattoos);
-    setValue('socialMediaLinks', socialMediaLinks?.join('\n') || '');
-    setValue('officialWebsite', officialWebsite);
+      cupsize: actress.appearance?.equipment.find(isTits)?.size,
+      hasImplants: actress.appearance?.equipment.find(isTits)?.hasImplants,
+      height: actress.appearance?.height,
+      weight: actress.appearance?.weight,
+      piercings: actress.appearance?.piercings,
+      tattoos: actress.appearance?.tattoos,
+      'measurements.chest': actress.appearance?.measurements?.chest,
+      'measurements.waist': actress.appearance?.measurements?.waist,
+      'measurements.hips': actress.appearance?.measurements?.hips,
+
+      dateOfBirth: actress.dates?.dateOfBirth
+        ? formatDateForInput(actress.dates?.dateOfBirth)
+        : undefined,
+      dateOfCareerstart: actress.dates?.dateOfCareerstart
+        ? formatDateForInput(actress.dates?.dateOfCareerstart)
+        : undefined,
+      dateOfRetirement: actress.dates?.dateOfRetirement
+        ? formatDateForInput(actress.dates?.dateOfRetirement)
+        : undefined,
+      dateOfDeath: actress.dates?.dateOfDeath
+        ? formatDateForInput(actress.dates?.dateOfDeath)
+        : undefined,
+
+      ...actress.location,
+      ...actress.contact,
+    };
+
+    Object.entries(initialValues).forEach(([key, value]) => {
+      setValue(key, value);
+    });
   }, [data]);
 
   const imageUrl = watch('imageUrl');
@@ -180,17 +132,21 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
       )}
       {!actress?.name || alternatives.length ? null : (
         <form
+          className={'max-w-screen-lg mx-auto pb-8'}
           onSubmit={e => {
             e.preventDefault();
             handleSubmit(onSubmit)();
           }}
         >
-          <ActressFormFields className="my-3" register={register} imageUrl={imageUrl} />
-          <button className="bg-pink w-full text-white py-1 rounded-sm" type="submit">
+          <ActressFormFields className="my-3" form={form} imageUrl={imageUrl} />
+          <button
+            className="bg-pink text-white py-1 rounded-sm w-72 mt-12 block mx-auto"
+            type="submit"
+          >
             <Icon icon="check" />
           </button>
           <button
-            className="bg-grey-200 w-full text-white py-1 rounded-sm"
+            className="bg-gray-200 text-white py-1 rounded-sm w-72 mt-2 block mx-auto"
             onClick={() => {
               setSearchName('');
               if (onCancel) {

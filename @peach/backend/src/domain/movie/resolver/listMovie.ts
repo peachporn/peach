@@ -1,5 +1,6 @@
-import { Prisma, shuffle } from '@peach/utils';
 import { MovieFilter } from '@peach/types';
+import { shuffle } from '@peach/utils/src/list';
+import { Prisma } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
 import { transformMovie } from '../transformer/movie';
 

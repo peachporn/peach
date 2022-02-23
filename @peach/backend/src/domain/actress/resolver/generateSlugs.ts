@@ -1,5 +1,5 @@
 import { fromDBActress } from '@peach/domain';
-import { prisma } from '@peach/utils';
+import { prisma } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
 import { slugifyActressName } from './createActress';
 

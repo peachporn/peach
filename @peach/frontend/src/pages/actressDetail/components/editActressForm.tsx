@@ -1,25 +1,11 @@
-import { FunctionalComponent, Fragment, h } from 'preact';
+import { ActressDetailFragment } from '@peach/types';
+import { Fragment, FunctionalComponent, h } from 'preact';
 import { useState } from 'preact/hooks';
-import { useMutation } from '@apollo/client';
-import {
-  ActressDetailFragment,
-  Boobs,
-  Cupsize,
-  Ethnicity,
-  Eyecolor,
-  Haircolor,
-  UpdateActressMutation,
-  UpdateActressMutationVariables,
-} from '@peach/types';
-import { omit } from 'ramda';
+import { ActressForm } from '../../../components/actressForm';
 import { Icon } from '../../../components/icon';
 import { Modal } from '../../../components/modal';
-import { Checkbox } from '../../../components/checkbox';
-import { uploadActressImageFromUrl } from '../../../fetch/uploadImage';
-import { ActressForm, ActressFormValues } from '../../../components/actressForm';
-import { updateActressMutation } from '../mutations/updateActress.gql';
-import { isBoobs, isCupsize, isEthnicity, isEyecolor, isHaircolor } from '../../../domain/actress';
-import { formatDateForInput } from '../../../utils/date';
+import { actressDetailFragmentToFormValues } from '../../../domain/actress/conversions/detailFragmentToFormValues';
+import { useUpdateActress } from '../hooks/useUpdateActress';
 
 type EditActressFormProps = {
   actress: ActressDetailFragment;
@@ -33,56 +19,10 @@ export const EditActressForm: FunctionalComponent<EditActressFormProps> = ({
   const [visible, setVisible] = useState(false);
   const open = () => setVisible(true);
 
-  const [updateActress] = useMutation<UpdateActressMutation, UpdateActressMutationVariables>(
-    updateActressMutation,
-  );
-
-  const onSubmit = (data: ActressFormValues) =>
-    updateActress({
-      variables: {
-        actressId: actress.id,
-        data: {
-          ...omit(['imageUrl'], data),
-          aliases: data.aliases.split(','),
-          dateOfBirth: data.dateOfBirth || undefined,
-          dateOfCareerstart: data.dateOfCareerstart || undefined,
-          dateOfRetirement: data.dateOfRetirement || undefined,
-          dateOfDeath: data.dateOfDeath || undefined,
-          haircolor:
-            data.haircolor && isHaircolor(data.haircolor)
-              ? (data.haircolor as Haircolor)
-              : undefined,
-          eyecolor:
-            data.eyecolor && isEyecolor(data.eyecolor) ? (data.eyecolor as Eyecolor) : undefined,
-          ethnicity:
-            data.ethnicity && isEthnicity(data.ethnicity)
-              ? (data.ethnicity as Ethnicity)
-              : undefined,
-          height: data.height ? parseInt(data.height, 10) : undefined,
-          weight: data.weight ? parseInt(data.weight, 10) : undefined,
-          measurements:
-            data.measurements.bust && data.measurements.hips && data.measurements.waist
-              ? {
-                  bust: parseInt(data.measurements.bust, 10),
-                  hips: parseInt(data.measurements.hips, 10),
-                  waist: parseInt(data.measurements.waist, 10),
-                }
-              : undefined,
-          cupsize: data.cupsize && isCupsize(data.cupsize) ? (data.cupsize as Cupsize) : undefined,
-          boobs: data.boobs && isBoobs(data.boobs) ? (data.boobs as Boobs) : undefined,
-          socialMediaLinks: data.socialMediaLinks?.split('\n'),
-        },
-      },
-    })
-      .then(() =>
-        data.imageUrl && data.imageUrl !== actress.picture
-          ? uploadActressImageFromUrl(actress.id, data.imageUrl)
-          : Promise.resolve(),
-      )
-      .then(() => {
-        setVisible(false);
-        onSubmitCallback();
-      });
+  const onSubmit = useUpdateActress(actress, () => {
+    setVisible(false);
+    onSubmitCallback();
+  });
 
   return (
     <Fragment>
@@ -94,37 +34,7 @@ export const EditActressForm: FunctionalComponent<EditActressFormProps> = ({
       </button>
       <Modal visible={visible} setVisible={setVisible}>
         <ActressForm
-          defaultValues={{
-            aliases: actress.aliases.join('\n'),
-            dateOfBirth: actress.dateOfBirth ? formatDateForInput(actress.dateOfBirth) : undefined,
-            dateOfCareerstart: actress.dateOfCareerstart
-              ? formatDateForInput(actress.dateOfCareerstart)
-              : undefined,
-            dateOfRetirement: actress.dateOfRetirement
-              ? formatDateForInput(actress.dateOfRetirement)
-              : undefined,
-            dateOfDeath: actress.dateOfDeath ? formatDateForInput(actress.dateOfDeath) : undefined,
-            measurements: {
-              bust: `${actress.measurements?.bust || ''}`,
-              hips: `${actress.measurements?.hips || ''}`,
-              waist: `${actress.measurements?.waist || ''}`,
-            },
-            ethnicity: actress.ethnicity || undefined,
-            haircolor: actress.haircolor || undefined,
-            eyecolor: actress.eyecolor || undefined,
-            city: actress.city || undefined,
-            province: actress.province || undefined,
-            country: actress.country || undefined,
-            cupsize: actress.cupsize || undefined,
-            boobs: actress.boobs || undefined,
-            piercings: actress.piercings || undefined,
-            tattoos: actress.tattoos || undefined,
-            officialWebsite: actress.officialWebsite || undefined,
-            height: `${actress.height || ''}`,
-            weight: `${actress.weight || ''}`,
-            socialMediaLinks: (actress.socialMediaLinks || []).join('\n'),
-            imageUrl: actress.picture || '',
-          }}
+          defaultValues={actressDetailFragmentToFormValues(actress)}
           onSubmit={onSubmit}
         />
       </Modal>

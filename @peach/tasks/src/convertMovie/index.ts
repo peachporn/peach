@@ -1,6 +1,6 @@
 import { promises } from 'fs';
 import path from 'path';
-import { prisma } from '@peach/utils';
+import { prisma } from '@peach/utils/src/prisma';
 import { scrapeMetadata } from '../metadata';
 import { defineTask } from '../task/template';
 import { convertMovieToMp4, extensionToMp4 } from './convert';

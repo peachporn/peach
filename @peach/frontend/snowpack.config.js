@@ -6,8 +6,13 @@ module.exports = {
     static: {
       url: '/',
       static: true,
-      resolve: false
+      resolve: false,
     },
+  },
+  workspaceRoot: '../../',
+  packageOptions: {
+    external: ['fs', 'path', 'child_process'],
+    polyfillNode: true,
   },
   buildOptions: {
     out: '../../dist/frontend',
@@ -16,5 +21,5 @@ module.exports = {
     react: 'preact/compat',
     'react-dom': 'preact/compat',
   },
-  plugins: ['@snowpack/plugin-postcss'],
+  plugins: ['@snowpack/plugin-postcss', '@prefresh/snowpack'],
 };

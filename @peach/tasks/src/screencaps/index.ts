@@ -1,4 +1,4 @@
-import { prisma } from '@peach/utils';
+import { prisma } from '@peach/utils/src/prisma';
 import { hasMissingScreencaps } from './definitions';
 import { takeScreencap } from './take';
 

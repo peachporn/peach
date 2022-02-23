@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { execP } from '@peach/utils';
+import { execP } from '@peach/utils/src/exec';
 import { init } from 'ramda';
 import { ConvertableMovie } from './types';
 

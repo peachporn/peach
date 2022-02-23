@@ -1,7 +1,7 @@
-import { Prisma } from '@peach/utils';
 import { CreateActressInput } from '@peach/types';
-import { transformActress } from '../transformer/actress';
+import { Prisma } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
+import { transformActress } from '../transformer/actress';
 
 export const slugifyActressName = (name: string, aliases?: string[]): string =>
   `${name.replace(/\W/g, '').toLowerCase()}${
@@ -20,6 +20,7 @@ const toDBActress = (actress: CreateActressInput): Omit<Prisma.ActressCreateInpu
   dateOfRetirement: actress.dateOfRetirement ? new Date(actress.dateOfRetirement) : undefined,
   dateOfDeath: actress.dateOfDeath ? new Date(actress.dateOfDeath) : undefined,
   socialMediaLinks: actress.socialMediaLinks ? JSON.stringify(actress.socialMediaLinks) : undefined,
+  genderExpression: actress.genderExpression,
 });
 
 export const createActressResolvers: Resolvers = {

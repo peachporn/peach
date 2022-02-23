@@ -7,42 +7,53 @@ export const actressDetailFragment = gql`
     picture
     aliases
 
-    haircolor
-    eyecolor
-    ethnicity
+    appearance {
+      genderExpression
+      haircolor
+      eyecolor
 
-    dateOfBirth
-    dateOfCareerstart
-    dateOfRetirement
-    dateOfDeath
-    age
+      equipment {
+        ... on Tits {
+          hasImplants
+          size
+        }
+      }
 
-    inBusiness
+      height
+      weight
+      measurements {
+        chest
+        hips
+        waist
+      }
 
-    country
-    province
-    city
+      piercings
+      tattoos
+    }
+
+    dates {
+      dateOfBirth
+      dateOfCareerstart
+      dateOfRetirement
+      dateOfDeath
+      age
+      inBusiness
+    }
+
     location {
-      latitude
-      longitude
+      country
+      province
+      city
+      location {
+        latitude
+        longitude
+      }
     }
 
-    boobs
-
-    piercings
-    tattoos
-
-    height
-    weight
-    measurements {
-      bust
-      hips
-      waist
+    contact {
+      socialMediaLinks
+      officialWebsite
     }
-    cupsize
-
-    socialMediaLinks
-    officialWebsite
 
     movies {
       id

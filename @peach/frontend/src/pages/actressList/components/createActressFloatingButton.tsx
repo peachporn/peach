@@ -1,9 +1,10 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useState } from 'preact/hooks';
-import { ActressForm, ActressFormValues } from '../../../components/actressForm';
-import { useCreateActress } from '../../../hooks/useCreateActress';
+import { ActressForm } from '../../../components/actressForm';
 import { Icon } from '../../../components/icon';
 import { Modal } from '../../../components/modal';
+import { ActressFormValues } from '../../../domain/actress/types/actressFormValues';
+import { useCreateActress } from '../../../hooks/useCreateActress';
 
 export type CreateActressFloatingButtonProps = {
   onSubmit: () => void;

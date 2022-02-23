@@ -1,4 +1,5 @@
-import { sequence, logScope } from '@peach/utils';
+import { logScope } from '@peach/utils/src/logging';
+import { sequence } from '@peach/utils/src/promise';
 import { markTask, runningTasks } from './status';
 import { toTask } from './type';
 

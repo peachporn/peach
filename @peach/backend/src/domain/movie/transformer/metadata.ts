@@ -1,5 +1,5 @@
-import { MovieMetadata } from '@peach/utils';
 import { Format, Movie, Quality } from '@peach/types';
+import { MovieMetadata } from '@peach/utils/src/prisma';
 
 const qualityMap: { [key: string]: Quality } = {
   SD: 'SD',

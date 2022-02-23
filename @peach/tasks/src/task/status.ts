@@ -1,5 +1,5 @@
+import { prisma } from '@peach/utils/src/prisma';
 import { omit } from 'ramda';
-import { prisma } from '@peach/utils';
 import { DBTask, Task, TaskCategory, TaskStatus, toDBTask } from './type';
 
 export const runningTasks = (): Promise<DBTask[]> =>

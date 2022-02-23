@@ -1,5 +1,5 @@
+import { logScope } from '@peach/utils/src/logging';
 import which from 'which';
-import { logScope } from '@peach/utils';
 
 const log = logScope('check-prerequisites');
 

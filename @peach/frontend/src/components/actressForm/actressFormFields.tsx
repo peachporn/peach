@@ -24,6 +24,8 @@ export const ActressFormFields: FunctionalComponent<ActressFormFieldsProps> = ({
 }) => {
   const { register, watch } = form;
   const hasTits = watch('hasTits');
+  const name = watch('name');
+  console.log(name);
 
   return (
     <div className={`${className || ''}`}>

@@ -1,17 +1,13 @@
-import { useQuery } from '@apollo/client';
-import { ScrapeActressQuery, ScrapeActressQueryVariables } from '@peach/types';
 import { Fragment, FunctionalComponent, h } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useState } from 'preact/hooks';
 import { useForm } from 'react-hook-form';
 import { ActressFormValues } from '../../domain/actress/types/actressFormValues';
-import { isTits } from '../../domain/actress/types/appearance';
 import { i } from '../../i18n/i18n';
-import { scrapeActressQuery } from '../../pages/actressList/queries/scrapeActress.gql';
-import { formatDateForInput } from '../../utils/date';
 import { Icon } from '../icon';
 import { Loading } from '../loading';
 import { ActressAlternativeList } from './actressAlternativeList';
 import { ActressFormFields } from './actressFormFields';
+import { useScrapeActress } from './hooks/useScrapeActress';
 
 export type ActressFormProps = {
   onSubmit: (data: ActressFormValues) => Promise<unknown>;
@@ -29,76 +25,19 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
   const [manual, setManual] = useState(false);
   const [searchName, setSearchName] = useState<string>(defaultSearchName || '');
 
-  const { data, loading } = useQuery<ScrapeActressQuery, ScrapeActressQueryVariables>(
-    scrapeActressQuery,
-    {
-      skip: searchName === '',
-      variables: {
-        name: searchName,
-      },
-    },
-  );
-
   const form = useForm<ActressFormValues>({
     defaultValues,
   });
   const { handleSubmit, setValue, watch, reset } = form;
-
-  useEffect(() => {
-    if (!data?.scrapeActress?.actress) return;
-    const actress = data.scrapeActress.actress;
-
-    const { name, picture, aliases } = actress;
-
-    const initialValues = {
-      name,
-      imageUrl: picture,
-      aliases,
-
-      cupsize: actress.appearance?.equipment.find(isTits)?.size,
-      hasImplants: actress.appearance?.equipment.find(isTits)?.hasImplants,
-      height: actress.appearance?.height,
-      weight: actress.appearance?.weight,
-      piercings: actress.appearance?.piercings,
-      tattoos: actress.appearance?.tattoos,
-      'measurements.chest': actress.appearance?.measurements?.chest,
-      'measurements.waist': actress.appearance?.measurements?.waist,
-      'measurements.hips': actress.appearance?.measurements?.hips,
-
-      dateOfBirth: actress.dates?.dateOfBirth
-        ? formatDateForInput(actress.dates?.dateOfBirth)
-        : undefined,
-      dateOfCareerstart: actress.dates?.dateOfCareerstart
-        ? formatDateForInput(actress.dates?.dateOfCareerstart)
-        : undefined,
-      dateOfRetirement: actress.dates?.dateOfRetirement
-        ? formatDateForInput(actress.dates?.dateOfRetirement)
-        : undefined,
-      dateOfDeath: actress.dates?.dateOfDeath
-        ? formatDateForInput(actress.dates?.dateOfDeath)
-        : undefined,
-
-      ...actress.location,
-      ...actress.contact,
-    };
-
-    Object.entries(initialValues).forEach(([key, value]) => {
-      setValue(key, value);
-    });
-  }, [data]);
-
   const imageUrl = watch('imageUrl');
 
-  const resetForm = () => {
-    reset();
-  };
-
-  const actress = data?.scrapeActress?.actress || defaultValues;
-  const alternatives = data?.scrapeActress?.alternatives || [];
+  const scrapeActress = useScrapeActress(searchName, form);
+  const actress = scrapeActress.actress ?? defaultValues;
+  const { loading, alternatives } = scrapeActress;
 
   const onSubmit = (values: ActressFormValues) =>
     onSubmitCallback(values).then(() => {
-      resetForm();
+      reset();
     });
 
   return (

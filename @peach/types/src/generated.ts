@@ -156,7 +156,8 @@ export type Eyecolor =
   | 'Green'
   | 'Grey'
   | 'Hazel'
-  | 'Other';
+  | 'Other'
+  | 'Unknown';
 
 export type Format =
   | 'mkv'
@@ -244,7 +245,8 @@ export type Haircolor =
   | 'Blonde'
   | 'Brunette'
   | 'Other'
-  | 'Red';
+  | 'Red'
+  | 'Unknown';
 
 export type InferMovieTitle =
   | 'FILENAME'

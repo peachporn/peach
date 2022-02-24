@@ -1,7 +1,7 @@
 import { fromDBActress } from '@peach/domain';
+import { slugifyActressName } from '@peach/domain/src/actress/conversions/slugifyName';
 import { prisma } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
-import { slugifyActressName } from './createActress';
 
 export const generateSlugsResolver: Resolvers = {
   Mutation: {

@@ -8,6 +8,7 @@ export const actressAppearanceTypeDefs = gql`
     Red
     Auburn
     Other
+    Unknown
   }
 
   enum Eyecolor {
@@ -17,6 +18,7 @@ export const actressAppearanceTypeDefs = gql`
     Hazel
     Grey
     Other
+    Unknown
   }
 
   type Measurements {

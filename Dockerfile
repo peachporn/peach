@@ -22,6 +22,7 @@ RUN yarn
 RUN yarn prisma generate
 RUN cp node_modules/@prisma/engines/*-engine-* .
 RUN cp node_modules/@prisma/engines/libquery_engine* . 2>/dev/null || :
+RUN cd node_modules/puppeteer && node install.js
 
 EXPOSE 80
 

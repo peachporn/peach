@@ -7,6 +7,8 @@ import {
   Maybe,
   Measurements,
 } from '@peach/types';
+import { load } from 'cheerio';
+import { RequireExactlyOne } from 'type-fest';
 
 export type ScrapedActress = {
   name?: string;
@@ -46,6 +48,7 @@ export type ScrapedActress = {
 
 export type ScrapeAlternative = {
   name: string;
+  detailUrl: string;
   pictureUrl: string;
   aliases: string[];
 };
@@ -55,13 +58,22 @@ export type ScrapeResult = {
   alternatives: ScrapeAlternative[];
 };
 
-export type ExtractType = 'text' | 'href' | 'src' | 'html';
+export type ScrapeRequest = RequireExactlyOne<
+  {
+    name: string;
+    detailUrl: string;
+  },
+  'name' | 'detailUrl'
+>;
+
+export type CheerioRoot = ReturnType<typeof load>;
+export type Cheerio = ReturnType<CheerioRoot['root']>;
 
 export type ActressFieldScraper<T extends object, K extends keyof T = keyof T> =
   | {
+      type: 'element';
       selector: string;
-      type: ExtractType;
-      transform?: (value: string) => T[K] | undefined;
+      transform?: (value: Cheerio) => T[K] | undefined;
     }
   | {
       type: 'constant';
@@ -69,13 +81,19 @@ export type ActressFieldScraper<T extends object, K extends keyof T = keyof T> =
     };
 
 export type ActressScraper = {
-  nameToUrl: (name: string) => string;
-  fields: {
-    [K in keyof ScrapedActress]?: ActressFieldScraper<ScrapedActress, K>;
+  detail: {
+    nameToUrl?: (name: string) => string;
+    readySelector?: string;
+    fields: {
+      [K in keyof ScrapedActress]?: ActressFieldScraper<ScrapedActress, K>;
+    };
   };
-  nameToAlternativeSearchUrl: (name: string) => string;
-  alternativeItemSelector: string;
-  alternativeFields: {
-    [K in keyof ScrapeAlternative]?: ActressFieldScraper<ScrapeAlternative, K>;
+  overview: {
+    nameToUrl: (name: string) => string;
+    readySelector?: string;
+    itemSelector: string;
+    fields: {
+      [K in keyof ScrapeAlternative]?: ActressFieldScraper<ScrapeAlternative, K>;
+    };
   };
 };

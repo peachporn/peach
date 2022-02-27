@@ -38,10 +38,11 @@ export const transformScrapedActress = (actress: ScrapedActress): GQLScrapedActr
     tattoos: actress.tattoos,
   },
   dates: omitIfAllUndefined({
-    dateOfBirth: actress.dateOfDeath,
-    dateOfCareerstart: actress.dateOfCareerstart,
-    dateOfDeath: actress.dateOfDeath,
-    dateOfRetirement: actress.dateOfRetirement,
+    dateOfBirth: actress.dateOfBirth && new Date(actress.dateOfBirth).toISOString(),
+    dateOfCareerstart:
+      actress.dateOfCareerstart && new Date(actress.dateOfCareerstart).toISOString(),
+    dateOfDeath: actress.dateOfDeath && new Date(actress.dateOfDeath).toISOString(),
+    dateOfRetirement: actress.dateOfRetirement && new Date(actress.dateOfRetirement).toISOString(),
   }),
   location: omitIfAllUndefined({
     city: actress.city,

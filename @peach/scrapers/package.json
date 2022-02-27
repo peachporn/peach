@@ -16,6 +16,7 @@
     "@peach/utils": "3.0.0-alpha",
     "cheerio": "^1.0.0-rc.5",
     "node-fetch": "^3.0.0",
+    "puppeteer": "^13.4.0",
     "ramda": "^0.27.1",
     "slugify": "^1.6.1"
   },

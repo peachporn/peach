@@ -1,4 +1,5 @@
-import { head, mergeDeepRight } from 'ramda';
+import { nonNullish } from '@peach/utils/src/list';
+import { head, mergeDeepRight, uniqBy } from 'ramda';
 import { FreeonesScraper } from '../sites/freeones';
 import { TrannyOneScraper } from '../sites/trannyOne';
 import { XcityScraper } from '../sites/xcity';
@@ -21,7 +22,10 @@ export const scrape =
       });
     };
 
-    if (scraper.detail.nameToUrl || request.detailUrl) {
+    if (
+      (request.name && scraper.detail.nameToUrl) ||
+      (request.detailUrl && scraper.detail.detailUrlMatches(request.detailUrl))
+    ) {
       return scrapeDetail(scraper)(request).then(result =>
         Object.values(result.actress ?? {}).filter(v => !!v).length > 0
           ? result
@@ -35,4 +39,13 @@ export const scrape =
 export const scrapeAllScrapers = (request: ScrapeRequest): Promise<ScrapeResult> =>
   Promise.all(
     [TrannyOneScraper, XcityScraper, FreeonesScraper].map(scraper => scrape(scraper)(request)),
-  ).then(results => results.reduce(mergeDeepRight));
+  ).then(results => ({
+    actress:
+      nonNullish(results.map(r => r.actress))?.length === 0
+        ? undefined
+        : results.map(r => r.actress).reduce(mergeDeepRight),
+    alternatives: uniqBy(
+      a => a.name.replace(/\(.*\)/g, '').trim(),
+      results.flatMap(r => r.alternatives),
+    ),
+  }));

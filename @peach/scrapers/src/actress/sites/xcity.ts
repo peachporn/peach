@@ -28,6 +28,7 @@ export const XcityScraper: ActressScraper = {
     },
   },
   detail: {
+    detailUrlMatches: url => url.includes('xcity.jp'),
     fields: {
       name: {
         type: 'element',
@@ -41,7 +42,13 @@ export const XcityScraper: ActressScraper = {
       aliases: {
         type: 'element',
         selector: 'h1',
-        transform: e => nonNullish([e.text().replace(/^.*\[(.*)]/g, '$1')]),
+        transform: e =>
+          nonNullish([
+            e
+              .text()
+              .replace(/^.*\[(.*)]/g, '$1')
+              .replace(/Originaltext/g, ''),
+          ]),
       },
       dateOfBirth: {
         type: 'element',
@@ -124,7 +131,10 @@ export const XcityScraper: ActressScraper = {
       picture: {
         selector: '.photo img',
         type: 'element',
-        transform: e => e.attr('src'),
+        transform: e => {
+          const src = e.attr('src');
+          return src?.startsWith('//') ? `https:${src}` : src;
+        },
       },
     },
   },

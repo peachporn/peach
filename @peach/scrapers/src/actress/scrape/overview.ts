@@ -7,6 +7,7 @@ import { scrapeField } from './field';
 export const scrapeOverview = (scraper: ActressScraper) => (name: string) =>
   html(scraper.overview.nameToUrl(name))
     .then($ => {
+      if (!$) return [];
       const alternativeItems = $(scraper.overview.itemSelector);
 
       return alternativeItems.toArray().map(

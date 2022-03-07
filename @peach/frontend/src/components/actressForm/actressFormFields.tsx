@@ -24,8 +24,6 @@ export const ActressFormFields: FunctionalComponent<ActressFormFieldsProps> = ({
 }) => {
   const { register, watch } = form;
   const hasTits = watch('hasTits');
-  const name = watch('name');
-  console.log(name);
 
   return (
     <div className={`${className || ''}`}>
@@ -126,8 +124,8 @@ export const ActressFormFields: FunctionalComponent<ActressFormFieldsProps> = ({
           <input className="input" name="weight" ref={register} />
 
           <div className="col-span-2 grid grid-cols-3">
-            <label className={label} htmlFor="measurements.bust">
-              {i('ACTRESS_MEASUREMENTS_BUST')}
+            <label className={label} htmlFor="measurements.chest">
+              {i('ACTRESS_MEASUREMENTS_CHEST')}
             </label>
             <label className={label} htmlFor="measurements.waist">
               {i('ACTRESS_MEASUREMENTS_WAIST')}
@@ -135,7 +133,7 @@ export const ActressFormFields: FunctionalComponent<ActressFormFieldsProps> = ({
             <label className={label} htmlFor="measurements.hips">
               {i('ACTRESS_MEASUREMENTS_HIPS')}
             </label>
-            <input className="input" name="measurements.bust" ref={register} />
+            <input className="input" name="measurements.chest" ref={register} />
             <input className="input" name="measurements.waist" ref={register} />
             <input className="input" name="measurements.hips" ref={register} />
           </div>

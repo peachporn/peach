@@ -83,6 +83,7 @@ export type ActressFieldScraper<T extends object, K extends keyof T = keyof T> =
 export type ActressScraper = {
   detail: {
     nameToUrl?: (name: string) => string;
+    detailUrlMatches: (url: string) => boolean;
     readySelector?: string;
     fields: {
       [K in keyof ScrapedActress]?: ActressFieldScraper<ScrapedActress, K>;

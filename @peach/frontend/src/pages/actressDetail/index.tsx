@@ -123,7 +123,7 @@ export const ActressDetailPage: FunctionalComponent = () => {
                 )}
                 {!actress.appearance?.measurements ? null : (
                   <div className="grid grid-cols-3 col-span-2 md:col-span-1">
-                    <span className="text-gray-400">{i('ACTRESS_MEASUREMENTS_BUST')}</span>
+                    <span className="text-gray-400">{i('ACTRESS_MEASUREMENTS_CHEST')}</span>
                     <span className="text-gray-400">{i('ACTRESS_MEASUREMENTS_HIPS')}</span>
                     <span className="text-gray-400">{i('ACTRESS_MEASUREMENTS_WAIST')}</span>
                     <span>{actress.appearance?.measurements.chest}</span>

@@ -53,6 +53,7 @@ export const actressScrapeResult = gql`
     name
     aliases
     pictureUrl
+    detailUrl
   }
 
   fragment ActressScrapeResult on ActressScrapeResult {

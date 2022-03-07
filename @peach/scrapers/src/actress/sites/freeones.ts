@@ -8,6 +8,7 @@ import { inchToCm } from '../utils/units';
 export const FreeonesScraper: ActressScraper = {
   detail: {
     nameToUrl: name => `https://www.freeones.com/${slugify(name)}/bio`,
+    detailUrlMatches: url => url.includes('freeones.com'),
     fields: {
       name: {
         selector: 'h1',
@@ -27,12 +28,12 @@ export const FreeonesScraper: ActressScraper = {
         selector: '[data-test="link_span_hair_color"]',
         type: 'element',
         transform: e =>
-          e.text() === 'Brown' ? 'Brunette' : filter<Haircolor>(isHaircolor)(e.text()),
+          e.text() === 'Brown' ? 'Brunette' : filter<Haircolor>(isHaircolor)(e.text().trim()),
       },
       eyecolor: {
         selector: '[data-test="link_span_eye_color"]',
         type: 'element',
-        transform: e => filter<Eyecolor>(isEyecolor)(e.text()),
+        transform: e => filter<Eyecolor>(isEyecolor)(e.text().trim()),
       },
       dateOfBirth: {
         selector: '.profile-meta-item p.mb-1.font-weight-base > a',
@@ -179,6 +180,11 @@ export const FreeonesScraper: ActressScraper = {
             .replace('Aliases: ', '')
             .split(', ')
             .map(a => a.trim()),
+      },
+      detailUrl: {
+        selector: '.teaser__link',
+        type: 'element',
+        transform: e => `https://freeones.com/${e.attr('href')?.replace(/feed$/, 'bio')}`,
       },
       pictureUrl: {
         selector: '.image-content',

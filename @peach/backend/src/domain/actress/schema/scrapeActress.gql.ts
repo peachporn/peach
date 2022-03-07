@@ -15,6 +15,7 @@ export const scrapeActressTypeDefs = gql`
 
   type ScrapeAlternative {
     name: String!
+    detailUrl: String!
     aliases: [String!]
     pictureUrl: String
   }
@@ -24,7 +25,12 @@ export const scrapeActressTypeDefs = gql`
     alternatives: [ScrapeAlternative!]!
   }
 
+  input ActressScrapeRequest {
+    name: String
+    detailUrl: String
+  }
+
   extend type Query {
-    scrapeActress(name: String!): ActressScrapeResult
+    scrapeActress(request: ActressScrapeRequest!): ActressScrapeResult
   }
 `;

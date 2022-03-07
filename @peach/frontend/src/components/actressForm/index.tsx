@@ -24,6 +24,7 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
 }) => {
   const [manual, setManual] = useState(false);
   const [searchName, setSearchName] = useState<string>(defaultSearchName || '');
+  const [chosenAlternativeDetailUrl, setChosenAlternativeDetailUrl] = useState<string>('');
 
   const form = useForm<ActressFormValues>({
     defaultValues,
@@ -31,7 +32,7 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
   const { handleSubmit, setValue, watch, reset } = form;
   const imageUrl = watch('imageUrl');
 
-  const scrapeActress = useScrapeActress(searchName, form);
+  const scrapeActress = useScrapeActress(searchName, chosenAlternativeDetailUrl, form);
   const actress = scrapeActress.actress ?? defaultValues;
   const { loading, alternatives } = scrapeActress;
 
@@ -67,7 +68,7 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
       {!alternatives.length ? null : (
         <ActressAlternativeList
           alternatives={alternatives}
-          onSelect={alternative => setSearchName(alternative.name)}
+          onSelect={alternative => setChosenAlternativeDetailUrl(alternative.detailUrl)}
         />
       )}
       {!manual && (!actress?.name || alternatives.length) ? null : (

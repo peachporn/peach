@@ -28,6 +28,7 @@ export const TrannyOneScraper: ActressScraper = {
     },
   },
   detail: {
+    detailUrlMatches: url => url.includes('tranny.one'),
     fields: {
       name: {
         type: 'element',

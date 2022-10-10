@@ -978,6 +978,18 @@ export type MovieDetailQueryVariables = Exact<{
 
 export type MovieDetailQuery = { __typename?: 'Query', movie?: { __typename?: 'Movie', id: number, title: string, path: string, videoUrl: string, cover: number, website?: { __typename?: 'Website', id: number, name: string, url: string, picture?: string | null | undefined, fetish?: { __typename?: 'Genre', id: number, name: string, picture: string } | null | undefined } | null | undefined, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean, index: number }>, volume?: { __typename?: 'Volume', name: string } | null | undefined, actresses: Array<{ __typename?: 'Actress', id: number, name: string, picture?: string | null | undefined }>, metaData?: { __typename?: 'MovieMetadata', durationSeconds: number, sizeInMB: number, minutes: number, seconds: number, quality: Quality, format: Format, fps: number } | null | undefined, genres: Array<{ __typename?: 'GenreDefinition', timeStart: number, genre: { __typename?: 'GenreLink', parent: { __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, linkableChildren: Array<{ __typename?: 'Genre', id: number, name: string }> }, children: Array<{ __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, linkableChildren: Array<{ __typename?: 'Genre', id: number, name: string }> }> } }>, fetishes: Array<{ __typename?: 'Genre', id: number, name: string, picture: string }> } | null | undefined };
 
+export type MovieFilter_ActressMovieFilter_Fragment = { __typename: 'ActressMovieFilter', actress: { __typename?: 'Actress', id: number, name: string } };
+
+export type MovieFilter_FetishMovieFilter_Fragment = { __typename: 'FetishMovieFilter', genre: { __typename?: 'Genre', id: number, name: string, picture: string } };
+
+export type MovieFilter_TitleMovieFilter_Fragment = { __typename: 'TitleMovieFilter', title: string };
+
+export type MovieFilter_UntouchedMovieFilter_Fragment = { __typename: 'UntouchedMovieFilter', untouched: boolean };
+
+export type MovieFilter_WebsiteMovieFilter_Fragment = { __typename: 'WebsiteMovieFilter', website: { __typename?: 'Website', id: number, name: string, picture?: string | null | undefined } };
+
+export type MovieFilterFragment = MovieFilter_ActressMovieFilter_Fragment | MovieFilter_FetishMovieFilter_Fragment | MovieFilter_TitleMovieFilter_Fragment | MovieFilter_UntouchedMovieFilter_Fragment | MovieFilter_WebsiteMovieFilter_Fragment;
+
 export type MovieFilterDisplayQueryVariables = Exact<{
   genres?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
   genreLimit: Scalars['Int'];
@@ -989,6 +1001,13 @@ export type MovieFilterDisplayQueryVariables = Exact<{
 
 
 export type MovieFilterDisplayQuery = { __typename?: 'Query', genres: Array<{ __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, kinkiness: number }>, actresses: Array<{ __typename?: 'Actress', id: number, name: string, picture?: string | null | undefined }>, websites: Array<{ __typename?: 'Website', id: number, name: string, url: string, picture?: string | null | undefined, fetish?: { __typename?: 'Genre', id: number, name: string, picture: string } | null | undefined }> };
+
+export type MovieFiltersQueryVariables = Exact<{
+  query: Scalars['String'];
+}>;
+
+
+export type MovieFiltersQuery = { __typename?: 'Query', movieFilters: Array<{ __typename: 'ActressMovieFilter', actress: { __typename?: 'Actress', id: number, name: string, picture?: string | null | undefined } } | { __typename: 'FetishMovieFilter', genre: { __typename?: 'Genre', id: number, name: string, picture: string } } | { __typename: 'TitleMovieFilter', title: string } | { __typename: 'UntouchedMovieFilter', untouched: boolean } | { __typename: 'WebsiteMovieFilter', website: { __typename?: 'Website', id: number, name: string, picture?: string | null | undefined } }> };
 
 export type MovieListQueryVariables = Exact<{
   limit: Scalars['Int'];

@@ -1,139 +1,153 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
-import { useContext, useState } from 'preact/hooks';
 import { useQuery } from '@apollo/client';
-import { MovieFilterDisplayQuery, MovieFilterDisplayQueryVariables } from '@peach/types';
-import { MovieFilterContext } from '../../../context/movieFilter';
-import { Icon } from '../../../components/icon';
-import { FetishBubble } from '../../../components/fetishBubble';
-import { GenreSearch } from '../../../components/genreSearch';
-import { i } from '../../../i18n/i18n';
-import { ActressSearch } from '../../../components/actressSearch';
-import { WebsiteSearch } from '../../../components/websiteSearch';
-import { movieFilterDisplayQuery } from '../queries/movieFilterDisplay.gql';
-import { WebsiteCard } from '../../../components/websiteCard';
+import {
+  MovieFilterDisplayQuery,
+  MovieFilterDisplayQueryVariables,
+  MovieFiltersQuery,
+  MovieFiltersQueryVariables,
+} from '@peach/types';
+import { FunctionalComponent, h } from 'preact';
+import { useContext, useEffect, useState } from 'preact/hooks';
 import { ActressCard } from '../../../components/actressCard';
 import { GenreCard } from '../../../components/genreCard';
-import { Checkbox } from '../../../components/checkbox';
+import { Icon } from '../../../components/icon';
+import { WebsiteCard } from '../../../components/websiteCard';
+import { MovieFilterContext } from '../../../context/movieFilter';
+import { i } from '../../../i18n/i18n';
+import { movieFilterDisplayQuery } from '../queries/movieFilterDisplay.gql';
+import { movieFiltersQuery } from '../queries/movieFilters.gql';
+import { MovieFilterCard } from './movieFilterCard';
 
 export const MovieFilter: FunctionalComponent = () => {
-  const [visible, setVisible] = useState(false);
-  const { filter, isFiltered, setFetishes, setTitle, setActresses, setWebsites, setUntouched } =
-    useContext(MovieFilterContext);
+  const [query, setQuery] = useState('');
+  const [focused, setFocused] = useState(true);
+  const {
+    filterInput,
+    isFiltered,
+    setActresses,
+    setFetishes,
+    setWebsites,
+    setTitle,
+    setUntouched,
+  } = useContext(MovieFilterContext);
 
-  const { data } = useQuery<MovieFilterDisplayQuery, MovieFilterDisplayQueryVariables>(
+  const { data: displayData } = useQuery<MovieFilterDisplayQuery, MovieFilterDisplayQueryVariables>(
     movieFilterDisplayQuery,
     {
       variables: {
-        genres: filter.fetishes,
-        genreLimit: filter.fetishes?.length || 0,
-        actresses: filter.actresses,
-        actressLimit: filter.actresses?.length || 0,
-        websites: filter.websites,
-        websiteLimit: filter.websites?.length || 0,
+        genres: filterInput.fetishes,
+        genreLimit: filterInput.fetishes?.length || 0,
+        actresses: filterInput.actresses,
+        actressLimit: filterInput.actresses?.length || 0,
+        websites: filterInput.websites,
+        websiteLimit: filterInput.websites?.length || 0,
       },
       skip: !isFiltered,
     },
   );
 
+  useEffect(() => {
+    setQuery('');
+    setFocused(false);
+  }, [filterInput]);
+
+  const { data: filtersData } = useQuery<MovieFiltersQuery, MovieFiltersQueryVariables>(
+    movieFiltersQuery,
+    {
+      variables: {
+        query,
+      },
+    },
+  );
+
+  const noFiltersSelected =
+    !displayData?.actresses.length &&
+    !displayData?.websites.length &&
+    !displayData?.genres.length &&
+    !filterInput.untouched &&
+    !filterInput.title;
+
   return (
-    <div className={`bg-white shadow w-full px-8 ${visible ? 'pt-4' : 'py-4'}`}>
-      <div className="grid grid-cols-12">
-        <div className="col-span-12 place-items-center flex rounded-full p-2 focus:outline-none bg-gray-50">
-          <Icon
-            icon="search"
-            className="text-pink text-glow"
-            onClick={() => {
-              setVisible(!visible);
-            }}
-          />
+    <div className={`bg-white shadow w-full px-8 pt-4`}>
+      <div>
+        <div className="place-items-center flex rounded-full p-2 focus:outline-none bg-gray-50 relative">
           <input
             className="input border-b-0 bg-gray-50 w-full"
-            placeholder={visible ? i('MOVIE_TITLE') : ''}
-            onClick={() => {
-              setVisible(!visible);
+            placeholder={i('MOVIE_FILTER_INPUT')}
+            value={query}
+            onFocus={() => {
+              setFocused(true);
             }}
-            value={filter.title}
             onKeyUp={e => {
-              setTitle((e.target as HTMLInputElement).value);
+              setQuery((e.target as HTMLInputElement).value);
             }}
           />
+          <div className="absolute bottom-1.5 right-2 text-gray-500">
+            {!focused ? null : (
+              <Icon
+                icon={'close'}
+                onClick={() => {
+                  setFocused(false);
+                }}
+              />
+            )}
+          </div>
         </div>
-        {isFiltered && !visible ? (
-          <Fragment>
-            {!data?.actresses.length && !data?.websites.length && !data?.genres.length ? null : (
-              <div className="col-span-12 grid grid-rows-2h20 grid-cols-3 md:grid-cols-10 gap-4 px-4 py-2 text-xs">
-                {(data?.actresses || []).map(a => (
-                  <ActressCard className="row-span-2" noLabel actress={a} />
-                ))}
-                {(data?.websites || []).map(w => (
-                  <WebsiteCard noLabel website={w} />
-                ))}
-                {(data?.genres || []).map(g => (
-                  <GenreCard noLabel genre={g} />
-                ))}
+        {!filtersData || !focused ? null : (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full p-4">
+            {filtersData.movieFilters.map(filter => (
+              <MovieFilterCard movieFilter={filter} />
+            ))}
+          </div>
+        )}
+        {noFiltersSelected ? null : (
+          <div className="col-span-12 grid grid-cols-3 md:grid-cols-4 gap-4 px-4 py-2 text-xs">
+            {(displayData?.actresses || []).map(a => (
+              <ActressCard
+                className="row-span-2"
+                actress={a}
+                onClick={() => {
+                  setActresses((filterInput.actresses ?? []).filter(input => input !== a.id));
+                }}
+              />
+            ))}
+            {(displayData?.websites || []).map(w => (
+              <WebsiteCard
+                website={w}
+                onClick={() => {
+                  setWebsites((filterInput.websites ?? []).filter(input => input !== w.id));
+                }}
+              />
+            ))}
+            {(displayData?.genres || []).map(g => (
+              <GenreCard
+                genre={g}
+                onClick={() => {
+                  setFetishes((filterInput.fetishes ?? []).filter(input => input !== g.id));
+                }}
+              />
+            ))}
+            {!filterInput.untouched ? null : (
+              <div className={'col-span-4 md:col-span-1 grid grid-cols-1'}>
+                <MovieFilterCard
+                  onClick={() => {
+                    setUntouched(false);
+                  }}
+                  movieFilter={{ __typename: 'UntouchedMovieFilter', untouched: true }}
+                />
               </div>
             )}
-          </Fragment>
-        ) : null}
-      </div>
-      <div
-        className={`${
-          visible ? 'max-h-full pb-8' : 'max-h-0'
-        } relative grid items-start grid-cols-1 md:grid-cols-4 gap-3 transition-all overflow-hidden`}
-      >
-        <div>
-          <GenreSearch
-            containerClassName="md:grid md:grid-cols-3"
-            limit={6}
-            multiple
-            placeholder={i('FETISH')}
-            defaultValue={filter.fetishes}
-            filterOverride={{ fetish: true }}
-            onChange={genreIds => setFetishes(genreIds)}
-            inputClassName="w-full"
-          />
-        </div>
-        <div>
-          <WebsiteSearch
-            limit={6}
-            sliderClassName="md:grid md:grid-cols-2"
-            onChange={websiteIds => setWebsites(websiteIds)}
-            multiple
-            placeholder={i('MOVIE_WEBSITE')}
-            defaultValue={filter.websites}
-            inputClassName="w-full"
-          />
-        </div>
-        <div>
-          <ActressSearch
-            limit={6}
-            sliderClassName="md:grid md:grid-cols-3"
-            onChange={actressIds => setActresses(actressIds)}
-            multiple
-            placeholder={i('MOVIE_ACTRESSES')}
-            defaultValue={filter.actresses}
-            inputClassName="w-full"
-          />
-        </div>
-        <div className="pt-2">
-          <Checkbox.NoForm
-            name="untouched"
-            checked={filter.untouched || false}
-            label={<span>{i('ONLY_UNTOUCHED')}</span>}
-            onChange={checked => {
-              setUntouched(checked ? true : undefined);
-            }}
-          />
-        </div>
-        <Icon
-          icon="keyboard_arrow_up"
-          className={`${
-            visible ? 'block' : 'hidden'
-          } absolute bottom-0 w-full text-center bg-gray-50`}
-          onClick={() => {
-            setVisible(false);
-          }}
-        />
+            {!filterInput.title ? null : (
+              <div className={'col-span-4 md:col-span-1 grid grid-cols-1'}>
+                <MovieFilterCard
+                  onClick={() => {
+                    setTitle('');
+                  }}
+                  movieFilter={{ __typename: 'TitleMovieFilter', title: filterInput.title }}
+                />
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

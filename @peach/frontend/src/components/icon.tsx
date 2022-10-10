@@ -21,6 +21,7 @@ export type IconType =
   | 'expand_more'
   | 'expand_less'
   | 'language'
+  | 'info'
   | 'local_offer'
   | 'loyalty'
   | 'keyboard_arrow_up'
@@ -34,6 +35,7 @@ export type IconType =
   | 'restart_alt'
   | 'subtitles'
   | 'task_alt'
+  | 'title'
   | 'play_arrow'
   | 'warning';
 

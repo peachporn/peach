@@ -1,16 +1,15 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
 import { MovieCountQuery, MovieListQuery, MovieListQueryVariables } from '@peach/types';
+import { Fragment, FunctionalComponent, h } from 'preact';
 import { useContext } from 'preact/hooks';
-import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { usePagination } from '../../utils/usePagination';
-import { i } from '../../i18n/i18n';
+import { useHistory } from 'react-router-dom';
 import { Loading } from '../../components/loading';
 import { MovieCard } from '../../components/movieCard';
-import { MovieFilterContext } from '../../context/movieFilter';
-import { homeRoute } from '../../utils/route';
 import { Pagination } from '../../components/pagination';
+import { MovieFilterContext } from '../../context/movieFilter';
+import { i } from '../../i18n/i18n';
+import { usePagination } from '../../utils/usePagination';
 import { MovieFilter } from './components/movieFilter';
 import { movieCountQuery, movieListQuery } from './queries/movieList.gql';
 
@@ -19,7 +18,7 @@ const pageLength = 20;
 export const MoviesPage: FunctionalComponent = () => {
   const history = useHistory();
   const count = useQuery<MovieCountQuery>(movieCountQuery);
-  const { filter } = useContext(MovieFilterContext);
+  const { filterInput } = useContext(MovieFilterContext);
 
   if (count.loading || count.error || !count.data) {
     return <Loading />;
@@ -35,7 +34,7 @@ export const MoviesPage: FunctionalComponent = () => {
     variables: {
       limit,
       skip,
-      filter,
+      filter: filterInput,
     },
   });
 

@@ -5,7 +5,7 @@ import { Prisma } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
 import { transformActress } from '../transformer/actress';
 
-const applyActressFilter = (
+export const applyActressFilter = (
   filter: ActressFilter | undefined,
 ): Pick<Prisma.ActressFindManyArgs, 'where'> =>
   !filter

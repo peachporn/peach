@@ -72,6 +72,11 @@ export type ActressLocation = {
   province?: Maybe<Scalars['String']>;
 };
 
+export type ActressMovieFilter = {
+  __typename?: 'ActressMovieFilter';
+  actress: Actress;
+};
+
 export type ActressScrapeRequest = {
   detailUrl?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
@@ -163,6 +168,11 @@ export type Eyecolor =
   | 'Hazel'
   | 'Other'
   | 'Unknown';
+
+export type FetishMovieFilter = {
+  __typename?: 'FetishMovieFilter';
+  genre: Genre;
+};
 
 export type Format =
   | 'mkv'
@@ -298,7 +308,9 @@ export type MovieCountResponse = {
   untouched: Scalars['Int'];
 };
 
-export type MovieFilter = {
+export type MovieFilter = ActressMovieFilter | FetishMovieFilter | TitleMovieFilter | UntouchedMovieFilter | WebsiteMovieFilter;
+
+export type MovieFilterInput = {
   actresses?: Maybe<Array<Scalars['Int']>>;
   fetishes?: Maybe<Array<Scalars['Int']>>;
   title?: Maybe<Scalars['String']>;
@@ -474,6 +486,7 @@ export type Query = {
   genresCount: Scalars['Int'];
   movie?: Maybe<Movie>;
   movieCount: MovieCountResponse;
+  movieFilters: Array<MovieFilter>;
   movies: Array<Movie>;
   pathExists?: Maybe<Scalars['Boolean']>;
   scrapeActress?: Maybe<ActressScrapeResult>;
@@ -525,8 +538,13 @@ export type QueryMovieArgs = {
 };
 
 
+export type QueryMovieFiltersArgs = {
+  query: Scalars['String'];
+};
+
+
 export type QueryMoviesArgs = {
-  filter?: Maybe<MovieFilter>;
+  filter?: Maybe<MovieFilterInput>;
   limit?: Maybe<Scalars['Int']>;
   skip?: Maybe<Scalars['Int']>;
   sort?: Maybe<MoviesSort>;
@@ -614,6 +632,11 @@ export type TaskStatus =
   | 'PENDING'
   | 'RUNNING';
 
+export type TitleMovieFilter = {
+  __typename?: 'TitleMovieFilter';
+  title: Scalars['String'];
+};
+
 export type Tits = {
   __typename?: 'Tits';
   hasImplants: Scalars['Boolean'];
@@ -624,6 +647,11 @@ export type Token = {
   __typename?: 'Token';
   detection?: Maybe<Scalars['Int']>;
   token: Scalars['String'];
+};
+
+export type UntouchedMovieFilter = {
+  __typename?: 'UntouchedMovieFilter';
+  untouched: Scalars['Boolean'];
 };
 
 export type UpdateActressInput = {
@@ -711,6 +739,11 @@ export type WebsiteDetection = {
 export type WebsiteFilter = {
   ids?: Maybe<Array<Scalars['Int']>>;
   name?: Maybe<Scalars['String']>;
+};
+
+export type WebsiteMovieFilter = {
+  __typename?: 'WebsiteMovieFilter';
+  website: Website;
 };
 
 export type ActressCardFragment = { __typename?: 'Actress', id: number, name: string, picture?: string | null | undefined };
@@ -960,7 +993,7 @@ export type MovieFilterDisplayQuery = { __typename?: 'Query', genres: Array<{ __
 export type MovieListQueryVariables = Exact<{
   limit: Scalars['Int'];
   skip: Scalars['Int'];
-  filter?: Maybe<MovieFilter>;
+  filter?: Maybe<MovieFilterInput>;
 }>;
 
 

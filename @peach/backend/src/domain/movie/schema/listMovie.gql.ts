@@ -1,7 +1,7 @@
 import { gql } from 'apollo-server';
 
 export const listMovieTypeDefs = gql`
-  input MovieFilter {
+  input MovieFilterInput {
     title: String
     actresses: [Int!]
     websites: [Int!]
@@ -15,6 +15,6 @@ export const listMovieTypeDefs = gql`
   }
 
   extend type Query {
-    movies(limit: Int, skip: Int, filter: MovieFilter, sort: MoviesSort): [Movie!]!
+    movies(limit: Int, skip: Int, filter: MovieFilterInput, sort: MoviesSort): [Movie!]!
   }
 `;

@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import { movieCardFragment } from '../../../components/movieCard/movieCardFragment.gql';
 
 export const movieListQuery = gql`
-  query movieList($limit: Int!, $skip: Int!, $filter: MovieFilter) {
+  query movieList($limit: Int!, $skip: Int!, $filter: MovieFilterInput) {
     movies(limit: $limit, skip: $skip, filter: $filter) {
       ...MovieCard
     }

@@ -7,6 +7,7 @@ import { genreDefinitionsResolvers } from './resolver/genreDefinitions';
 import { listMovieResolvers } from './resolver/listMovie';
 import { movieResolvers } from './resolver/movie';
 import { movieCountResolvers } from './resolver/movieCount';
+import { movieFiltersResolvers } from './resolver/movieFilters';
 import { screencapsResolvers } from './resolver/screencaps';
 import { updateMovieResolvers } from './resolver/updateMovie';
 import { convertMovieTypeDefs } from './schema/convertMovie.gql';
@@ -18,6 +19,7 @@ import { listMovieTypeDefs } from './schema/listMovie.gql';
 import { movieMetadataTypeDefs } from './schema/metadata.gql';
 import { movieTypeDefs } from './schema/movie.gql';
 import { movieCountTypeDefs } from './schema/movieCount.gql';
+import { movieFiltersTypeDefs } from './schema/movieFilters.gql';
 import { screencapsTypeDefs } from './schema/screencaps.gql';
 import { updateMovieTypeDefs } from './schema/updateMovie.gql';
 
@@ -28,6 +30,7 @@ export const movieDomainTypeDefs = [
   listMovieTypeDefs,
   movieCountTypeDefs,
   movieMetadataTypeDefs,
+  movieFiltersTypeDefs,
   movieTypeDefs,
   screencapsTypeDefs,
   updateMovieTypeDefs,
@@ -42,6 +45,7 @@ export const movieDomainResolvers = [
   listMovieResolvers,
   movieCountResolvers,
   movieResolvers,
+  movieFiltersResolvers,
   screencapsResolvers,
   updateMovieResolvers,
   extractMovieInformationResolvers,

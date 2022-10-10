@@ -3,7 +3,7 @@ import { Prisma } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
 import { transformWebsite } from '../transformer/website';
 
-const applyWebsiteFilter = (
+export const applyWebsiteFilter = (
   filter: WebsiteFilter | undefined,
 ): Pick<Prisma.WebsiteFindManyArgs, 'where'> =>
   !filter

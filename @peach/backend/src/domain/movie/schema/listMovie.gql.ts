@@ -14,13 +14,7 @@ export const listMovieTypeDefs = gql`
     RANDOM
   }
 
-  type MovieCountResponse {
-    all: Int!
-    untouched: Int!
-  }
-
-  type Query {
+  extend type Query {
     movies(limit: Int, skip: Int, filter: MovieFilter, sort: MoviesSort): [Movie!]!
-    movieCount: MovieCountResponse!
   }
 `;

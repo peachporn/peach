@@ -4,7 +4,7 @@ import { Prisma } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
 import { transformMovie } from '../transformer/movie';
 
-const touchedMovieFilter = {
+export const touchedMovieFilter = {
   OR: [
     {
       website: {

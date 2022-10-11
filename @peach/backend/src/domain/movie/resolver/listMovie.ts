@@ -1,4 +1,4 @@
-import { MovieFilter } from '@peach/types';
+import { MovieFilterInput } from '@peach/types';
 import { shuffle } from '@peach/utils/src/list';
 import { Prisma } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
@@ -27,7 +27,7 @@ export const touchedMovieFilter = {
 };
 
 export const applyMovieFilter = (
-  filter: MovieFilter | undefined,
+  filter: MovieFilterInput | undefined,
 ): Pick<Prisma.MovieFindManyArgs, 'where'> =>
   !filter
     ? {}
@@ -95,6 +95,9 @@ export const listMovieResolvers: Resolvers = {
               .findMany({
                 skip: randomSkip,
                 take: blockLimit,
+                orderBy: {
+                  createdAt: 'desc',
+                },
                 ...applyMovieFilter(filter),
                 include: {
                   genres: true,

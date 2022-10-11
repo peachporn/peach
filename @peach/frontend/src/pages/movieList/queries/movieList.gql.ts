@@ -3,7 +3,7 @@ import { movieCardFragment } from '../../../components/movieCard/movieCardFragme
 
 export const movieListQuery = gql`
   query movieList($limit: Int!, $skip: Int!, $filter: MovieFilterInput) {
-    movies(limit: $limit, skip: $skip, filter: $filter) {
+    movies(limit: $limit, skip: $skip, filter: $filter, sort: CREATED_AT_DESC) {
       ...MovieCard
     }
   }

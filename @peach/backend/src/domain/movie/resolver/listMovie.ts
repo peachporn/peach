@@ -95,9 +95,6 @@ export const listMovieResolvers: Resolvers = {
               .findMany({
                 skip: randomSkip,
                 take: blockLimit,
-                orderBy: {
-                  createdAt: 'desc',
-                },
                 ...applyMovieFilter(filter),
                 include: {
                   genres: true,

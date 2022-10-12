@@ -16,7 +16,7 @@
     "@peach/tasks": "3.0.0-alpha",
     "@peach/types": "3.0.0-alpha",
     "@peach/utils": "3.0.0-alpha",
-    "apollo-server": "^2.19.2",
+    "apollo-server": "^2.25.4",
     "case-anything": "^1.1.3",
     "mkdirp": "^1.0.4",
     "ramda": "^0.27.1"

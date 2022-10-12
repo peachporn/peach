@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client';
 import {
   MovieFilterDisplayQuery,
   MovieFilterDisplayQueryVariables,
+  MovieFilterFragment,
   MovieFiltersQuery,
   MovieFiltersQueryVariables,
 } from '@peach/types';
@@ -13,6 +14,7 @@ import { Icon } from '../../../components/icon';
 import { WebsiteCard } from '../../../components/websiteCard';
 import { MovieFilterContext } from '../../../context/movieFilter';
 import { i } from '../../../i18n/i18n';
+import { debounce } from '../../../utils/throttle';
 import { movieFilterDisplayQuery } from '../queries/movieFilterDisplay.gql';
 import { movieFiltersQuery } from '../queries/movieFilters.gql';
 import { MovieFilterCard } from './movieFilterCard';
@@ -66,6 +68,28 @@ export const MovieFilter: FunctionalComponent = () => {
     !filterInput.untouched &&
     !filterInput.title;
 
+  const debouncedSetQuery = debounce((e: Event) => {
+    setQuery((e.target as HTMLInputElement).value);
+  }, 250);
+
+  const addToFilters = (movieFilter: MovieFilterFragment) => {
+    if (movieFilter.__typename === 'ActressMovieFilter') {
+      setActresses([...(filterInput.actresses ?? []), movieFilter.actress.id]);
+    }
+    if (movieFilter.__typename === 'FetishMovieFilter') {
+      setFetishes([...(filterInput.fetishes ?? []), movieFilter.genre.id]);
+    }
+    if (movieFilter.__typename === 'WebsiteMovieFilter') {
+      setWebsites([...(filterInput.websites ?? []), movieFilter.website.id]);
+    }
+    if (movieFilter.__typename === 'UntouchedMovieFilter') {
+      setUntouched(!filterInput.untouched);
+    }
+    if (movieFilter.__typename === 'TitleMovieFilter') {
+      setTitle(movieFilter.title);
+    }
+  };
+
   return (
     <div className={`bg-white shadow w-full px-8 pt-4`}>
       <div>
@@ -77,8 +101,11 @@ export const MovieFilter: FunctionalComponent = () => {
             onFocus={() => {
               setFocused(true);
             }}
-            onKeyUp={e => {
-              setQuery((e.target as HTMLInputElement).value);
+            onKeyUp={(e: KeyboardEvent) => {
+              if (e.key === 'Enter' && filtersData?.movieFilters.length === 1) {
+                return addToFilters(filtersData.movieFilters[0]);
+              }
+              return debouncedSetQuery(e);
             }}
           />
           <div className="absolute bottom-1.5 right-2 text-gray-500">
@@ -92,9 +119,9 @@ export const MovieFilter: FunctionalComponent = () => {
             )}
           </div>
         </div>
-        {!filtersData || !focused ? null : (
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full p-4">
-            {filtersData.movieFilters.map(filter => (
+        {!focused ? null : (
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 w-full p-4 min-h-32">
+            {filtersData?.movieFilters.map(filter => (
               <MovieFilterCard movieFilter={filter} />
             ))}
           </div>

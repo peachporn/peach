@@ -17,6 +17,23 @@ const { createTask, runTask, taskDefinitionOptions } = defineTask<ConvertMoviePa
   async ({ parameters: { movie } }) =>
     convertMovieToMp4(movie)
       .then(() =>
+        prisma.movieMetadata
+          .findUnique({
+            where: {
+              movieId: movie.id,
+            },
+          })
+          .then(metadata =>
+            !metadata
+              ? undefined
+              : prisma.movieMetadata.delete({
+                  where: {
+                    movieId: movie.id,
+                  },
+                }),
+          ),
+      )
+      .then(() =>
         prisma.movie.update({
           where: { id: movie.id },
           data: { path: extensionToMp4(movie.path) },
@@ -24,7 +41,10 @@ const { createTask, runTask, taskDefinitionOptions } = defineTask<ConvertMoviePa
       )
       .then(() => {
         const oldMoviePath = path.join(movie.volume.path, movie.path);
-        Promise.all([scrapeMetadata({ movie }), unlink(oldMoviePath)]);
+        Promise.all([
+          scrapeMetadata({ movie: { ...movie, path: extensionToMp4(movie.path) } }),
+          unlink(oldMoviePath),
+        ]);
       })
       .then(() => 'SUCCESS'),
   {

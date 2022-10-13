@@ -1,10 +1,9 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
-import { useFieldArray } from 'react-hook-form';
 import { useContext } from 'preact/hooks';
+import { useFieldArray } from 'react-hook-form';
+import { Icon } from '../../../components/icon';
 import { SettingsContext } from '../../../context/settings';
 import { i } from '../../../i18n/i18n';
-import { isTouched } from '../../../utils/form';
-import { Icon } from '../../../components/icon';
 
 export const VolumeForm: FunctionalComponent = () => {
   const {
@@ -32,7 +31,7 @@ export const VolumeForm: FunctionalComponent = () => {
               ref={register()}
             />
             <input
-              key={volume.name}
+              key={volume.path}
               className="input"
               placeholder="Path"
               name={`volumes[${index}].path`}

@@ -2,7 +2,10 @@ import { load } from 'cheerio';
 import puppeteer from 'puppeteer';
 
 export const html = async (url: string, readySelector: string = 'body') => {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    headless: true,
+    executablePath: 'google-chrome-stable',
+  });
 
   const page = await browser.newPage();
   const response = await page.goto(url);

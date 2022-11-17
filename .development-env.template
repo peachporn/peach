@@ -4,5 +4,7 @@ DATABASE_PATH="/mnt/library/peach.db"
 DEFAULT_LIBRARY_PATH="/mnt/library"
 DEFAULT_VOLUME_PATH="/mnt/media"
 
+GOOGLE_CHROME_PATH="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+
 PORT=80
 

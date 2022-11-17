@@ -4,7 +4,7 @@ import puppeteer from 'puppeteer';
 export const html = async (url: string, readySelector: string = 'body') => {
   const browser = await puppeteer.launch({
     headless: true,
-    executablePath: 'google-chrome-stable',
+    executablePath: process.env.GOOGLE_CHROME_PATH ?? 'google-chrome-stable',
   });
 
   const page = await browser.newPage();

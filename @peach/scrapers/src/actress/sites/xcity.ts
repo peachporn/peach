@@ -4,6 +4,7 @@ import { regex } from '../transformers';
 import { ActressScraper } from '../type';
 
 export const XcityScraper: ActressScraper = {
+  name: 'XCity',
   overview: {
     nameToUrl: name =>
       `https://xxx.xcity.jp/idol/?genre=%2Fidol%2F&q=${name.replace(/ -/g, '+')}&sg=idol&num=30`,

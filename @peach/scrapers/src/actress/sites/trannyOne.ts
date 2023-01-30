@@ -5,6 +5,7 @@ import { filter, regex } from '../transformers';
 import { ActressScraper } from '../type';
 
 export const TrannyOneScraper: ActressScraper = {
+  name: 'TrannyOne',
   overview: {
     nameToUrl: name => `https://www.tranny.one/search/${slugify(name).replace(/-/g, '+')}`,
     readySelector: '#pornoStarSearchContainer [itemprop="name"]',

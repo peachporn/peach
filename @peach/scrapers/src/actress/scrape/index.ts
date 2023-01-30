@@ -1,5 +1,5 @@
-import { nonNullish } from '@peach/utils/src/list';
-import { head, mergeDeepRight, uniqBy } from 'ramda';
+import { logScope } from '@peach/utils/src/logging';
+import { head } from 'ramda';
 import { FreeonesScraper } from '../sites/freeones';
 import { TrannyOneScraper } from '../sites/trannyOne';
 import { XcityScraper } from '../sites/xcity';
@@ -7,13 +7,17 @@ import { ActressScraper, ScrapeRequest, ScrapeResult } from '../type';
 import { scrapeDetail } from './detail';
 import { scrapeOverview } from './overview';
 
+const log = logScope('scrape-actress');
+
 export const scrape =
   (scraper: ActressScraper) =>
   (request: ScrapeRequest): Promise<ScrapeResult> => {
     const scrapeOverviewAndProceedWithDetail = () => {
-      if (!request.name) return Promise.resolve({ alternatives: [] });
+      if (!request.name) return Promise.reject();
 
       return scrapeOverview(scraper)(request.name).then(result => {
+        if (result.alternatives?.length === 0) return Promise.reject();
+
         const singleAlternativeDetailUrl =
           result.alternatives.length === 1 && head(result.alternatives)?.detailUrl;
 
@@ -37,15 +41,18 @@ export const scrape =
   };
 
 export const scrapeAllScrapers = (request: ScrapeRequest): Promise<ScrapeResult> =>
-  Promise.all(
-    [TrannyOneScraper, XcityScraper, FreeonesScraper].map(scraper => scrape(scraper)(request)),
-  ).then(results => ({
-    actress:
-      nonNullish(results.map(r => r.actress))?.length === 0
-        ? undefined
-        : results.map(r => r.actress).reduce(mergeDeepRight),
-    alternatives: uniqBy(
-      a => a.name.replace(/\(.*\)/g, '').trim(),
-      results.flatMap(r => r.alternatives),
+  Promise.any(
+    [TrannyOneScraper, XcityScraper, FreeonesScraper].map(scraper =>
+      scrape(scraper)(request).then(result => {
+        if (!result.actress || !result.alternatives) {
+          log.info(`[${scraper.name}]: Scraper returned nothing.`);
+          return { actress: undefined, alternatives: [] };
+        }
+
+        log.info(
+          `[${scraper.name}]: Scraper finished first with result: ${JSON.stringify(result)}`,
+        );
+        return result;
+      }),
     ),
-  }));
+  );

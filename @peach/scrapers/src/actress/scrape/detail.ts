@@ -13,7 +13,9 @@ export const scrapeDetail =
   (scraper: ActressScraper) =>
   ({ name, detailUrl }: ScrapeRequest): Promise<ScrapeResult> => {
     const url = detailUrl || scraper.detail.nameToUrl?.(name!);
-    if (!url) return Promise.resolve({ actress: undefined, alternatives: [] });
+    if (!url) {
+      return Promise.reject(`[${scraper.name}]:  No URL to scrape found for input ${name}!`);
+    }
 
     return html(url, scraper.detail.readySelector)
       .then($ =>
@@ -23,8 +25,12 @@ export const scrapeDetail =
         ),
       )
       .then(scrapedFields => scrapedFields.reduce(mergeDeepLeft) as ScrapedActress)
-      .then(actress => ({
-        actress,
-        alternatives: [],
-      }));
+      .then(actress => {
+        if (!actress) return Promise.reject();
+
+        return {
+          actress,
+          alternatives: [],
+        };
+      });
   };

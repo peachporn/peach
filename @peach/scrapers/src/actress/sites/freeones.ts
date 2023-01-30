@@ -1,11 +1,11 @@
 import { isCupsize, isEyecolor, isHaircolor } from '@peach/domain';
-import { Eyecolor, Haircolor } from '@peach/types';
+import { Cupsize, Eyecolor, Haircolor } from '@peach/types';
 import slugify from 'slugify';
 import { filter, regex } from '../transformers';
 import { ActressScraper } from '../type';
-import { inchToCm } from '../utils/units';
 
 export const FreeonesScraper: ActressScraper = {
+  name: 'Freeones',
   detail: {
     nameToUrl: name => `https://www.freeones.com/${slugify(name)}/bio`,
     detailUrlMatches: url => url.includes('freeones.com'),
@@ -36,10 +36,15 @@ export const FreeonesScraper: ActressScraper = {
         transform: e => filter<Eyecolor>(isEyecolor)(e.text().trim()),
       },
       dateOfBirth: {
-        selector: '.profile-meta-item p.mb-1.font-weight-base > a',
+        selector: '[data-test="link_span_dateOfBirth"]',
         type: 'element',
-        transform: e =>
-          regex(/(\d{4}-\d{2}-\d{2})/, x => new Date(x).toISOString())(e.attr('href') ?? ''),
+        transform: e => {
+          try {
+            return new Date(e.text().trim()).toISOString();
+          } catch {
+            return '';
+          }
+        },
       },
       dateOfCareerstart: {
         selector: '.timeline-horizontal > div:first-child > p:first-child',
@@ -50,7 +55,9 @@ export const FreeonesScraper: ActressScraper = {
         selector: '.timeline-horizontal > div:first-child > p:last-child',
         type: 'element',
         transform: e =>
-          e.text() === 'Now' ? undefined : new Date(`${e.text()}-01-01`).toISOString(),
+          e.text().trim().toLowerCase() === 'now'
+            ? undefined
+            : new Date(`${e.text()}-01-01`).toISOString(),
       },
       dateOfDeath: {
         selector: '.profile-meta-item .hide-on-edit div:nth-child(2)',
@@ -65,60 +72,61 @@ export const FreeonesScraper: ActressScraper = {
         },
       },
       country: {
-        selector: '[data-test="link-country"]',
+        selector: '[data-test="link_placeOfBirth"][href*="country"]',
         type: 'element',
-        transform: e => regex(/=(.*)$/, x => x)(e.attr('href') ?? ''),
+        transform: e => regex(/=(.*)$/, x => x)(decodeURIComponent(e.attr('href') ?? '')),
       },
       province: {
-        selector: '.profile-meta-item .hide-on-edit p:last-child > a:nth-child(3) > span',
+        selector: '[data-test="link_placeOfBirth"][href*="province"]',
         type: 'element',
-        transform: e => e.text(),
+        transform: e => regex(/=(.*)$/, x => x)(decodeURIComponent(e.attr('href') ?? '')),
       },
       city: {
-        selector: '.profile-meta-item .hide-on-edit p:last-child > a:nth-child(2) > span',
+        selector: '[data-test="link_placeOfBirth"][href*="placeOfBirth"]',
         type: 'element',
-        transform: e => e.text(),
+        transform: e => regex(/=(.*)$/, x => x)(decodeURIComponent(e.attr('href') ?? '')),
       },
       hasImplants: {
         selector: '[data-test="link_span_boobs"]',
         type: 'element',
-        transform: e => e.text() === 'Fake',
+        transform: e => e.text().trim() === 'Fake',
       },
       piercings: {
-        selector: '[data-test="p_has_piercings"]',
+        selector: '[data-test="link_span_piercingLocations"]',
         type: 'element',
         transform: e => (e.text().trim() === 'Unknown' ? undefined : e.text().trim()),
       },
       tattoos: {
-        selector: '[data-test="p_has_tattoos"]',
+        selector: '[data-test="link_span_tattooLocations"]',
         type: 'element',
         transform: e => (e.text().trim() === 'Unknown' ? undefined : e.text().trim()),
       },
       height: {
         selector: '[data-test="link_height"]',
         type: 'element',
-        transform: e => regex(/(\d*)cm/, x => parseInt(x, 10))(e.text()),
+        transform: e => regex(/(\d+)\s*cm/, x => parseInt(x.trim(), 10))(e.text()),
       },
       weight: {
         selector: '[data-test="link_weight"]',
         type: 'element',
-        transform: e => regex(/(\d*)kg/, x => parseInt(x, 10))(e.text()),
+        transform: e => regex(/(\d+)\s*kg/, x => parseInt(x.trim(), 10))(e.text()),
       },
       measurements: {
-        selector: '[data-test="p-measurements"]',
+        selector:
+          '[data-test="link_span_bra"], [data-test="link_span_waist"], [data-test="link_span_hip"]',
         type: 'element',
         transform: e => {
-          const matches = /(\d{2}).*(\d{2}).*(\d{2})/.exec(e.text().replace(/[\s\n]/gm, ''));
-          const parse = (s: string | undefined) => (s ? parseInt(s, 10) : 0);
-          if (!matches) {
-            return undefined;
-          }
+          const values = e
+            .text()
+            .split(/\s+/)
+            .map(v => /(\d{2})/.exec(v)?.[0])
+            .filter(Boolean)
+            .map(x => parseInt(x!, 10));
 
-          return {
-            chest: inchToCm(parse(matches[1] || undefined)),
-            waist: inchToCm(parse(matches[2] || undefined)),
-            hips: inchToCm(parse(matches[3] || undefined)),
-          };
+          if (values.length !== 3) return undefined;
+
+          const [chest, waist, hips] = values;
+          return { chest, waist, hips };
         },
       },
       hasDick: {
@@ -134,9 +142,9 @@ export const FreeonesScraper: ActressScraper = {
         value: 'Female',
       },
       cupsize: {
-        selector: '[data-test="p-measurements"]',
+        selector: '[data-test="link_span_cup"]',
         type: 'element',
-        transform: e => regex(/\d{2}(.)/, x => (isCupsize(x) ? x : undefined))(e.text()),
+        transform: e => (isCupsize(e.text().trim()) ? (e.text().trim() as Cupsize) : undefined),
       },
       socialMediaLinks: {
         selector: '.social-meta',

@@ -45,13 +45,13 @@ export const MobileNavigation: FunctionalComponent = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink className={navLinkClass} to={settingsRoute}>
-            <Icon className="focus:outline-none" icon="settings" />
+          <NavLink className={navLinkClass} to={tasksRoute}>
+            <Icon className="focus:outline-none" icon="dns" />
           </NavLink>
         </li>
         <li>
-          <NavLink className={navLinkClass} to={tasksRoute}>
-            <Icon className="focus:outline-none" icon="dns" />
+          <NavLink className={navLinkClass} to={settingsRoute}>
+            <Icon className="focus:outline-none" icon="settings" />
           </NavLink>
         </li>
       </ul>

@@ -1,11 +1,12 @@
-import { h, FunctionalComponent } from 'preact';
-import { NavLink, Link, useLocation } from 'react-router-dom';
+import { FunctionalComponent, h } from 'preact';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import {
   actressesRoute,
   genresRoute,
   homeRoute,
   moviesRoute,
   settingsRoute,
+  tasksRoute,
   websitesRoute,
 } from '../utils/route';
 import { Icon } from './icon';
@@ -46,6 +47,11 @@ export const MobileNavigation: FunctionalComponent = () => {
         <li>
           <NavLink className={navLinkClass} to={settingsRoute}>
             <Icon className="focus:outline-none" icon="settings" />
+          </NavLink>
+        </li>
+        <li>
+          <NavLink className={navLinkClass} to={tasksRoute}>
+            <Icon className="focus:outline-none" icon="dns" />
           </NavLink>
         </li>
       </ul>

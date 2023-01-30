@@ -14,6 +14,7 @@ export type IconType =
   | 'close'
   | 'cloud'
   | 'delete_forever'
+  | 'dns'
   | 'edit'
   | 'find_replace'
   | 'home'

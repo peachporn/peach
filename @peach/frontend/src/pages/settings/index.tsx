@@ -1,16 +1,13 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
-import { Link } from 'react-router-dom';
 import { useContext } from 'preact/hooks';
 import { Helmet } from 'react-helmet';
-import { i } from '../../i18n/i18n';
-import { SettingsContext } from '../../context/settings';
 import { Icon } from '../../components/icon';
-import { isTouched } from '../../utils/form';
-import { tasksRoute } from '../../utils/route';
+import { SettingsContext } from '../../context/settings';
+import { i } from '../../i18n/i18n';
+import { GeneralSettingsForm } from './components/generalSettingsForm';
+import { LibraryForm } from './components/libraryForm';
 import { UIForm } from './components/uiForm';
 import { VolumeForm } from './components/volumeForm';
-import { LibraryForm } from './components/libraryForm';
-import { GeneralSettingsForm } from './components/generalSettingsForm';
 
 export const SettingsPage: FunctionalComponent = () => {
   const {
@@ -31,9 +28,6 @@ export const SettingsPage: FunctionalComponent = () => {
       <main className="pb-12">
         <h1 className="max-w-screen-md mx-auto font-display pt-8 text-3xl text-white pl-6 md:pl-0 text-shadow-md flex justify-between pr-4 md:pr-0">
           {i('SETTINGS')}
-          <Link to={tasksRoute} className="text-white">
-            <Icon icon="task_alt" />
-          </Link>
         </h1>
         <section className="bg-white p-8 min-h-screen shadow-lg">
           <div className="max-w-screen-md mx-auto">

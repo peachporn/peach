@@ -1,11 +1,8 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
-import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { i } from '../../i18n/i18n';
-import { settingsRoute } from '../../utils/route';
-import { Icon } from '../../components/icon';
-import { TasksList } from './components/tasksList';
 import { TaskLauncher } from './components/taskLauncher';
+import { TasksList } from './components/tasksList';
 
 export const TasksPage: FunctionalComponent = () => (
   <Fragment>
@@ -15,15 +12,14 @@ export const TasksPage: FunctionalComponent = () => (
       </title>
     </Helmet>
     <main className="pb-12">
-      <h1 className="font-display pt-8 text-3xl text-white pl-6 text-shadow-md flex justify-between pr-4">
+      <h1 className="max-w-screen-md mx-auto font-display pt-8 text-3xl text-white text-shadow-md flex justify-between pr-4">
         {i('TASKS')}
-        <Link to={settingsRoute} className="text-white">
-          <Icon icon="settings" />
-        </Link>
       </h1>
       <section className="bg-white p-8 min-h-screen shadow-lg">
-        <TaskLauncher />
-        <TasksList />
+        <div className="max-w-screen-md mx-auto">
+          <TaskLauncher />
+          <TasksList />
+        </div>
       </section>
     </main>
   </Fragment>

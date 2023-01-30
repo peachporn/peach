@@ -19,10 +19,11 @@ export const useScrapeActress = (
     {
       skip: searchName === '' && chosenAlternativeDetailUrl === '',
       variables: {
-        request: {
-          name: searchName,
-          detailUrl: chosenAlternativeDetailUrl,
-        },
+        request: chosenAlternativeDetailUrl
+          ? { detailUrl: chosenAlternativeDetailUrl }
+          : {
+              name: searchName,
+            },
       },
     },
   );

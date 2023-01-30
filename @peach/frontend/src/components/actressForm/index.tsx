@@ -68,7 +68,10 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
       {!alternatives.length ? null : (
         <ActressAlternativeList
           alternatives={alternatives}
-          onSelect={alternative => setChosenAlternativeDetailUrl(alternative.detailUrl)}
+          onSelect={alternative => {
+            setSearchName(alternative.name);
+            setChosenAlternativeDetailUrl(alternative.detailUrl);
+          }}
         />
       )}
       {!manual && (!actress?.name || alternatives.length) ? null : (

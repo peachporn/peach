@@ -192,7 +192,7 @@ export const FreeonesScraper: ActressScraper = {
       detailUrl: {
         selector: '.teaser__link',
         type: 'element',
-        transform: e => `https://freeones.com/${e.attr('href')?.replace(/feed$/, 'bio')}`,
+        transform: e => `https://freeones.com${e.attr('href')?.replace(/feed$/, 'bio')}`,
       },
       pictureUrl: {
         selector: '.image-content',

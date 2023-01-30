@@ -1,4 +1,4 @@
-import { FunctionalComponent, h } from 'preact';
+import { useMutation } from '@apollo/client';
 import { TaskCategory } from '@peach/tasks';
 import {
   CancelTaskMutation,
@@ -7,17 +7,18 @@ import {
   RestartTaskMutationVariables,
   TaskFragment,
 } from '@peach/types';
-import { useMutation } from '@apollo/client';
-import { i } from '../../../i18n/i18n';
+import { FunctionalComponent, h } from 'preact';
 import { Icon } from '../../../components/icon';
+import { i } from '../../../i18n/i18n';
 import { cancelTaskMutation, restartTaskMutation } from '../mutations/tasks.gql';
 import { taskIdentifier } from '../utils/taskIdentifier';
 
 type ErroredTaskProps = {
   task: TaskFragment;
+  setTasks: (setter: (ts: TaskFragment[]) => TaskFragment[]) => void;
 };
 
-export const ErroredTask: FunctionalComponent<ErroredTaskProps> = ({ task }) => {
+export const ErroredTask: FunctionalComponent<ErroredTaskProps> = ({ setTasks, task }) => {
   const [restartTask] = useMutation<RestartTaskMutation, RestartTaskMutationVariables>(
     restartTaskMutation,
     {
@@ -42,19 +43,31 @@ export const ErroredTask: FunctionalComponent<ErroredTaskProps> = ({ task }) => 
         <Icon className="mr-2" icon="warning" />
         {i(task.category as TaskCategory)}
       </h3>
-      <div className="w-full grid grid-cols-3 grid-flow-row-dense items-center">
-        <span className="col-start-1 col-span-2 break-all">{taskIdentifier(task)}</span>
-        <span className="col-start-1 col-span-2 font-bold text-pink break-all">
+      <div className="w-full grid grid-cols-3 grid-flow-row-dense">
+        <span className="col-start-1 col-span-2 break-all py-3">{taskIdentifier(task)}</span>
+        <pre className="col-start-1 col-span-3 bg-gray-100 text-pink block text-sm p-3 whitespace-pre-wrap break-all">
           {task.statusMessage}
-        </span>
-        <div className="justify-self-end row-span-2">
-          <button onClick={() => restartTask()}>
+        </pre>
+        <div className="justify-self-end">
+          <button
+            onClick={() => {
+              setTasks(previousTasks =>
+                previousTasks.map(t => (t.id === task.id ? { ...task, status: 'RUNNING' } : t)),
+              );
+              restartTask();
+            }}
+          >
             <Icon
               className="bg-gray-100 rounded-full p-2 mr-1 focus:outline-none active:bg-pink active:text-white transition-all"
               icon="restart_alt"
             />
           </button>
-          <button onClick={() => cancelTask()}>
+          <button
+            onClick={() => {
+              setTasks(previousTasks => previousTasks.filter(t => t.id !== task.id));
+              cancelTask();
+            }}
+          >
             <Icon
               className="bg-gray-100 rounded-full p-2 focus:outline-none active:bg-pink active:text-white transition-all"
               icon="clear"

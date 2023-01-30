@@ -1,19 +1,21 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
 import { TaskCategory } from '@peach/tasks';
 import { TaskFragment, TasksQuery, TaskStatus } from '@peach/types';
+import { Fragment, FunctionalComponent, h } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
 import { groupBy } from 'ramda';
 import { i } from '../../../i18n/i18n';
 import { tasksQuery } from '../queries/tasks.gql';
 import { taskIdentifier } from '../utils/taskIdentifier';
-import { TaskControls } from './taskControls';
 import { ErroredTask } from './erroredTask';
+import { TaskControls } from './taskControls';
 
 type TaskViewProps = {
   taskGroups: [TaskStatus, [TaskCategory, TaskFragment[]][]][];
+  setTasks: (setter: (ts: TaskFragment[]) => TaskFragment[]) => void;
 };
 
-const TaskView: FunctionalComponent<TaskViewProps> = ({ taskGroups }) => (
+const TaskView: FunctionalComponent<TaskViewProps> = ({ setTasks, taskGroups }) => (
   <Fragment>
     {taskGroups.flatMap(([status, categories]) =>
       categories.map(([category, tasks]) =>
@@ -63,33 +65,37 @@ const TaskView: FunctionalComponent<TaskViewProps> = ({ taskGroups }) => (
             )}
           </div>
         ) : (
-          tasks.map(t => <ErroredTask task={t} />)
+          tasks.map(t => <ErroredTask setTasks={setTasks} task={t} />)
         ),
       ),
     )}
   </Fragment>
 );
 export const TasksList: FunctionalComponent = () => {
+  const [tasks, setTasks] = useState<TasksQuery['tasks']>([]);
   const { data, loading } = useQuery<TasksQuery>(tasksQuery, {
     pollInterval: 1000,
   });
 
+  useEffect(() => {
+    setTasks(data?.tasks ?? []);
+  }, [data?.tasks]);
+
   return loading || !data ? null : (
     <div>
       <h2 className="flex justify-end items-end border-b border-gray-200 pb-2">
-        <TaskControls tasks={data?.tasks} />
+        <TaskControls tasks={tasks} />
       </h2>
       <div>
         <TaskView
-          taskGroups={Object.entries(groupBy(task => task.status, data.tasks)).map(
-            ([status, tasks]) => [
-              status as TaskStatus,
-              Object.entries(groupBy(task => task.category, tasks)).map(([category, task]) => [
-                category as TaskCategory,
-                task,
-              ]),
-            ],
-          )}
+          setTasks={setTasks}
+          taskGroups={Object.entries(groupBy(task => task.status, tasks)).map(([status, ts]) => [
+            status as TaskStatus,
+            Object.entries(groupBy(task => task.category, ts)).map(([category, t]) => [
+              category as TaskCategory,
+              t,
+            ]),
+          ])}
         />
         {data.tasks.length === 0 ? (
           <span className="block w-full text-center text-lg text-gray-300 py-5">

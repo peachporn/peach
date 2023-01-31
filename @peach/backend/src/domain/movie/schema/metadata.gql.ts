@@ -23,5 +23,6 @@ export const movieMetadataTypeDefs = gql`
     mkv
     mp4
     wmv
+    avi
   }
 `;

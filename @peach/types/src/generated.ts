@@ -175,6 +175,7 @@ export type FetishMovieFilter = {
 };
 
 export type Format =
+  | 'avi'
   | 'mkv'
   | 'mp4'
   | 'wmv';

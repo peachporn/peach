@@ -12,6 +12,7 @@ const formatMap: { [key: string]: Format } = {
   mp4: 'mp4',
   wmv: 'wmv',
   mkv: 'mkv',
+  avi: 'avi',
 };
 
 export const transformMetadata = (metadata: MovieMetadata): Movie['metaData'] =>

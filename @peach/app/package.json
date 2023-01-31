@@ -21,7 +21,7 @@
     "cron": "^1.8.2",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
-    "sharp": "^0.29.2",
+    "sharp": "^0.30.5",
     "ssl-root-cas": "^1.3.1",
     "which": "^2.0.2"
   },

@@ -63,7 +63,7 @@
   "dependencies": {
     "@prisma/client": "4",
     "graphql": "^15.4.0",
-    "sharp": "^0.30.1"
+    "sharp": "^0.30.5"
   },
   "volta": {
     "node": "16.16.0",

@@ -22,6 +22,7 @@ export const settingsTypeDefs = gql`
     libraryPath: String
     volumes: [Volume!]!
     pinnedFetishes: [Genre!]!
+    autoConvertMovies: Boolean!
   }
 
   extend type Query {

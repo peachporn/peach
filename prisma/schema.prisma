@@ -92,11 +92,12 @@ model Movie {
 }
 
 model Settings {
-  id              Int     @id @default(autoincrement())
-  language        String
-  libraryPath     String
-  inferMovieTitle String  @default("FILENAME")
-  pinnedFetishes  Genre[]
+  id                Int     @id @default(autoincrement())
+  language          String
+  libraryPath       String
+  inferMovieTitle   String  @default("FILENAME")
+  pinnedFetishes    Genre[]
+  autoConvertMovies Boolean @default(true)
 }
 
 model Task {

@@ -1,12 +1,10 @@
-import { promises } from 'fs';
 import path from 'path';
+import { deleteIfExists } from '@peach/utils/src/delete';
 import { prisma } from '@peach/utils/src/prisma';
 import { scrapeMetadata } from '../metadata';
 import { defineTask } from '../task/template';
 import { convertMovieToMp4, extensionToMp4 } from './convert';
 import { ConvertableMovie } from './types';
-
-const { unlink } = promises;
 
 type ConvertMovieParameters = {
   movie: ConvertableMovie;
@@ -41,9 +39,13 @@ const { createTask, runTask, taskDefinitionOptions } = defineTask<ConvertMoviePa
       )
       .then(() => {
         const oldMoviePath = path.join(movie.volume.path, movie.path);
+        const newMoviePath = extensionToMp4(movie.path);
+
+        console.log('old', oldMoviePath, 'new', newMoviePath);
+
         Promise.all([
-          scrapeMetadata({ movie: { ...movie, path: extensionToMp4(movie.path) } }),
-          unlink(oldMoviePath),
+          scrapeMetadata({ movie: { ...movie, path: newMoviePath } }),
+          oldMoviePath !== newMoviePath ? deleteIfExists(oldMoviePath) : Promise.resolve(),
         ]);
       })
       .then(() => 'SUCCESS'),

@@ -54,6 +54,7 @@ export default {
   SETTINGS_INFERMOVIETITLE: 'Infer movie titles from',
   SETTINGS_INFERMOVIETITLE_FOLDER: 'Containing folder',
   SETTINGS_INFERMOVIETITLE_FILENAME: 'Filename',
+  SETTINGS_AUTOCONVERTMOVIES: 'Convert movies to MP4 when importing',
   SETTINGS_LIBRARYPATH: 'Library path',
   SETTINGS_SCAN_LIBRARY: 'Update library',
   LIBRARY_SCAN_STARTED: 'Library scan started!',

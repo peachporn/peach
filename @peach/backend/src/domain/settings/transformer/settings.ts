@@ -20,5 +20,6 @@ export const transformSettings = (
     (settings.inferMovieTitle && inferMovieTitleMap[settings.inferMovieTitle]) || 'FILENAME',
   libraryPath: settings.libraryPath || undefined,
   pinnedFetishes: (settings.pinnedFetishes || []).map(transformBaseGenre),
+  autoConvertMovies: settings.autoConvertMovies ?? true,
   volumes: [],
 });

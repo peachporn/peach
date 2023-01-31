@@ -1,6 +1,4 @@
-import { createContext, FunctionalComponent, h } from 'preact';
 import { useApolloClient, useMutation, useQuery } from '@apollo/client';
-import { useForm, UseFormMethods } from 'react-hook-form';
 import {
   InferMovieTitle,
   Language,
@@ -10,9 +8,11 @@ import {
   UpdateSettingsMutationVariables,
   Volume,
 } from '@peach/types';
-import { pathExistsQuery, settingsQuery } from './queries/settings.gql';
-import { validatePathExists } from './util';
+import { createContext, FunctionalComponent, h } from 'preact';
+import { useForm, UseFormMethods } from 'react-hook-form';
 import { updateSettingsMutation } from './mutations/updateSettings.gql';
+import { settingsQuery } from './queries/settings.gql';
+import { validatePathExists } from './util';
 
 type SettingsFormData = {
   language: Language;
@@ -20,6 +20,7 @@ type SettingsFormData = {
   libraryPath: string;
   pinnedFetishes: string;
   volumes: Volume[];
+  autoConvertMovie: boolean;
 };
 
 type SettingsContextType = {
@@ -37,6 +38,7 @@ const defaultSettingsContext: SettingsContextType = {
     libraryPath: '',
     volumes: [],
     pinnedFetishes: [],
+    autoConvertMovies: true,
   },
   form: {} as UseFormMethods<SettingsFormData>,
   validatePathExists: () => Promise.resolve(false),

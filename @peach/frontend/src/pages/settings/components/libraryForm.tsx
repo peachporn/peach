@@ -1,9 +1,8 @@
 import { Fragment, FunctionalComponent, h } from 'preact';
 import { useContext } from 'preact/hooks';
-import { i } from '../../../i18n/i18n';
+import { Checkbox } from '../../../components/checkbox';
 import { SettingsContext } from '../../../context/settings';
-import { isTouched } from '../../../utils/form';
-import { pathExistsQuery } from '../../../context/settings/queries/settings.gql';
+import { i } from '../../../i18n/i18n';
 
 export const LibraryForm: FunctionalComponent = () => {
   const {
@@ -32,6 +31,12 @@ export const LibraryForm: FunctionalComponent = () => {
           <option value="FOLDER">{i('SETTINGS_INFERMOVIETITLE_FOLDER')}</option>
           <option value="FILENAME">{i('SETTINGS_INFERMOVIETITLE_FILENAME')}</option>
         </select>
+        <span className="text-2xs col-span-2">{}</span>
+        <Checkbox
+          name="autoConvertMovies"
+          register={register}
+          label={<Fragment>{i('SETTINGS_AUTOCONVERTMOVIES')}</Fragment>}
+        />
       </div>
     </Fragment>
   );

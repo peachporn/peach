@@ -14,6 +14,7 @@ export const settingsFragment = gql`
     pinnedFetishes {
       ...FetishBubble
     }
+    autoConvertMovies
   }
 
   ${fetishBubbleFragment}

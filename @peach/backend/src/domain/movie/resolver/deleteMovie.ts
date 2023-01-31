@@ -1,10 +1,7 @@
-import { promises } from 'fs';
-import { without } from 'ramda';
-import { fullPath, moviePathForId } from '@peach/domain';
-import { transformMovie } from '../transformer/movie';
+import { moviePathForId } from '@peach/domain';
+import { deleteIfExists } from '@peach/utils/src/delete';
 import { Resolvers } from '../../../generated/resolver-types';
-
-const { unlink } = promises;
+import { transformMovie } from '../transformer/movie';
 
 export const deleteMovieResolvers: Resolvers = {
   Mutation: {
@@ -12,7 +9,7 @@ export const deleteMovieResolvers: Resolvers = {
       const movieFilePath = await moviePathForId(movieId);
 
       if (movieFilePath) {
-        await unlink(movieFilePath);
+        await deleteIfExists(movieFilePath);
       }
 
       const metadata = await prisma.movieMetadata.findMany({
@@ -22,6 +19,13 @@ export const deleteMovieResolvers: Resolvers = {
       });
 
       await Promise.all(metadata.map(m => prisma.movieMetadata.delete({ where: { id: m.id } })));
+
+      const movie = await prisma.movie.findUnique({
+        where: {
+          id: movieId,
+        },
+      });
+      if (!movie) return;
 
       return prisma.movie
         .delete({

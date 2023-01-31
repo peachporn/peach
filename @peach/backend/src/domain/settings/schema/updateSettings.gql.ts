@@ -12,6 +12,7 @@ export const updateSettingsTypeDefs = gql`
     libraryPath: String
     pinnedFetishes: [Int!]
     volumes: [VolumeInput!]!
+    autoConvertMovies: Boolean
   }
 
   extend type Query {

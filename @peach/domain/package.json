@@ -13,7 +13,7 @@
   "dependencies": {
     "@peach/types": "3.0.0-alpha",
     "@peach/utils": "3.0.0-alpha",
-    "@prisma/client": "^3.3.0"
+    "@prisma/client": "4"
   },
   "devDependencies": {
     "type-fest": "^2.12.0"

@@ -157,7 +157,7 @@ export const MovieFilter: FunctionalComponent = () => {
               <div className={'col-span-4 md:col-span-1 grid grid-cols-1'}>
                 <MovieFilterCard
                   onClick={() => {
-                    setUntouched(false);
+                    setUntouched(undefined);
                   }}
                   movieFilter={{ __typename: 'UntouchedMovieFilter', untouched: true }}
                 />

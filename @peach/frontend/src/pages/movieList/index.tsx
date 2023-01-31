@@ -55,10 +55,15 @@ export const MoviesPage: FunctionalComponent = () => {
             <Loading />
           ) : (
             <Fragment>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
-                {(data?.movies || []).map(movie => (
-                  <MovieCard key={movie.id} movie={movie} />
-                ))}
+              <div>
+                <span className={'text-sm'}>
+                  {i('FOUND_X_MOVIES', { count: data?.movies.total.toString() ?? '?' })}
+                </span>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
+                  {(data?.movies.movies || []).map(movie => (
+                    <MovieCard key={movie.id} movie={movie} />
+                  ))}
+                </div>
               </div>
               <Pagination pagination={pagination} />
             </Fragment>

@@ -325,6 +325,12 @@ export type MovieFromFileInput = {
   title: Scalars['String'];
 };
 
+export type MovieListResponse = {
+  __typename?: 'MovieListResponse';
+  movies: Array<Movie>;
+  total: Scalars['Int'];
+};
+
 export type MovieLocation = {
   filePath: Scalars['String'];
   volumeName: Scalars['String'];
@@ -488,7 +494,7 @@ export type Query = {
   movie?: Maybe<Movie>;
   movieCount: MovieCountResponse;
   movieFilters: Array<MovieFilter>;
-  movies: Array<Movie>;
+  movies: MovieListResponse;
   pathExists?: Maybe<Scalars['Boolean']>;
   scrapeActress?: Maybe<ActressScrapeResult>;
   settings: Settings;
@@ -905,14 +911,14 @@ export type GenresCountQuery = { __typename?: 'Query', genresCount: number };
 export type HomepageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomepageQuery = { __typename?: 'Query', movieCount: { __typename?: 'MovieCountResponse', all: number, untouched: number }, randomMovies: Array<{ __typename?: 'Movie', id: number, title: string, coverPicture?: { __typename?: 'Screencap', src: string } | null | undefined }>, recentMovies: Array<{ __typename?: 'Movie', id: number, title: string, coverPicture?: { __typename?: 'Screencap', src: string } | null | undefined }>, settings: { __typename?: 'Settings', id: number, pinnedFetishes: Array<{ __typename?: 'Genre', id: number, name: string, picture: string }> } };
+export type HomepageQuery = { __typename?: 'Query', movieCount: { __typename?: 'MovieCountResponse', all: number, untouched: number }, randomMovies: { __typename?: 'MovieListResponse', movies: Array<{ __typename?: 'Movie', id: number, title: string, coverPicture?: { __typename?: 'Screencap', src: string } | null | undefined }> }, recentMovies: { __typename?: 'MovieListResponse', movies: Array<{ __typename?: 'Movie', id: number, title: string, coverPicture?: { __typename?: 'Screencap', src: string } | null | undefined }> }, settings: { __typename?: 'Settings', id: number, pinnedFetishes: Array<{ __typename?: 'Genre', id: number, name: string, picture: string }> } };
 
 export type PinnedFetishesQueryVariables = Exact<{
   fetishIds: Array<Scalars['Int']> | Scalars['Int'];
 }>;
 
 
-export type PinnedFetishesQuery = { __typename?: 'Query', movies: Array<{ __typename?: 'Movie', id: number, title: string, coverPicture?: { __typename?: 'Screencap', src: string } | null | undefined }> };
+export type PinnedFetishesQuery = { __typename?: 'Query', movies: { __typename?: 'MovieListResponse', movies: Array<{ __typename?: 'Movie', id: number, title: string, coverPicture?: { __typename?: 'Screencap', src: string } | null | undefined }> } };
 
 export type GenreActionCardFragment = { __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, linkableChildren: Array<{ __typename?: 'Genre', id: number, name: string }> };
 
@@ -1019,7 +1025,7 @@ export type MovieListQueryVariables = Exact<{
 }>;
 
 
-export type MovieListQuery = { __typename?: 'Query', movies: Array<{ __typename?: 'Movie', id: number, title: string, coverPicture?: { __typename?: 'Screencap', src: string } | null | undefined }> };
+export type MovieListQuery = { __typename?: 'Query', movies: { __typename?: 'MovieListResponse', total: number, movies: Array<{ __typename?: 'Movie', id: number, title: string, coverPicture?: { __typename?: 'Screencap', src: string } | null | undefined }> } };
 
 export type MovieCountQueryVariables = Exact<{ [key: string]: never; }>;
 

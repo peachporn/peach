@@ -8,6 +8,7 @@ export default {
   PAGE_TITLE_SETTINGS: 'Settings',
   PAGE_TITLE_TASKS: 'Tasks',
   SERVING_X_MOVIES: 'Serving {{count}} movies',
+  FOUND_X_MOVIES: '{{count}} movies found',
   COUNT_UNTOUCHED: '({{count}} untouched)',
   ONLY_UNTOUCHED: 'Only untouched',
   PINNED: 'Featured movies',

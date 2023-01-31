@@ -83,37 +83,46 @@ export const listMovieResolvers: Resolvers = {
           untouched: all - touched,
         }),
       ),
-    movies: (_parent, { limit, skip, filter, sort }, { prisma }) =>
-      (sort === 'RANDOM'
-        ? prisma.movie.count().then(count => {
-            const blockLimit = (limit || 30) * 5;
-            const randomSkip = Math.floor(
-              Math.random() * Math.max(0, Math.min(count, count - blockLimit || 0)),
-            );
+    movies: async (_parent, { limit, skip, filter, sort }, { prisma }) => {
+      const filteredCount = await prisma.movie.count({
+        ...applyMovieFilter(filter),
+      });
 
-            return prisma.movie
-              .findMany({
-                skip: randomSkip,
-                take: blockLimit,
-                ...applyMovieFilter(filter),
-                include: {
-                  genres: true,
-                },
-              })
-              .then(movies => shuffle(movies).slice(0, limit));
-          })
-        : prisma.movie.findMany({
-            skip: skip || 0,
-            take: limit || 30,
-            orderBy: sort === 'CREATED_AT_DESC' ? { createdAt: 'desc' } : { id: 'asc' },
-            ...applyMovieFilter(filter),
-            include: {
-              genres: true,
-              actresses: true,
-              fetishes: true,
-              website: true,
-            },
-          })
-      ).then(movies => movies.map(transformMovie)),
+      return (
+        sort === 'RANDOM'
+          ? prisma.movie.count().then(totalCount => {
+              const blockLimit = (limit || 30) * 5;
+              const randomSkip = Math.floor(
+                Math.random() * Math.max(0, Math.min(totalCount, totalCount - blockLimit || 0)),
+              );
+
+              return prisma.movie
+                .findMany({
+                  skip: randomSkip,
+                  take: blockLimit,
+                  ...applyMovieFilter(filter),
+                  include: {
+                    genres: true,
+                  },
+                })
+                .then(movies => shuffle(movies).slice(0, limit));
+            })
+          : prisma.movie.findMany({
+              skip: skip || 0,
+              take: limit || 30,
+              orderBy: sort === 'CREATED_AT_DESC' ? { createdAt: 'desc' } : { id: 'asc' },
+              ...applyMovieFilter(filter),
+              include: {
+                genres: true,
+                actresses: true,
+                fetishes: true,
+                website: true,
+              },
+            })
+      ).then(movies => ({
+        total: filteredCount,
+        movies: movies.map(transformMovie),
+      }));
+    },
   },
 };

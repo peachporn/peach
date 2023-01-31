@@ -19,7 +19,7 @@ model MovieMetadata {
   id Int @id @default(autoincrement())
 
   movie   Movie @relation(fields: [movieId], references: [id])
-  movieId Int
+  movieId Int   @unique
 
   quality String
   format  String
@@ -30,8 +30,8 @@ model MovieMetadata {
 }
 
 model Actress {
-  id      Int    @id @default(autoincrement())
-  slug    String @default("")
+  id   Int    @id @default(autoincrement())
+  slug String @default("")
 
   name    String @unique
   aliases String @default("[]")
@@ -50,23 +50,23 @@ model Actress {
   latitude  Float?
   longitude Float?
 
-  boobs     String?
-  cupsize   String?
-  dick  Boolean @default(false)
-  pussy  Boolean @default(false)
-  genderExpression String @default("Androgynous")
+  boobs            String?
+  cupsize          String?
+  dick             Boolean @default(false)
+  pussy            Boolean @default(false)
+  genderExpression String  @default("Androgynous")
 
   piercings String?
   tattoos   String?
 
   height       Int?
   weight       Int?
-  measurements String  @default("{}")
+  measurements String @default("{}")
 
   socialMediaLinks String?
   officialWebsite  String?
 
-  movies Movie[] @relation(references: [id])
+  movies Movie[] @relation()
 }
 
 model Movie {
@@ -74,7 +74,7 @@ model Movie {
   createdAt DateTime @default(now())
 
   title     String            @unique
-  actresses Actress[]         @relation(references: [id])
+  actresses Actress[]         @relation()
   genres    GenreDefinition[]
   fetishes  Genre[]
 
@@ -111,7 +111,7 @@ model Task {
 model GenreDefinition {
   id Int @id @default(autoincrement())
 
-  movie   Movie @relation(fields: [movieId], references: [id])
+  movie   Movie @relation(references: [id], fields: [movieId])
   movieId Int
 
   genre String // { parent: Genre, children: Genre[] } serialized as JSON
@@ -127,10 +127,10 @@ model Genre {
   validAsRoot   Boolean
   validAsFetish Boolean
 
-  linkableParents  Genre[] @relation("Subgenre", references: [id])
-  linkableChildren Genre[] @relation("Subgenre", references: [id])
+  linkableParents  Genre[] @relation("Subgenre")
+  linkableChildren Genre[] @relation("Subgenre")
 
-  movies Movie[] @relation(references: [id])
+  movies Movie[] @relation()
 
   settings   Settings? @relation(fields: [settingsId], references: [id])
   settingsId Int?

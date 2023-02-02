@@ -4,9 +4,6 @@ import { Prisma } from '@prisma/client';
 export const log = logScope('scrape-metadata');
 
 export type ScrapeableMovie = Prisma.MovieGetPayload<{
-  select: {
-    path: true;
-  };
   include: {
     volume: true;
   };

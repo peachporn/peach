@@ -1,7 +1,7 @@
-import path from 'path';
 import { createReadStream, promises } from 'fs';
+import { MovieFormat, moviePathForId } from '@peach/domain';
+import { exists } from '@peach/utils/src/fs';
 import { Request, Response } from 'express';
-import { getScreencapPath, MovieFormat, moviePathForId } from '@peach/domain';
 
 const { stat } = promises;
 
@@ -26,14 +26,21 @@ export const serveMovies = async (req: Request, res: Response) => {
   }
 
   const moviePath = await moviePathForId(requestedMovieId);
-  if (!moviePath) {
+  if (!moviePath || !exists(moviePath)) {
+    res.status(404);
+    return res.send('Not found');
+  }
+
+  const stats = await stat(moviePath).catch((error: NodeJS.ErrnoException) => {
+    if (error.code === 'ENOENT') return undefined;
+    throw error;
+  });
+  if (!stats) {
     res.status(404);
     return res.send('Not found');
   }
 
   const { range } = req.headers;
-  const stats = await stat(moviePath);
-
   const { start, end, chunkSize } = getPositions(range, stats.size);
   const contentType = mime.get((moviePath.split('.')[1] as MovieFormat) || 'mp4') || 'video/mp4';
 

@@ -1,14 +1,17 @@
 import { useQuery } from '@apollo/client';
 import { ActressDetailQuery, ActressDetailQueryVariables } from '@peach/types';
 import { Fragment, FunctionalComponent, h } from 'preact';
+import { useContext } from 'preact/hooks';
 import { Helmet } from 'react-helmet';
 import { useHistory, useParams } from 'react-router-dom';
 import { CoverScreencaps } from '../../components/coverScreencaps';
 import { Image } from '../../components/image';
 import { Loading } from '../../components/loading';
+import { MovieFilterContext } from '../../context/movieFilter';
 import { useRefetchingImage } from '../../hooks/useRefetchingImage';
 import { i } from '../../i18n/i18n';
 import { formatDate } from '../../utils/date';
+import { moviesRoute } from '../../utils/route';
 import { EditActressForm } from './components/editActressForm';
 import { actressDetailQuery } from './queries/actressDetail.gql';
 import { dick, looksAndrogynous, looksMale, pussy, tits } from './utils/appearance';
@@ -21,6 +24,7 @@ export type ActressDetailPageProps = {
 export const ActressDetailPage: FunctionalComponent = () => {
   const history = useHistory();
   const params = useParams<ActressDetailPageProps>();
+  const { setActresses } = useContext(MovieFilterContext);
 
   const actressId = parseInt(params.actressId, 10);
   if (!actressId) {
@@ -47,8 +51,18 @@ export const ActressDetailPage: FunctionalComponent = () => {
         </title>
       </Helmet>
       <main className="pb-12">
-        <div className="flex flex-col relative">
+        <div
+          onClick={() => {
+            setActresses([actressId]);
+            history.push(moviesRoute);
+          }}
+          className="cursor-pointer flex flex-col relative group relative"
+        >
           <CoverScreencaps screencaps={screencapsForActress(actress || undefined)} />
+          <div className="-z-1 left-0 top-0 w-full h-full absolute bg-black opacity-0 group-hover:opacity-10 transition-opacity" />
+          <div className="left-0 bottom-0 w-full py-4 text-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+            {i('FILMOGRAPHY_ACTRESS', { actress: actress?.name ?? '' })}
+          </div>
           <h1 className="block -mt-9 w-full max-w-screen-lg mx-auto font-display text-3xl text-white pl-6 md:pl-0 text-shadow-md">
             {actress?.name || ''}
           </h1>

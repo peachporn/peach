@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client';
 import { WebsiteDetailQuery, WebsiteDetailQueryVariables } from '@peach/types';
 import { shuffle } from '@peach/utils/src/list';
 import { Fragment, FunctionalComponent, h } from 'preact';
+import { useContext } from 'preact/hooks';
 import { Helmet } from 'react-helmet';
 import { useHistory, useParams } from 'react-router-dom';
 import { CoverScreencaps } from '../../components/coverScreencaps';
@@ -9,9 +10,10 @@ import { GenreCard } from '../../components/genreCard';
 import { Icon } from '../../components/icon';
 import { Image } from '../../components/image';
 import { Loading } from '../../components/loading';
+import { MovieFilterContext } from '../../context/movieFilter';
 import { useRefetchingImage } from '../../hooks/useRefetchingImage';
 import { i } from '../../i18n/i18n';
-import { genreDetailRoute } from '../../utils/route';
+import { genreDetailRoute, moviesRoute } from '../../utils/route';
 import { EditWebsiteForm } from './components/editWebsiteForm';
 import { websiteDetailQuery } from './queries/websiteDetail.gql';
 
@@ -41,6 +43,7 @@ export type WebsiteDetailPageProps = {
 
 export const WebsiteDetailPage: FunctionalComponent = () => {
   const history = useHistory();
+  const { setWebsites } = useContext(MovieFilterContext);
   const params = useParams<WebsiteDetailPageProps>();
   const websiteId = parseInt(params.websiteId, 10);
   if (!websiteId) {
@@ -67,8 +70,18 @@ export const WebsiteDetailPage: FunctionalComponent = () => {
         </title>
       </Helmet>
       <main className="pb-12">
-        <div className="flex flex-col relative">
+        <div
+          onClick={() => {
+            setWebsites([websiteId]);
+            history.push(moviesRoute);
+          }}
+          className="cursor-pointer flex flex-col relative group relative"
+        >
           <CoverScreencaps screencaps={screencapsForWebsite(website)} />
+          <div className="-z-1 left-0 top-0 w-full h-full absolute bg-black opacity-0 group-hover:opacity-10 transition-opacity" />
+          <div className="left-0 bottom-0 w-full py-4 text-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+            {i('FILMOGRAPHY_WEBSITE', { website: website?.name ?? '' })}
+          </div>
           <h1 className="-mt-9 mx-auto max-w-screen-lg w-full font-display text-3xl text-white pl-6 md:pl-0 text-shadow-md">
             {website?.name || ''}
           </h1>

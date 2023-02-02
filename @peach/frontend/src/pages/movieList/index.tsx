@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { MovieCountQuery, MovieListQuery, MovieListQueryVariables } from '@peach/types';
 import { Fragment, FunctionalComponent, h } from 'preact';
-import { useContext } from 'preact/hooks';
+import { useContext, useEffect } from 'preact/hooks';
 import { Helmet } from 'react-helmet';
 import { useHistory } from 'react-router-dom';
 import { Loading } from '../../components/loading';
@@ -30,13 +30,20 @@ export const MoviesPage: FunctionalComponent = () => {
   });
   const { limit, skip } = pagination;
 
-  const { loading, data } = useQuery<MovieListQuery, MovieListQueryVariables>(movieListQuery, {
-    variables: {
-      limit,
-      skip,
-      filter: filterInput,
+  const { loading, data, refetch } = useQuery<MovieListQuery, MovieListQueryVariables>(
+    movieListQuery,
+    {
+      variables: {
+        limit,
+        skip,
+        filter: filterInput,
+      },
     },
-  });
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [filterInput]);
 
   return (
     <Fragment>

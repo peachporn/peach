@@ -212,4 +212,7 @@ export default {
   CENTIMETER: 'cm',
   KILOGRAM: 'kg',
   OK: 'Ok',
+  FILMOGRAPHY_ACTRESS: 'Show all movies starring {{actress}}',
+  FILMOGRAPHY_WEBSITE: 'Show all movies by {{website}}',
+  FILMOGRAPHY_FETISH: 'Show all movies tagged with {{fetish}}',
 } as const;

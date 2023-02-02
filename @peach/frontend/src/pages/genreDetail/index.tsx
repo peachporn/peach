@@ -1,15 +1,18 @@
 import { useQuery } from '@apollo/client';
 import { GenreDetailQuery, GenreDetailQueryVariables } from '@peach/types';
 import { Fragment, FunctionalComponent, h } from 'preact';
+import { useContext } from 'preact/hooks';
 import { Helmet } from 'react-helmet';
 import { useHistory, useParams } from 'react-router-dom';
 import { CoverScreencaps } from '../../components/coverScreencaps';
 import { GenreCard } from '../../components/genreCard';
 import { Image } from '../../components/image';
 import { Loading } from '../../components/loading';
+import { MovieFilterContext } from '../../context/movieFilter';
 import { colorCodeKinkiness } from '../../domain/genre';
 import { useRefetchingImage } from '../../hooks/useRefetchingImage';
 import { i } from '../../i18n/i18n';
+import { moviesRoute } from '../../utils/route';
 import { EditGenreForm } from './components/editGenreForm';
 import { genreDetailQuery } from './queries/genreDetail.gql';
 import { screencapsForGenre } from './utils/screencapsForGenre';
@@ -20,6 +23,7 @@ export type GenreDetailPageProps = {
 
 export const GenreDetailPage: FunctionalComponent = () => {
   const history = useHistory();
+  const { setFetishes } = useContext(MovieFilterContext);
   const params = useParams<GenreDetailPageProps>();
   const genreId = parseInt(params.genreId, 10);
   if (!genreId) {
@@ -46,8 +50,25 @@ export const GenreDetailPage: FunctionalComponent = () => {
         </title>
       </Helmet>
       <main className="pb-12">
-        <div className="flex flex-col relative">
+        <div
+          onClick={() => {
+            if (!genre?.validAsFetish) return;
+            setFetishes([genreId]);
+            history.push(moviesRoute);
+          }}
+          className={`flex flex-col relative relative ${
+            !genre?.validAsFetish ? '' : 'group cursor-pointer'
+          }`}
+        >
           <CoverScreencaps screencaps={screencapsForGenre(genre)} />
+          {!genre?.validAsFetish ? null : (
+            <Fragment>
+              <div className="-z-1 left-0 top-0 w-full h-full absolute bg-black opacity-0 group-hover:opacity-10 transition-opacity" />
+              <div className="left-0 bottom-0 w-full py-4 text-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                {i('FILMOGRAPHY_FETISH', { fetish: genre?.name ?? '' })}
+              </div>
+            </Fragment>
+          )}
           <h1 className="block -mt-9 mx-auto w-full max-w-screen-md font-display text-3xl text-white pl-6 md:pl-0 text-shadow-md">
             {genre?.name || ''}
           </h1>
@@ -59,7 +80,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
             <Fragment>
               <div className="flex w-full justify-between md:max-w-screen-md m-auto">
                 <span>{genre.category}</span>
-                <div className="flex items-end -mt-32">
+                <div className="flex items-end">
                   <span
                     className={`text-4xl font-bold mr-3 text-center -mb-2 text-${colorCodeKinkiness(
                       genre.kinkiness,

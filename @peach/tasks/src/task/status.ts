@@ -1,3 +1,4 @@
+import { retryWithFalloff } from '@peach/utils/src/falloff';
 import { prisma } from '@peach/utils/src/prisma';
 import { omit } from 'ramda';
 import { DBTask, Task, TaskCategory, TaskStatus, toDBTask } from './type';
@@ -32,12 +33,21 @@ export const markTask = (status: TaskStatus, task: Task, message?: string) =>
     }),
   });
 
+const retry = retryWithFalloff(
+  5,
+  error => error.toString().includes('Timed out during query execution'),
+  100,
+  ms => ms * 2,
+);
+
 export const removeTask = (task: Task) =>
-  prisma.task.delete({
-    where: {
-      id: task.id,
-    },
-  });
+  retry(() =>
+    prisma.task.delete({
+      where: {
+        id: task.id,
+      },
+    }),
+  );
 
 export const tasksByCategoryAndStatus = (category: TaskCategory, statuses: TaskStatus[]) =>
   prisma.task.findMany({

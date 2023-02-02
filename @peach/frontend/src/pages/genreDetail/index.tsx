@@ -64,7 +64,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
           {!genre?.validAsFetish ? null : (
             <Fragment>
               <div className="-z-1 left-0 top-0 w-full h-full absolute bg-black opacity-0 group-hover:opacity-10 transition-opacity" />
-              <div className="left-0 bottom-0 w-full py-4 text-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute left-0 bottom-0 w-full py-4 text-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
                 {i('FILMOGRAPHY_FETISH', { fetish: genre?.name ?? '' })}
               </div>
             </Fragment>

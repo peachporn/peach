@@ -60,7 +60,7 @@ export const ActressDetailPage: FunctionalComponent = () => {
         >
           <CoverScreencaps screencaps={screencapsForActress(actress || undefined)} />
           <div className="-z-1 left-0 top-0 w-full h-full absolute bg-black opacity-0 group-hover:opacity-10 transition-opacity" />
-          <div className="left-0 bottom-0 w-full py-4 text-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute left-0 bottom-0 w-full py-4 text-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
             {i('FILMOGRAPHY_ACTRESS', { actress: actress?.name ?? '' })}
           </div>
           <h1 className="block -mt-9 w-full max-w-screen-lg mx-auto font-display text-3xl text-white pl-6 md:pl-0 text-shadow-md">

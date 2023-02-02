@@ -9,6 +9,7 @@ import { GenreCard } from '../../components/genreCard';
 import { Icon } from '../../components/icon';
 import { Image } from '../../components/image';
 import { Loading } from '../../components/loading';
+import { useRefetchingImage } from '../../hooks/useRefetchingImage';
 import { i } from '../../i18n/i18n';
 import { genreDetailRoute } from '../../utils/route';
 import { EditWebsiteForm } from './components/editWebsiteForm';
@@ -56,6 +57,7 @@ export const WebsiteDetailPage: FunctionalComponent = () => {
   );
 
   const website = data?.website;
+  const [picture, refetchPicture] = useRefetchingImage(website?.picture ?? undefined);
 
   return (
     <Fragment>
@@ -77,9 +79,10 @@ export const WebsiteDetailPage: FunctionalComponent = () => {
           ) : (
             <div className="max-w-screen-lg mx-auto grid grid-cols-1 md:grid-cols-5 ">
               <Image
+                key={picture}
                 className="w-full md:w-64 rounded mb-3 md:pr-3 object-contain md:col-span-2 md:row-span-3 bg-gray-100 p-3"
                 alt={website.name}
-                src={website.picture || ''}
+                src={picture}
               />
               <a className="text-pink my-4 flex items-center md:col-span-3" href={website.url}>
                 <Icon className="mr-2" icon="language" />
@@ -102,7 +105,7 @@ export const WebsiteDetailPage: FunctionalComponent = () => {
               <EditWebsiteForm
                 website={website}
                 onSubmit={() => {
-                  refetch();
+                  refetch().then(refetchPicture);
                 }}
               />
             </div>

@@ -6,6 +6,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { CoverScreencaps } from '../../components/coverScreencaps';
 import { Image } from '../../components/image';
 import { Loading } from '../../components/loading';
+import { useRefetchingImage } from '../../hooks/useRefetchingImage';
 import { i } from '../../i18n/i18n';
 import { formatDate } from '../../utils/date';
 import { EditActressForm } from './components/editActressForm';
@@ -36,6 +37,7 @@ export const ActressDetailPage: FunctionalComponent = () => {
   );
 
   const actress = data?.actress;
+  const [picture, refetchPicture] = useRefetchingImage(actress?.picture ?? undefined);
 
   return (
     <Fragment>
@@ -69,9 +71,10 @@ export const ActressDetailPage: FunctionalComponent = () => {
                   )}
                 </div>
                 <Image
+                  key={picture}
                   className="row-span-6 md:row-span-20 col-start-2 rounded shadow"
                   alt={actress.name}
-                  src={actress.picture || ''}
+                  src={picture}
                 />
                 {actress.aliases.length === 0 ? null : (
                   <div>
@@ -224,7 +227,12 @@ export const ActressDetailPage: FunctionalComponent = () => {
                   </div>
                 )}
               </div>
-              <EditActressForm actress={actress} onSubmit={refetch} />
+              <EditActressForm
+                actress={actress}
+                onSubmit={() => {
+                  refetch().then(refetchPicture);
+                }}
+              />
             </Fragment>
           )}
         </section>

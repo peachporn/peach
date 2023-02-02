@@ -8,6 +8,7 @@ import { GenreCard } from '../../components/genreCard';
 import { Image } from '../../components/image';
 import { Loading } from '../../components/loading';
 import { colorCodeKinkiness } from '../../domain/genre';
+import { useRefetchingImage } from '../../hooks/useRefetchingImage';
 import { i } from '../../i18n/i18n';
 import { EditGenreForm } from './components/editGenreForm';
 import { genreDetailQuery } from './queries/genreDetail.gql';
@@ -35,6 +36,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
   );
 
   const genre = data?.genre;
+  const [picture, refetchPicture] = useRefetchingImage(genre?.picture);
 
   return (
     <Fragment>
@@ -65,7 +67,12 @@ export const GenreDetailPage: FunctionalComponent = () => {
                   >
                     {genre.kinkiness}
                   </span>
-                  <Image className="rounded max-w-xs" alt={genre.name} src={genre.picture} />
+                  <Image
+                    key={picture}
+                    className="rounded max-w-xs"
+                    alt={genre.name}
+                    src={picture}
+                  />
                 </div>
               </div>
               {!genre.linkableChildren.length ? null : (
@@ -82,7 +89,7 @@ export const GenreDetailPage: FunctionalComponent = () => {
               <EditGenreForm
                 genre={genre}
                 onSubmit={() => {
-                  refetch();
+                  refetch().then(refetchPicture);
                 }}
               />
             </Fragment>

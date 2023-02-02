@@ -32,6 +32,7 @@ export const CreateActressFloatingButton: FunctionalComponent<CreateActressFloat
       </button>
       <Modal visible={visible} setVisible={setVisible}>
         <ActressForm
+          defaultManual={true}
           onSubmit={onSubmit}
           onCancel={() => {
             setVisible(false);

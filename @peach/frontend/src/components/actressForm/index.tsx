@@ -14,6 +14,7 @@ export type ActressFormProps = {
   onCancel?: () => void;
   defaultValues?: Partial<ActressFormValues>;
   defaultSearchName?: string;
+  defaultManual?: boolean;
 };
 
 export const ActressForm: FunctionalComponent<ActressFormProps> = ({
@@ -21,8 +22,9 @@ export const ActressForm: FunctionalComponent<ActressFormProps> = ({
   onCancel,
   defaultValues,
   defaultSearchName,
+  defaultManual,
 }) => {
-  const [manual, setManual] = useState(false);
+  const [manual, setManual] = useState(defaultManual ?? false);
   const [searchName, setSearchName] = useState<string>(defaultSearchName || '');
   const [chosenAlternativeDetailUrl, setChosenAlternativeDetailUrl] = useState<string>('');
 

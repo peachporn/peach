@@ -1,42 +1,7 @@
 import { isInBusiness } from '@peach/domain';
-import { ActressFilter } from '@peach/types';
 import { diffYears } from '@peach/utils/src/date';
-import { Prisma } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
 import { transformActress } from '../transformer/actress';
-
-export const applyActressFilter = (
-  filter: ActressFilter | undefined,
-): Pick<Prisma.ActressFindManyArgs, 'where'> =>
-  !filter
-    ? {}
-    : {
-        where: {
-          ...(!filter.ids
-            ? {}
-            : {
-                id: {
-                  in: filter.ids,
-                },
-              }),
-          ...(!filter.name
-            ? {}
-            : {
-                OR: [
-                  {
-                    name: {
-                      contains: filter.name,
-                    },
-                  },
-                  {
-                    aliases: {
-                      contains: filter.name,
-                    },
-                  },
-                ],
-              }),
-        },
-      };
 
 export const actressResolvers: Resolvers = {
   Actress: {
@@ -56,19 +21,5 @@ export const actressResolvers: Resolvers = {
           console.error(e);
           return undefined;
         }),
-
-    actressesCount: async (_parent, { filter }, { prisma }) =>
-      prisma.actress.count(applyActressFilter(filter)),
-
-    actresses: async (_parent, { filter, skip, limit }, { prisma }) =>
-      limit === 0
-        ? []
-        : prisma.actress
-            .findMany({
-              skip,
-              take: limit || 30,
-              ...applyActressFilter(filter),
-            })
-            .then(actresses => actresses.map(transformActress)),
   },
 };

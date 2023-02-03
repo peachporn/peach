@@ -1,21 +1,14 @@
+import { useQuery } from '@apollo/client';
+import { FindGenreQuery, FindGenreQueryVariables, GenreActionCardFragment } from '@peach/types';
 import { FunctionalComponent, h, JSX } from 'preact';
 import { PropRef, useEffect, useRef, useState } from 'preact/hooks';
-import { path } from 'ramda';
-import { useQuery } from '@apollo/client';
-import { UseFormMethods } from 'react-hook-form';
-import { FindGenreQuery, FindGenreQueryVariables, GenreActionCardFragment } from '@peach/types';
 import { i } from '../../../../i18n/i18n';
+import { throttle } from '../../../../utils/throttle';
 import { usePrevious } from '../../../../utils/usePrevious';
 import { MovieHighlightForm } from '../../hooks/useMovieHighlightForm';
 import { findGenreQuery } from '../../queries/findGenre.gql';
-import { throttle } from '../../../../utils/throttle';
-import { GenreFormClip } from './genreFormClip';
-import { GenreGrid } from './genreGrid';
-import { GenreDefinitionDraft } from './types';
-import { pause, playPause, scrub } from './video';
 import {
   Action,
-  addChild,
   createAddChildAction,
   createDuplicateAction,
   createStartAction,
@@ -23,6 +16,10 @@ import {
   possibleActionTypes,
 } from './action';
 import { GenreActionCard } from './genreActionCard';
+import { GenreFormClip } from './genreFormClip';
+import { GenreGrid } from './genreGrid';
+import { GenreDefinitionDraft } from './types';
+import { pause, playPause, scrub } from './video';
 
 export type HighlightFormProps = {
   form: MovieHighlightForm;
@@ -109,7 +106,7 @@ export const HighlightForm: FunctionalComponent<HighlightFormProps> = ({
     });
   };
 
-  const actions = (data?.genres || []).flatMap(possibleActions).slice(0, 5);
+  const actions = (data?.genres.genres || []).flatMap(possibleActions).slice(0, 5);
 
   /*
    *  ACTION FOCUS */

@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import {
   FetishBubbleFragment,
-  GenreFilter,
+  GenreFilterInput,
   GenreSearchQuery,
   GenreSearchQueryVariables,
 } from '@peach/types';
@@ -17,7 +17,7 @@ import { genreSearchQuery } from './genreSearchQuery.gql';
 type GenreSearchProps = {
   placeholder?: string;
   onChange: (id: number[]) => unknown;
-  filterOverride?: Partial<GenreFilter>;
+  filterOverride?: Partial<GenreFilterInput>;
 
   multiple?: boolean;
   limit?: number;
@@ -95,7 +95,7 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
 
   const genres = uniqBy(
     g => g.id,
-    [...(selectedGenres?.genres || []), ...(searchedGenres?.genres || [])],
+    [...(selectedGenres?.genres.genres || []), ...(searchedGenres?.genres.genres || [])],
   );
 
   return (
@@ -107,8 +107,8 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
           placeholder={placeholder}
           value={searchName}
           onKeyUp={debounce((event: KeyboardEvent) => {
-            if (event.key === 'Enter' && searchedGenres?.genres.length === 1) {
-              submitGenre(searchedGenres.genres[0]);
+            if (event.key === 'Enter' && searchedGenres?.genres.genres.length === 1) {
+              submitGenre(searchedGenres.genres.genres[0]);
               return;
             }
             setSearchName((event.target as HTMLInputElement)?.value);

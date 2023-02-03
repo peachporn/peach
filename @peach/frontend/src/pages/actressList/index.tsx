@@ -1,48 +1,54 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
-import { ActressesCountQuery, ActressesListQuery, ActressesListQueryVariables } from '@peach/types';
-import { useContext } from 'preact/hooks';
-import { useHistory } from 'react-router-dom';
+import { ActressCountQuery, ActressListQuery, ActressListQueryVariables } from '@peach/types';
+import { Fragment, FunctionalComponent, h } from 'preact';
+import { useContext, useEffect } from 'preact/hooks';
 import { Helmet } from 'react-helmet';
-import { usePagination } from '../../utils/usePagination';
-import { i } from '../../i18n/i18n';
-import { Loading } from '../../components/loading';
+import { useHistory } from 'react-router-dom';
 import { ActressCard } from '../../components/actressCard';
-import { actressDetailRoute } from '../../utils/route';
+import { Loading } from '../../components/loading';
 import { Pagination } from '../../components/pagination';
-import { ActressFilterContext, ActressFilterProvider } from './context/actressFilter';
+import { i } from '../../i18n/i18n';
+import { actressDetailRoute } from '../../utils/route';
+import { usePagination } from '../../utils/usePagination';
 import { ActressFilter } from './components/actressFilter';
 import { CreateActressFloatingButton } from './components/createActressFloatingButton';
-import { actressesCountQuery, actressesListQuery } from './queries/actressesList.gql';
+import { ActressFilterContext, ActressFilterProvider } from './context/actressFilter';
+import { actressCountQuery } from './queries/actressCount.gql';
+import { actressListQuery } from './queries/actressList.gql';
 
 const pageLength = 24;
 
 const ActressesPageComponent: FunctionalComponent = () => {
   const history = useHistory();
-  const { filter } = useContext(ActressFilterContext);
-  const count = useQuery<ActressesCountQuery>(actressesCountQuery);
+  const { filterInput } = useContext(ActressFilterContext);
+  const count = useQuery<ActressCountQuery>(actressCountQuery);
 
   if (count.loading || count.error || !count.data) {
-    return <span>loading</span>;
+    return <Loading />;
   }
 
   const pagination = usePagination({
     pageLength,
-    maxItems: count.data.actressesCount,
+    maxItems: count.data.actressCount,
   });
 
-  const { limit, skip } = pagination;
+  const { page, backToStart, limit, skip } = pagination;
 
-  const { refetch, loading, data } = useQuery<ActressesListQuery, ActressesListQueryVariables>(
-    actressesListQuery,
+  const { refetch, loading, data } = useQuery<ActressListQuery, ActressListQueryVariables>(
+    actressListQuery,
     {
       variables: {
-        filter,
+        filter: filterInput,
         limit,
         skip,
       },
     },
   );
+
+  useEffect(() => {
+    backToStart();
+    refetch();
+  }, [filterInput]);
 
   return (
     <Fragment>
@@ -60,18 +66,29 @@ const ActressesPageComponent: FunctionalComponent = () => {
           {loading ? (
             <Loading />
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-6 gap-4">
-              {(data?.actresses || []).map(actress => (
-                <ActressCard
-                  key={actress.id}
-                  onClick={() => {
-                    history.push(actressDetailRoute(actress.id));
-                  }}
-                  actress={actress}
-                />
-              ))}
+            <Fragment>
+              {data?.actresses.total === 0 ? null : (
+                <span className={'text-sm'}>
+                  {i('FOUND_X_ACTRESSES', {
+                    count: data?.actresses.total.toString() ?? '?',
+                    from: ((page - 1) * pageLength + 1).toString(),
+                    to: Math.min(page * pageLength, data?.actresses.total || Infinity).toString(),
+                  })}
+                </span>
+              )}
+              <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-6 gap-4">
+                {(data?.actresses.actresses || []).map(actress => (
+                  <ActressCard
+                    key={actress.id}
+                    onClick={() => {
+                      history.push(actressDetailRoute(actress.id));
+                    }}
+                    actress={actress}
+                  />
+                ))}
+              </div>
               <Pagination pagination={pagination} />
-            </div>
+            </Fragment>
           )}
         </section>
         <CreateActressFloatingButton

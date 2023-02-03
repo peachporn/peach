@@ -11,7 +11,8 @@ import { MovieFilterContext } from '../../context/movieFilter';
 import { i } from '../../i18n/i18n';
 import { usePagination } from '../../utils/usePagination';
 import { MovieFilter } from './components/movieFilter';
-import { movieCountQuery, movieListQuery } from './queries/movieList.gql';
+import { movieCountQuery } from './queries/movieCount.gql';
+import { movieListQuery } from './queries/movieList.gql';
 
 const pageLength = 20;
 
@@ -28,7 +29,7 @@ export const MoviesPage: FunctionalComponent = () => {
     pageLength,
     maxItems: count.data.movieCount.all,
   });
-  const { limit, skip } = pagination;
+  const { limit, skip, backToStart, page } = pagination;
 
   const { loading, data, refetch } = useQuery<MovieListQuery, MovieListQueryVariables>(
     movieListQuery,
@@ -42,6 +43,7 @@ export const MoviesPage: FunctionalComponent = () => {
   );
 
   useEffect(() => {
+    backToStart();
     refetch();
   }, [filterInput]);
 
@@ -63,9 +65,15 @@ export const MoviesPage: FunctionalComponent = () => {
           ) : (
             <Fragment>
               <div>
-                <span className={'text-sm'}>
-                  {i('FOUND_X_MOVIES', { count: data?.movies.total.toString() ?? '?' })}
-                </span>
+                {data?.movies.total === 0 ? null : (
+                  <span className={'text-sm'}>
+                    {i('FOUND_X_MOVIES', {
+                      count: data?.movies.total.toString() ?? '?',
+                      from: ((page - 1) * pageLength + 1).toString(),
+                      to: Math.min(page * pageLength, data?.movies.total || Infinity).toString(),
+                    })}
+                  </span>
+                )}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
                   {(data?.movies.movies || []).map(movie => (
                     <MovieCard key={movie.id} movie={movie} />

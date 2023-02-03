@@ -4,7 +4,9 @@ import { fetishBubbleFragment } from '../../../components/fetishBubble/fetishBub
 export const fetishesQuery = gql`
   query Fetishes($name: String!, $limit: Int!) {
     genres(filter: { name: $name, fetish: true }, limit: $limit) {
-      ...FetishBubble
+      genres {
+        ...FetishBubble
+      }
     }
   }
 

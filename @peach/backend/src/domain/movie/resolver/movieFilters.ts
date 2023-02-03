@@ -1,7 +1,7 @@
 import { Resolvers } from '../../../generated/resolver-types';
-import { applyActressFilter } from '../../actress/resolver/actress';
-import { applyGenreFilter } from '../../genre/resolver/genre';
-import { applyWebsiteFilter } from '../../website/resolver/website';
+import { applyActressFilter } from '../../actress/resolver/actresses';
+import { applyGenreFilter } from '../../genre/resolver/genres';
+import { applyWebsiteFilter } from '../../website/resolver/websites';
 import {
   transformActressMovieFilter,
   transformFetishMovieFilter,

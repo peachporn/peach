@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import { actressCardFragment } from '../../../components/actressCard/actressCardFragment.gql';
-import { websiteCardFragment } from '../../../components/websiteCard/websiteCardFragment.gql';
 import { genreCardFragment } from '../../../components/genreCard/genreCardFragment.gql';
+import { websiteCardFragment } from '../../../components/websiteCard/websiteCardFragment.gql';
 
 export const movieFilterDisplayQuery = gql`
   query movieFilterDisplay(
@@ -13,13 +13,19 @@ export const movieFilterDisplayQuery = gql`
     $websiteLimit: Int!
   ) {
     genres(filter: { ids: $genres }, limit: $genreLimit) {
-      ...GenreCard
+      genres {
+        ...GenreCard
+      }
     }
     actresses(filter: { ids: $actresses }, limit: $actressLimit) {
-      ...ActressCard
+      actresses {
+        ...ActressCard
+      }
     }
     websites(filter: { ids: $websites }, limit: $websiteLimit) {
-      ...WebsiteCard
+      websites {
+        ...WebsiteCard
+      }
     }
   }
 

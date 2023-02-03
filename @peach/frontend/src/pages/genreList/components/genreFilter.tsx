@@ -1,13 +1,13 @@
 import { FunctionalComponent, h } from 'preact';
 import { useContext, useState } from 'preact/hooks';
-import { GenreFilterContext } from '../context/genreFilter';
-import { i } from '../../../i18n/i18n';
 import { Icon } from '../../../components/icon';
+import { i } from '../../../i18n/i18n';
+import { GenreFilterContext } from '../context/genreFilter';
 import { KinkinessSlider } from './kinkinessSlider';
 
 export const GenreFilter: FunctionalComponent = () => {
   const [visible, setVisible] = useState(false);
-  const { filter, setName, setKinkiness } = useContext(GenreFilterContext);
+  const { filterInput, setName, setKinkiness } = useContext(GenreFilterContext);
 
   return (
     <div className={`bg-white shadow w-full px-8 ${visible ? 'pt-4' : 'py-4'}`}>
@@ -39,7 +39,7 @@ export const GenreFilter: FunctionalComponent = () => {
       >
         <div className="py-4">
           <span className="text-gray-500 text-sm">{i('GENRE_KINKINESS')}</span>
-          <KinkinessSlider kinkiness={filter.minKinkiness || 0} setKinkiness={setKinkiness} />
+          <KinkinessSlider kinkiness={filterInput.minKinkiness || 0} setKinkiness={setKinkiness} />
         </div>
         <Icon
           icon="keyboard_arrow_up"

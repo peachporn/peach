@@ -1,29 +1,26 @@
-import { FunctionalComponent, h, VNode } from 'preact';
-import uniqBy from 'ramda/es/uniqBy';
-import { useEffect, useState } from 'preact/hooks';
 import { useQuery } from '@apollo/client';
-import { pascalCase, spaceCase } from 'case-anything';
 import {
   WebsiteCardFragment,
-  WebsiteFilter,
+  WebsiteFilterInput,
   WebsiteSearchQuery,
   WebsiteSearchQueryVariables,
 } from '@peach/types';
-import { UseFormMethods } from 'react-hook-form';
-import { equals, sortWith, uniq } from 'ramda';
-import { FetishBubble } from '../fetishBubble';
-import { WebsiteCard } from '../websiteCard';
-import { Slider, SliderItem } from '../slider';
-import { actressSearchQuery } from '../actressSearch/actressSearchQuery.gql';
+import { pascalCase, spaceCase } from 'case-anything';
+import { FunctionalComponent, h, VNode } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
+import { equals, uniq } from 'ramda';
+import uniqBy from 'ramda/es/uniqBy';
 import { debounce } from '../../utils/throttle';
-import { Icon } from '../icon';
 import { usePrevious } from '../../utils/usePrevious';
+import { Icon } from '../icon';
+import { Slider, SliderItem } from '../slider';
+import { WebsiteCard } from '../websiteCard';
 import { CreateWebsiteForm } from './createWebsiteForm';
 import { websiteSearchQuery } from './websiteSearchQuery.gql';
 
 type WebsiteSearchProps = {
   onChange: (id: number[], fetishIds: number[]) => unknown;
-  filterOverride?: Partial<WebsiteFilter>;
+  filterOverride?: Partial<WebsiteFilterInput>;
   multiple?: boolean;
   placeholder?: string;
   defaultValue?: number[];
@@ -97,7 +94,10 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
 
   const websites = uniqBy(
     w => w.id,
-    [...(selectedWebsites?.websites || []), ...(searchedWebsites?.websites || [])],
+    [
+      ...(selectedWebsites?.websites?.websites || []),
+      ...(searchedWebsites?.websites?.websites || []),
+    ],
   );
 
   const submitWebsite = (w: WebsiteCardFragment) => {
@@ -124,11 +124,11 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
         placeholder={placeholder}
         onKeyUp={debounce((event: KeyboardEvent) => {
           if (event.key === 'Enter') {
-            if (searchedWebsites?.websites.length === 1) {
-              submitWebsite(searchedWebsites?.websites[0]);
+            if (searchedWebsites?.websites.websites.length === 1) {
+              submitWebsite(searchedWebsites?.websites?.websites[0]);
               return;
             }
-            if (searchedWebsites?.websites.length === 0) {
+            if (searchedWebsites?.websites.websites.length === 0) {
               setCreateWebsiteFormVisible(true);
               return;
             }
@@ -149,7 +149,7 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
         </button>
       </div>
       <div className={`mt-2 ${containerClassName || ''}`}>
-        {searchName !== '' && searchedWebsites?.websites.length === 0 ? (
+        {searchName !== '' && searchedWebsites?.websites.websites.length === 0 ? (
           <CreateWebsiteForm
             name={searchName}
             visibility={[createWebsiteFormVisible, setCreateWebsiteFormVisible]}

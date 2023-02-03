@@ -1,18 +1,15 @@
 import gql from 'graphql-tag';
 import { actressCardFragment } from '../../../components/actressCard/actressCardFragment.gql';
 
-export const actressesListQuery = gql`
-  query actressesList($filter: ActressFilter, $limit: Int!, $skip: Int!) {
+export const actressListQuery = gql`
+  query actressList($filter: ActressFilterInput, $limit: Int!, $skip: Int!) {
     actresses(filter: $filter, limit: $limit, skip: $skip) {
-      ...ActressCard
+      actresses {
+        ...ActressCard
+      }
+      total
     }
   }
 
   ${actressCardFragment}
-`;
-
-export const actressesCountQuery = gql`
-  query actressesCount {
-    actressesCount
-  }
 `;

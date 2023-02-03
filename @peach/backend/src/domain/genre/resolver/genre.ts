@@ -1,49 +1,6 @@
-import { GenreFilter } from '@peach/types';
-import { Prisma } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
 import { transformMovie } from '../../movie/transformer/movie';
 import { transformGenre } from '../transformer/genre';
-
-export const applyGenreFilter = (
-  filter: GenreFilter | undefined,
-): Pick<Prisma.GenreFindManyArgs, 'where'> =>
-  !filter
-    ? {}
-    : {
-        where: {
-          ...(!filter.ids
-            ? {}
-            : {
-                id: {
-                  in: filter.ids,
-                },
-              }),
-          ...(!filter.name
-            ? {}
-            : {
-                name: {
-                  contains: filter.name,
-                },
-              }),
-          ...(!filter.fetish
-            ? {}
-            : {
-                validAsFetish: filter.fetish,
-              }),
-          ...(!filter.category
-            ? {}
-            : {
-                category: filter.category,
-              }),
-          ...(!filter.minKinkiness
-            ? {}
-            : {
-                kinkiness: {
-                  gte: filter.minKinkiness,
-                },
-              }),
-        },
-      };
 
 export const genreResolvers: Resolvers = {
   Genre: {
@@ -86,25 +43,5 @@ export const genreResolvers: Resolvers = {
           },
         })
         .then(g => (!g ? undefined : transformGenre(g))),
-    genres: async (_parent, { filter, skip, limit }, { prisma }) =>
-      limit === 0
-        ? []
-        : prisma.genre
-            .findMany({
-              skip,
-              orderBy: {
-                name: 'asc',
-              },
-              take: limit || 30,
-              ...applyGenreFilter(filter),
-              include: {
-                linkableChildren: true,
-                linkableParents: true,
-              },
-            })
-            .then(genres => genres.map(transformGenre)),
-
-    genresCount: async (_parent, { filter }, { prisma }) =>
-      prisma.genre.count(applyGenreFilter(filter)),
   },
 };

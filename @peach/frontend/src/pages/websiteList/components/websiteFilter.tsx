@@ -1,12 +1,12 @@
 import { FunctionalComponent, h } from 'preact';
 import { useContext, useState } from 'preact/hooks';
-import { WebsiteFilterContext } from '../context/websiteFilter';
-import { i } from '../../../i18n/i18n';
 import { Icon } from '../../../components/icon';
+import { i } from '../../../i18n/i18n';
+import { WebsiteFilterContext } from '../context/websiteFilter';
 
 export const WebsiteFilter: FunctionalComponent = () => {
   const [visible, setVisible] = useState(false);
-  const { filter, setName } = useContext(WebsiteFilterContext);
+  const { filterInput, setName } = useContext(WebsiteFilterContext);
 
   return (
     <div className={`bg-white shadow w-full px-8 ${visible ? 'pt-4' : 'py-4'}`}>
@@ -21,7 +21,7 @@ export const WebsiteFilter: FunctionalComponent = () => {
           />
           <input
             className="input border-b-0 bg-gray-50 w-full"
-            value={filter.name}
+            value={filterInput.name}
             placeholder={visible ? i('WEBSITE_FILTER_NAME') : ''}
             onClick={() => {
               setVisible(!visible);

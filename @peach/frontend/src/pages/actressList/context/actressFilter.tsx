@@ -1,24 +1,24 @@
+import { ActressFilterInput } from '@peach/types';
 import { createContext, FunctionalComponent, h } from 'preact';
-import { ActressFilter } from '@peach/types';
 import { useLocalStorageState } from '../../../hooks/useLocalStorageState';
 
 type ActressFilterContextType = {
-  filter: ActressFilter;
+  filterInput: ActressFilterInput;
   setName: (name: string) => void;
 };
 
 export const ActressFilterContext = createContext<ActressFilterContextType>({
-  filter: {},
+  filterInput: {},
   setName: () => {},
 });
 
 export const ActressFilterProvider: FunctionalComponent = ({ children }) => {
-  const [filter, setFilter] = useLocalStorageState<ActressFilter>('actresslist-filter', {});
+  const [filter, setFilter] = useLocalStorageState<ActressFilterInput>('actressList-filter', {});
 
   const setName = (name: string) => setFilter({ ...filter, name });
 
   return (
-    <ActressFilterContext.Provider value={{ filter, setName }}>
+    <ActressFilterContext.Provider value={{ filterInput: filter, setName }}>
       {children}
     </ActressFilterContext.Provider>
   );

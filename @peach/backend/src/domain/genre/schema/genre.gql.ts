@@ -27,17 +27,7 @@ export const genreTypeDefs = gql`
     movies: [Movie!]
   }
 
-  input GenreFilter {
-    ids: [Int!]
-    name: String
-    fetish: Boolean
-    minKinkiness: Int
-    category: GenreCategory
-  }
-
   extend type Query {
     genre(id: Int!): Genre
-    genres(filter: GenreFilter, limit: Int, skip: Int): [Genre!]!
-    genresCount(filter: GenreFilter): Int!
   }
 `;

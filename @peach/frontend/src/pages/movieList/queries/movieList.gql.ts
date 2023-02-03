@@ -13,11 +13,3 @@ export const movieListQuery = gql`
 
   ${movieCardFragment}
 `;
-
-export const movieCountQuery = gql`
-  query movieCount {
-    movieCount {
-      all
-    }
-  }
-`;

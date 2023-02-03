@@ -1,31 +1,5 @@
-import { WebsiteFilter } from '@peach/types';
-import { Prisma } from '@peach/utils/src/prisma';
 import { Resolvers } from '../../../generated/resolver-types';
 import { transformWebsite } from '../transformer/website';
-
-export const applyWebsiteFilter = (
-  filter: WebsiteFilter | undefined,
-): Pick<Prisma.WebsiteFindManyArgs, 'where'> =>
-  !filter
-    ? {}
-    : {
-        where: {
-          ...(!filter.ids
-            ? {}
-            : {
-                id: {
-                  in: filter.ids,
-                },
-              }),
-          ...(!filter.name
-            ? {}
-            : {
-                name: {
-                  contains: filter.name,
-                },
-              }),
-        },
-      };
 
 export const websiteResolvers: Resolvers = {
   Website: {
@@ -36,22 +10,5 @@ export const websiteResolvers: Resolvers = {
       prisma.website
         .findUnique({ where: { id }, include: { fetish: true, movies: true } })
         .then(website => (website ? transformWebsite(website) : undefined)),
-
-    websitesCount: async (_parent, { filter }, { prisma }) =>
-      prisma.website.count(applyWebsiteFilter(filter)),
-
-    websites: async (_parent, { filter, skip, limit }, { prisma }) =>
-      limit === 0
-        ? []
-        : prisma.website
-            .findMany({
-              skip,
-              include: {
-                fetish: true,
-              },
-              take: limit || 30,
-              ...applyWebsiteFilter(filter),
-            })
-            .then(websites => websites.map(transformWebsite)),
   },
 };

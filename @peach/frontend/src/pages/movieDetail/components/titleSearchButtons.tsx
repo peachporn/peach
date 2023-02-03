@@ -34,14 +34,14 @@ export const TitleSearchButtons = () => {
   const url =
     !selectedWebsites || !selectedActresses
       ? null
-      : `https://google.com/search?q=${head(selectedActresses.actresses)?.name} site:${
-          head(selectedWebsites.websites)?.url
+      : `https://google.com/search?q=${head(selectedActresses.actresses.actresses)?.name} site:${
+          head(selectedWebsites.websites.websites)?.url
         }`;
 
   const setFallbackTitle = () => {
     setTitle(
-      `${(selectedActresses?.actresses ?? []).map(a => a.name).join(' ')} ${(
-        selectedWebsites?.websites ?? []
+      `${(selectedActresses?.actresses.actresses ?? []).map(a => a.name).join(' ')} ${(
+        selectedWebsites?.websites.websites ?? []
       )
         .map(w => w.name)
         .join(' ')}`,

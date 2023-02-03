@@ -11,14 +11,7 @@ export const websiteTypeDefs = gql`
     movies: [Movie!]!
   }
 
-  input WebsiteFilter {
-    ids: [Int!]
-    name: String
-  }
-
   extend type Query {
     website(id: Int!): Website
-    websites(filter: WebsiteFilter, limit: Int, skip: Int): [Website!]!
-    websitesCount(filter: WebsiteFilter): Int!
   }
 `;

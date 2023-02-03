@@ -1,36 +1,37 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
-import { GenresCountQuery, GenresListQuery, GenresListQueryVariables } from '@peach/types';
+import { GenreCountQuery, GenreListQuery, GenreListQueryVariables } from '@peach/types';
+import { Fragment, FunctionalComponent, h } from 'preact';
 import { useContext } from 'preact/hooks';
 import { Helmet } from 'react-helmet';
-import { usePagination } from '../../utils/usePagination';
-import { i } from '../../i18n/i18n';
 import { Loading } from '../../components/loading';
-import { genresCountQuery, genresListQuery } from './queries/genreList.gql';
+import { i } from '../../i18n/i18n';
+import { usePagination } from '../../utils/usePagination';
 import { CreateGenreFloatingButton } from './components/createGenreFloatingButton';
+import { GenreFilter } from './components/genreFilter';
 import { GenreGridByCategory } from './components/genreGridByCategory';
 import { GenreFilterContext, GenreFilterProvider } from './context/genreFilter';
-import { GenreFilter } from './components/genreFilter';
+import { genreCountQuery } from './queries/genreCount.gql';
+import { genreListQuery } from './queries/genreList.gql';
 
 const GenresPageComponent: FunctionalComponent = () => {
-  const { filter } = useContext(GenreFilterContext);
-  const count = useQuery<GenresCountQuery>(genresCountQuery);
+  const { filterInput } = useContext(GenreFilterContext);
+  const count = useQuery<GenreCountQuery>(genreCountQuery);
 
   if (count.loading || count.error || !count.data) {
-    return <span>loading</span>;
+    return <Loading />;
   }
 
   const pagination = usePagination({
-    pageLength: count.data.genresCount,
-    maxItems: count.data.genresCount,
+    pageLength: count.data.genreCount,
+    maxItems: count.data.genreCount,
   });
   const { limit, skip } = pagination;
 
-  const { refetch, loading, data } = useQuery<GenresListQuery, GenresListQueryVariables>(
-    genresListQuery,
+  const { refetch, loading, data } = useQuery<GenreListQuery, GenreListQueryVariables>(
+    genreListQuery,
     {
       variables: {
-        filter,
+        filter: filterInput,
         limit,
         skip,
       },
@@ -54,7 +55,7 @@ const GenresPageComponent: FunctionalComponent = () => {
             <Loading />
           ) : (
             <Fragment>
-              <GenreGridByCategory genres={data?.genres || []} />
+              <GenreGridByCategory genres={data?.genres.genres || []} />
             </Fragment>
           )}
         </section>

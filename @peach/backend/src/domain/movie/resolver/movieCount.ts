@@ -1,5 +1,5 @@
 import { Resolvers } from '../../../generated/resolver-types';
-import { touchedMovieFilter } from './listMovie';
+import { touchedMovieFilter } from './movies';
 
 export const movieCountResolvers: Resolvers = {
   Query: {

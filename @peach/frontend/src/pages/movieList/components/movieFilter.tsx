@@ -62,9 +62,9 @@ export const MovieFilter: FunctionalComponent = () => {
   );
 
   const noFiltersSelected =
-    !displayData?.actresses.length &&
-    !displayData?.websites.length &&
-    !displayData?.genres.length &&
+    !displayData?.actresses.actresses.length &&
+    !displayData?.websites.websites.length &&
+    !displayData?.genres.genres.length &&
     !filterInput.untouched &&
     !filterInput.title;
 
@@ -128,7 +128,7 @@ export const MovieFilter: FunctionalComponent = () => {
         )}
         {noFiltersSelected ? null : (
           <div className="col-span-12 grid grid-cols-3 md:grid-cols-4 gap-4 px-4 py-2 text-xs">
-            {(displayData?.actresses || []).map(a => (
+            {(displayData?.actresses.actresses || []).map(a => (
               <ActressCard
                 className="row-span-2"
                 actress={a}
@@ -137,7 +137,7 @@ export const MovieFilter: FunctionalComponent = () => {
                 }}
               />
             ))}
-            {(displayData?.websites || []).map(w => (
+            {(displayData?.websites.websites || []).map(w => (
               <WebsiteCard
                 website={w}
                 onClick={() => {
@@ -145,7 +145,7 @@ export const MovieFilter: FunctionalComponent = () => {
                 }}
               />
             ))}
-            {(displayData?.genres || []).map(g => (
+            {(displayData?.genres.genres || []).map(g => (
               <GenreCard
                 genre={g}
                 onClick={() => {

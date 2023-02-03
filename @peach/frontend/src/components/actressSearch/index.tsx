@@ -1,28 +1,26 @@
-import { FunctionalComponent, h, VNode } from 'preact';
-import uniqBy from 'ramda/es/uniqBy';
-import { useEffect, useState } from 'preact/hooks';
 import { useQuery } from '@apollo/client';
 import {
   ActressCardFragment,
-  ActressFilter,
+  ActressFilterInput,
   ActressSearchQuery,
   ActressSearchQueryVariables,
 } from '@peach/types';
-import { UseFormMethods } from 'react-hook-form';
-import { ascend, descend, equals, sortWith, uniq } from 'ramda';
 import { pascalCase, spaceCase } from 'case-anything';
-import { FetishBubble } from '../fetishBubble';
-import { Slider, SliderItem } from '../slider';
-import { ActressCard } from '../actressCard';
-import { debounce, throttle } from '../../utils/throttle';
-import { Icon } from '../icon';
+import { FunctionalComponent, h, VNode } from 'preact';
+import { useEffect, useState } from 'preact/hooks';
+import { ascend, descend, equals, sortWith, uniq } from 'ramda';
+import uniqBy from 'ramda/es/uniqBy';
+import { debounce } from '../../utils/throttle';
 import { usePrevious } from '../../utils/usePrevious';
-import { CreateActressForm } from './createActressForm';
+import { ActressCard } from '../actressCard';
+import { Icon } from '../icon';
+import { Slider, SliderItem } from '../slider';
 import { actressSearchQuery } from './actressSearchQuery.gql';
+import { CreateActressForm } from './createActressForm';
 
 type ActressSearchProps = {
   onChange: (id: number[]) => unknown;
-  filterOverride?: Partial<ActressFilter>;
+  filterOverride?: Partial<ActressFilterInput>;
   multiple?: boolean;
   placeholder?: string;
   defaultValue?: number[];
@@ -94,8 +92,8 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
   );
 
   const actresses = [
-    ...(selectedActresses?.actresses || []),
-    ...(searchedActresses?.actresses || []),
+    ...(selectedActresses?.actresses.actresses || []),
+    ...(searchedActresses?.actresses.actresses || []),
   ];
 
   const submitActress = (a: ActressCardFragment) => {
@@ -120,11 +118,11 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
         value={searchName}
         onKeyUp={debounce((event: KeyboardEvent) => {
           if (event.key === 'Enter') {
-            if (searchedActresses?.actresses.length === 1) {
-              submitActress(searchedActresses.actresses[0]);
+            if (searchedActresses?.actresses.actresses.length === 1) {
+              submitActress(searchedActresses.actresses.actresses[0]);
               return;
             }
-            if (searchedActresses?.actresses.length === 0) {
+            if (searchedActresses?.actresses.actresses.length === 0) {
               setCreateActressFormVisible(true);
               return;
             }

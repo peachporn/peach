@@ -73,16 +73,8 @@ export const applyMovieFilter = (
         },
       };
 
-export const listMovieResolvers: Resolvers = {
+export const moviesResolvers: Resolvers = {
   Query: {
-    movieCount: (_parent, _args, { prisma }) =>
-      Promise.all([prisma.movie.count(), prisma.movie.count({ where: touchedMovieFilter })]).then(
-        ([all, touched]) => ({
-          __typename: 'MovieCountResponse',
-          all,
-          untouched: all - touched,
-        }),
-      ),
     movies: async (_parent, { limit, skip, filter, sort }, { prisma }) => {
       const filteredCount = await prisma.movie.count({
         ...applyMovieFilter(filter),

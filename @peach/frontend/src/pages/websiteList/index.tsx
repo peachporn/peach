@@ -1,26 +1,27 @@
-import { Fragment, FunctionalComponent, h } from 'preact';
 import { useQuery } from '@apollo/client';
-import { WebsitesCountQuery, WebsitesListQuery, WebsitesListQueryVariables } from '@peach/types';
-import { useContext } from 'preact/hooks';
-import { useHistory } from 'react-router-dom';
+import { WebsiteCountQuery, WebsiteListQuery, WebsiteListQueryVariables } from '@peach/types';
+import { Fragment, FunctionalComponent, h } from 'preact';
+import { useContext, useEffect } from 'preact/hooks';
 import { Helmet } from 'react-helmet';
-import { usePagination } from '../../utils/usePagination';
-import { i } from '../../i18n/i18n';
+import { useHistory } from 'react-router-dom';
 import { Loading } from '../../components/loading';
-import { WebsiteCard } from '../../components/websiteCard';
-import { websiteDetailRoute } from '../../utils/route';
 import { Pagination } from '../../components/pagination';
+import { WebsiteCard } from '../../components/websiteCard';
+import { i } from '../../i18n/i18n';
+import { websiteDetailRoute } from '../../utils/route';
+import { usePagination } from '../../utils/usePagination';
+import { CreateWebsiteFloatingButton } from './components/createWebsiteFloatingButton';
 import { WebsiteFilter } from './components/websiteFilter';
 import { WebsiteFilterContext, WebsiteFilterProvider } from './context/websiteFilter';
-import { CreateWebsiteFloatingButton } from './components/createWebsiteFloatingButton';
-import { websitesCountQuery, websitesListQuery } from './queries/websiteList.gql';
+import { websiteCountQuery } from './queries/websiteCount.gql';
+import { websiteListQuery } from './queries/websiteList.gql';
 
 const pageLength = 24;
 
 const WebsitesPageComponent: FunctionalComponent = () => {
   const history = useHistory();
-  const { filter } = useContext(WebsiteFilterContext);
-  const count = useQuery<WebsitesCountQuery>(websitesCountQuery);
+  const { filterInput } = useContext(WebsiteFilterContext);
+  const count = useQuery<WebsiteCountQuery>(websiteCountQuery);
 
   if (count.loading || count.error || !count.data) {
     return <Loading />;
@@ -28,20 +29,25 @@ const WebsitesPageComponent: FunctionalComponent = () => {
 
   const pagination = usePagination({
     pageLength,
-    maxItems: count.data.websitesCount,
+    maxItems: count.data.websiteCount,
   });
-  const { limit, skip } = pagination;
+  const { limit, backToStart, skip, page } = pagination;
 
-  const { refetch, loading, data } = useQuery<WebsitesListQuery, WebsitesListQueryVariables>(
-    websitesListQuery,
+  const { refetch, loading, data } = useQuery<WebsiteListQuery, WebsiteListQueryVariables>(
+    websiteListQuery,
     {
       variables: {
-        filter,
+        filter: filterInput,
         limit,
         skip,
       },
     },
   );
+
+  useEffect(() => {
+    backToStart();
+    refetch();
+  }, [filterInput]);
 
   return (
     <Fragment>
@@ -59,18 +65,29 @@ const WebsitesPageComponent: FunctionalComponent = () => {
           {loading ? (
             <Loading />
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-6 gap-4">
-              {(data?.websites || []).map(website => (
-                <WebsiteCard
-                  key={website.id}
-                  onClick={() => {
-                    history.push(websiteDetailRoute(website.id));
-                  }}
-                  website={website}
-                />
-              ))}
+            <Fragment>
+              {data?.websites.total === 0 ? null : (
+                <span className={'text-sm'}>
+                  {i('FOUND_X_WEBSITES', {
+                    count: data?.websites.total.toString() ?? '?',
+                    from: ((page - 1) * pageLength + 1).toString(),
+                    to: Math.min(page * pageLength, data?.websites.total || Infinity).toString(),
+                  })}
+                </span>
+              )}
+              <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-6 gap-4">
+                {(data?.websites.websites || []).map(website => (
+                  <WebsiteCard
+                    key={website.id}
+                    onClick={() => {
+                      history.push(websiteDetailRoute(website.id));
+                    }}
+                    website={website}
+                  />
+                ))}
+              </div>
               <Pagination pagination={pagination} />
-            </div>
+            </Fragment>
           )}
         </section>
         <CreateWebsiteFloatingButton onSubmit={count.refetch} />

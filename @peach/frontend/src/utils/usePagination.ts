@@ -11,6 +11,7 @@ export type UsePaginationMethods = {
   skip: number;
   nextPage: () => void;
   previousPage: () => void;
+  backToStart: () => void;
   maxPage: number;
   page: number;
 };
@@ -45,12 +46,16 @@ export const usePagination = ({ maxItems, pageLength }: PaginationProps): UsePag
   const previousPage = () => {
     setPage(page > 1 ? page - 1 : 1);
   };
+  const backToStart = () => {
+    setPage(1);
+  };
 
   return {
     limit: pageLength,
     skip: (page - 1) * pageLength,
     nextPage,
     previousPage,
+    backToStart,
     maxPage,
     page,
   };

@@ -5,7 +5,7 @@ import {
   GenreSearchQuery,
   GenreSearchQueryVariables,
 } from '@peach/types';
-import { Fragment, FunctionalComponent, h, VNode } from 'preact';
+import { Fragment, FunctionalComponent, VNode } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { equals, uniq } from 'ramda';
 import uniqBy from 'ramda/es/uniqBy';
@@ -106,7 +106,7 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
           className={`input ${inputClassName || ''}`}
           placeholder={placeholder}
           value={searchName}
-          onKeyUp={debounce((event: KeyboardEvent) => {
+          onKeyUp={debounce(event => {
             if (event.key === 'Enter' && searchedGenres?.genres.genres.length === 1) {
               submitGenre(searchedGenres.genres.genres[0]);
               return;

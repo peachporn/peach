@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 
 import { HomepageQuery, PinnedFetishesQuery, PinnedFetishesQueryVariables } from '@peach/types';
-import { Fragment, FunctionalComponent, h } from 'preact';
+import { Fragment, FunctionalComponent } from 'preact';
 import { useContext } from 'preact/hooks';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';

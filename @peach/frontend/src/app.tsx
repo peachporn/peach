@@ -1,22 +1,21 @@
-import { h, render } from 'preact';
-import { BrowserRouter as Router, Switch, Route, useLocation } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
 import { useEffect } from 'preact/hooks';
-import { Homepage } from './pages/home';
+import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
 import { client } from './apollo-client.js';
-import { SettingsPage } from './pages/settings';
-import { SettingsProvider } from './context/settings';
-import { GenresPage } from './pages/genreList';
 import { MobileNavigation } from './components/mobileNavigation';
-import { ActressesPage } from './pages/actressList';
-import { WebsitesPage } from './pages/websiteList';
-import { TasksPage } from './pages/tasks';
-import { MoviesPage } from './pages/movieList';
-import { GenreDetailPage } from './pages/genreDetail';
-import { WebsiteDetailPage } from './pages/websiteDetail';
-import { ActressDetailPage } from './pages/actressDetail';
-import { MovieDetailPage } from './pages/movieDetail';
 import { MovieFilterProvider } from './context/movieFilter';
+import { SettingsProvider } from './context/settings';
+import { ActressDetailPage } from './pages/actressDetail';
+import { ActressesPage } from './pages/actressList';
+import { GenreDetailPage } from './pages/genreDetail';
+import { GenresPage } from './pages/genreList';
+import { Homepage } from './pages/home';
+import { MovieDetailPage } from './pages/movieDetail';
+import { MoviesPage } from './pages/movieList';
+import { SettingsPage } from './pages/settings';
+import { TasksPage } from './pages/tasks';
+import { WebsiteDetailPage } from './pages/websiteDetail';
+import { WebsitesPage } from './pages/websiteList';
 
 const AppContent = () => {
   const location = useLocation();
@@ -64,7 +63,7 @@ const AppContent = () => {
   );
 };
 
-const App = (
+export const App = (
   <ApolloProvider client={client}>
     <SettingsProvider>
       <MovieFilterProvider>
@@ -76,11 +75,3 @@ const App = (
     </SettingsProvider>
   </ApolloProvider>
 );
-
-render(App, document.querySelector('#root') || document.body);
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-if ((import.meta as any).hot) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (import.meta as any).hot.accept();
-}

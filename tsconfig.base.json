@@ -3,8 +3,6 @@
     "target": "esnext",
     "module": "commonjs",
     "noEmit": true,
-    "jsx": "react",
-    "jsxFactory": "h",
 
     "sourceMap": true,
 

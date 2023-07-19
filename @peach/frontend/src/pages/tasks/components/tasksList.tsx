@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { TaskCategory } from '@peach/tasks';
 import { TaskFragment, TasksQuery, TaskStatus } from '@peach/types';
-import { Fragment, FunctionalComponent, h } from 'preact';
+import { Fragment, FunctionalComponent } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { groupBy } from 'ramda';
 import { i } from '../../../i18n/i18n';

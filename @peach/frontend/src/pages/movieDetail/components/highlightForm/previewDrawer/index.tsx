@@ -1,7 +1,6 @@
-import { h, FunctionalComponent } from 'preact';
 import { uniqBy } from 'ramda';
-import { DisplayableGenre } from '../display';
 import { Icon } from '../../../../../components/icon';
+import { DisplayableGenre } from '../display';
 
 type GenreFormPreviewDrawerProps = {
   genreGrid: DisplayableGenre[];
@@ -9,11 +8,11 @@ type GenreFormPreviewDrawerProps = {
   setExpanded: (x: boolean) => void;
 };
 
-export const GenreFormPreviewDrawer: FunctionalComponent<GenreFormPreviewDrawerProps> = ({
+export const GenreFormPreviewDrawer = ({
   genreGrid,
   setExpanded,
   expanded,
-}) =>
+}: GenreFormPreviewDrawerProps) =>
   expanded ? null : (
     <div
       tabIndex={0}

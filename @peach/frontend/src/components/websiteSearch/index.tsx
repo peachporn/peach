@@ -6,7 +6,7 @@ import {
   WebsiteSearchQueryVariables,
 } from '@peach/types';
 import { pascalCase, spaceCase } from 'case-anything';
-import { FunctionalComponent, h, VNode } from 'preact';
+import { FunctionalComponent, VNode } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { equals, uniq } from 'ramda';
 import uniqBy from 'ramda/es/uniqBy';
@@ -122,7 +122,7 @@ export const WebsiteSearch: FunctionalComponent<WebsiteSearchProps> = ({
         className={`input ${inputClassName || ''}`}
         value={searchName}
         placeholder={placeholder}
-        onKeyUp={debounce((event: KeyboardEvent) => {
+        onKeyUp={debounce(event => {
           if (event.key === 'Enter') {
             if (searchedWebsites?.websites.websites.length === 1) {
               submitWebsite(searchedWebsites?.websites?.websites[0]);

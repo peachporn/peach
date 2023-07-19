@@ -1,8 +1,17 @@
+
 {
-  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
     "baseUrl": "src",
     "module": "ESNext",
-    "moduleResolution": "Node"
-  }
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "Node",
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "noEmit": true,
+    "noImplicitAny": true
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json"}]
 }

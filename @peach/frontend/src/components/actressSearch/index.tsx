@@ -6,7 +6,7 @@ import {
   ActressSearchQueryVariables,
 } from '@peach/types';
 import { pascalCase, spaceCase } from 'case-anything';
-import { FunctionalComponent, h, VNode } from 'preact';
+import { FunctionalComponent, VNode } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { ascend, descend, equals, sortWith, uniq } from 'ramda';
 import uniqBy from 'ramda/es/uniqBy';
@@ -116,7 +116,7 @@ export const ActressSearch: FunctionalComponent<ActressSearchProps> = ({
         className={`input ${inputClassName || ''}`}
         placeholder={placeholder}
         value={searchName}
-        onKeyUp={debounce((event: KeyboardEvent) => {
+        onKeyUp={debounce(event => {
           if (event.key === 'Enter') {
             if (searchedActresses?.actresses.actresses.length === 1) {
               submitActress(searchedActresses.actresses.actresses[0]);

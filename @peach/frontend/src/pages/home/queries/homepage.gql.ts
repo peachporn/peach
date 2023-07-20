@@ -1,5 +1,4 @@
 import gql from 'graphql-tag';
-import { fetishBubbleFragment } from '../../../components/fetishBubble/fetishBubbleFragment.gql';
 import { movieCardFragment } from '../../../components/movieCard/movieCardFragment.gql';
 
 export const homepageQuery = gql`
@@ -20,12 +19,8 @@ export const homepageQuery = gql`
     }
     settings {
       id
-      pinnedFetishes {
-        ...FetishBubble
-      }
     }
   }
 
   ${movieCardFragment}
-  ${fetishBubbleFragment}
 `;

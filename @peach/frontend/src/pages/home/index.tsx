@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client';
 
-import { HomepageQuery, PinnedFetishesQuery, PinnedFetishesQueryVariables } from '@peach/types';
+import { HomepageQuery } from '@peach/types';
 import { Fragment, FunctionalComponent } from 'preact';
 import { useContext } from 'preact/hooks';
 import { Helmet } from 'react-helmet';
@@ -12,7 +12,6 @@ import { moviesRoute, settingsRoute } from '../../utils/route';
 import { MovieCardSlider } from './components/movieCardSlider';
 import { NoVolumesHint } from './components/noVolumesHint';
 import { homepageQuery } from './queries/homepage.gql';
-import { pinnedFetishesQuery } from './queries/pinnedFetishes.gql';
 
 export const Homepage: FunctionalComponent = () => {
   const { setUntouched } = useContext(MovieFilterContext);
@@ -20,16 +19,6 @@ export const Homepage: FunctionalComponent = () => {
 
   const movie = data?.randomMovies?.movies[0];
   const hasMovies = data?.recentMovies.movies.length || data?.randomMovies.movies.length;
-
-  const { data: fetishMovies } = useQuery<PinnedFetishesQuery, PinnedFetishesQueryVariables>(
-    pinnedFetishesQuery,
-    {
-      variables: {
-        fetishIds: data?.settings.pinnedFetishes.map(f => f.id) || [],
-      },
-      skip: !data?.settings.pinnedFetishes.length,
-    },
-  );
 
   return (
     <Fragment>
@@ -65,7 +54,6 @@ export const Homepage: FunctionalComponent = () => {
             <NoVolumesHint />
           ) : (
             <Fragment>
-              <MovieCardSlider movies={fetishMovies?.movies.movies || []} headline={i('PINNED')} />
               <MovieCardSlider
                 movies={data?.randomMovies.movies || []}
                 headline={i('RANDOM_MOVIES')}

@@ -4,19 +4,13 @@ import { Resolvers } from '../../../generated/resolver-types';
 export const setupResolvers: Resolvers = {
   Query: {
     setupStatus: async (_parent, _args, { prisma }) => {
-      const settings = await prisma.settings
-        .findMany({
-          include: {
-            pinnedFetishes: true,
-          },
-        })
-        .then(s =>
-          s.length
-            ? s[0]
-            : prisma.settings.create({
-                data: defaultSettings,
-              }),
-        );
+      const settings = await prisma.settings.findMany().then(s =>
+        s.length
+          ? s[0]
+          : prisma.settings.create({
+              data: defaultSettings,
+            }),
+      );
 
       if (!settings.libraryPath) return 'NoLibraryPath';
 

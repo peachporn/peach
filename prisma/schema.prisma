@@ -96,7 +96,6 @@ model Settings {
   language          String
   libraryPath       String
   inferMovieTitle   String  @default("FILENAME")
-  pinnedFetishes    Genre[]
   autoConvertMovies Boolean @default(true)
 }
 

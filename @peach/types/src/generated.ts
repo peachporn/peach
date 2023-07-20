@@ -629,7 +629,6 @@ export type Settings = {
   inferMovieTitle: InferMovieTitle;
   language: Language;
   libraryPath?: Maybe<Scalars['String']>;
-  pinnedFetishes: Array<Genre>;
   volumes: Array<Volume>;
 };
 
@@ -720,7 +719,6 @@ export type UpdateSettingsInput = {
   inferMovieTitle?: Maybe<InferMovieTitle>;
   language?: Maybe<Language>;
   libraryPath?: Maybe<Scalars['String']>;
-  pinnedFetishes?: Maybe<Array<Scalars['Int']>>;
   volumes: Array<VolumeInput>;
 };
 
@@ -821,12 +819,12 @@ export type UpdateSettingsMutationVariables = Exact<{
 }>;
 
 
-export type UpdateSettingsMutation = { __typename?: 'Mutation', updateSettings: { __typename?: 'Settings', id: number, language: Language, inferMovieTitle: InferMovieTitle, libraryPath?: string | null | undefined, autoConvertMovies: boolean, volumes: Array<{ __typename?: 'Volume', name: string, path: string }>, pinnedFetishes: Array<{ __typename?: 'Genre', id: number, name: string, picture: string }> } };
+export type UpdateSettingsMutation = { __typename?: 'Mutation', updateSettings: { __typename?: 'Settings', id: number, language: Language, inferMovieTitle: InferMovieTitle, libraryPath?: string | null | undefined, autoConvertMovies: boolean, volumes: Array<{ __typename?: 'Volume', name: string, path: string }> } };
 
 export type SettingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type SettingsQuery = { __typename?: 'Query', settings: { __typename?: 'Settings', id: number, language: Language, inferMovieTitle: InferMovieTitle, libraryPath?: string | null | undefined, autoConvertMovies: boolean, volumes: Array<{ __typename?: 'Volume', name: string, path: string }>, pinnedFetishes: Array<{ __typename?: 'Genre', id: number, name: string, picture: string }> } };
+export type SettingsQuery = { __typename?: 'Query', settings: { __typename?: 'Settings', id: number, language: Language, inferMovieTitle: InferMovieTitle, libraryPath?: string | null | undefined, autoConvertMovies: boolean, volumes: Array<{ __typename?: 'Volume', name: string, path: string }> } };
 
 export type PathExistsQueryVariables = Exact<{
   path: Scalars['String'];
@@ -835,7 +833,7 @@ export type PathExistsQueryVariables = Exact<{
 
 export type PathExistsQuery = { __typename?: 'Query', pathExists?: boolean | null | undefined };
 
-export type SettingsFragment = { __typename?: 'Settings', id: number, language: Language, inferMovieTitle: InferMovieTitle, libraryPath?: string | null | undefined, autoConvertMovies: boolean, volumes: Array<{ __typename?: 'Volume', name: string, path: string }>, pinnedFetishes: Array<{ __typename?: 'Genre', id: number, name: string, picture: string }> };
+export type SettingsFragment = { __typename?: 'Settings', id: number, language: Language, inferMovieTitle: InferMovieTitle, libraryPath?: string | null | undefined, autoConvertMovies: boolean, volumes: Array<{ __typename?: 'Volume', name: string, path: string }> };
 
 export type ActressDetailFragment = { __typename?: 'Actress', id: number, name: string, picture?: string | null | undefined, aliases: Array<string>, appearance?: { __typename?: 'ActressAppearance', genderExpression: GenderExpression, haircolor?: Haircolor | null | undefined, eyecolor?: Eyecolor | null | undefined, height?: number | null | undefined, weight?: number | null | undefined, piercings?: string | null | undefined, tattoos?: string | null | undefined, equipment: Array<{ __typename?: 'Dick' } | { __typename?: 'Pussy' } | { __typename?: 'Tits', hasImplants: boolean, size: Cupsize }>, measurements?: { __typename?: 'Measurements', chest: number, hips: number, waist: number } | null | undefined } | null | undefined, dates?: { __typename?: 'ActressDates', dateOfBirth?: string | null | undefined, dateOfCareerstart?: string | null | undefined, dateOfRetirement?: string | null | undefined, dateOfDeath?: string | null | undefined, age?: number | null | undefined, inBusiness?: boolean | null | undefined } | null | undefined, location?: { __typename?: 'ActressLocation', country?: string | null | undefined, province?: string | null | undefined, city?: string | null | undefined, location?: { __typename?: 'GeoLocation', latitude: number, longitude: number } | null | undefined } | null | undefined, contact?: { __typename?: 'ActressContact', socialMediaLinks?: Array<string> | null | undefined, officialWebsite?: string | null | undefined } | null | undefined, movies?: Array<{ __typename?: 'Movie', id: number, title: string, screencaps: Array<{ __typename?: 'Screencap', src: string, cover: boolean }> }> | null | undefined };
 
@@ -929,14 +927,7 @@ export type GenreListQuery = { __typename?: 'Query', genres: { __typename?: 'Gen
 export type HomepageQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type HomepageQuery = { __typename?: 'Query', movieCount: { __typename?: 'MovieCountResponse', all: number, untouched: number }, randomMovies: { __typename?: 'MoviesResponse', movies: Array<{ __typename?: 'Movie', id: number, title: string, coverPicture?: { __typename?: 'Screencap', src: string } | null | undefined }> }, recentMovies: { __typename?: 'MoviesResponse', movies: Array<{ __typename?: 'Movie', id: number, title: string, coverPicture?: { __typename?: 'Screencap', src: string } | null | undefined }> }, settings: { __typename?: 'Settings', id: number, pinnedFetishes: Array<{ __typename?: 'Genre', id: number, name: string, picture: string }> } };
-
-export type PinnedFetishesQueryVariables = Exact<{
-  fetishIds: Array<Scalars['Int']> | Scalars['Int'];
-}>;
-
-
-export type PinnedFetishesQuery = { __typename?: 'Query', movies: { __typename?: 'MoviesResponse', movies: Array<{ __typename?: 'Movie', id: number, title: string, coverPicture?: { __typename?: 'Screencap', src: string } | null | undefined }> } };
+export type HomepageQuery = { __typename?: 'Query', movieCount: { __typename?: 'MovieCountResponse', all: number, untouched: number }, randomMovies: { __typename?: 'MoviesResponse', movies: Array<{ __typename?: 'Movie', id: number, title: string, coverPicture?: { __typename?: 'Screencap', src: string } | null | undefined }> }, recentMovies: { __typename?: 'MoviesResponse', movies: Array<{ __typename?: 'Movie', id: number, title: string, coverPicture?: { __typename?: 'Screencap', src: string } | null | undefined }> }, settings: { __typename?: 'Settings', id: number } };
 
 export type GenreActionCardFragment = { __typename?: 'Genre', id: number, name: string, picture: string, category: GenreCategory, linkableChildren: Array<{ __typename?: 'Genre', id: number, name: string }> };
 

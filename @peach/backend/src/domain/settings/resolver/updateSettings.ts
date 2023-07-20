@@ -24,18 +24,8 @@ export const updateSettingsResolvers: Resolvers = {
           where: {
             id: 1,
           },
-          include: {
-            pinnedFetishes: true,
-          },
           data: {
             ...omit(['volumes'], data),
-            pinnedFetishes: data.pinnedFetishes
-              ? {
-                  set: data.pinnedFetishes.map(f => ({
-                    id: f,
-                  })),
-                }
-              : undefined,
           },
         }),
       ]).then(([_, __, settings]) => transformSettings(settings)),

@@ -8,7 +8,7 @@ import {
   UpdateSettingsMutationVariables,
   Volume,
 } from '@peach/types';
-import { createContext, FunctionalComponent, h } from 'preact';
+import { createContext, FunctionalComponent } from 'preact';
 import { useForm, UseFormMethods } from 'react-hook-form';
 import { updateSettingsMutation } from './mutations/updateSettings.gql';
 import { settingsQuery } from './queries/settings.gql';
@@ -18,7 +18,6 @@ type SettingsFormData = {
   language: Language;
   inferMovieTitle: InferMovieTitle;
   libraryPath: string;
-  pinnedFetishes: string;
   volumes: Volume[];
   autoConvertMovie: boolean;
 };
@@ -37,7 +36,6 @@ const defaultSettingsContext: SettingsContextType = {
     inferMovieTitle: 'FILENAME',
     libraryPath: '',
     volumes: [],
-    pinnedFetishes: [],
     autoConvertMovies: true,
   },
   form: {} as UseFormMethods<SettingsFormData>,
@@ -61,29 +59,21 @@ export const SettingsProvider: FunctionalComponent = ({ children }) => {
   const defaultValues = (settings: SettingsFragment) => ({
     ...settings,
     libraryPath: settings.libraryPath || undefined,
-    pinnedFetishes: settings.pinnedFetishes.map(f => f.id).join(','),
   });
 
   const form = useForm<SettingsFormData>({
     defaultValues: defaultValues(data.settings),
   });
 
-  const onSubmit = (formData: SettingsFormData) => {
-    const pinnedFetishes = formData.pinnedFetishes
-      .split(',')
-      .filter(Boolean)
-      .map(f => parseInt(f, 10));
-
-    return updateSettings({
+  const onSubmit = (formData: SettingsFormData) =>
+    updateSettings({
       variables: {
         data: {
           ...formData,
           volumes: formData.volumes || [],
-          pinnedFetishes,
         },
       },
     });
-  };
 
   return (
     <SettingsContext.Provider

@@ -21,7 +21,6 @@ export const settingsTypeDefs = gql`
     inferMovieTitle: InferMovieTitle!
     libraryPath: String
     volumes: [Volume!]!
-    pinnedFetishes: [Genre!]!
     autoConvertMovies: Boolean!
   }
 

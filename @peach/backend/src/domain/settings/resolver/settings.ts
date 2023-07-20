@@ -6,11 +6,7 @@ export const settingsResolvers: Resolvers = {
   Query: {
     settings: async (_parent, _args, { prisma }) =>
       prisma.settings
-        .findMany({
-          include: {
-            pinnedFetishes: true,
-          },
-        })
+        .findMany()
         .then(s =>
           s.length
             ? s[0]

@@ -6,7 +6,7 @@ import {
   MovieFiltersQuery,
   MovieFiltersQueryVariables,
 } from '@peach/types';
-import { FunctionalComponent, h } from 'preact';
+import { FunctionalComponent } from 'preact';
 import { useContext, useEffect, useState } from 'preact/hooks';
 import { ActressCard } from '../../../components/actressCard';
 import { GenreCard } from '../../../components/genreCard';
@@ -127,10 +127,10 @@ export const MovieFilter: FunctionalComponent = () => {
           </div>
         )}
         {noFiltersSelected ? null : (
-          <div className="col-span-12 grid grid-cols-3 md:grid-cols-4 gap-4 px-4 py-2 text-xs">
+          <div className="col-span-12 grid grid-cols-3 md:grid-cols-8 gap-4 px-4 py-2 text-xs">
             {(displayData?.actresses.actresses || []).map(a => (
               <ActressCard
-                className="row-span-2"
+                className="row-span-2 col-span-2"
                 actress={a}
                 onClick={() => {
                   setActresses((filterInput.actresses ?? []).filter(input => input !== a.id));

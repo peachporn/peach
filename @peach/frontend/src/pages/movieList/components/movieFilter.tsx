@@ -156,9 +156,6 @@ export const MovieFilter: FunctionalComponent = () => {
             {!filterInput.untouched ? null : (
               <div className={'col-span-4 md:col-span-1 grid grid-cols-1'}>
                 <MovieFilterCard
-                  onClick={() => {
-                    setUntouched(undefined);
-                  }}
                   movieFilter={{ __typename: 'UntouchedMovieFilter', untouched: true }}
                 />
               </div>
@@ -166,9 +163,6 @@ export const MovieFilter: FunctionalComponent = () => {
             {!filterInput.title ? null : (
               <div className={'col-span-4 md:col-span-1 grid grid-cols-1'}>
                 <MovieFilterCard
-                  onClick={() => {
-                    setTitle('');
-                  }}
                   movieFilter={{ __typename: 'TitleMovieFilter', title: filterInput.title }}
                 />
               </div>

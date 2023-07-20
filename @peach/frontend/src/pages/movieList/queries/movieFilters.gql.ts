@@ -4,6 +4,7 @@ export const movieFiltersQuery = gql`
   query movieFilters($query: String!) {
     movieFilters(query: $query) {
       __typename
+      __typename
       ... on TitleMovieFilter {
         title
       }
@@ -21,7 +22,6 @@ export const movieFiltersQuery = gql`
         actress {
           id
           name
-          picture
         }
       }
       ... on FetishMovieFilter {

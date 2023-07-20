@@ -1,5 +1,6 @@
 import { Resolvers } from '../../../generated/resolver-types';
-import { applyActressFilter } from '../../actress/resolver/actresses';
+
+import { applyActressFilter } from '../../actress/resolver/actresses/filter';
 import { applyGenreFilter } from '../../genre/resolver/genres';
 import { applyWebsiteFilter } from '../../website/resolver/websites';
 import {

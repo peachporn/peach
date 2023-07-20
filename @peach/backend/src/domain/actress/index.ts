@@ -1,6 +1,7 @@
 import { actressResolvers } from './resolver/actress';
 import { actressCountResolvers } from './resolver/actressCount';
 import { actressesResolvers } from './resolver/actresses';
+import { actressFiltersResolvers } from './resolver/actressFilters';
 import { createActressResolvers } from './resolver/createActress';
 import { generateSlugsResolver } from './resolver/generateSlugs';
 import { scrapeActressResolvers } from './resolver/scrapeActress';
@@ -8,6 +9,7 @@ import { updateActressResolvers } from './resolver/updateActress';
 import { actressTypeDefs } from './schema/actress.gql';
 import { actressCountTypeDefs } from './schema/actressCount.gql';
 import { actressesTypeDefs } from './schema/actresses.gql';
+import { actressFiltersTypeDefs } from './schema/actressFilters.gql';
 import { actressAppearanceTypeDefs } from './schema/appearance.gql';
 import { createActressTypeDefs } from './schema/createActress.gql';
 import { generateSlugsTypeDefs } from './schema/generateSlugs.gql';
@@ -23,6 +25,7 @@ export const actressDomainTypeDefs = [
   generateSlugsTypeDefs,
   scrapeActressTypeDefs,
   updateActressTypeDefs,
+  actressFiltersTypeDefs,
 ];
 
 export const actressDomainResolvers = [
@@ -33,4 +36,5 @@ export const actressDomainResolvers = [
   generateSlugsResolver,
   scrapeActressResolvers,
   updateActressResolvers,
+  actressFiltersResolvers,
 ];

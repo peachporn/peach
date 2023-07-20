@@ -41,8 +41,6 @@ const { createTask, runTask, taskDefinitionOptions } = defineTask<ConvertMoviePa
         const oldMoviePath = path.join(movie.volume.path, movie.path);
         const newMoviePath = extensionToMp4(movie.path);
 
-        console.log('old', oldMoviePath, 'new', newMoviePath);
-
         Promise.all([
           scrapeMetadata({ movie: { ...movie, path: newMoviePath } }),
           oldMoviePath !== newMoviePath ? deleteIfExists(oldMoviePath) : Promise.resolve(),

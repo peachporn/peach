@@ -4,6 +4,7 @@ export const actressesTypeDefs = gql`
   input ActressFilterInput {
     ids: [Int!]
     name: String
+    equipment: EquipmentInput
   }
 
   type ActressesResponse {

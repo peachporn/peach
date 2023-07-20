@@ -110,6 +110,7 @@ export default {
   ACTRESS_NORESULT_ADD: 'Add {{name}} manually',
   ACTRESS_CREATE_BUTTON: 'Create her!',
   ACTRESS_CREATE_SUCCESS: 'Actress created successfully!',
+  ACTRESS_FILTER_INPUT: 'Filter...',
   ACTRESS_FILTER_NAME: 'Name',
   ACTRESS_CREATE_PLACEHOLDER: 'Find an actress',
   ACTRESS_YEARS_OLD: ' years old',

@@ -82,7 +82,6 @@ export const GenreSearch: FunctionalComponent<GenreSearchProps> = ({
   );
 
   const submitGenre = (g: FetishBubbleFragment) => {
-    console.log(g);
     if (multiple) {
       setGenreIds(
         genreIds.includes(g.id) ? genreIds.filter(id => id !== g.id) : uniq([...genreIds, g.id]),

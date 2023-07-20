@@ -1,7 +1,16 @@
-import { MovieFilterFragment } from '@peach/types';
-import { Fragment, FunctionalComponent, h } from 'preact';
+import {
+  MovieFilter_ActressMovieFilter_Fragment,
+  MovieFilter_FetishMovieFilter_Fragment,
+  MovieFilter_TitleMovieFilter_Fragment,
+  MovieFilter_UntouchedMovieFilter_Fragment,
+  MovieFilter_WebsiteMovieFilter_Fragment,
+  MovieFilterFragment,
+} from '@peach/types';
+import { FunctionalComponent } from 'preact';
+import { FC } from 'preact/compat';
 import { useContext } from 'preact/hooks';
 import { useHistory } from 'react-router-dom';
+import { FilterCard } from '../../../components/filterCard';
 import { Icon } from '../../../components/icon';
 import { MovieFilterContext } from '../../../context/movieFilter';
 import { i } from '../../../i18n/i18n';
@@ -12,66 +21,36 @@ type MovieFilterCardProps = {
   onClick?: () => void;
 };
 
-const MovieFilterIcon: FunctionalComponent<MovieFilterCardProps> = ({ movieFilter }) => (
-  <Icon
-    className={'text-md text-pink'}
-    icon={
-      movieFilter.__typename === 'ActressMovieFilter'
-        ? 'person_pin'
-        : movieFilter.__typename === 'FetishMovieFilter'
-        ? 'loyalty'
-        : movieFilter.__typename === 'WebsiteMovieFilter'
-        ? 'language'
-        : movieFilter.__typename === 'UntouchedMovieFilter'
-        ? 'loyalty'
-        : movieFilter.__typename === 'TitleMovieFilter'
-        ? 'title'
-        : 'error'
-    }
-  />
-);
+const UntouchedFilterCard: FC<{ movieFilter: MovieFilter_UntouchedMovieFilter_Fragment }> =
+  ({}) => {
+    const history = useHistory();
+    const { filterInput, setUntouched } = useContext(MovieFilterContext);
 
-const MovieFilterText: FunctionalComponent<MovieFilterCardProps> = ({ movieFilter }) => (
-  <Fragment>
-    {movieFilter.__typename === 'ActressMovieFilter'
-      ? movieFilter.actress.name
-      : movieFilter.__typename === 'FetishMovieFilter'
-      ? movieFilter.genre.name
-      : movieFilter.__typename === 'WebsiteMovieFilter'
-      ? movieFilter.website.name
-      : movieFilter.__typename === 'UntouchedMovieFilter'
-      ? i('MOVIE_FILTERCARD_UNTOUCHED')
-      : movieFilter.__typename === 'TitleMovieFilter'
-      ? movieFilter.title
-      : ''}
-  </Fragment>
-);
+    return (
+      <FilterCard
+        onClick={() => {
+          setUntouched(!filterInput.untouched);
+        }}
+        iconSlot={<Icon className={'text-md text-pink'} icon={'loyalty'} />}
+      >
+        {i('MOVIE_FILTERCARD_UNTOUCHED')}
+      </FilterCard>
+    );
+  };
 
-const MovieFilterCTA: FunctionalComponent<MovieFilterCardProps> = ({ movieFilter }) => {
+const WebsiteFilterCard: FC<{ movieFilter: MovieFilter_WebsiteMovieFilter_Fragment }> = ({
+  movieFilter,
+}) => {
   const history = useHistory();
+  const { filterInput, setWebsites } = useContext(MovieFilterContext);
+
   return (
-    <Fragment>
-      {movieFilter.__typename === 'ActressMovieFilter' ? (
-        <button
-          className={'flex items-center justify-self-end'}
-          onClick={e => {
-            e.stopPropagation();
-            history.push(actressDetailRoute(movieFilter.actress.id));
-          }}
-        >
-          <Icon icon={'info'} className={'text-gray-200'} />
-        </button>
-      ) : movieFilter.__typename === 'FetishMovieFilter' ? (
-        <button
-          className={'flex items-center'}
-          onClick={e => {
-            e.stopPropagation();
-            history.push(genreDetailRoute(movieFilter.genre.id));
-          }}
-        >
-          <Icon icon={'info'} className={'text-gray-200'} />
-        </button>
-      ) : movieFilter.__typename === 'WebsiteMovieFilter' ? (
+    <FilterCard
+      onClick={() => {
+        setWebsites([...(filterInput.websites ?? []), movieFilter.website.id]);
+      }}
+      descriptionSlot={<>{i('MOVIE_FILTERCARD_WEBSITE')}</>}
+      ctaSlot={
         <button
           className={'flex items-center'}
           onClick={e => {
@@ -81,50 +60,101 @@ const MovieFilterCTA: FunctionalComponent<MovieFilterCardProps> = ({ movieFilter
         >
           <Icon icon={'info'} className={'text-gray-200'} />
         </button>
-      ) : movieFilter.__typename === 'UntouchedMovieFilter' ? null : movieFilter.__typename ===
-        'TitleMovieFilter' ? null : (
-        ''
-      )}
-    </Fragment>
+      }
+      iconSlot={<Icon className={'text-md text-pink'} icon={'language'} />}
+    >
+      {movieFilter.website.name}
+    </FilterCard>
   );
 };
 
-export const MovieFilterCard: FunctionalComponent<MovieFilterCardProps> = ({
-  onClick,
+const FetishFilterCard: FC<{ movieFilter: MovieFilter_FetishMovieFilter_Fragment }> = ({
   movieFilter,
 }) => {
-  const { filterInput, setTitle, setActresses, setFetishes, setUntouched, setWebsites } =
-    useContext(MovieFilterContext);
-
-  const addToFilters = () => {
-    if (movieFilter.__typename === 'ActressMovieFilter') {
-      setActresses([...(filterInput.actresses ?? []), movieFilter.actress.id]);
-    }
-    if (movieFilter.__typename === 'FetishMovieFilter') {
-      setFetishes([...(filterInput.fetishes ?? []), movieFilter.genre.id]);
-    }
-    if (movieFilter.__typename === 'WebsiteMovieFilter') {
-      setWebsites([...(filterInput.websites ?? []), movieFilter.website.id]);
-    }
-    if (movieFilter.__typename === 'UntouchedMovieFilter') {
-      setUntouched(!filterInput.untouched);
-    }
-    if (movieFilter.__typename === 'TitleMovieFilter') {
-      setTitle(movieFilter.title);
-    }
-  };
+  const history = useHistory();
+  const { filterInput, setFetishes } = useContext(MovieFilterContext);
 
   return (
-    <button
-      onClick={onClick ?? addToFilters}
-      className="p-2 justify-between rounded shadow focus:border-pink border-b-2 border-transparent focus:outline-none relative cursor-pointer flex items-center gap-1"
+    <FilterCard
+      onClick={() => {
+        setFetishes([...(filterInput.fetishes ?? []), movieFilter.genre.id]);
+      }}
+      descriptionSlot={<>{i('MOVIE_FILTERCARD_FETISH')}</>}
+      ctaSlot={
+        <button
+          className={'flex items-center'}
+          onClick={e => {
+            e.stopPropagation();
+            history.push(genreDetailRoute(movieFilter.genre.id));
+          }}
+        >
+          <Icon icon={'info'} className={'text-gray-200'} />
+        </button>
+      }
+      iconSlot={<Icon className={'text-md text-pink'} icon={'loyalty'} />}
     >
-      <div className={'flex items-center gap-2'}>
-        <MovieFilterIcon movieFilter={movieFilter} />
-        <MovieFilterText movieFilter={movieFilter} />
-      </div>
-
-      <MovieFilterCTA movieFilter={movieFilter} />
-    </button>
+      {movieFilter.genre.name}
+    </FilterCard>
   );
 };
+
+const ActressFilterCard: FC<{ movieFilter: MovieFilter_ActressMovieFilter_Fragment }> = ({
+  movieFilter,
+}) => {
+  const history = useHistory();
+  const { filterInput, setActresses } = useContext(MovieFilterContext);
+
+  return (
+    <FilterCard
+      onClick={() => {
+        setActresses([...(filterInput.actresses ?? []), movieFilter.actress.id]);
+      }}
+      descriptionSlot={<>{i('MOVIE_FILTERCARD_ACTRESS')}</>}
+      ctaSlot={
+        <button
+          className={'flex items-center justify-self-end'}
+          onClick={e => {
+            e.stopPropagation();
+            history.push(actressDetailRoute(movieFilter.actress.id));
+          }}
+        >
+          <Icon icon={'info'} className={'text-gray-200'} />
+        </button>
+      }
+      iconSlot={<Icon className={'text-md text-pink'} icon={'person_pin'} />}
+    >
+      {movieFilter.actress?.name}
+    </FilterCard>
+  );
+};
+
+const TitleFilterCard: FC<{ movieFilter: MovieFilter_TitleMovieFilter_Fragment }> = ({
+  movieFilter,
+}) => {
+  const { filterInput, setTitle } = useContext(MovieFilterContext);
+
+  return (
+    <FilterCard
+      onClick={() => {
+        setTitle(filterInput.title ? undefined : movieFilter.title);
+      }}
+      descriptionSlot={<>{i('MOVIE_FILTERCARD_TITLE')}</>}
+      iconSlot={<Icon className={'text-md text-pink'} icon={'title'} />}
+    >
+      {movieFilter.title}
+    </FilterCard>
+  );
+};
+
+export const MovieFilterCard: FunctionalComponent<MovieFilterCardProps> = ({ movieFilter }) =>
+  movieFilter.__typename === 'TitleMovieFilter' ? (
+    <TitleFilterCard movieFilter={movieFilter} />
+  ) : movieFilter.__typename === 'ActressMovieFilter' ? (
+    <ActressFilterCard movieFilter={movieFilter} />
+  ) : movieFilter.__typename === 'UntouchedMovieFilter' ? (
+    <UntouchedFilterCard movieFilter={movieFilter} />
+  ) : movieFilter.__typename === 'FetishMovieFilter' ? (
+    <FetishFilterCard movieFilter={movieFilter} />
+  ) : movieFilter.__typename === 'WebsiteMovieFilter' ? (
+    <WebsiteFilterCard movieFilter={movieFilter} />
+  ) : null;

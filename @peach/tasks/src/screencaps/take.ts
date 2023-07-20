@@ -33,7 +33,6 @@ const ffmpegScreencap = (
       })
       .on('error', error => {
         if (error.message.includes('EEXIST')) {
-          console.log(error);
           log.info(`Screencap ${screencapPath} already existed.`);
           clearTimeout(timeout);
           resolve('SUCCESS');

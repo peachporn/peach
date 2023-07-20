@@ -58,7 +58,6 @@ export const applyFileUploadMiddleware = (app: Application) => {
         res.send('Success!');
       })
       .catch((e: Error) => {
-        console.log(e);
         res.status(500);
         res.send(e);
       });
@@ -110,7 +109,6 @@ export const applyFileUploadMiddleware = (app: Application) => {
         res.send('Success!');
       })
       .catch((e: Error) => {
-        console.log(e);
         res.status(500);
         res.send(e);
       });
@@ -162,7 +160,6 @@ export const applyFileUploadMiddleware = (app: Application) => {
         res.send('Success!');
       })
       .catch((e: Error) => {
-        console.log(e);
         res.status(500);
         res.send(e);
       });

@@ -1,7 +1,8 @@
-import { FunctionalComponent, h } from 'preact';
+import { FunctionalComponent } from 'preact';
 
 export type IconType =
   | 'access_alarm'
+  | 'accessibility_new'
   | 'add_circle'
   | 'add'
   | 'arrow_backward'

@@ -1,8 +1,8 @@
 import { Resolvers } from '../../../../generated/resolver-types';
 import { transformMovie } from '../../transformer/movie';
 import { applyMovieFilter } from './filter';
+import { resolveMovies } from './list';
 import { resolveRandomMovies } from './random';
-import { resolveMovies } from './resolveMovies';
 
 export const moviesResolvers: Resolvers = {
   Query: {

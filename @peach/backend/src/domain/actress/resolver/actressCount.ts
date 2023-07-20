@@ -1,5 +1,6 @@
 import { Resolvers } from '../../../generated/resolver-types';
-import { applyActressFilter } from './actresses';
+
+import { applyActressFilter } from './actresses/filter';
 
 export const actressCountResolvers: Resolvers = {
   Query: {

@@ -8,7 +8,7 @@
   "private": true,
   "scripts": {
     "lint": "eslint src",
-    "watch": "vite build -w",
+    "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

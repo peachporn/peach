@@ -9,4 +9,14 @@ export default defineConfig({
     emptyOutDir: true,
     assetsDir: '.',
   },
+  server: {
+    proxy: {
+      '/graphql': {
+        target: 'http://localhost',
+      },
+      '/assets': {
+        target: 'http://localhost',
+      },
+    },
+  },
 });

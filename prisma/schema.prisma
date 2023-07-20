@@ -97,6 +97,7 @@ model Settings {
   libraryPath       String
   inferMovieTitle   String  @default("FILENAME")
   autoConvertMovies Boolean @default(true)
+  Genre             Genre[]
 }
 
 model Task {

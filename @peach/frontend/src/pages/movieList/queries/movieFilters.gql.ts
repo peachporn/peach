@@ -31,6 +31,9 @@ export const movieFiltersQuery = gql`
           picture
         }
       }
+      ... on EquipmentMovieFilter {
+        type
+      }
     }
   }
 `;

@@ -1,5 +1,6 @@
 import {
   MovieFilter_ActressMovieFilter_Fragment,
+  MovieFilter_EquipmentMovieFilter_Fragment,
   MovieFilter_FetishMovieFilter_Fragment,
   MovieFilter_TitleMovieFilter_Fragment,
   MovieFilter_UntouchedMovieFilter_Fragment,
@@ -146,6 +147,24 @@ const TitleFilterCard: FC<{ movieFilter: MovieFilter_TitleMovieFilter_Fragment }
   );
 };
 
+const EquipmentFilterCard: FC<{ movieFilter: MovieFilter_EquipmentMovieFilter_Fragment }> = ({
+  movieFilter,
+}) => {
+  const { filterInput, setEquipment } = useContext(MovieFilterContext);
+
+  return (
+    <FilterCard
+      onClick={() => {
+        setEquipment(filterInput.constellation?.length ? undefined : movieFilter.type);
+      }}
+      descriptionSlot={<>{i('ACTRESS_EQUIPMENT')}</>}
+      iconSlot={<Icon className={'text-md text-pink'} icon={'accessibility_new'} />}
+    >
+      {movieFilter.type}
+    </FilterCard>
+  );
+};
+
 export const MovieFilterCard: FunctionalComponent<MovieFilterCardProps> = ({ movieFilter }) =>
   movieFilter.__typename === 'TitleMovieFilter' ? (
     <TitleFilterCard movieFilter={movieFilter} />
@@ -157,4 +176,6 @@ export const MovieFilterCard: FunctionalComponent<MovieFilterCardProps> = ({ mov
     <FetishFilterCard movieFilter={movieFilter} />
   ) : movieFilter.__typename === 'WebsiteMovieFilter' ? (
     <WebsiteFilterCard movieFilter={movieFilter} />
+  ) : movieFilter.__typename === 'EquipmentMovieFilter' ? (
+    <EquipmentFilterCard movieFilter={movieFilter} />
   ) : null;

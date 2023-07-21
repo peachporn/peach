@@ -21,12 +21,17 @@ export const movieFiltersTypeDefs = gql`
     untouched: Boolean!
   }
 
+  type EquipmentMovieFilter {
+    type: EquipmentInputType
+  }
+
   union MovieFilter =
       TitleMovieFilter
     | ActressMovieFilter
     | WebsiteMovieFilter
     | FetishMovieFilter
     | UntouchedMovieFilter
+    | EquipmentMovieFilter
 
   extend type Query {
     movieFilters(query: String!): [MovieFilter!]!

@@ -66,7 +66,8 @@ export const MovieFilter: FunctionalComponent = () => {
     !displayData?.websites.websites.length &&
     !displayData?.genres.genres.length &&
     !filterInput.untouched &&
-    !filterInput.title;
+    !filterInput.title &&
+    !filterInput.constellation?.length;
 
   const debouncedSetQuery = debounce((e: Event) => {
     setQuery((e.target as HTMLInputElement).value);
@@ -167,6 +168,16 @@ export const MovieFilter: FunctionalComponent = () => {
                 />
               </div>
             )}
+            {(filterInput.constellation ?? []).map(performer => (
+              <div className={'col-span-4 md:col-span-1 grid grid-cols-1'}>
+                <MovieFilterCard
+                  movieFilter={{
+                    __typename: 'EquipmentMovieFilter',
+                    type: performer.equipment?.[0].type,
+                  }}
+                />
+              </div>
+            ))}
           </div>
         )}
       </div>

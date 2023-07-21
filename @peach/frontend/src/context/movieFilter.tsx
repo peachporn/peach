@@ -1,5 +1,5 @@
-import { MovieFilterInput } from '@peach/types';
-import { createContext, FunctionalComponent, h } from 'preact';
+import { EquipmentInputType, MovieFilterInput } from '@peach/types';
+import { createContext, FunctionalComponent } from 'preact';
 import { useLocalStorageState } from '../hooks/useLocalStorageState';
 
 type MovieFilterContextType = {
@@ -10,6 +10,7 @@ type MovieFilterContextType = {
   setWebsites: (websites: number[]) => void;
   setTitle: (title: string) => void;
   setUntouched: (untouched: boolean | undefined) => void;
+  setEquipment: (equipment: EquipmentInputType | undefined) => void;
 };
 
 export const MovieFilterContext = createContext<MovieFilterContextType>({
@@ -20,6 +21,7 @@ export const MovieFilterContext = createContext<MovieFilterContextType>({
   setWebsites: () => {},
   setTitle: () => {},
   setUntouched: () => {},
+  setEquipment: () => {},
 });
 
 export const MovieFilterProvider: FunctionalComponent = ({ children }) => {
@@ -30,12 +32,23 @@ export const MovieFilterProvider: FunctionalComponent = ({ children }) => {
   const setWebsites = (websites: number[]) => setFilter({ ...filter, websites });
   const setTitle = (title: string) => setFilter({ ...filter, title });
   const setUntouched = (untouched: boolean | undefined) => setFilter({ ...filter, untouched });
+  const setEquipment = (equipment: EquipmentInputType | undefined) =>
+    setFilter({
+      ...filter,
+      constellation:
+        equipment === 'Dick'
+          ? [{ equipment: [{ type: 'Dick' }] }]
+          : equipment === 'Pussy'
+          ? [{ equipment: [{ type: 'Pussy' }] }]
+          : undefined,
+    });
 
-  const filterObject = {
+  const filterObject: MovieFilterInput = {
     title: filter.title || undefined,
     actresses: filter.actresses?.length ? filter.actresses : undefined,
     websites: filter.websites?.length ? filter.websites : undefined,
     fetishes: filter.fetishes?.length ? filter.fetishes : undefined,
+    constellation: filter.constellation?.length ? filter.constellation : undefined,
     untouched: filter.untouched,
   };
 
@@ -49,6 +62,7 @@ export const MovieFilterProvider: FunctionalComponent = ({ children }) => {
         setWebsites,
         setFetishes,
         setUntouched,
+        setEquipment,
       }}
     >
       {children}

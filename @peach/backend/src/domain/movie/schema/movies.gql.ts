@@ -1,12 +1,17 @@
 import { gql } from 'apollo-server';
 
 export const moviesTypeDefs = gql`
+  input MoviePerformerInput {
+    equipment: [EquipmentInput!]
+  }
+
   input MovieFilterInput {
     title: String
     actresses: [Int!]
     websites: [Int!]
     fetishes: [Int!]
     untouched: Boolean
+    constellation: [MoviePerformerInput!]
   }
 
   enum MoviesSort {

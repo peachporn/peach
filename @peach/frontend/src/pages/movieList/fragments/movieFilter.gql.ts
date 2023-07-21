@@ -29,5 +29,8 @@ export const movieFilterFragment = gql`
         picture
       }
     }
+    ... on EquipmentMovieFilter {
+      type
+    }
   }
 `;

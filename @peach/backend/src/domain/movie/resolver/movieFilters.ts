@@ -1,3 +1,4 @@
+import { EquipmentMovieFilter, TitleMovieFilter, UntouchedMovieFilter } from '@peach/types';
 import { Resolvers } from '../../../generated/resolver-types';
 
 import { applyActressFilter } from '../../actress/resolver/actresses/filter';
@@ -42,20 +43,32 @@ export const movieFiltersResolvers: Resolvers = {
         })
         .then(genres => genres.map(transformFetishMovieFilter));
 
+      const dickFilter: EquipmentMovieFilter = {
+        __typename: 'EquipmentMovieFilter',
+        type: 'Dick',
+      };
+
+      const pussyFilter: EquipmentMovieFilter = {
+        __typename: 'EquipmentMovieFilter',
+        type: 'Pussy',
+      };
+
+      const untouchedFilter: UntouchedMovieFilter = {
+        __typename: 'UntouchedMovieFilter',
+        untouched: true,
+      };
+
+      const titleFilter: TitleMovieFilter = {
+        __typename: 'TitleMovieFilter',
+        title: query,
+      };
+
       return Promise.all([actresses, websites, fetishes]).then(
         ([actressFilters, websiteFilters, fetishFilters]) => [
-          {
-            __typename: 'TitleMovieFilter' as const,
-            title: query,
-          },
-          ...('untouched'.startsWith(query.toLowerCase())
-            ? [
-                {
-                  __typename: 'UntouchedMovieFilter' as const,
-                  untouched: true,
-                },
-              ]
-            : []),
+          titleFilter,
+          ...('untouched'.startsWith(query.toLowerCase()) ? [untouchedFilter] : []),
+          ...('dick'.startsWith(query.toLowerCase()) ? [dickFilter] : []),
+          ...('pussy'.startsWith(query.toLowerCase()) ? [pussyFilter] : []),
           ...actressFilters,
           ...websiteFilters,
           ...fetishFilters,

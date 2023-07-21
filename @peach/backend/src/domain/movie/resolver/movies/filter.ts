@@ -1,4 +1,5 @@
 import { MovieFilterInput } from '@peach/types';
+import { nonNullish } from '@peach/utils/src/list';
 import { Prisma } from '@peach/utils/src/prisma';
 
 export const touchedMovieFilter = {
@@ -34,7 +35,7 @@ export const applyMovieFilter = (
             ? {}
             : filter.untouched
             ? { NOT: [touchedMovieFilter] }
-            : touchedMovieFilter),
+            : {}),
           ...(!filter.actresses
             ? {}
             : {
@@ -65,6 +66,23 @@ export const applyMovieFilter = (
                   some: {
                     OR: filter.fetishes.map(f => ({ id: f })),
                   },
+                },
+              }),
+          ...(!filter.constellation
+            ? {}
+            : {
+                actresses: {
+                  some: Object.fromEntries(
+                    nonNullish(
+                      (filter.constellation?.[0].equipment ?? []).map(eq =>
+                        eq.type === 'Dick'
+                          ? ['dick', true]
+                          : eq.type === 'Pussy'
+                          ? ['pussy', true]
+                          : undefined,
+                      ),
+                    ),
+                  ),
                 },
               }),
         },

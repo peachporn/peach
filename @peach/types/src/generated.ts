@@ -168,6 +168,11 @@ export type EquipmentInputType =
   | 'Pussy'
   | 'Tits';
 
+export type EquipmentMovieFilter = {
+  __typename?: 'EquipmentMovieFilter';
+  type?: Maybe<EquipmentInputType>;
+};
+
 export type ExtractedMovieInformation = {
   __typename?: 'ExtractedMovieInformation';
   detections: Array<Detection>;
@@ -329,10 +334,11 @@ export type MovieCountResponse = {
   untouched: Scalars['Int'];
 };
 
-export type MovieFilter = ActressMovieFilter | FetishMovieFilter | TitleMovieFilter | UntouchedMovieFilter | WebsiteMovieFilter;
+export type MovieFilter = ActressMovieFilter | EquipmentMovieFilter | FetishMovieFilter | TitleMovieFilter | UntouchedMovieFilter | WebsiteMovieFilter;
 
 export type MovieFilterInput = {
   actresses?: Maybe<Array<Scalars['Int']>>;
+  constellation?: Maybe<Array<MoviePerformerInput>>;
   fetishes?: Maybe<Array<Scalars['Int']>>;
   title?: Maybe<Scalars['String']>;
   untouched?: Maybe<Scalars['Boolean']>;
@@ -360,6 +366,10 @@ export type MovieMetadata = {
   seconds: Scalars['Int'];
   sizeInKB: Scalars['Int'];
   sizeInMB: Scalars['Int'];
+};
+
+export type MoviePerformerInput = {
+  equipment?: Maybe<Array<EquipmentInput>>;
 };
 
 export type MoviesResponse = {
@@ -1030,6 +1040,8 @@ export type MovieDetailQuery = { __typename?: 'Query', movie?: { __typename?: 'M
 
 export type MovieFilter_ActressMovieFilter_Fragment = { __typename: 'ActressMovieFilter', actress: { __typename?: 'Actress', id: number, name: string } };
 
+export type MovieFilter_EquipmentMovieFilter_Fragment = { __typename: 'EquipmentMovieFilter', type?: EquipmentInputType | null | undefined };
+
 export type MovieFilter_FetishMovieFilter_Fragment = { __typename: 'FetishMovieFilter', genre: { __typename?: 'Genre', id: number, name: string, picture: string } };
 
 export type MovieFilter_TitleMovieFilter_Fragment = { __typename: 'TitleMovieFilter', title: string };
@@ -1038,7 +1050,7 @@ export type MovieFilter_UntouchedMovieFilter_Fragment = { __typename: 'Untouched
 
 export type MovieFilter_WebsiteMovieFilter_Fragment = { __typename: 'WebsiteMovieFilter', website: { __typename?: 'Website', id: number, name: string, picture?: string | null | undefined } };
 
-export type MovieFilterFragment = MovieFilter_ActressMovieFilter_Fragment | MovieFilter_FetishMovieFilter_Fragment | MovieFilter_TitleMovieFilter_Fragment | MovieFilter_UntouchedMovieFilter_Fragment | MovieFilter_WebsiteMovieFilter_Fragment;
+export type MovieFilterFragment = MovieFilter_ActressMovieFilter_Fragment | MovieFilter_EquipmentMovieFilter_Fragment | MovieFilter_FetishMovieFilter_Fragment | MovieFilter_TitleMovieFilter_Fragment | MovieFilter_UntouchedMovieFilter_Fragment | MovieFilter_WebsiteMovieFilter_Fragment;
 
 export type MovieCountQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1062,7 +1074,7 @@ export type MovieFiltersQueryVariables = Exact<{
 }>;
 
 
-export type MovieFiltersQuery = { __typename?: 'Query', movieFilters: Array<{ __typename: 'ActressMovieFilter', actress: { __typename?: 'Actress', id: number, name: string } } | { __typename: 'FetishMovieFilter', genre: { __typename?: 'Genre', id: number, name: string, picture: string } } | { __typename: 'TitleMovieFilter', title: string } | { __typename: 'UntouchedMovieFilter', untouched: boolean } | { __typename: 'WebsiteMovieFilter', website: { __typename?: 'Website', id: number, name: string, picture?: string | null | undefined } }> };
+export type MovieFiltersQuery = { __typename?: 'Query', movieFilters: Array<{ __typename: 'ActressMovieFilter', actress: { __typename?: 'Actress', id: number, name: string } } | { __typename: 'EquipmentMovieFilter', type?: EquipmentInputType | null | undefined } | { __typename: 'FetishMovieFilter', genre: { __typename?: 'Genre', id: number, name: string, picture: string } } | { __typename: 'TitleMovieFilter', title: string } | { __typename: 'UntouchedMovieFilter', untouched: boolean } | { __typename: 'WebsiteMovieFilter', website: { __typename?: 'Website', id: number, name: string, picture?: string | null | undefined } }> };
 
 export type MovieListQueryVariables = Exact<{
   limit: Scalars['Int'];

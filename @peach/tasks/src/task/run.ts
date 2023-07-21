@@ -55,5 +55,9 @@ export const runTasks = async () => {
     return Promise.resolve();
   }
 
-  return runTask(toTask(runnableTasks[0]));
+  const taskToRun = runnableTasks[0];
+
+  return runTask(toTask(taskToRun)).catch(error => {
+    log.error(`Error running task ${taskToRun.category} (#${taskToRun.id}): ${error}`);
+  });
 };

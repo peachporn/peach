@@ -1,0 +1,12 @@
+{
+  "name": "@peach/config-tailwind",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    ".": "./tailwind.config.ts"
+  },
+  "devDependencies": {
+    "@peach/config-typescript": "*",
+    "tailwindcss": "^3.4.1"
+  }
+}

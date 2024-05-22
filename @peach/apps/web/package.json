@@ -5,14 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
+    "lint": "biome check src",
+    "format": "biome check --apply src",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@peach/db": "*",
     "@peach/ui": "*",
-    "@peach/config-eslint": "*",
     "@peach/config-tailwind": "*",
     "@peach/config-typescript": "*",
     "@nextui-org/react": "^2.3.6",
@@ -22,7 +21,6 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "^14.1.1",
     "@types/node": "^20.11.24",
     "@types/react": "^18.3.2",
     "@types/react-dom": "^18.3.0",

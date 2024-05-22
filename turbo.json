@@ -13,14 +13,12 @@
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "lint": {},
+    "format": {},
     "typecheck": {},
     "dev": {
       "dependsOn": ["^db:generate"],
       "cache": false,
       "persistent": true
-    },
-    "clean": {
-      "cache": false
     }
   }
 }

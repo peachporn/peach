@@ -9,24 +9,24 @@ export const dynamic = "force-dynamic";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Peach",
-  description: "Peach | Your porn collection",
+	title: "Peach",
+	description: "Peach | Your porn collection",
 };
 
 const Providers = ({ children }: PropsWithChildren) => {
-  return <NextUIProvider>{children}</NextUIProvider>;
+	return <NextUIProvider>{children}</NextUIProvider>;
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode;
 }): JSX.Element {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body className={inter.className}>
+				<Providers>{children}</Providers>
+			</body>
+		</html>
+	);
 }

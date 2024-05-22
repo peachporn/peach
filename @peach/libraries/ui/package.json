@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint src/",
+    "lint": "biome check src",
+    "format": "biome check --apply src",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@peach/config-eslint": "*",
     "@peach/config-typescript": "*",
     "@types/react": "^18.3.2",
     "react": "^18.3.1",

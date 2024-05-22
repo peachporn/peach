@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "db": "*",
     "@nextui-org/react": "^2.3.6",
     "@peach/ui": "*",
     "framer-motion": "^11.2.6",

@@ -35,4 +35,6 @@ yarn-error.log*
 # ui
 dist/
 
+.env
+
 *storybook.log

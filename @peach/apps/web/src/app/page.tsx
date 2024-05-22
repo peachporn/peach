@@ -1,12 +1,14 @@
-import { Card } from "@peach/ui/card";
+import { PrismaClient } from "db";
 
-const Page = () => {
+const client = new PrismaClient();
+
+const Page = async () => {
+  const actresses = await client.actress.findMany();
+
   return (
     <main className="bg-pink-300">
-      Hello Peach!{" "}
-      <Card title="foobar" href="">
-        children
-      </Card>
+      Hello Peach!
+      {actresses.map((actress) => actress.name)}
     </main>
   );
 };

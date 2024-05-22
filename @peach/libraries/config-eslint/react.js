@@ -37,6 +37,9 @@ module.exports = {
   // add rules configurations here
   rules: {
     "import/no-default-export": "off",
+    "react/function-component-definition": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/consistent-type-definitions": "off",
   },
   overrides: [
     {

@@ -6,18 +6,16 @@
     "lint": "eslint src/",
     "typecheck": "tsc --noEmit"
   },
-  "peerDependencies": {
-    "react": "^18.2.0"
-  },
   "devDependencies": {
     "@peach/config-eslint": "*",
     "@peach/config-typescript": "*",
-    "@types/react": "^18.2.61",
-    "react": "^18.2.0",
+    "@types/react": "^18.3.2",
+    "react": "^18.3.1",
     "typescript": "^5.3.3"
   },
   "dependencies": {
     "@nextui-org/react": "^2.3.6",
+    "@storybook/react": "^8.1.2",
     "framer-motion": "^11.2.6"
   }
 }

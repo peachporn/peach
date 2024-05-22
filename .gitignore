@@ -38,3 +38,4 @@ dist/
 .env
 
 *storybook.log
+storybook-static/

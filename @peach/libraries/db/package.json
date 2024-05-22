@@ -1,5 +1,5 @@
 {
-  "name": "db",
+  "name": "@peach/db",
   "version": "0.0.0",
   "main": "./index.ts",
   "types": "./index.ts",

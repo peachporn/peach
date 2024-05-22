@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ["@peach/config-eslint/next.js"],
+  extends: ["../../libraries/config-eslint/next.js"],
 };

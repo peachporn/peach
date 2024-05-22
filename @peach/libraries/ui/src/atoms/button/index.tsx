@@ -1,4 +1,7 @@
 import { Button as NextUIButton } from "@nextui-org/react";
-export type ButtonProps = {};
 
-export const Button = () => <NextUIButton>Button</NextUIButton>;
+export type ButtonProps = Record<string, unknown>;
+
+export function Button() {
+  return <NextUIButton>Button</NextUIButton>;
+}

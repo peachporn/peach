@@ -1,8 +1,10 @@
 import { NextUIProvider } from "@nextui-org/react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import "./styles/tailwind.css";
+
+export const dynamic = "force-dynamic";
 
 const inter = Inter({ subsets: ["latin"] });
 

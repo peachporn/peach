@@ -1,4 +1,4 @@
-import { PrismaClient } from "db";
+import { PrismaClient } from "@peach/db";
 
 const client = new PrismaClient();
 

@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ["@peach/config-eslint/react.js"],
+  extends: ["../config-eslint/react.js"],
 };

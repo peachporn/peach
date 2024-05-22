@@ -1,7 +1,5 @@
+import sharedConfig, { commonContent } from "@peach/config-tailwind";
 import type { Config } from "tailwindcss";
-import sharedConfig, {
-  commonContent,
-} from "../../libraries/config-tailwind/tailwind.config";
 
 const config: Pick<Config, "content" | "presets"> = {
   content: [

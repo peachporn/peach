@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+const { nextui } = require("@nextui-org/react");
 
 const config: Omit<Config, "content"> = {
   theme: {
@@ -9,6 +10,11 @@ const config: Omit<Config, "content"> = {
       },
     },
   },
-  plugins: [],
+  darkMode: "class",
+  plugins: [nextui()],
 };
 export default config;
+
+export const commonContent = [
+  "../../../node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+];

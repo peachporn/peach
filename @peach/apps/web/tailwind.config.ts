@@ -70,6 +70,7 @@ const config: Config = {
         ...colors.neutral,
         white: colors.neutral[900],
         black: colors.neutral[50],
+        truewhite: "#fff",
       },
     },
   },

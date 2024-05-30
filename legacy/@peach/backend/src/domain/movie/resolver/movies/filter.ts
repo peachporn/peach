@@ -2,28 +2,6 @@ import { MovieFilterInput } from '@peach/types';
 import { nonNullish } from '@peach/utils/src/list';
 import { Prisma } from '@peach/utils/src/prisma';
 
-export const touchedMovieFilter = {
-  OR: [
-    {
-      website: {
-        id: {
-          gte: 0,
-        },
-      },
-    },
-    {
-      actresses: {
-        some: {},
-      },
-    },
-    {
-      fetishes: {
-        some: {},
-      },
-    },
-  ],
-};
-
 export const applyMovieFilter = (
   filter: MovieFilterInput | undefined,
 ): Pick<Prisma.MovieFindManyArgs, 'where'> =>
@@ -34,8 +12,8 @@ export const applyMovieFilter = (
           ...(filter.untouched === undefined
             ? {}
             : filter.untouched
-            ? { NOT: [touchedMovieFilter] }
-            : {}),
+              ? { NOT: [touchedMovieFilter] }
+              : {}),
           ...(!filter.actresses
             ? {}
             : {
@@ -78,8 +56,8 @@ export const applyMovieFilter = (
                         eq.type === 'Dick'
                           ? ['dick', true]
                           : eq.type === 'Pussy'
-                          ? ['pussy', true]
-                          : undefined,
+                            ? ['pussy', true]
+                            : undefined,
                       ),
                     ),
                   ),

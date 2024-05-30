@@ -40,8 +40,8 @@ export const MovieCard = ({
         ))}
       </div>
     </div>
-    <div className="absolute bottom-2 flex justify-between w-full items-center z-20 px-2 transform-gpu group-hover:translate-y-10 text-neutral-white gap-2 transition-transform">
-      <h4 className="whitespace-nowrap font-bold text-ellipsis overflow-hidden">
+    <div className="absolute bottom-1 flex justify-between w-full items-center z-20 px-2 transform-gpu group-hover:translate-y-8 text-neutral-white gap-2 transition-transform">
+      <h4 className="whitespace-nowrap text-ellipsis overflow-hidden">
         {title}
       </h4>
       {duration && (

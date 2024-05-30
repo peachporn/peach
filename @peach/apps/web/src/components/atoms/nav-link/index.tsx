@@ -25,7 +25,7 @@ export const NavLink = ({
 }: NavLinkProps) => (
   <Link
     className={cn(
-      `before:content-[''] before:w-[calc(100%+theme(space.2))] before:opacity-50 before:-translate-x-1 before:absolute relative before:h-1.5 before:bottom-0 before:rounded-sm before:origin-right before:scale-x-0 before:transition-transform before:transform-gpu hover:before:scale-x-100 hover:before:origin-left`,
+      `before:content-[''] before:w-[calc(100%+theme(space.2))] before:-translate-x-1 before:absolute relative before:h-1.5 before:bottom-[-.1em] before:rounded-sm before:origin-right before:scale-x-0 before:transition-transform before:transform-gpu hover:before:scale-x-100 hover:before:origin-left`,
       colors[color],
       {
         "before:scale-x-100 before:origin-left": active,

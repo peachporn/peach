@@ -1,14 +1,25 @@
 import { Navigation } from "@/components/molecules/navigation";
+import { cn } from "@/lib/cn";
 import { NextUIProvider } from "@nextui-org/react";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Baloo_2, Fira_Sans } from "next/font/google";
 import { headers } from "next/headers";
 import type { PropsWithChildren } from "react";
 import "../styles/tailwind.css";
+import "../styles/typography.scss";
 
 export const dynamic = "force-dynamic";
 
-const inter = Inter({ subsets: ["latin"] });
+const copy = Fira_Sans({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-copy",
+});
+const display = Baloo_2({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-display",
+});
 
 export const metadata: Metadata = {
   title: "Peach",
@@ -21,13 +32,11 @@ const Providers = ({ children }: PropsWithChildren) => {
 
 const RootLayout = ({ children }: PropsWithChildren) => {
   const pathname = new URL(headers().get("x-url") ?? "")?.pathname;
-  const isActive = (link: string) => {
-    pathname.startsWith(link);
-  };
+  const isActive = (link: string) => pathname.startsWith(link);
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={cn(copy.variable, display.variable)}>
         <Providers>
           <Navigation
             items={[

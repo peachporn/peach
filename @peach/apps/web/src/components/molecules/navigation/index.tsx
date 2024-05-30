@@ -39,7 +39,7 @@ export const Navigation = ({ items }: NavigationProps) => {
             alt={"Peach"}
             className="rounded-full"
           />
-          <p className="font-bold">Peach</p>
+          <p className="display text-2xl">Peach</p>
         </NavbarBrand>
       </NavbarContent>
 

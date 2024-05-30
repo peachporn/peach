@@ -5,7 +5,8 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
-    "format": "turbo format"
+    "format": "turbo format",
+    "storybook": "npm run storybook -w @peach/web"
   },
   "devDependencies": {
     "@biomejs/biome": "1.7.3",

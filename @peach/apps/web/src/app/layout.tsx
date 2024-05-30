@@ -1,25 +1,14 @@
+import { copy, display } from "@/components/atoms/typography";
 import { Navigation } from "@/components/molecules/navigation";
 import { cn } from "@/lib/cn";
 import { NextUIProvider } from "@nextui-org/react";
 import type { Metadata } from "next";
-import { Baloo_2, Fira_Sans } from "next/font/google";
 import { headers } from "next/headers";
 import type { PropsWithChildren } from "react";
-import "../styles/tailwind.css";
+import "../styles/tailwind.scss";
 import "../styles/typography.scss";
 
 export const dynamic = "force-dynamic";
-
-const copy = Fira_Sans({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-copy",
-});
-const display = Baloo_2({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-display",
-});
 
 export const metadata: Metadata = {
   title: "Peach",

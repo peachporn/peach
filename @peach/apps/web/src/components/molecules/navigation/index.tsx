@@ -1,5 +1,6 @@
 "use client";
 import { IconSettings } from "@/components/atoms/icons/settings";
+import { NavLink, NavLinkProps } from "@/components/atoms/nav-link";
 import {
   Link,
   Navbar,
@@ -11,18 +12,20 @@ import {
   NavbarMenuToggle,
 } from "@nextui-org/react";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 type NavigationProps = {
   items: {
     label: string;
     href: string;
-    active?: boolean;
+    color: NavLinkProps["color"];
   }[];
 };
 
 export const Navigation = ({ items }: NavigationProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <Navbar onMenuOpenChange={setIsMenuOpen} shouldHideOnScroll={true}>
@@ -45,10 +48,14 @@ export const Navigation = ({ items }: NavigationProps) => {
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         {items.map((item) => (
-          <NavbarItem key={item.label} isActive={item.active}>
-            <Link className="text-neutral-black" href={item.href}>
+          <NavbarItem key={item.label}>
+            <NavLink
+              active={pathname.startsWith(item.href)}
+              color={item.color}
+              href={item.href}
+            >
               {item.label}
-            </Link>
+            </NavLink>
           </NavbarItem>
         ))}
       </NavbarContent>
@@ -59,7 +66,10 @@ export const Navigation = ({ items }: NavigationProps) => {
       </NavbarContent>
       <NavbarMenu>
         {items.map((item) => (
-          <NavbarMenuItem key={item.label} isActive={item.active}>
+          <NavbarMenuItem
+            key={item.label}
+            isActive={pathname.startsWith(item.href)}
+          >
             <Link className="w-full" href={item.href} size="lg">
               {item.label}
             </Link>

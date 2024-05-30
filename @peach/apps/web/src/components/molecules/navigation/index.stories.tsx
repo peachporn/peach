@@ -19,18 +19,22 @@ export const Default: StoryObj<typeof Navigation> = {
       {
         label: "Movies",
         href: "/movies",
+        color: "peach",
       },
       {
         label: "Actresses",
         href: "/actresses",
+        color: "yellow",
       },
       {
         label: "Genres",
         href: "/genres",
+        color: "purple",
       },
       {
         label: "Websites",
         href: "/websites",
+        color: "blue",
       },
     ],
   },

@@ -3,7 +3,6 @@ import { Navigation } from "@/components/molecules/navigation";
 import { cn } from "@/lib/cn";
 import { NextUIProvider } from "@nextui-org/react";
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import type { PropsWithChildren } from "react";
 import "../styles/tailwind.scss";
 import "../styles/typography.scss";
@@ -20,9 +19,6 @@ const Providers = ({ children }: PropsWithChildren) => {
 };
 
 const RootLayout = ({ children }: PropsWithChildren) => {
-  const pathname = new URL(headers().get("x-url") ?? "")?.pathname;
-  const isActive = (link: string) => pathname.startsWith(link);
-
   return (
     <html lang="en">
       <body className={cn(copy.variable, display.variable)}>
@@ -32,22 +28,22 @@ const RootLayout = ({ children }: PropsWithChildren) => {
               {
                 label: "Movies",
                 href: "/movies",
-                active: isActive("/movies"),
+                color: "peach",
               },
               {
                 label: "Actresses",
                 href: "/actresses",
-                active: isActive("/actresses"),
+                color: "yellow",
               },
               {
                 label: "Genres",
                 href: "/genres",
-                active: isActive("/genres"),
+                color: "purple",
               },
               {
                 label: "Websites",
                 href: "/websites",
-                active: isActive("/websites"),
+                color: "blue",
               },
             ]}
           />

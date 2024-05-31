@@ -14,43 +14,39 @@ export const metadata: Metadata = {
   description: "Peach | Your porn collection",
 };
 
-const Providers = ({ children }: PropsWithChildren) => {
-  return <NextUIProvider>{children}</NextUIProvider>;
-};
+const Providers = ({ children }: PropsWithChildren) => <NextUIProvider>{children}</NextUIProvider>;
 
-const RootLayout = ({ children }: PropsWithChildren) => {
-  return (
-    <html lang="en">
-      <body className={cn(copy.variable, display.variable)}>
-        <Providers>
-          <Navigation
-            items={[
-              {
-                label: "Movies",
-                href: "/movies",
-                color: "peach",
-              },
-              {
-                label: "Actresses",
-                href: "/actresses",
-                color: "yellow",
-              },
-              {
-                label: "Genres",
-                href: "/genres",
-                color: "purple",
-              },
-              {
-                label: "Websites",
-                href: "/websites",
-                color: "blue",
-              },
-            ]}
-          />
-          {children}
-        </Providers>
-      </body>
-    </html>
-  );
-};
+const RootLayout = ({ children }: PropsWithChildren) => (
+  <html lang='en'>
+    <body className={cn(copy.variable, display.variable)}>
+      <Providers>
+        <Navigation
+          items={[
+            {
+              label: "Movies",
+              href: "/movies",
+              color: "peach",
+            },
+            {
+              label: "Actresses",
+              href: "/actresses",
+              color: "yellow",
+            },
+            {
+              label: "Genres",
+              href: "/genres",
+              color: "purple",
+            },
+            {
+              label: "Websites",
+              href: "/websites",
+              color: "blue",
+            },
+          ]}
+        />
+        {children}
+      </Providers>
+    </body>
+  </html>
+);
 export default RootLayout;

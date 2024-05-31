@@ -5,18 +5,20 @@
     "db:generate": {
       "cache": false
     },
+    "db:migrate": {
+      "cache": false
+    },
     "db:push": {
       "cache": false
     },
     "build": {
-      "dependsOn": ["^build", "^db:generate"],
+      "dependsOn": ["^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "lint": {},
     "format": {},
     "typecheck": {},
     "dev": {
-      "dependsOn": ["^db:generate"],
       "cache": false,
       "persistent": true
     }

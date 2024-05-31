@@ -1,5 +1,3 @@
-const Page = async () => {
-	return <main>Hello Peach!</main>;
-};
+const Page = async () => <main>Hello Peach!</main>;
 
 export default Page;

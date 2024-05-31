@@ -1,5 +1,0 @@
-version: "3"
-services:
-  web:
-    build:
-      dockerfile: ./@peach/apps/web/Dockerfile

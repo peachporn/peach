@@ -6,9 +6,7 @@ import path from "node:path";
 
 export const GET = async (
   _request: NextRequest,
-  {
-    params: { movieId, screencap },
-  }: { params: { movieId: string; screencap: string } }
+  { params: { movieId, screencap } }: { params: { movieId: string; screencap: string } }
 ) => {
   try {
     const basePath = await getScreencapPath();
@@ -23,15 +21,12 @@ export const GET = async (
       return new Response("Screencap not found!", { status: 404 });
     }
 
-    return new NextResponse(
-      nodeStreamToReadableStream(createReadStream(screencapPath)),
-      {
-        headers: {
-          "Content-Type": "image/jpeg",
-          "Cache-Control": "public, max-age=604800, immutable",
-        },
-      }
-    );
+    return new NextResponse(nodeStreamToReadableStream(createReadStream(screencapPath)), {
+      headers: {
+        "Content-Type": "image/jpeg",
+        "Cache-Control": "public, max-age=604800, immutable",
+      },
+    });
   } catch (error) {
     console.error(error);
     return new Response("An error occurred while fetching the screencap!", {

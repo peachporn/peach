@@ -1,0 +1,11 @@
+services:
+  database:
+    image: "postgres:latest"
+    ports:
+      - 5432:5432
+    env_file:
+      - .env.local
+    environment:
+      POSTGRES_DB: peach
+    volumes:
+      - ./.peach-db/:/var/lib/postgresql/data/

@@ -1,0 +1,4 @@
+{
+  "extends": "@peach/config-typescript/base.json",
+  "include": ["."]
+}

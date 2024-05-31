@@ -1,0 +1,40 @@
+{
+  "extends": ["next/core-web-vitals", "plugin:storybook/recommended", "prettier"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": ["functional", "prefer-arrow", "no-switch-statements"],
+  "rules": {
+    "@next/next/no-html-link-for-pages": "off",
+
+    "prefer-const": "error",
+    "arrow-body-style": ["error", "as-needed"],
+    "prefer-arrow/prefer-arrow-functions": "error",
+    "no-switch-statements/no-switch": "error",
+    "no-param-reassign": "error",
+    "functional/no-let": "error",
+    "functional/no-classes": "error",
+    "functional/no-this-expressions": "error",
+    "functional/no-loop-statements": "error",
+    "functional/prefer-property-signatures": "error",
+    "functional/prefer-tacit": "error",
+    "functional/immutable-data": [
+      "error",
+      {
+        "ignoreAccessorPattern": [
+          "**.current", // For react refs
+          "**.displayName", // For displayNames of components created with `forwardRef`
+          "req.nextUrl.pathname", // For redirects in Next.JS middleware
+          "window.location.pathname", // For redirects in client components
+          "document.cookie" // To create clientside cookies
+        ]
+      }
+    ],
+    "functional/no-conditional-statements": [
+      "error",
+      {
+        "allowReturningBranches": true
+      }
+    ]
+  }
+}

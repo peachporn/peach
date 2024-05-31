@@ -11,14 +11,9 @@ const stories = Object.entries(colors).flatMap(([color]) =>
 export default {
   title: "Atoms/Tag",
   component: () => (
-    <div className="grid grid-cols-[80px_80px] justify-items-start gap-4">
+    <div className='grid grid-cols-[80px_80px] justify-items-start gap-4'>
       {stories.map(({ color, variant }) => (
-        <Tag
-          href="#"
-          key={`${color}-${variant}`}
-          color={color}
-          variant={variant}
-        >
+        <Tag href='#' key={`${color}-${variant}`} color={color} variant={variant}>
           BDSM
         </Tag>
       ))}

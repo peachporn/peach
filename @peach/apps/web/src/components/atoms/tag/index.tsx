@@ -29,7 +29,7 @@ export const Tag = ({
   }>) => (
   <NextLink
     className={cn(
-      "text-xs rounded-full px-1.5 py-0.5",
+      "rounded-full px-1.5 py-0.5 text-xs",
       variants[variant],
       colors[color],
       className

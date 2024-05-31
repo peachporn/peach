@@ -6,7 +6,7 @@ export default {
   component: Navigation,
   decorators: [
     (Story) => (
-      <div className="h-[150vh]">
+      <div className='h-[150vh]'>
         <Story />
       </div>
     ),

@@ -27,33 +27,27 @@ export const MovieCard = ({
     style={{ zIndex: negativeIndex }}
     className={cn(
       styles.card,
-      "relative group overflow-visible isolate cursor-pointer bg-[var(--color)] aspect-video transition-all ring-[var(--color)] text-neutral-black rounded-xl",
-      "hover:ring-8 hover:scale-105"
+      "text-neutral-black group relative isolate aspect-video cursor-pointer overflow-visible rounded-xl bg-[var(--color)] ring-[var(--color)] transition-all",
+      "hover:scale-105 hover:ring-8"
     )}
   >
-    <div className="absolute top-1 px-2 z-20 transition-opacity group-hover:opacity-0">
-      <div className="flex gap-1 items-center w-full mt-1">
+    <div className='absolute top-1 z-20 px-2 transition-opacity group-hover:opacity-0'>
+      <div className='mt-1 flex w-full items-center gap-1'>
         {tags?.slice(0, 3).map((tag) => (
-          <Tag variant="light" color="white" href={tag.href} key={tag.label}>
+          <Tag variant='light' color='white' href={tag.href} key={tag.label}>
             {tag.label}
           </Tag>
         ))}
       </div>
     </div>
-    <div className="absolute bottom-1 flex justify-between w-full items-center z-20 px-2 transform-gpu group-hover:translate-y-8 text-neutral-white gap-2 transition-transform">
-      <h4 className="whitespace-nowrap text-ellipsis overflow-hidden">
-        {title}
-      </h4>
-      {duration && (
-        <span className="text-xs bg-[rgba(0,0,0,.2)] rounded p-0.5">
-          {duration}
-        </span>
-      )}
+    <div className='text-neutral-white absolute bottom-1 z-20 flex w-full transform-gpu items-center justify-between gap-2 px-2 transition-transform group-hover:translate-y-8'>
+      <h4 className='overflow-hidden text-ellipsis whitespace-nowrap'>{title}</h4>
+      {duration && <span className='rounded bg-[rgba(0,0,0,.2)] p-0.5 text-xs'>{duration}</span>}
     </div>
-    <div className="size-full bg-[var(--color)] rounded-xl group-hover:rounded-b-none transition-all">
+    <div className='size-full rounded-xl bg-[var(--color)] transition-all group-hover:rounded-b-none'>
       <Image
         alt={title}
-        className="object-cover size-full bg-[var(--color)] rounded-xl transition-all animate-fadSlidee"
+        className='animate-fadSlidee size-full rounded-xl bg-[var(--color)] object-cover transition-all'
         src={screencap}
         width={300}
         height={(300 / 16) * 9}
@@ -61,20 +55,15 @@ export const MovieCard = ({
     </div>
     <div
       className={cn(
-        "absolute bottom-0 w-full text-background bg-[var(--color)] isolate -z-10 shadow-md rounded-b-xl transform-gpu group-hover:translate-y-[98%] flex flex-col items-start group-hover:ring-8 ring-[var(--color)] transition-[box-shadow_transform] p-2 pt-3 pb-2"
+        "text-background absolute bottom-0 isolate -z-10 flex w-full transform-gpu flex-col items-start rounded-b-xl bg-[var(--color)] p-2 pb-2 pt-3 shadow-md ring-[var(--color)] transition-[box-shadow_transform] group-hover:translate-y-[98%] group-hover:ring-8"
       )}
     >
-      <div className="h-8" />
-      <div className="flex justify-between w-full items-center">
+      <div className='h-8' />
+      <div className='flex w-full items-center justify-between'>
         {(tags ?? [])?.length === 0 ? null : (
-          <div className="flex gap-1 items-center w-full">
+          <div className='flex w-full items-center gap-1'>
             {tags?.map((tag) => (
-              <Tag
-                variant="light"
-                color="purple"
-                href={tag.href}
-                key={tag.label}
-              >
+              <Tag variant='light' color='purple' href={tag.href} key={tag.label}>
                 {tag.label}
               </Tag>
             ))}
@@ -82,9 +71,9 @@ export const MovieCard = ({
         )}
         {website && (
           <Tag
-            variant="light"
-            color="blue"
-            className="text-xs whitespace-nowrap"
+            variant='light'
+            color='blue'
+            className='whitespace-nowrap text-xs'
             href={website.href}
           >
             {website.label}
@@ -92,14 +81,14 @@ export const MovieCard = ({
         )}
       </div>
       {(actresses ?? []).length === 0 ? null : (
-        <div className="gap-1 flex items-center w-full mt-2 overflow-hidden">
+        <div className='mt-2 flex w-full items-center gap-1 overflow-hidden'>
           {actresses?.map((actress) => (
             <Tag
               href={actress.href}
               key={actress.label}
-              variant="light"
-              color="yellow"
-              className="text-xs inline-block whitespace-nowrap"
+              variant='light'
+              color='yellow'
+              className='inline-block whitespace-nowrap text-xs'
             >
               {actress.label}
             </Tag>

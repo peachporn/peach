@@ -17,18 +17,13 @@ export type NavLinkProps = PropsWithChildren<
   } & LinkProps
 >;
 
-export const NavLink = ({
-  children,
-  color,
-  active,
-  ...props
-}: NavLinkProps) => (
+export const NavLink = ({ children, color, active, ...props }: NavLinkProps) => (
   <Link
     className={cn(
-      `before:content-[''] before:w-[calc(100%+theme(space.2))] before:-translate-x-1 before:absolute relative before:h-1.5 before:bottom-[-.1em] before:rounded-sm before:origin-right before:scale-x-0 before:transition-transform before:transform-gpu hover:before:scale-x-100 hover:before:origin-left`,
+      `relative before:absolute before:bottom-[-.1em] before:h-1.5 before:w-[calc(100%+theme(space.2))] before:origin-right before:-translate-x-1 before:scale-x-0 before:transform-gpu before:rounded-sm before:transition-transform before:content-[''] hover:before:origin-left hover:before:scale-x-100`,
       colors[color],
       {
-        "before:scale-x-100 before:origin-left": active,
+        "before:origin-left before:scale-x-100": active,
       }
     )}
     {...props}

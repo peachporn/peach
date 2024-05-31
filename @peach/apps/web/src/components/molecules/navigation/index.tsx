@@ -32,45 +32,32 @@ export const Navigation = ({ items }: NavigationProps) => {
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          className="sm:hidden"
+          className='sm:hidden'
         />
-        <NavbarBrand className="flex gap-3">
-          <Image
-            src={"/logo.png"}
-            width={40}
-            height={40}
-            alt={"Peach"}
-            className="rounded-full"
-          />
-          <p className="display text-2xl">Peach</p>
+        <NavbarBrand className='flex gap-3'>
+          <Image src={"/logo.png"} width={40} height={40} alt={"Peach"} className='rounded-full' />
+          <p className='display text-2xl'>Peach</p>
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      <NavbarContent className='hidden gap-4 sm:flex' justify='center'>
         {items.map((item) => (
           <NavbarItem key={item.label}>
-            <NavLink
-              active={pathname.startsWith(item.href)}
-              color={item.color}
-              href={item.href}
-            >
+            <NavLink active={pathname.startsWith(item.href)} color={item.color} href={item.href}>
               {item.label}
             </NavLink>
           </NavbarItem>
         ))}
       </NavbarContent>
-      <NavbarContent as="div" className="items-center" justify="end">
-        <Link className="text-neutral-black" href="/settings" size="lg">
+      <NavbarContent as='div' className='items-center' justify='end'>
+        <Link className='text-neutral-black' href='/settings' size='lg'>
           <IconSettings />
         </Link>
       </NavbarContent>
       <NavbarMenu>
         {items.map((item) => (
-          <NavbarMenuItem
-            key={item.label}
-            isActive={pathname.startsWith(item.href)}
-          >
-            <Link className="w-full" href={item.href} size="lg">
+          <NavbarMenuItem key={item.label} isActive={pathname.startsWith(item.href)}>
+            <Link className='w-full' href={item.href} size='lg'>
               {item.label}
             </Link>
           </NavbarMenuItem>

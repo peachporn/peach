@@ -7,11 +7,10 @@
   },
   "scripts": {
     "dev": "docker-compose -f ../../../compose.local.yml up database",
-    "db:generate": "",
-    "db:migrate": "",
-    "db:push": "",
-    "studio": "dotenvx run --env-file=../../../.env.local -- drizzle-kit studio",
-    "introspect": "dotenvx run --env-file=../../../.env.local -- drizzle-kit introspect"
+    "db:generate": "dotenvx run --env-file=../../../.env.local -- drizzle-kit generate",
+    "db:migrate": "dotenvx run --env-file=../../../.env.local -- drizzle-kit migrate",
+    "db:push": "dotenvx run --env-file=../../../.env.local -- drizzle-kit push",
+    "studio": "dotenvx run --env-file=../../../.env.local -- drizzle-kit studio"
   },
   "dependencies": {
     "drizzle-orm": "^0.31.0",

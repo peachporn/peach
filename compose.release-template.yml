@@ -1,0 +1,26 @@
+services:
+  web:
+    depends_on:
+      - database
+    image: peachporn/peach
+    ports:
+      - 80:3000
+    environment:
+      POSTGRES_USER: peach
+      POSTGRES_PASSWORD: peach
+      POSTGRES_DB: peach
+      POSTGRES_HOST: database
+    volumes:
+      - /mnt/user/appdata/peach:/mnt/library
+      - /mnt/user/Porn:/mnt/media
+
+  database:
+    image: "postgres:latest"
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: peach
+      POSTGRES_PASSWORD: peach
+      POSTGRES_DB: peach
+    volumes:
+      - /mnt/user/appdata/peach-db:/var/lib/postgresql/data/

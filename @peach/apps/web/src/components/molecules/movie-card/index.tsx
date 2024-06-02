@@ -1,8 +1,12 @@
-import { LinkType } from "@/components/atoms/link";
 import { Tag } from "@/components/atoms/tag";
 import { cn } from "@/lib/cn";
 import Image from "next/image";
 import styles from "./styles.module.scss";
+
+type LinkType = {
+  label: string;
+  href: string;
+};
 
 export type MovieCardProps = {
   title: string;

@@ -7,7 +7,8 @@
     "typecheck": "turbo typecheck",
     "format": "turbo format",
     "studio": "npm run studio -w @peach/database",
-    "storybook": "npm run storybook -w @peach/web"
+    "storybook": "npm run storybook -w @peach/web",
+    "release": "docker buildx bake -f compose.build-prod.yml --push"
   },
   "devDependencies": {
     "@peach/config-typescript": "*",
@@ -17,7 +18,7 @@
     "turbo": "latest"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "packageManager": "npm@10.1.0",
   "workspaces": [

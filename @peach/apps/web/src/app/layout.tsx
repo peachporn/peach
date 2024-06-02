@@ -3,11 +3,9 @@ import { Navigation } from "@/components/molecules/navigation";
 import { cn } from "@/lib/cn";
 import { NextUIProvider } from "@nextui-org/react";
 import type { Metadata } from "next";
-import type { PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 import "../styles/tailwind.scss";
 import "../styles/typography.scss";
-
-export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Peach",

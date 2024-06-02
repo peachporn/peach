@@ -1,7 +1,15 @@
 import { db } from "@peach/database";
+import { cache } from "react";
 
-export const fetchMovies = () =>
+type FetchMoviesOptions =
+  | {
+      limit?: number;
+    }
+  | undefined;
+
+export const fetchMovies = cache(({ limit = 60 }: FetchMoviesOptions = {}) =>
   db.query.Movie.findMany({
+    limit,
     with: {
       _ActressToMovies: {
         with: {
@@ -22,4 +30,5 @@ export const fetchMovies = () =>
       genres: movie._GenreToMovies.map((g) => g.Genre),
       metadata: movie.MovieMetadata.at(0),
     }))
-  );
+  )
+);

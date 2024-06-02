@@ -14,11 +14,11 @@ const Page = async () => {
           key={movie.id}
           title={movie.title}
           screencap={screencapForMovie(movie)}
-          actresses={movie.actresses.map((actress) => ({
+          actresses={movie.actresses.map((actress: { name?: any; id: number }) => ({
             label: actress.name,
             href: actressUrl(actress),
           }))}
-          tags={movie.genres.map((genre) => ({
+          tags={movie.genres.map((genre: { name?: any; id: number }) => ({
             label: genre.name,
             href: genreUrl(genre),
           }))}

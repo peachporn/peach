@@ -4,6 +4,8 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createReadStream, existsSync } from "node:fs";
 import path from "node:path";
 
+export const dynamic = "force-dynamic";
+
 export const GET = async (
   _request: NextRequest,
   { params: { movieId, screencap } }: { params: { movieId: string; screencap: string } }

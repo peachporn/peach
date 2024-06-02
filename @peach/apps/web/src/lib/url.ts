@@ -1,4 +1,2 @@
-import type { Actress, Genre } from "@peach/db";
-
-export const actressUrl = (actress: Actress) => `/actresses/${actress.id}`;
-export const genreUrl = (genre: Genre) => `/genres/${genre.id}`;
+export const actressUrl = (actress: { id: number }) => `/actresses/${actress.id}`;
+export const genreUrl = (genre: { id: number }) => `/genres/${genre.id}`;

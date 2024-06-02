@@ -1,4 +1,3 @@
-import assert from "assert";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Client } from "pg";
 
@@ -9,14 +8,15 @@ import * as movieSchema from "../drizzle/schema/movie.ts";
 import * as settingsSchema from "../drizzle/schema/settings.ts";
 import * as volumeSchema from "../drizzle/schema/volume.ts";
 import * as websiteSchema from "../drizzle/schema/website.ts";
-
-assert(process.env.DB_URL, "DB_URL is required");
+import { url } from "./url.ts";
 
 const client = new Client({
-  connectionString: `${process.env.DB_URL}`,
+  connectionString: url,
 });
 
-await client.connect();
+if (process.env.BUILDTIME !== "true") {
+  await client.connect();
+}
 
 export const db = drizzle(client, {
   schema: {

@@ -3,45 +3,55 @@ FROM node:20-alpine AS base
 FROM base AS builder
 RUN apk add --no-cache libc6-compat
 RUN apk update
-
 WORKDIR /app
+
 RUN npm i --global turbo
 COPY . .
 
-# Generate a partial monorepo with a pruned lockfile for a target workspace.
 RUN turbo prune @peach/web --docker
 
-# Add lockfile and package.json's of isolated subworkspace
-FROM base AS installer
+FROM base AS runner
 RUN apk add --no-cache libc6-compat
 RUN apk update
 WORKDIR /app
 
-# First install the dependencies (as they change less often)
 COPY .gitignore .gitignore
-COPY --from=builder /app/out/json/ .
+COPY --from=builder /app/out/full/ .
 COPY --from=builder /app/out/package-lock.json ./package-lock.json
 RUN npm ci --verbose
 
-# Build the project
-COPY --from=builder /app/out/full/ .
-RUN npx turbo run build --filter=@peach/web...
+# Build and run in 1 step as the database needs to be available for the build
+CMD npx turbo run build --filter=@peach/web... && npm run start -w @peach/web
 
-FROM base AS runner
-WORKDIR /app
 
-# Don't run production as root
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-USER nextjs
 
-COPY --from=installer /app/@peach/apps/web/next.config.js .
-COPY --from=installer /app/@peach/apps/web/package.json .
 
-# Automatically leverage output traces to reduce image size
-# https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=installer --chown=nextjs:nodejs /app/@peach/apps/web/.next/standalone ./
-COPY --from=installer --chown=nextjs:nodejs /app/@peach/apps/web/.next/static ./@peach/apps/web/.next/static
-COPY --from=installer --chown=nextjs:nodejs /app/@peach/apps/web/public ./@peach/apps/web/public
+# FROM node:20-alpine AS base
 
-CMD node @peach/apps/web/server.js
+# FROM base AS prepare
+# RUN apk add --no-cache libc6-compat
+# RUN apk update
+# WORKDIR /app
+
+# RUN npm i --global turbo
+# COPY . .
+# RUN turbo prune @peach/web --docker
+
+# FROM base AS run
+# RUN apk add --no-cache libc6-compat
+# RUN apk update
+# WORKDIR /app
+
+# COPY .gitignore .gitignore
+# COPY --from=builder /app/out/full/ .
+# COPY --from=builder /app/out/package-lock.json ./package-lock.json
+# COPY --from=builder /app/out/package-lock.json ./package-lock.json
+# COPY --from=builder /app/.env.prod ./.env.local
+# RUN npm ci --verbose
+
+# # Don't run production as root
+# RUN addgroup --system --gid 1001 nodejs
+# RUN adduser --system --uid 1001 nextjs
+# USER nextjs
+
+# CMD npx turbo run build --filter=@peach/web... && npm run start -w @peach/web

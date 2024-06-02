@@ -1,7 +1,5 @@
-import assert from "assert";
 import { defineConfig } from "drizzle-kit";
-
-assert(process.env.DB_URL, "DB_URL is required");
+import { url } from "./src/url";
 
 export default defineConfig({
   schema: [
@@ -14,9 +12,7 @@ export default defineConfig({
     "./drizzle/schema/website.ts",
   ],
   dialect: "postgresql",
-  dbCredentials: {
-    url: process.env.DB_URL,
-  },
+  dbCredentials: { url },
   verbose: true,
   strict: true,
 });

@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev --port 4000",
     "build": "next build",
+    "start": "next start",
     "lint": "eslint src",
     "format": "prettier --write src",
     "formatcheck": "prettier --check src",

@@ -3,3 +3,5 @@ export const screencapFilename = (movieId: number, index: string) =>
 
 export const screencapForMovie = ({ id, cover }: { id: number; cover: number }) =>
   `/assets/screencaps/${id}/${screencapFilename(id, `${cover}`)}`;
+
+export const videoForMovie = ({ id }: { id?: number }) => `/assets/videos/${id}`;

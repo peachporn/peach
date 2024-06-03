@@ -1,7 +1,7 @@
 import { MovieCard } from "@/components/molecules/movie-card";
+import { screencapForMovie } from "@/lib/assets";
 import { fetchMovies } from "@/lib/db/movies/list";
 import { formatDuration } from "@/lib/duration";
-import { screencapForMovie } from "@/lib/screencap";
 import { actressUrl, genreUrl, movieUrl } from "@/lib/url";
 
 const MoviesPage = async () => {

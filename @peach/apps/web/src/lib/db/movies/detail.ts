@@ -17,6 +17,7 @@ export const fetchMovie = cache((movieId: number) =>
           },
         },
         movieMetadata: true,
+        volume: true,
       },
     })
     .then((movie) => ({

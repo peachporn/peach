@@ -1,3 +1,4 @@
+import { MovieDetailVideo } from "@/components/molecules/movie-detail-video";
 import { fetchAllMovieIds } from "@/lib/db/movies/allIds";
 import { fetchMovie } from "@/lib/db/movies/detail";
 import { redirect } from "next/navigation";
@@ -20,9 +21,10 @@ const movieIdFromParams = ({ movieId }: MoviePageParams) => {
 const MoviePage = async ({ params }: { params: { movieId: string } }) => {
   const movie = await fetchMovie(movieIdFromParams(params));
 
-  return (
+  return !movie.id ? null : (
     <div>
       <h1>{movie.title}</h1>
+      <MovieDetailVideo movieId={movie.id} />
     </div>
   );
 };

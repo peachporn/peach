@@ -1,38 +1,21 @@
 import { getScreencapPath } from "@/lib/db/settings";
-import { nodeStreamToReadableStream } from "@/lib/stream";
-import { NextResponse, type NextRequest } from "next/server";
-import { createReadStream, existsSync } from "node:fs";
-import path from "node:path";
+import { serveStatic } from "@hono/node-server/serve-static";
+import { Hono } from "hono";
+import { handle } from "hono/vercel";
 
 export const dynamic = "force-dynamic";
 
-export const GET = async (
-  _request: NextRequest,
-  { params: { movieId, screencap } }: { params: { movieId: string; screencap: string } }
-) => {
-  try {
-    const basePath = await getScreencapPath();
+const app = new Hono();
 
-    if (!basePath) {
-      return new Response("No screencap path configured!", { status: 400 });
-    }
+app.use("/assets/screencaps/:movieId/:screencap", async (c, next) => {
+  const basePath = await getScreencapPath();
 
-    const screencapPath = path.join(basePath, movieId, screencap);
-
-    if (!existsSync(screencapPath)) {
-      return new Response("Screencap not found!", { status: 404 });
-    }
-
-    return new NextResponse(nodeStreamToReadableStream(createReadStream(screencapPath)), {
-      headers: {
-        "Content-Type": "image/jpeg",
-        "Cache-Control": "public, max-age=604800, immutable",
-      },
-    });
-  } catch (error) {
-    console.error(error);
-    return new Response("An error occurred while fetching the screencap!", {
-      status: 500,
-    });
+  if (!basePath) {
+    c.status(400);
+    return c.body("No screencap path configured!");
   }
-};
+
+  return serveStatic({ root: basePath })(c, next);
+});
+
+export const GET = handle(app);

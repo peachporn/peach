@@ -1,7 +1,7 @@
 import { db } from "@peach/database";
 import { cache } from "react";
 
-const settings = () => db.query.Settings.findFirst();
+const settings = () => db.query.settings.findFirst();
 
 export const getScreencapPath = cache(() =>
   settings().then((s) => s && `${s.libraryPath}/screencaps/`)

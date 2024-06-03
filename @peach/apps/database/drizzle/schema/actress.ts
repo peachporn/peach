@@ -9,10 +9,10 @@ import {
   timestamp,
   uniqueIndex,
 } from "drizzle-orm/pg-core";
-import { Movie } from "./movie";
+import { movie } from "./movie";
 
-export const Actress = pgTable(
-  "Actress",
+export const actress = pgTable(
+  "actress",
   {
     id: bigint("id", { mode: "number" }).primaryKey().notNull(),
     slug: text("slug").default("").notNull(),
@@ -44,38 +44,42 @@ export const Actress = pgTable(
   },
   (table) => {
     return {
-      name_key: uniqueIndex("Actress_name_key").using("btree", table.name),
+      name_key: uniqueIndex("actress_name_key").using("btree", table.name),
     };
   }
 );
-export const ActressRelations = relations(Actress, ({ many }) => ({
-  _ActressToMovies: many(_ActressToMovie),
+export const actressRelations = relations(actress, ({ many }) => ({
+  movieActresses: many(movieActresses),
 }));
 
-export const _ActressToMovie = pgTable(
-  "_ActressToMovie",
+export const movieActresses = pgTable(
+  "movieActresses",
   {
-    A: bigint("A", { mode: "number" })
+    actressId: bigint("actressId", { mode: "number" })
       .notNull()
-      .references(() => Actress.id, { onDelete: "cascade", onUpdate: "cascade" }),
-    B: bigint("B", { mode: "number" })
+      .references(() => actress.id, { onDelete: "cascade", onUpdate: "cascade" }),
+    movieId: bigint("movieId", { mode: "number" })
       .notNull()
-      .references(() => Movie.id, { onDelete: "cascade", onUpdate: "cascade" }),
+      .references(() => movie.id, { onDelete: "cascade", onUpdate: "cascade" }),
   },
   (table) => {
     return {
-      AB_unique: uniqueIndex("_ActressToMovie_AB_unique").using("btree", table.A, table.B),
-      B_idx: index().using("btree", table.B),
+      actressIdMovieId_unique: uniqueIndex("movieActresses_actressIdMovieId_unique").using(
+        "btree",
+        table.actressId,
+        table.movieId
+      ),
+      movieId_idx: index().using("btree", table.movieId),
     };
   }
 );
-export const _ActressToMovieRelations = relations(_ActressToMovie, ({ one }) => ({
-  Actress: one(Actress, {
-    fields: [_ActressToMovie.A],
-    references: [Actress.id],
+export const movieActressesRelations = relations(movieActresses, ({ one }) => ({
+  actress: one(actress, {
+    fields: [movieActresses.actressId],
+    references: [actress.id],
   }),
-  Movie: one(Movie, {
-    fields: [_ActressToMovie.B],
-    references: [Movie.id],
+  movie: one(movie, {
+    fields: [movieActresses.movieId],
+    references: [movie.id],
   }),
 }));

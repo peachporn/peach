@@ -2,9 +2,9 @@ import { MovieCard } from "@/components/molecules/movie-card";
 import { fetchMovies } from "@/lib/db/movies/list";
 import { formatDuration } from "@/lib/duration";
 import { screencapForMovie } from "@/lib/screencap";
-import { actressUrl, genreUrl } from "@/lib/url";
+import { actressUrl, genreUrl, movieUrl } from "@/lib/url";
 
-const Page = async () => {
+const MoviesPage = async () => {
   const movies = await fetchMovies();
 
   return (
@@ -12,6 +12,7 @@ const Page = async () => {
       {movies.map((movie, index) => (
         <MovieCard
           key={movie.id}
+          href={movieUrl(movie)}
           title={movie.title}
           screencap={screencapForMovie(movie)}
           actresses={movie.actresses.map((actress: { name?: any; id: number }) => ({
@@ -30,4 +31,4 @@ const Page = async () => {
   );
 };
 
-export default Page;
+export default MoviesPage;

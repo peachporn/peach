@@ -8,27 +8,29 @@ type FetchMoviesOptions =
   | undefined;
 
 export const fetchMovies = cache(({ limit = 60 }: FetchMoviesOptions = {}) =>
-  db.query.Movie.findMany({
-    limit,
-    with: {
-      _ActressToMovies: {
-        with: {
-          Actress: true,
+  db.query.movie
+    .findMany({
+      limit,
+      with: {
+        movieActresses: {
+          with: {
+            actress: true,
+          },
         },
-      },
-      _GenreToMovies: {
-        with: {
-          Genre: true,
+        movieGenres: {
+          with: {
+            genre: true,
+          },
         },
+        movieMetadata: true,
       },
-      MovieMetadata: true,
-    },
-  }).then((m) =>
-    m.map((movie) => ({
-      ...movie,
-      actresses: movie._ActressToMovies.map((a) => a.Actress),
-      genres: movie._GenreToMovies.map((g) => g.Genre),
-      metadata: movie.MovieMetadata.at(0),
-    }))
-  )
+    })
+    .then((m) =>
+      m.map((movie) => ({
+        ...movie,
+        actresses: movie.movieActresses.map((a) => a.actress),
+        genres: movie.movieGenres.map((g) => g.genre),
+        metadata: movie.movieMetadata.at(0),
+      }))
+    )
 );

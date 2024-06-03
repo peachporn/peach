@@ -1,263 +1,11 @@
 {
-  "id": "00000000-0000-0000-0000-000000000000",
-  "prevId": "",
+  "id": "7168896c-50cd-41f1-beb5-b6ac64bc9bc0",
+  "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.Movie": {
-      "name": "Movie",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "bigint",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "CURRENT_TIMESTAMP"
-        },
-        "title": {
-          "name": "title",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "actors": {
-          "name": "actors",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 0
-        },
-        "cover": {
-          "name": "cover",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 3
-        },
-        "websiteId": {
-          "name": "websiteId",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "path": {
-          "name": "path",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "volumeId": {
-          "name": "volumeId",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "Movie_title_key": {
-          "name": "Movie_title_key",
-          "columns": [
-            {
-              "expression": "title",
-              "asc": true,
-              "nulls": "last",
-              "opclass": "text_ops",
-              "isExpression": false
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "Movie_volumeId_fkey": {
-          "name": "Movie_volumeId_fkey",
-          "tableFrom": "Movie",
-          "tableTo": "Volume",
-          "schemaTo": "public",
-          "columnsFrom": [
-            "volumeId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "restrict",
-          "onUpdate": "cascade"
-        },
-        "Movie_websiteId_fkey": {
-          "name": "Movie_websiteId_fkey",
-          "tableFrom": "Movie",
-          "tableTo": "Website",
-          "schemaTo": "public",
-          "columnsFrom": [
-            "websiteId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.Volume": {
-      "name": "Volume",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "bigint",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "path": {
-          "name": "path",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "Volume_name_key": {
-          "name": "Volume_name_key",
-          "columns": [
-            {
-              "expression": "name",
-              "asc": true,
-              "nulls": "last",
-              "opclass": "text_ops",
-              "isExpression": false
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "Volume_path_key": {
-          "name": "Volume_path_key",
-          "columns": [
-            {
-              "expression": "path",
-              "asc": true,
-              "nulls": "last",
-              "opclass": "text_ops",
-              "isExpression": false
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.MovieMetadata": {
-      "name": "MovieMetadata",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "bigint",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "movieId": {
-          "name": "movieId",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "quality": {
-          "name": "quality",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "format": {
-          "name": "format",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "fps": {
-          "name": "fps",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "durationSeconds": {
-          "name": "durationSeconds",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "sizeInKB": {
-          "name": "sizeInKB",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "MovieMetadata_movieId_key": {
-          "name": "MovieMetadata_movieId_key",
-          "columns": [
-            {
-              "expression": "movieId",
-              "asc": true,
-              "nulls": "last",
-              "opclass": "int8_ops",
-              "isExpression": false
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "MovieMetadata_movieId_fkey": {
-          "name": "MovieMetadata_movieId_fkey",
-          "tableFrom": "MovieMetadata",
-          "tableTo": "Movie",
-          "schemaTo": "public",
-          "columnsFrom": [
-            "movieId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "restrict",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.Actress": {
-      "name": "Actress",
+    "public.actress": {
+      "name": "actress",
       "schema": "",
       "columns": {
         "id": {
@@ -430,15 +178,14 @@
         }
       },
       "indexes": {
-        "Actress_name_key": {
-          "name": "Actress_name_key",
+        "actress_name_key": {
+          "name": "actress_name_key",
           "columns": [
             {
               "expression": "name",
+              "isExpression": false,
               "asc": true,
-              "nulls": "last",
-              "opclass": "text_ops",
-              "isExpression": false
+              "nulls": "last"
             }
           ],
           "isUnique": true,
@@ -451,8 +198,144 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.GenreDefinition": {
-      "name": "GenreDefinition",
+    "public.movieActresses": {
+      "name": "movieActresses",
+      "schema": "",
+      "columns": {
+        "actressId": {
+          "name": "actressId",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "movieId": {
+          "name": "movieId",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "movieActresses_actressIdMovieId_unique": {
+          "name": "movieActresses_actressIdMovieId_unique",
+          "columns": [
+            {
+              "expression": "actressId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "movieId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "movieActresses_movieId_index": {
+          "name": "movieActresses_movieId_index",
+          "columns": [
+            {
+              "expression": "movieId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "movieActresses_actressId_actress_id_fk": {
+          "name": "movieActresses_actressId_actress_id_fk",
+          "tableFrom": "movieActresses",
+          "tableTo": "actress",
+          "columnsFrom": [
+            "actressId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "movieActresses_movieId_movie_id_fk": {
+          "name": "movieActresses_movieId_movie_id_fk",
+          "tableFrom": "movieActresses",
+          "tableTo": "movie",
+          "columnsFrom": [
+            "movieId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.genre": {
+      "name": "genre",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "category": {
+          "name": "category",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kinkiness": {
+          "name": "kinkiness",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "genre_name_key": {
+          "name": "genre_name_key",
+          "columns": [
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.genreDefinition": {
+      "name": "genreDefinition",
       "schema": "",
       "columns": {
         "id": {
@@ -482,11 +365,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "GenreDefinition_movieId_fkey": {
-          "name": "GenreDefinition_movieId_fkey",
-          "tableFrom": "GenreDefinition",
-          "tableTo": "Movie",
-          "schemaTo": "public",
+        "genreDefinition_movieId_movie_id_fk": {
+          "name": "genreDefinition_movieId_movie_id_fk",
+          "tableFrom": "genreDefinition",
+          "tableTo": "movie",
           "columnsFrom": [
             "movieId"
           ],
@@ -500,8 +382,94 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.Task": {
-      "name": "Task",
+    "public.movieGenres": {
+      "name": "movieGenres",
+      "schema": "",
+      "columns": {
+        "genreId": {
+          "name": "genreId",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "movieId": {
+          "name": "movieId",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "movieGenres_genreIdMovieId_unique": {
+          "name": "movieGenres_genreIdMovieId_unique",
+          "columns": [
+            {
+              "expression": "genreId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "movieId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "movieGenres_movieId_index": {
+          "name": "movieGenres_movieId_index",
+          "columns": [
+            {
+              "expression": "movieId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "movieGenres_genreId_genre_id_fk": {
+          "name": "movieGenres_genreId_genre_id_fk",
+          "tableFrom": "movieGenres",
+          "tableTo": "genre",
+          "columnsFrom": [
+            "genreId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "movieGenres_movieId_movie_id_fk": {
+          "name": "movieGenres_movieId_movie_id_fk",
+          "tableFrom": "movieGenres",
+          "tableTo": "movie",
+          "columnsFrom": [
+            "movieId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.movieMetadata": {
+      "name": "movieMetadata",
       "schema": "",
       "columns": {
         "id": {
@@ -510,38 +478,177 @@
           "primaryKey": true,
           "notNull": true
         },
-        "category": {
-          "name": "category",
+        "movieId": {
+          "name": "movieId",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "quality": {
+          "name": "quality",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "status": {
-          "name": "status",
+        "format": {
+          "name": "format",
           "type": "text",
           "primaryKey": false,
           "notNull": true
         },
-        "statusMessage": {
-          "name": "statusMessage",
-          "type": "text",
+        "fps": {
+          "name": "fps",
+          "type": "bigint",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
-        "parameters": {
-          "name": "parameters",
-          "type": "text",
+        "durationSeconds": {
+          "name": "durationSeconds",
+          "type": "bigint",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
+        },
+        "sizeInKB": {
+          "name": "sizeInKB",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
         }
       },
-      "indexes": {},
-      "foreignKeys": {},
+      "indexes": {
+        "movieMetadata_movieId_key": {
+          "name": "movieMetadata_movieId_key",
+          "columns": [
+            {
+              "expression": "movieId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "movieMetadata_movieId_movie_id_fk": {
+          "name": "movieMetadata_movieId_movie_id_fk",
+          "tableFrom": "movieMetadata",
+          "tableTo": "movie",
+          "columnsFrom": [
+            "movieId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.Settings": {
-      "name": "Settings",
+    "public.movie": {
+      "name": "movie",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cover": {
+          "name": "cover",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 3
+        },
+        "path": {
+          "name": "path",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "websiteId": {
+          "name": "websiteId",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "volumeId": {
+          "name": "volumeId",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "movie_title_key": {
+          "name": "movie_title_key",
+          "columns": [
+            {
+              "expression": "title",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "movie_websiteId_website_id_fk": {
+          "name": "movie_websiteId_website_id_fk",
+          "tableFrom": "movie",
+          "tableTo": "website",
+          "columnsFrom": [
+            "websiteId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "cascade"
+        },
+        "movie_volumeId_volume_id_fk": {
+          "name": "movie_volumeId_volume_id_fk",
+          "tableFrom": "movie",
+          "tableTo": "volume",
+          "columnsFrom": [
+            "volumeId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "restrict",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.settings": {
+      "name": "settings",
       "schema": "",
       "columns": {
         "id": {
@@ -582,250 +689,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public._prisma_migrations": {
-      "name": "_prisma_migrations",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "checksum": {
-          "name": "checksum",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "finished_at": {
-          "name": "finished_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "migration_name": {
-          "name": "migration_name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "logs": {
-          "name": "logs",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "rolled_back_at": {
-          "name": "rolled_back_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "started_at": {
-          "name": "started_at",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "CURRENT_TIMESTAMP"
-        },
-        "applied_steps_count": {
-          "name": "applied_steps_count",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true,
-          "default": 0
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public._ActressToMovie": {
-      "name": "_ActressToMovie",
-      "schema": "",
-      "columns": {
-        "A": {
-          "name": "A",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "B": {
-          "name": "B",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "_ActressToMovie_AB_unique": {
-          "name": "_ActressToMovie_AB_unique",
-          "columns": [
-            {
-              "expression": "A",
-              "asc": true,
-              "nulls": "last",
-              "opclass": "int8_ops",
-              "isExpression": false
-            },
-            {
-              "expression": "B",
-              "asc": true,
-              "nulls": "last",
-              "opclass": "int8_ops",
-              "isExpression": false
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "_ActressToMovie_B_index": {
-          "name": "_ActressToMovie_B_index",
-          "columns": [
-            {
-              "expression": "B",
-              "asc": true,
-              "nulls": "last",
-              "opclass": "int8_ops",
-              "isExpression": false
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "_ActressToMovie_A_fkey": {
-          "name": "_ActressToMovie_A_fkey",
-          "tableFrom": "_ActressToMovie",
-          "tableTo": "Actress",
-          "schemaTo": "public",
-          "columnsFrom": [
-            "A"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        },
-        "_ActressToMovie_B_fkey": {
-          "name": "_ActressToMovie_B_fkey",
-          "tableFrom": "_ActressToMovie",
-          "tableTo": "Movie",
-          "schemaTo": "public",
-          "columnsFrom": [
-            "B"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public._Subgenre": {
-      "name": "_Subgenre",
-      "schema": "",
-      "columns": {
-        "A": {
-          "name": "A",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "B": {
-          "name": "B",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "_Subgenre_AB_unique": {
-          "name": "_Subgenre_AB_unique",
-          "columns": [
-            {
-              "expression": "A",
-              "asc": true,
-              "nulls": "last",
-              "opclass": "int8_ops",
-              "isExpression": false
-            },
-            {
-              "expression": "B",
-              "asc": true,
-              "nulls": "last",
-              "opclass": "int8_ops",
-              "isExpression": false
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "_Subgenre_B_index": {
-          "name": "_Subgenre_B_index",
-          "columns": [
-            {
-              "expression": "B",
-              "asc": true,
-              "nulls": "last",
-              "opclass": "int8_ops",
-              "isExpression": false
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "_Subgenre_A_fkey": {
-          "name": "_Subgenre_A_fkey",
-          "tableFrom": "_Subgenre",
-          "tableTo": "Genre",
-          "schemaTo": "public",
-          "columnsFrom": [
-            "A"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        },
-        "_Subgenre_B_fkey": {
-          "name": "_Subgenre_B_fkey",
-          "tableFrom": "_Subgenre",
-          "tableTo": "Genre",
-          "schemaTo": "public",
-          "columnsFrom": [
-            "B"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
-    },
-    "public.Genre": {
-      "name": "Genre",
+    "public.volume": {
+      "name": "volume",
       "schema": "",
       "columns": {
         "id": {
@@ -840,47 +705,37 @@
           "primaryKey": false,
           "notNull": true
         },
-        "category": {
-          "name": "category",
+        "path": {
+          "name": "path",
           "type": "text",
           "primaryKey": false,
           "notNull": true
-        },
-        "kinkiness": {
-          "name": "kinkiness",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "validAsRoot": {
-          "name": "validAsRoot",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "validAsFetish": {
-          "name": "validAsFetish",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "settingsId": {
-          "name": "settingsId",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": false
         }
       },
       "indexes": {
-        "Genre_name_key": {
-          "name": "Genre_name_key",
+        "volume_name_key": {
+          "name": "volume_name_key",
           "columns": [
             {
               "expression": "name",
+              "isExpression": false,
               "asc": true,
-              "nulls": "last",
-              "opclass": "text_ops",
-              "isExpression": false
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "volume_path_key": {
+          "name": "volume_path_key",
+          "columns": [
+            {
+              "expression": "path",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
             }
           ],
           "isUnique": true,
@@ -889,27 +744,12 @@
           "with": {}
         }
       },
-      "foreignKeys": {
-        "Genre_settingsId_fkey": {
-          "name": "Genre_settingsId_fkey",
-          "tableFrom": "Genre",
-          "tableTo": "Settings",
-          "schemaTo": "public",
-          "columnsFrom": [
-            "settingsId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "cascade"
-        }
-      },
+      "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "public.Website": {
-      "name": "Website",
+    "public.website": {
+      "name": "website",
       "schema": "",
       "columns": {
         "id": {
@@ -938,15 +778,14 @@
         }
       },
       "indexes": {
-        "Website_name_key": {
-          "name": "Website_name_key",
+        "website_name_key": {
+          "name": "website_name_key",
           "columns": [
             {
               "expression": "name",
+              "isExpression": false,
               "asc": true,
-              "nulls": "last",
-              "opclass": "text_ops",
-              "isExpression": false
+              "nulls": "last"
             }
           ],
           "isUnique": true,
@@ -956,11 +795,10 @@
         }
       },
       "foreignKeys": {
-        "Website_genreId_fkey": {
-          "name": "Website_genreId_fkey",
-          "tableFrom": "Website",
-          "tableTo": "Genre",
-          "schemaTo": "public",
+        "website_genreId_genre_id_fk": {
+          "name": "website_genreId_genre_id_fk",
+          "tableFrom": "website",
+          "tableTo": "genre",
           "columnsFrom": [
             "genreId"
           ],
@@ -973,107 +811,13 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
-    },
-    "public._GenreToMovie": {
-      "name": "_GenreToMovie",
-      "schema": "",
-      "columns": {
-        "A": {
-          "name": "A",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "B": {
-          "name": "B",
-          "type": "bigint",
-          "primaryKey": false,
-          "notNull": true
-        }
-      },
-      "indexes": {
-        "_GenreToMovie_AB_unique": {
-          "name": "_GenreToMovie_AB_unique",
-          "columns": [
-            {
-              "expression": "A",
-              "asc": true,
-              "nulls": "last",
-              "opclass": "int8_ops",
-              "isExpression": false
-            },
-            {
-              "expression": "B",
-              "asc": true,
-              "nulls": "last",
-              "opclass": "int8_ops",
-              "isExpression": false
-            }
-          ],
-          "isUnique": true,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "_GenreToMovie_B_index": {
-          "name": "_GenreToMovie_B_index",
-          "columns": [
-            {
-              "expression": "B",
-              "asc": true,
-              "nulls": "last",
-              "opclass": "int8_ops",
-              "isExpression": false
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "_GenreToMovie_A_fkey": {
-          "name": "_GenreToMovie_A_fkey",
-          "tableFrom": "_GenreToMovie",
-          "tableTo": "Genre",
-          "schemaTo": "public",
-          "columnsFrom": [
-            "A"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        },
-        "_GenreToMovie_B_fkey": {
-          "name": "_GenreToMovie_B_fkey",
-          "tableFrom": "_GenreToMovie",
-          "tableTo": "Movie",
-          "schemaTo": "public",
-          "columnsFrom": [
-            "B"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {}
     }
   },
   "enums": {},
   "schemas": {},
   "_meta": {
+    "columns": {},
     "schemas": {},
-    "tables": {},
-    "columns": {}
-  },
-  "internal": {
     "tables": {}
   }
 }

@@ -11,6 +11,7 @@ const MoviesPage = async () => {
     <main className='grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6 px-6 py-8'>
       {movies.map((movie, index) => (
         <MovieCard
+          id={movie.id}
           key={movie.id}
           href={movieUrl(movie)}
           title={movie.title}

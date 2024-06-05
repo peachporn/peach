@@ -4,6 +4,7 @@ import { cn } from "@/lib/cn";
 import { NextUIProvider } from "@nextui-org/react";
 import type { Metadata } from "next";
 import { type PropsWithChildren } from "react";
+import "../styles/globals.scss";
 import "../styles/tailwind.scss";
 import "../styles/typography.scss";
 

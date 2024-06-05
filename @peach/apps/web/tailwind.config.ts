@@ -1,4 +1,5 @@
 import { nextui } from "@nextui-org/react";
+import containerQueriesPlugin from "@tailwindcss/container-queries";
 import chroma from "chroma-js";
 import { zip } from "ramda";
 import type { Config } from "tailwindcss";
@@ -26,10 +27,7 @@ const scaleToTailwind = (colors: string[]) => {
 };
 
 export const colors = Object.fromEntries(
-  Object.entries(baseColors).map(([name, colors]) => [
-    name,
-    scaleToTailwind(colors),
-  ])
+  Object.entries(baseColors).map(([name, colors]) => [name, scaleToTailwind(colors)])
 ) as { [key in Color]: Record<number, string> };
 
 const config: Config = {
@@ -102,6 +100,7 @@ const config: Config = {
         },
       },
     }),
+    containerQueriesPlugin,
   ],
 };
 

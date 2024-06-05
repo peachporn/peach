@@ -1,4 +1,4 @@
-import { MovieDetailVideo } from "@/components/molecules/movie-detail-video";
+import { MoviePlayer } from "@/components/organisms/movie-player";
 import { fetchAllMovieIds } from "@/lib/db/movies/allIds";
 import { fetchMovie } from "@/lib/db/movies/detail";
 import { redirect } from "next/navigation";
@@ -22,9 +22,11 @@ const MoviePage = async ({ params }: { params: { movieId: string } }) => {
   const movie = await fetchMovie(movieIdFromParams(params));
 
   return !movie.id ? null : (
-    <div>
-      <h1>{movie.title}</h1>
-      <MovieDetailVideo movieId={movie.id} />
+    <div className='grid gap-y-6 pt-8 [grid-template-areas:"video""headline"]'>
+      <div className='[grid-area:video]'>
+        <MoviePlayer id={movie.id} cover={movie.cover ?? 3} />
+      </div>
+      <h1 className='display text-3xl [grid-area:headline]'>{movie.title}</h1>
     </div>
   );
 };

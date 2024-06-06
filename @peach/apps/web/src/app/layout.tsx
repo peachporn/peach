@@ -17,7 +17,7 @@ const Providers = ({ children }: PropsWithChildren) => <NextUIProvider>{children
 
 const RootLayout = ({ children }: PropsWithChildren) => (
   <html lang='en'>
-    <body className={cn(copy.variable, display.variable)}>
+    <body className={cn(copy.variable, display.variable, "pb-32")}>
       <Providers>
         <Navigation
           items={[

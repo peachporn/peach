@@ -84,7 +84,7 @@ const Player = ({ url, poster, priority }: PlayerProps) => {
           <>
             <VideoToggle />
             <div
-              className={cn("opacity-0 transition-opacity", {
+              className={cn("z-10 opacity-0 transition-opacity", {
                 ["opacity-100"]: showControls || !isPlaying,
               })}
             >

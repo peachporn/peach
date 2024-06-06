@@ -20,7 +20,10 @@ export const VideoControlsProgress = ({
   return (
     <Slider
       aria-label='Progress'
-      className={cn("w-full", className)}
+      className={cn(
+        "w-full [--video-track-background:theme(colors.peach.800)] [--video-track-foreground:theme(colors.peach.400)]",
+        className
+      )}
       step={1}
       minValue={0}
       maxValue={100}

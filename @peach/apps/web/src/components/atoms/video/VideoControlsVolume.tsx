@@ -19,7 +19,7 @@ export const VideoControlsVolume = () => {
   return (
     <div
       className={cn(
-        "can-hover:py-1 can-hover:pl-3 can-hover:pr-2 flex items-center rounded-full transition-colors",
+        "can-hover:py-1 can-hover:pl-3 can-hover:pr-2 text-neutral-white flex items-center rounded-full transition-colors",
         {
           ["bg-[rgba(255,255,255,0.2)]"]: expanded,
         }

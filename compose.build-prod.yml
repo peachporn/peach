@@ -7,4 +7,4 @@ services:
           - linux/amd64
     image: peachporn/peach
     env_file:
-      - .env.prod
+      - .env.prod-template

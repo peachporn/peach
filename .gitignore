@@ -36,7 +36,9 @@ yarn-error.log*
 dist/
 
 .env
-.env.*
+.env*
+!.env.example
+!.env.prod-template
 
 *storybook.log
 storybook-static/

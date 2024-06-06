@@ -27,14 +27,6 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     return new Response("Not found", { status: 404 });
   }
 
-  const exists = await stat(moviePath).catch((error: NodeJS.ErrnoException) => {
-    if (error.code === "ENOENT") return undefined;
-    throw error;
-  });
-  if (!exists) {
-    return new Response("Not found", { status: 404 });
-  }
-
   const stats = await stat(moviePath).catch((error: NodeJS.ErrnoException) => {
     if (error.code === "ENOENT") return undefined;
     throw error;

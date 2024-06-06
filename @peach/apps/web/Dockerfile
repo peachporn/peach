@@ -16,9 +16,9 @@ RUN apk update
 WORKDIR /app
 
 COPY .gitignore .gitignore
-COPY --from=builder /app/out/full/ .
+COPY --from=builder /app/out/full .
 COPY --from=builder /app/out/package-lock.json ./package-lock.json
-RUN npm ci --verbose
+RUN npm ci
 
 # Build and run in 1 step as the database needs to be available for the build
-CMD npm run db:migrate -w @peach/db && npx turbo run build --filter=@peach/web... && npm run start -w @peach/web
+CMD npx turbo db:migrate && npx turbo build --filter=@peach/web... && npm run start -w @peach/web

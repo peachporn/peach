@@ -8,8 +8,8 @@
   "scripts": {
     "dev": "docker-compose -f ../../../compose.local.yml up database",
     "db:generate": "dotenvx run --env-file=../../../.env.local -- drizzle-kit generate",
-    "db:migrate": "dotenvx run --env-file=../../../.env.local -- drizzle-kit migrate",
-    "db:push": "dotenvx run --env-file=../../../.env.local -- drizzle-kit push",
+    "db:migrate-local": "dotenvx run --env-file=../../../.env.local -- drizzle-kit migrate",
+    "db:migrate": "drizzle-kit migrate",
     "studio": "dotenvx run --env-file=../../../.env.local -- drizzle-kit studio"
   },
   "dependencies": {

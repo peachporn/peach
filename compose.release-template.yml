@@ -6,13 +6,15 @@ services:
     ports:
       - 80:3000
     environment:
-      POSTGRES_USER: peach
-      POSTGRES_PASSWORD: peach
-      POSTGRES_DB: peach
-      POSTGRES_HOST: database
+      DB_USER: peach
+      DB_PASSWORD: peach
+      DB_DATABASE: peach
+      DB_HOST: database
+      DB_PORT: 5432
+      LIBRARY_PATH: /mnt/library
     volumes:
       - /mnt/user/appdata/peach:/mnt/library
-      - /mnt/user/Porn:/mnt/media
+      - /mnt/user/Porn/Movies:/mnt/media
 
   database:
     image: "postgres:latest"

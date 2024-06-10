@@ -20,7 +20,7 @@ export const VideoPlayer = ({ url, controls }: VideoPlayerProps) => {
     <ReactPlayer
       ref={videoRef}
       url={url}
-      controls={controls}
+      controls={true}
       playing={isPlaying}
       loop={loop}
       muted={muted}
@@ -40,8 +40,8 @@ export const VideoPlayer = ({ url, controls }: VideoPlayerProps) => {
       onDuration={setDuration}
       onError={console.error}
       config={{ file: { attributes: { autoPlay: loop, preload: "none" } } }}
-      width="100%"
-      height="100%"
+      width='100%'
+      height='100%'
       playsinline
     />
   );

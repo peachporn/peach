@@ -1,7 +1,5 @@
 "use client";
-import { VideoControls } from "@/components/atoms/video/VideoControls";
 import { useVideoStore, VideoProvider } from "@/components/atoms/video/VideoProvider";
-import { VideoToggle } from "@/components/atoms/video/VideoToggle";
 import { cn } from "@/lib/cn";
 import { useTimer } from "@/lib/useTimer";
 import { useTransitionEvents } from "@/lib/useTransition";
@@ -10,6 +8,7 @@ import Image from "next/image";
 import { PropsWithChildren, useState } from "react";
 import { IconPlay } from "../icons/play";
 import styles from "./styles.module.scss";
+import "./styles.scss";
 
 const VideoPlayer = dynamic(() => import("./VideoPlayer").then((m) => m.VideoPlayer), {
   ssr: false,
@@ -49,8 +48,6 @@ const Wrapper = ({ className, children }: PropsWithChildren<WrapperProps>) => {
 
 type PlayerProps = { url: string; poster?: string; priority?: boolean };
 const Player = ({ url, poster, priority }: PlayerProps) => {
-  const showControls = useVideoStore((state) => state.showControls);
-  const isPlaying = useVideoStore((state) => state.isPlaying);
   const toggleIsPlaying = useVideoStore((state) => state.toggleIsPlaying);
   const hasPlayed = useVideoStore((state) => state.hasPlayed);
   const setHasPlayed = useVideoStore((state) => state.setHasPlayed);
@@ -80,18 +77,7 @@ const Player = ({ url, poster, priority }: PlayerProps) => {
             fill
           />
         )}
-        {hasPlayed ? (
-          <>
-            <VideoToggle />
-            <div
-              className={cn("z-10 opacity-0 transition-opacity", {
-                ["opacity-100"]: showControls || !isPlaying,
-              })}
-            >
-              <VideoControls />
-            </div>
-          </>
-        ) : (
+        {!hasPlayed && (
           <button
             type='button'
             aria-label='Play'

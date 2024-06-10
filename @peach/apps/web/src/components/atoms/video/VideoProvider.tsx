@@ -44,13 +44,17 @@ const createVideoStore = ({ loop }: VideoProps) =>
     isSeeking: false,
     setIsSeeking: (isSeeking) => set(() => ({ isSeeking })),
     muted: !!loop,
-    toggleMuted: () => set((state) => ({ muted: !state.muted })),
+    toggleMuted: () => {
+      set((state) => ({ muted: !state.muted }));
+    },
     duration: 0,
     setDuration: (duration) => set(() => ({ duration })),
     progress: 0,
     setProgress: (progress) => set(() => ({ progress })),
     volume: 1,
-    setVolume: (volume) => set(() => ({ volume })),
+    setVolume: (volume) => {
+      set(() => ({ volume, muted: volume === 0 }));
+    },
   }));
 type VideoStore = ReturnType<typeof createVideoStore>;
 

@@ -11,9 +11,7 @@ export const VideoToggle = () => {
   const hasPausedRef = useRef<boolean>(false);
   const [toggleState, setToggleState] = useState<"play" | "pause">("play");
 
-  const showControls = useVideoStore((state) => state.showControls);
   const isBuffering = useVideoStore((state) => state.isBuffering);
-  const isPlaying = useVideoStore((state) => state.isPlaying);
   const toggleIsPlaying = useVideoStore((state) => state.toggleIsPlaying);
 
   const syncHasPausedRef = () => {
@@ -41,14 +39,6 @@ export const VideoToggle = () => {
       }}
       onClick={(e) => {
         if (e.button !== 0) return;
-
-        if (!isPlaying || !isTouchRef.current) {
-          handleToggleIsPlaying();
-          return;
-        }
-
-        if (!showControls) return;
-
         handleToggleIsPlaying();
       }}
       aria-hidden
